@@ -3,6 +3,7 @@
 Adopt/port study answering: **what in `openclaw/openclaw` (fork `agisota/openclaw` @
 `b0c330d2`) is worth bringing into `github.com/rox-one/rox-one`, and where does it land?**
 Read-only analysis; the plan is [`port-matrix.md`](port-matrix.md).
+**Handoff:** [`HANDOFF-PROMPT.md`](HANDOFF-PROMPT.md) — the self-contained agent prompt for executing the port into `rox-one/rox-one`.
 
 ## What was studied
 
