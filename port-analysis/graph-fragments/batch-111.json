@@ -1,0 +1,3356 @@
+{
+  "nodes": [
+    {
+      "id": "module:src/gateway",
+      "type": "module",
+      "name": "src/gateway",
+      "summary": "Gateway daemon subsystem: WS/HTTP server, method registry, sessions, cron, hooks, nodes.",
+      "tags": [
+        "gateway",
+        "runtime"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "module:src/plugins",
+      "type": "module",
+      "name": "src/plugins",
+      "summary": "Plugin loader, activation planner, and gateway-startup plugin plan.",
+      "tags": [
+        "plugins",
+        "loader"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "module:src/state",
+      "type": "module",
+      "name": "src/state",
+      "summary": "SQLite state layer: shared state DB, per-agent DB schema/migrations, transcript FTS.",
+      "tags": [
+        "state",
+        "sqlite"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "module:src/cron",
+      "type": "module",
+      "name": "src/cron",
+      "summary": "CronService, declarative jobs, timers, and wake handling.",
+      "tags": [
+        "cron",
+        "automation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "module:@openclaw/gateway-protocol",
+      "type": "module",
+      "name": "@openclaw/gateway-protocol",
+      "summary": "Published protocol package: TypeBox schemas, validators, version constants, generated protocol.schema.json.",
+      "tags": [
+        "protocol",
+        "schema"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "module:@openclaw/gateway-client",
+      "type": "module",
+      "name": "@openclaw/gateway-client",
+      "summary": "Published reference WS client (Node + browser-safe entry).",
+      "tags": [
+        "client",
+        "ws"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "domain:gateway-runtime",
+      "type": "domain",
+      "name": "Gateway runtime",
+      "summary": "Single long-lived process owning all messaging surfaces plus the typed WS control plane.",
+      "tags": [
+        "gateway",
+        "process"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "domain:agent-runtime",
+      "type": "domain",
+      "name": "Agent runtime",
+      "summary": "Per-session serialized run loop turning messages into actions and replies.",
+      "tags": [
+        "agent",
+        "loop"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/gateway/server.ts",
+      "type": "file",
+      "name": "server.ts",
+      "summary": "Lazy public entrypoint: acquire gateway state lock, resolve SQLite path, start server core.",
+      "tags": [
+        "gateway",
+        "startup"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server.ts"
+    },
+    {
+      "id": "file:src/gateway/server-kernel.ts",
+      "type": "file",
+      "name": "server-kernel.ts",
+      "summary": "Gateway kernel assembly: scheduler binding, model catalog binding, port default 18789.",
+      "tags": [
+        "gateway",
+        "kernel"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-kernel.ts"
+    },
+    {
+      "id": "file:src/gateway/net.ts",
+      "type": "file",
+      "name": "net.ts",
+      "summary": "Bind host and client-IP resolution: loopback default, trusted proxies, container detection.",
+      "tags": [
+        "network",
+        "bind"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/net.ts"
+    },
+    {
+      "id": "file:src/gateway/server-runtime-config.ts",
+      "type": "file",
+      "name": "server-runtime-config.ts",
+      "summary": "Effective bind/auth/Tailscale validation; refuses non-loopback without auth.",
+      "tags": [
+        "security",
+        "bind"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-runtime-config.ts"
+    },
+    {
+      "id": "file:src/gateway/server/http-listen.ts",
+      "type": "file",
+      "name": "http-listen.ts",
+      "summary": "Listens on configured host/port with EADDRINUSE retry.",
+      "tags": [
+        "http",
+        "listen"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/server/http-listen.ts"
+    },
+    {
+      "id": "file:src/gateway/server-http-upgrades.ts",
+      "type": "file",
+      "name": "server-http-upgrades.ts",
+      "summary": "Attaches WS upgrade routing to the HTTP server and branches by ingress path.",
+      "tags": [
+        "ws",
+        "upgrade"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-http-upgrades.ts"
+    },
+    {
+      "id": "file:src/gateway/server/ws-connection.ts",
+      "type": "file",
+      "name": "ws-connection.ts",
+      "summary": "Bridges physical WebSocket sockets into the shared Gateway connection owner.",
+      "tags": [
+        "ws",
+        "connection"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server/ws-connection.ts"
+    },
+    {
+      "id": "file:src/gateway/server/connection.ts",
+      "type": "file",
+      "name": "connection.ts",
+      "summary": "Connection owner: connect.challenge nonce, handshake, keepalive, close.",
+      "tags": [
+        "ws",
+        "handshake"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/connection.ts"
+    },
+    {
+      "id": "file:src/gateway/server/ws-connection/message-handler.ts",
+      "type": "file",
+      "name": "message-handler.ts",
+      "summary": "Inbound frame handler for a Gateway WS connection.",
+      "tags": [
+        "ws",
+        "frames"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/ws-connection/message-handler.ts"
+    },
+    {
+      "id": "file:src/gateway/server/ws-connection/authenticated-request-dispatch.ts",
+      "type": "file",
+      "name": "authenticated-request-dispatch.ts",
+      "summary": "Authenticated RPC dispatch: scope/authority checks then registry handler invocation.",
+      "tags": [
+        "rpc",
+        "dispatch"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/ws-connection/authenticated-request-dispatch.ts"
+    },
+    {
+      "id": "file:src/gateway/methods/registry.ts",
+      "type": "file",
+      "name": "registry.ts",
+      "summary": "Gateway method registry: normalize descriptors, enforce unique names, route getHandler/listMethods/getScope.",
+      "tags": [
+        "registry",
+        "rpc"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/methods/registry.ts"
+    },
+    {
+      "id": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "file",
+      "name": "core-descriptors.ts",
+      "summary": "Core gateway method descriptors with scopes and ownership.",
+      "tags": [
+        "registry",
+        "core"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/methods/core-descriptors.ts"
+    },
+    {
+      "id": "file:src/gateway/methods/core-method-policy.ts",
+      "type": "file",
+      "name": "core-method-policy.ts",
+      "summary": "Core method classification and advertised-name policy.",
+      "tags": [
+        "registry",
+        "policy"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/methods/core-method-policy.ts"
+    },
+    {
+      "id": "file:src/gateway/server-methods-list.ts",
+      "type": "file",
+      "name": "server-methods-list.ts",
+      "summary": "Advertised method + event catalog (core + channel plugins).",
+      "tags": [
+        "catalog",
+        "discovery"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-methods-list.ts"
+    },
+    {
+      "id": "file:src/gateway/operator-scopes.ts",
+      "type": "file",
+      "name": "operator-scopes.ts",
+      "summary": "Closed operator scope constants and normalizers.",
+      "tags": [
+        "scopes",
+        "auth"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/operator-scopes.ts"
+    },
+    {
+      "id": "file:src/gateway/method-scopes.ts",
+      "type": "file",
+      "name": "method-scopes.ts",
+      "summary": "Per-method required-scope resolution and least-privilege projection.",
+      "tags": [
+        "scopes",
+        "authz"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/method-scopes.ts"
+    },
+    {
+      "id": "file:src/gateway/auth.ts",
+      "type": "file",
+      "name": "auth.ts",
+      "summary": "Gateway auth: resolve/validate modes, token/password/trusted-proxy/device-token checks.",
+      "tags": [
+        "auth",
+        "security"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/auth.ts"
+    },
+    {
+      "id": "file:src/gateway/auth-mode-policy.ts",
+      "type": "file",
+      "name": "auth-mode-policy.ts",
+      "summary": "Rejects ambiguous token+password config without explicit gateway.auth.mode.",
+      "tags": [
+        "auth",
+        "config"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/auth-mode-policy.ts"
+    },
+    {
+      "id": "file:src/gateway/server-constants.ts",
+      "type": "file",
+      "name": "server-constants.ts",
+      "summary": "Payload/buffer/preauth limits, tick interval, dedupe TTL.",
+      "tags": [
+        "limits",
+        "constants"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/server-constants.ts"
+    },
+    {
+      "id": "file:src/gateway/server-broadcast.ts",
+      "type": "file",
+      "name": "server-broadcast.ts",
+      "summary": "Scoped event broadcaster: per-recipient authority and recipientProfileId frame facts.",
+      "tags": [
+        "broadcast",
+        "events"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-broadcast.ts"
+    },
+    {
+      "id": "file:src/gateway/node-registry.ts",
+      "type": "file",
+      "name": "node-registry.ts",
+      "summary": "NodeRegistry: nodesById, pendingInvokes, progress/cancel/disconnect delivery.",
+      "tags": [
+        "nodes",
+        "registry"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/node-registry.ts"
+    },
+    {
+      "id": "file:src/gateway/server-node-events.ts",
+      "type": "file",
+      "name": "server-node-events.ts",
+      "summary": "Node event handling: presence, host stats, desktop availability.",
+      "tags": [
+        "nodes",
+        "events"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-node-events.ts"
+    },
+    {
+      "id": "file:src/gateway/config-reload.ts",
+      "type": "file",
+      "name": "config-reload.ts",
+      "summary": "Watches authored config hash and applies reload plans; skips invalid reloads.",
+      "tags": [
+        "config",
+        "reload"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/config-reload.ts"
+    },
+    {
+      "id": "file:src/gateway/server-cron.ts",
+      "type": "file",
+      "name": "server-cron.ts",
+      "summary": "Builds the gateway CronService and wires cron event dispatch.",
+      "tags": [
+        "cron",
+        "gateway"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-cron.ts"
+    },
+    {
+      "id": "file:src/gateway/server/hooks.ts",
+      "type": "file",
+      "name": "hooks.ts",
+      "summary": "Gateway hook dispatcher + HTTP hooks request handler wiring.",
+      "tags": [
+        "hooks",
+        "ingress"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/hooks.ts"
+    },
+    {
+      "id": "file:src/gateway/server/hooks-request-handler.ts",
+      "type": "file",
+      "name": "hooks-request-handler.ts",
+      "summary": "HTTP webhook request handler mapping ingress to hook effects.",
+      "tags": [
+        "hooks",
+        "http"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server/hooks-request-handler.ts"
+    },
+    {
+      "id": "file:src/gateway/server-methods/agent.ts",
+      "type": "file",
+      "name": "agent.ts",
+      "summary": "agent / agent.wait RPC handlers.",
+      "tags": [
+        "rpc",
+        "agent"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-methods/agent.ts"
+    },
+    {
+      "id": "file:src/infra/gateway-scheduler.ts",
+      "type": "file",
+      "name": "gateway-scheduler.ts",
+      "summary": "Single host-timer scheduler with beginClose/stop lifecycle.",
+      "tags": [
+        "scheduler",
+        "timers"
+      ],
+      "complexity": "complex",
+      "filePath": "src/infra/gateway-scheduler.ts"
+    },
+    {
+      "id": "file:src/agents/embedded-agent-runner/run-orchestrator.ts",
+      "type": "file",
+      "name": "run-orchestrator.ts",
+      "summary": "runEmbeddedAgent: per-session lane queue, model/auth resolution, streaming, timeout.",
+      "tags": [
+        "agent",
+        "loop"
+      ],
+      "complexity": "complex",
+      "filePath": "src/agents/embedded-agent-runner/run-orchestrator.ts"
+    },
+    {
+      "id": "file:src/routing/session-key.ts",
+      "type": "file",
+      "name": "session-key.ts",
+      "summary": "Canonical session key helpers; DEFAULT_AGENT_ID and buildAgentMainSessionKey.",
+      "tags": [
+        "sessions",
+        "routing"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/routing/session-key.ts"
+    },
+    {
+      "id": "file:src/routing/resolve-route.ts",
+      "type": "file",
+      "name": "resolve-route.ts",
+      "summary": "Inbound route resolution to agent/session key plus bindings.",
+      "tags": [
+        "routing",
+        "sessions"
+      ],
+      "complexity": "complex",
+      "filePath": "src/routing/resolve-route.ts"
+    },
+    {
+      "id": "file:src/config/sessions/paths.ts",
+      "type": "file",
+      "name": "paths.ts",
+      "summary": "Per-agent session store path resolution (sessions.json, transcripts dir).",
+      "tags": [
+        "sessions",
+        "paths"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/config/sessions/paths.ts"
+    },
+    {
+      "id": "file:src/config/io.load.ts",
+      "type": "file",
+      "name": "io.load.ts",
+      "summary": "Config load: JSON5 parse, includes, env substitution, plugin validation, defaults.",
+      "tags": [
+        "config",
+        "load"
+      ],
+      "complexity": "complex",
+      "filePath": "src/config/io.load.ts"
+    },
+    {
+      "id": "file:src/config/zod-schema.gateway.ts",
+      "type": "file",
+      "name": "zod-schema.gateway.ts",
+      "summary": "Zod schema for gateway config incl. operator-scope enum and multiplexed port.",
+      "tags": [
+        "config",
+        "schema"
+      ],
+      "complexity": "complex",
+      "filePath": "src/config/zod-schema.gateway.ts"
+    },
+    {
+      "id": "file:src/config/zod-schema.secret-input.ts",
+      "type": "file",
+      "name": "zod-schema.secret-input.ts",
+      "summary": "SecretRef discriminated union (env/file/exec) and SecretInputSchema.",
+      "tags": [
+        "config",
+        "secrets"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/config/zod-schema.secret-input.ts"
+    },
+    {
+      "id": "file:src/plugins/loader.ts",
+      "type": "file",
+      "name": "loader.ts",
+      "summary": "Plugin loading facade: loadOpenClawPlugins, loadPluginRegistryHandle.",
+      "tags": [
+        "plugins",
+        "loader"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/plugins/loader.ts"
+    },
+    {
+      "id": "file:src/plugins/activation-planner.ts",
+      "type": "file",
+      "name": "activation-planner.ts",
+      "summary": "Manifest-driven plugin activation planning.",
+      "tags": [
+        "plugins",
+        "activation"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/plugins/activation-planner.ts"
+    },
+    {
+      "id": "file:src/plugins/gateway-startup-plugin-loader.ts",
+      "type": "file",
+      "name": "gateway-startup-plugin-loader.ts",
+      "summary": "Gateway startup plugin plan and channel plugin id resolution.",
+      "tags": [
+        "plugins",
+        "startup"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/plugins/gateway-startup-plugin-loader.ts"
+    },
+    {
+      "id": "file:src/state/openclaw-state-db.paths.ts",
+      "type": "file",
+      "name": "openclaw-state-db.paths.ts",
+      "summary": "Shared state SQLite + quarantine path resolution.",
+      "tags": [
+        "state",
+        "sqlite"
+      ],
+      "complexity": "simple",
+      "filePath": "src/state/openclaw-state-db.paths.ts"
+    },
+    {
+      "id": "file:src/state/openclaw-agent-db-schema.ts",
+      "type": "file",
+      "name": "openclaw-agent-db-schema.ts",
+      "summary": "Per-agent DB schema, additive migrations, transcript FTS maintenance.",
+      "tags": [
+        "state",
+        "schema"
+      ],
+      "complexity": "complex",
+      "filePath": "src/state/openclaw-agent-db-schema.ts"
+    },
+    {
+      "id": "file:src/cron/service.ts",
+      "type": "file",
+      "name": "service.ts",
+      "summary": "CronService implementation (jobs, timers, wake) satisfying CronServiceContract.",
+      "tags": [
+        "cron",
+        "service"
+      ],
+      "complexity": "complex",
+      "filePath": "src/cron/service.ts"
+    },
+    {
+      "id": "file:packages/gateway-protocol/src/version.ts",
+      "type": "file",
+      "name": "version.ts",
+      "summary": "PROTOCOL_VERSION=4 and MIN_*_PROTOCOL_VERSION constants.",
+      "tags": [
+        "protocol",
+        "versioning"
+      ],
+      "complexity": "simple",
+      "filePath": "packages/gateway-protocol/src/version.ts"
+    },
+    {
+      "id": "file:packages/gateway-protocol/src/schema/frames.ts",
+      "type": "file",
+      "name": "frames.ts",
+      "summary": "Frame schemas: ConnectParams, HelloOk, Request/Response/Event, GatewayFrame union.",
+      "tags": [
+        "protocol",
+        "frames"
+      ],
+      "complexity": "complex",
+      "filePath": "packages/gateway-protocol/src/schema/frames.ts"
+    },
+    {
+      "id": "file:packages/gateway-protocol/src/schema.ts",
+      "type": "file",
+      "name": "schema.ts",
+      "summary": "Public schema barrel re-exporting schema modules and protocol schemas.",
+      "tags": [
+        "protocol",
+        "barrel"
+      ],
+      "complexity": "simple",
+      "filePath": "packages/gateway-protocol/src/schema.ts"
+    },
+    {
+      "id": "file:packages/gateway-protocol/src/schema/protocol-schemas.ts",
+      "type": "file",
+      "name": "protocol-schemas.ts",
+      "summary": "Composes the ProtocolSchemas registry from fragments.",
+      "tags": [
+        "protocol",
+        "registry"
+      ],
+      "complexity": "moderate",
+      "filePath": "packages/gateway-protocol/src/schema/protocol-schemas.ts"
+    },
+    {
+      "id": "file:packages/gateway-protocol/src/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "summary": "Package index re-exporting schemas, validators, error details, types.",
+      "tags": [
+        "protocol",
+        "exports"
+      ],
+      "complexity": "moderate",
+      "filePath": "packages/gateway-protocol/src/index.ts"
+    },
+    {
+      "id": "file:packages/gateway-protocol/src/secret-ref-contract.ts",
+      "type": "file",
+      "name": "secret-ref-contract.ts",
+      "summary": "SecretRef id/provider grammar constants shared by config and protocol.",
+      "tags": [
+        "protocol",
+        "secrets"
+      ],
+      "complexity": "simple",
+      "filePath": "packages/gateway-protocol/src/secret-ref-contract.ts"
+    },
+    {
+      "id": "file:packages/gateway-client/src/client.ts",
+      "type": "file",
+      "name": "client.ts",
+      "summary": "GatewayClient facade: handshake, request timeout, reconnect policy defaults.",
+      "tags": [
+        "client",
+        "ws"
+      ],
+      "complexity": "complex",
+      "filePath": "packages/gateway-client/src/client.ts"
+    },
+    {
+      "id": "file:packages/gateway-client/src/protocol-client.ts",
+      "type": "file",
+      "name": "protocol-client.ts",
+      "summary": "GatewayProtocolClient: socket generation, sendConnect, request().",
+      "tags": [
+        "client",
+        "protocol"
+      ],
+      "complexity": "complex",
+      "filePath": "packages/gateway-client/src/protocol-client.ts"
+    },
+    {
+      "id": "file:packages/gateway-client/src/reconnect-policy.ts",
+      "type": "file",
+      "name": "reconnect-policy.ts",
+      "summary": "Reconnect backoff policy constants and gating.",
+      "tags": [
+        "client",
+        "reconnect"
+      ],
+      "complexity": "simple",
+      "filePath": "packages/gateway-client/src/reconnect-policy.ts"
+    },
+    {
+      "id": "document:docs/concepts/architecture.md",
+      "type": "document",
+      "name": "architecture.md",
+      "summary": "Gateway architecture overview: components, flows, invariants, timed work/shutdown.",
+      "tags": [
+        "docs",
+        "architecture"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/concepts/architecture.md"
+    },
+    {
+      "id": "document:docs/concepts/agent-loop.md",
+      "type": "document",
+      "name": "agent-loop.md",
+      "summary": "Agent loop lifecycle, queueing, hooks, streaming, timeouts.",
+      "tags": [
+        "docs",
+        "agent"
+      ],
+      "complexity": "complex",
+      "filePath": "docs/concepts/agent-loop.md"
+    },
+    {
+      "id": "document:docs/concepts/queue-steering.md",
+      "type": "document",
+      "name": "queue-steering.md",
+      "summary": "Steering queue semantics and queue modes.",
+      "tags": [
+        "docs",
+        "queue"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/concepts/queue-steering.md"
+    },
+    {
+      "id": "document:docs/concepts/main-session.md",
+      "type": "document",
+      "name": "main-session.md",
+      "summary": "The rolling main session (agent:<id>:main) and its convergence role.",
+      "tags": [
+        "docs",
+        "sessions"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/concepts/main-session.md"
+    },
+    {
+      "id": "document:docs/gateway/protocol/handshake.md",
+      "type": "document",
+      "name": "handshake.md",
+      "summary": "Connect frame, hello-ok, capabilities, roles, scopes, node example.",
+      "tags": [
+        "docs",
+        "protocol"
+      ],
+      "complexity": "complex",
+      "filePath": "docs/gateway/protocol/handshake.md"
+    },
+    {
+      "id": "document:docs/gateway/protocol/transport.md",
+      "type": "document",
+      "name": "transport.md",
+      "summary": "WS transport, framing, limits, keepalives, WebRTC Talk.",
+      "tags": [
+        "docs",
+        "protocol"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/gateway/protocol/transport.md"
+    },
+    {
+      "id": "document:docs/gateway/protocol/versioning.md",
+      "type": "document",
+      "name": "versioning.md",
+      "summary": "Protocol version constants, N-1 window, client defaults, codegen commands.",
+      "tags": [
+        "docs",
+        "protocol"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/gateway/protocol/versioning.md"
+    },
+    {
+      "id": "document:docs/gateway/configuration.md",
+      "type": "document",
+      "name": "configuration.md",
+      "summary": "Config index: JSON5 file, watch/hot-reload, invalid reload skip.",
+      "tags": [
+        "docs",
+        "config"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/gateway/configuration.md"
+    },
+    {
+      "id": "document:docs/gateway/secrets.md",
+      "type": "document",
+      "name": "secrets.md",
+      "summary": "Secrets management index: SecretRef contract, shared store, egress proxy.",
+      "tags": [
+        "docs",
+        "secrets"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/gateway/secrets.md"
+    },
+    {
+      "id": "function:src/gateway/server.ts:startGatewayServer",
+      "type": "function",
+      "name": "startGatewayServer",
+      "summary": "Acquires the gateway state lock, resolves SQLite path, and starts the server core lazily.",
+      "tags": [
+        "gateway",
+        "startup"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server.ts",
+      "lineRange": [
+        24,
+        84
+      ]
+    },
+    {
+      "id": "function:src/gateway/net.ts:resolveGatewayBindHost",
+      "type": "function",
+      "name": "resolveGatewayBindHost",
+      "summary": "Resolves bind host: loopback->127.0.0.1, auto/tailnet prefer loopback, else 0.0.0.0.",
+      "tags": [
+        "network",
+        "bind"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/net.ts",
+      "lineRange": [
+        247,
+        268
+      ]
+    },
+    {
+      "id": "function:src/gateway/net.ts:defaultGatewayBindMode",
+      "type": "function",
+      "name": "defaultGatewayBindMode",
+      "summary": "Defaults to loopback; Tailscale mode forces loopback; containers get auto.",
+      "tags": [
+        "network",
+        "bind"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/net.ts",
+      "lineRange": [
+        293,
+        297
+      ]
+    },
+    {
+      "id": "function:src/gateway/server-http-upgrades.ts:attachGatewayUpgradeHandler",
+      "type": "function",
+      "name": "attachGatewayUpgradeHandler",
+      "summary": "Routes WS upgrades by path (worker/plugin/desktop/node) then core gateway control.",
+      "tags": [
+        "ws",
+        "upgrade"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-http-upgrades.ts",
+      "lineRange": [
+        154,
+        429
+      ]
+    },
+    {
+      "id": "function:src/gateway/server/ws-connection.ts:attachGatewayWsConnectionHandler",
+      "type": "function",
+      "name": "attachGatewayWsConnectionHandler",
+      "summary": "On wss connection: claims preauth budget and attaches the shared connection owner.",
+      "tags": [
+        "ws",
+        "connection"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server/ws-connection.ts",
+      "lineRange": [
+        35,
+        124
+      ]
+    },
+    {
+      "id": "function:src/gateway/server/connection.ts:attachGatewayConnection",
+      "type": "function",
+      "name": "attachGatewayConnection",
+      "summary": "Connection owner: sends connect.challenge and runs handshake/keepalive.",
+      "tags": [
+        "ws",
+        "handshake"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/connection.ts",
+      "lineRange": [
+        124,
+        340
+      ]
+    },
+    {
+      "id": "function:src/gateway/server/ws-connection/message-handler.ts:attachGatewayWsMessageHandler",
+      "type": "function",
+      "name": "attachGatewayWsMessageHandler",
+      "summary": "Handles inbound WS frames incl. queued handshake flush.",
+      "tags": [
+        "ws",
+        "frames"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/ws-connection/message-handler.ts",
+      "lineRange": [
+        77,
+        534
+      ]
+    },
+    {
+      "id": "function:src/gateway/server/ws-connection/authenticated-request-dispatch.ts:createGatewayAuthenticatedRequestDispatcher",
+      "type": "function",
+      "name": "createGatewayAuthenticatedRequestDispatcher",
+      "summary": "Dispatches authenticated RPCs through the registry with scope/authority checks.",
+      "tags": [
+        "rpc",
+        "dispatch"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/ws-connection/authenticated-request-dispatch.ts",
+      "lineRange": [
+        63,
+        360
+      ]
+    },
+    {
+      "id": "function:src/gateway/methods/registry.ts:createGatewayMethodRegistry",
+      "type": "function",
+      "name": "createGatewayMethodRegistry",
+      "summary": "Builds the method registry, rejecting duplicate names and normalizing scopes.",
+      "tags": [
+        "registry",
+        "rpc"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/methods/registry.ts",
+      "lineRange": [
+        67,
+        133
+      ]
+    },
+    {
+      "id": "function:src/gateway/methods/core-method-policy.ts:createCoreGatewayMethodDescriptors",
+      "type": "function",
+      "name": "createCoreGatewayMethodDescriptors",
+      "summary": "Defines the core method descriptors with scopes and owners.",
+      "tags": [
+        "registry",
+        "core"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/methods/core-method-policy.ts"
+    },
+    {
+      "id": "function:src/gateway/server-methods-list.ts:listGatewayMethods",
+      "type": "function",
+      "name": "listGatewayMethods",
+      "summary": "De-duplicated catalog of core + channel-plugin gateway methods.",
+      "tags": [
+        "catalog",
+        "discovery"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/server-methods-list.ts",
+      "lineRange": [
+        29,
+        33
+      ]
+    },
+    {
+      "id": "function:src/gateway/auth.ts:assertGatewayAuthConfigured",
+      "type": "function",
+      "name": "assertGatewayAuthConfigured",
+      "summary": "Fails closed on missing/redacted gateway secrets and invalid mode config.",
+      "tags": [
+        "auth",
+        "security"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/auth.ts",
+      "lineRange": [
+        128,
+        183
+      ]
+    },
+    {
+      "id": "function:src/gateway/auth-mode-policy.ts:hasAmbiguousGatewayAuthModeConfig",
+      "type": "function",
+      "name": "hasAmbiguousGatewayAuthModeConfig",
+      "summary": "Detects token+password set without an explicit gateway.auth.mode.",
+      "tags": [
+        "auth",
+        "config"
+      ],
+      "complexity": "simple",
+      "filePath": "src/gateway/auth-mode-policy.ts",
+      "lineRange": [
+        10,
+        14
+      ]
+    },
+    {
+      "id": "function:src/gateway/server-broadcast.ts:createGatewayBroadcaster",
+      "type": "function",
+      "name": "createGatewayBroadcaster",
+      "summary": "Creates the scoped event broadcaster with per-recipient projection.",
+      "tags": [
+        "broadcast",
+        "events"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-broadcast.ts",
+      "lineRange": [
+        189,
+        230
+      ]
+    },
+    {
+      "id": "class:src/gateway/node-registry.ts:NodeRegistry",
+      "type": "class",
+      "name": "NodeRegistry",
+      "summary": "Tracks connected nodes and pending invokes; routes progress/cancel/disconnect.",
+      "tags": [
+        "nodes",
+        "registry"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/node-registry.ts",
+      "lineRange": [
+        175,
+        260
+      ]
+    },
+    {
+      "id": "function:src/gateway/config-reload.ts:startGatewayConfigReloader",
+      "type": "function",
+      "name": "startGatewayConfigReloader",
+      "summary": "Watches config hash, plans and applies reloads, skips invalid reloads.",
+      "tags": [
+        "config",
+        "reload"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/config-reload.ts",
+      "lineRange": [
+        92,
+        120
+      ]
+    },
+    {
+      "id": "function:src/gateway/server-cron.ts:buildGatewayCronService",
+      "type": "function",
+      "name": "buildGatewayCronService",
+      "summary": "Builds the gateway CronService with event dispatch and notifications.",
+      "tags": [
+        "cron",
+        "gateway"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server-cron.ts",
+      "lineRange": [
+        153,
+        510
+      ]
+    },
+    {
+      "id": "function:src/gateway/server/hooks.ts:createGatewayHookDispatcher",
+      "type": "function",
+      "name": "createGatewayHookDispatcher",
+      "summary": "Dispatches gateway hook effects incl. webhook-origin dispatches.",
+      "tags": [
+        "hooks",
+        "dispatch"
+      ],
+      "complexity": "complex",
+      "filePath": "src/gateway/server/hooks.ts",
+      "lineRange": [
+        190,
+        710
+      ]
+    },
+    {
+      "id": "function:src/gateway/server/hooks-request-handler.ts:createHooksRequestHandler",
+      "type": "function",
+      "name": "createHooksRequestHandler",
+      "summary": "HTTP webhook ingress handler that maps external requests to hook effects.",
+      "tags": [
+        "hooks",
+        "http"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server/hooks-request-handler.ts",
+      "lineRange": [
+        93,
+        160
+      ]
+    },
+    {
+      "id": "function:src/gateway/server-methods/agent.ts:agentWaitHandler",
+      "type": "function",
+      "name": "agentWaitHandler",
+      "summary": "agent.wait handler: waits for the terminal outcome on a runId.",
+      "tags": [
+        "rpc",
+        "agent"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-methods/agent.ts",
+      "lineRange": [
+        19,
+        62
+      ]
+    },
+    {
+      "id": "function:src/agents/embedded-agent-runner/run-orchestrator.ts:runEmbeddedAgent",
+      "type": "function",
+      "name": "runEmbeddedAgent",
+      "summary": "Serializes runs via global+session lanes, resolves model/auth, streams, enforces timeout.",
+      "tags": [
+        "agent",
+        "loop"
+      ],
+      "complexity": "complex",
+      "filePath": "src/agents/embedded-agent-runner/run-orchestrator.ts",
+      "lineRange": [
+        106,
+        713
+      ]
+    },
+    {
+      "id": "class:src/infra/gateway-scheduler.ts:GatewayScheduler",
+      "type": "class",
+      "name": "GatewayScheduler",
+      "summary": "Single host-timer scheduler; beginClose cancels wakes, stop joins callbacks.",
+      "tags": [
+        "scheduler",
+        "timers"
+      ],
+      "complexity": "complex",
+      "filePath": "src/infra/gateway-scheduler.ts",
+      "lineRange": [
+        67,
+        230
+      ]
+    },
+    {
+      "id": "class:src/cron/service.ts:CronService",
+      "type": "class",
+      "name": "CronService",
+      "summary": "Cron job store, scheduling, wake, and outcome finalization owner.",
+      "tags": [
+        "cron",
+        "service"
+      ],
+      "complexity": "complex",
+      "filePath": "src/cron/service.ts",
+      "lineRange": [
+        28,
+        60
+      ]
+    },
+    {
+      "id": "function:src/routing/session-key.ts:buildAgentMainSessionKey",
+      "type": "function",
+      "name": "buildAgentMainSessionKey",
+      "summary": "Builds the agent:<id>:main canonical session key.",
+      "tags": [
+        "sessions",
+        "keys"
+      ],
+      "complexity": "simple",
+      "filePath": "src/routing/session-key.ts"
+    },
+    {
+      "id": "function:src/routing/resolve-route.ts:resolveAgentRoute",
+      "type": "function",
+      "name": "resolveAgentRoute",
+      "summary": "Resolves inbound route input to agent + session key using bindings.",
+      "tags": [
+        "routing",
+        "sessions"
+      ],
+      "complexity": "complex",
+      "filePath": "src/routing/resolve-route.ts",
+      "lineRange": [
+        269,
+        438
+      ]
+    },
+    {
+      "id": "function:src/routing/resolve-route.ts:buildAgentSessionKey",
+      "type": "function",
+      "name": "buildAgentSessionKey",
+      "summary": "Builds a channel/peer session key for an agent.",
+      "tags": [
+        "routing",
+        "sessions"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/routing/resolve-route.ts",
+      "lineRange": [
+        99,
+        156
+      ]
+    },
+    {
+      "id": "function:src/config/sessions/paths.ts:resolveDefaultSessionStorePath",
+      "type": "function",
+      "name": "resolveDefaultSessionStorePath",
+      "summary": "Resolves per-agent sessions.json store path beside transcript files.",
+      "tags": [
+        "sessions",
+        "paths"
+      ],
+      "complexity": "simple",
+      "filePath": "src/config/sessions/paths.ts",
+      "lineRange": [
+        57,
+        59
+      ]
+    },
+    {
+      "id": "function:src/config/io.load.ts:loadConfigWithEffects",
+      "type": "function",
+      "name": "loadConfigWithEffects",
+      "summary": "Loads config: JSON5 parse, includes, env, plugin validation, defaults materialization.",
+      "tags": [
+        "config",
+        "load"
+      ],
+      "complexity": "complex",
+      "filePath": "src/config/io.load.ts",
+      "lineRange": [
+        60,
+        284
+      ]
+    },
+    {
+      "id": "function:src/plugins/loader.ts:loadOpenClawPlugins",
+      "type": "function",
+      "name": "loadOpenClawPlugins",
+      "summary": "Loads and activates the plugin registry.",
+      "tags": [
+        "plugins",
+        "loader"
+      ],
+      "complexity": "complex",
+      "filePath": "src/plugins/loader.ts"
+    },
+    {
+      "id": "function:src/plugins/activation-planner.ts:resolveManifestActivationPlan",
+      "type": "function",
+      "name": "resolveManifestActivationPlan",
+      "summary": "Computes the manifest-driven plugin activation plan.",
+      "tags": [
+        "plugins",
+        "activation"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/plugins/activation-planner.ts",
+      "lineRange": [
+        76,
+        84
+      ]
+    },
+    {
+      "id": "function:src/plugins/gateway-startup-plugin-loader.ts:loadGatewayStartupPluginPlan",
+      "type": "function",
+      "name": "loadGatewayStartupPluginPlan",
+      "summary": "Builds the gateway startup plugin plan (channel plugin ids).",
+      "tags": [
+        "plugins",
+        "startup"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/plugins/gateway-startup-plugin-loader.ts",
+      "lineRange": [
+        73,
+        76
+      ]
+    },
+    {
+      "id": "function:src/state/openclaw-state-db.paths.ts:resolveOpenClawStateSqlitePath",
+      "type": "function",
+      "name": "resolveOpenClawStateSqlitePath",
+      "summary": "Returns <stateDir>/state/openclaw.sqlite path.",
+      "tags": [
+        "state",
+        "sqlite"
+      ],
+      "complexity": "simple",
+      "filePath": "src/state/openclaw-state-db.paths.ts",
+      "lineRange": [
+        34,
+        36
+      ]
+    },
+    {
+      "id": "function:src/state/openclaw-agent-db-schema.ts:ensureOpenClawAgentDatabaseSchema",
+      "type": "function",
+      "name": "ensureOpenClawAgentDatabaseSchema",
+      "summary": "Ensures/upgrades the per-agent SQLite schema incl. transcript FTS.",
+      "tags": [
+        "state",
+        "schema"
+      ],
+      "complexity": "complex",
+      "filePath": "src/state/openclaw-agent-db-schema.ts",
+      "lineRange": [
+        595,
+        602
+      ]
+    },
+    {
+      "id": "class:packages/gateway-client/src/client.ts:GatewayClient",
+      "type": "class",
+      "name": "GatewayClient",
+      "summary": "Reference client facade over GatewayProtocolClient; handshake, request timeout, reconnect.",
+      "tags": [
+        "client",
+        "ws"
+      ],
+      "complexity": "complex",
+      "filePath": "packages/gateway-client/src/client.ts",
+      "lineRange": [
+        241,
+        280
+      ]
+    },
+    {
+      "id": "class:packages/gateway-client/src/protocol-client.ts:GatewayProtocolClient",
+      "type": "class",
+      "name": "GatewayProtocolClient",
+      "summary": "Socket-generation protocol client: request(), sendConnect(), hello-ok handling.",
+      "tags": [
+        "client",
+        "protocol"
+      ],
+      "complexity": "complex",
+      "filePath": "packages/gateway-client/src/protocol-client.ts",
+      "lineRange": [
+        45,
+        360
+      ]
+    },
+    {
+      "id": "schema:hello-ok",
+      "type": "schema",
+      "name": "HelloOkSchema",
+      "summary": "hello-ok response shape: protocol, server, features, snapshot, auth, policy (all required).",
+      "tags": [
+        "protocol",
+        "schema"
+      ],
+      "complexity": "moderate",
+      "filePath": "packages/gateway-protocol/src/schema/frames.ts",
+      "lineRange": [
+        94,
+        177
+      ]
+    },
+    {
+      "id": "schema:connect-params",
+      "type": "schema",
+      "name": "ConnectParamsSchema",
+      "summary": "connect request params: min/maxProtocol, client, role, scopes, caps, commands, auth, device.",
+      "tags": [
+        "protocol",
+        "schema"
+      ],
+      "complexity": "complex",
+      "filePath": "packages/gateway-protocol/src/schema/frames.ts",
+      "lineRange": [
+        31,
+        93
+      ]
+    },
+    {
+      "id": "schema:gateway-frame",
+      "type": "schema",
+      "name": "GatewayFrameSchema",
+      "summary": "Union of RequestFrame|ResponseFrame|EventFrame frames.",
+      "tags": [
+        "protocol",
+        "schema"
+      ],
+      "complexity": "moderate",
+      "filePath": "packages/gateway-protocol/src/schema/frames.ts",
+      "lineRange": [
+        217,
+        224
+      ]
+    },
+    {
+      "id": "schema:secret-input",
+      "type": "schema",
+      "name": "SecretInputSchema",
+      "summary": "Secret as plain string or SecretRef union (env/file/exec).",
+      "tags": [
+        "config",
+        "secrets"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/config/zod-schema.secret-input.ts",
+      "lineRange": [
+        22,
+        57
+      ]
+    },
+    {
+      "id": "endpoint:src/gateway/server-http-upgrades.ts:POST /hooks",
+      "type": "endpoint",
+      "name": "POST /hooks (webhook ingress)",
+      "summary": "HTTP webhook ingress dispatching to gateway hook effects.",
+      "tags": [
+        "hooks",
+        "http"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server/hooks-request-handler.ts"
+    },
+    {
+      "id": "endpoint:src/gateway/server-http-upgrades.ts:WS /__openclaw__/worker",
+      "type": "endpoint",
+      "name": "WS /__openclaw__/worker",
+      "summary": "Worker-role closed-protocol WS path (or dedicated loopback tunnel ingress).",
+      "tags": [
+        "worker",
+        "ws"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-http-upgrades.ts",
+      "lineRange": [
+        223,
+        261
+      ]
+    },
+    {
+      "id": "endpoint:src/gateway/server-http-upgrades.ts:WS gateway control",
+      "type": "endpoint",
+      "name": "WS gateway control",
+      "summary": "Core Gateway control WS connection (operator/node role) on loopback or bind host.",
+      "tags": [
+        "ws",
+        "control"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-http-upgrades.ts",
+      "lineRange": [
+        405,
+        414
+      ]
+    },
+    {
+      "id": "table:src/state/openclaw-agent-db-schema.ts:session_transcript_fts",
+      "type": "table",
+      "name": "session_transcript_fts",
+      "summary": "FTS index over session transcripts (id/session_id/message_id).",
+      "tags": [
+        "state",
+        "fts"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/state/openclaw-agent-db-schema.ts",
+      "lineRange": [
+        311,
+        335
+      ]
+    },
+    {
+      "id": "config:openclaw.json",
+      "type": "config",
+      "name": "openclaw.json (JSON5)",
+      "summary": "Authored JSON5 config at ~/.openclaw/openclaw.json watched for hot reload.",
+      "tags": [
+        "config",
+        "json5"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:protocol.schema.json",
+      "type": "config",
+      "name": "protocol.schema.json",
+      "summary": "Generated machine-readable protocol contract shipped in the protocol package tarball.",
+      "tags": [
+        "protocol",
+        "codegen"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:openclaw-gateway",
+      "type": "service",
+      "name": "OpenClaw Gateway",
+      "summary": "The running gateway daemon service owning channels, WS control plane, scheduler.",
+      "tags": [
+        "service",
+        "gateway"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "service:node-registry",
+      "type": "service",
+      "name": "Node registry service",
+      "summary": "Live registry of connected node hosts and their pending invokes.",
+      "tags": [
+        "service",
+        "nodes"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:gateway-process-model",
+      "type": "concept",
+      "name": "Single gateway process model",
+      "summary": "One long-lived process per host owns all messaging surfaces and the control plane.",
+      "tags": [
+        "gateway",
+        "process"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:loopback-bind-default",
+      "type": "concept",
+      "name": "Loopback bind default",
+      "summary": "Default bind is 127.0.0.1; non-loopback requires explicit auth; Tailscale forces loopback.",
+      "tags": [
+        "network",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:auth-modes",
+      "type": "concept",
+      "name": "Gateway auth modes",
+      "summary": "token | password | trusted-proxy | none plus device/bootstrap token methods.",
+      "tags": [
+        "auth",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:connect-handshake",
+      "type": "concept",
+      "name": "Connect handshake",
+      "summary": "First frame must be connect; server sends connect.challenge nonce; client signs it.",
+      "tags": [
+        "protocol",
+        "handshake"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:hello-ok-negotiation",
+      "type": "concept",
+      "name": "hello-ok negotiation",
+      "summary": "Server returns required hello-ok with negotiated protocol/role/scopes and policy limits.",
+      "tags": [
+        "protocol",
+        "negotiation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:rpc-methods",
+      "type": "concept",
+      "name": "RPC methods",
+      "summary": "Typed req/res method surface gated by scopes and the method registry.",
+      "tags": [
+        "protocol",
+        "rpc"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:server-push-events",
+      "type": "concept",
+      "name": "Server-push events",
+      "summary": "Bounded broadcast event families with seq/stateVersion gap semantics; no replay.",
+      "tags": [
+        "protocol",
+        "events"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:protocol-codegen",
+      "type": "concept",
+      "name": "Protocol codegen",
+      "summary": "TypeBox -> JSON Schema -> Swift model generation via protocol:gen commands.",
+      "tags": [
+        "protocol",
+        "codegen"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:protocol-versioning",
+      "type": "concept",
+      "name": "Protocol versioning",
+      "summary": "PROTOCOL_VERSION 4 with an N-1 node window (v3); probe window v3.",
+      "tags": [
+        "protocol",
+        "versioning"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:session-keys",
+      "type": "concept",
+      "name": "Session keys",
+      "summary": "Canonical agent:<agentId>:<rest> keys resolve routing to session store entries.",
+      "tags": [
+        "sessions",
+        "keys"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:main-session",
+      "type": "concept",
+      "name": "Main session",
+      "summary": "agent:<id>:main rolling conversation that absorbs DMs, notices, and heartbeats.",
+      "tags": [
+        "sessions",
+        "main"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:session-lane-queue",
+      "type": "concept",
+      "name": "Per-session lane queue",
+      "summary": "Runs serialize per session lane plus an optional global lane to avoid races.",
+      "tags": [
+        "sessions",
+        "queue"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:queue-steering",
+      "type": "concept",
+      "name": "Queue steering",
+      "summary": "steer|followup|collect|interrupt modes; steering injects prompts at tool/model boundaries.",
+      "tags": [
+        "queue",
+        "steering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:agent-loop",
+      "type": "concept",
+      "name": "Agent loop",
+      "summary": "intake -> context -> inference -> tools -> streaming -> persistence per session run.",
+      "tags": [
+        "agent",
+        "loop"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:streaming-events",
+      "type": "concept",
+      "name": "Streaming events",
+      "summary": "lifecycle/assistant/tool streams with delta coalescing and replace frames.",
+      "tags": [
+        "agent",
+        "streaming"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:turn-lifecycle",
+      "type": "concept",
+      "name": "Turn lifecycle",
+      "summary": "agent returns runId immediately; agent.wait waits terminal; writer-claim fences transcript.",
+      "tags": [
+        "agent",
+        "lifecycle"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:json5-config",
+      "type": "concept",
+      "name": "JSON5 config",
+      "summary": "Config authored in JSON5 with includes and env substitution before validation.",
+      "tags": [
+        "config",
+        "json5"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "concept:secretref",
+      "type": "concept",
+      "name": "SecretRef",
+      "summary": "Additive credential references env|file|exec resolved at runtime, not plaintext.",
+      "tags": [
+        "config",
+        "secrets"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:config-hot-reload",
+      "type": "concept",
+      "name": "Config hot reload",
+      "summary": "Gateway watches authored config and applies reload plans; invalid reloads are skipped.",
+      "tags": [
+        "config",
+        "reload"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:plugin-activation",
+      "type": "concept",
+      "name": "Plugin activation",
+      "summary": "Manifest plan chooses plugins; namespaced methods, lifecycle capabilities, hook API.",
+      "tags": [
+        "plugins",
+        "activation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:method-scope-authorization",
+      "type": "concept",
+      "name": "Method scope authorization",
+      "summary": "Each method resolves a required scope; reserved prefixes resolve to operator.admin.",
+      "tags": [
+        "authz",
+        "scopes"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:gateway-state-lock",
+      "type": "concept",
+      "name": "Gateway state lock",
+      "summary": "Exclusive foreground lock over a state directory prevents multiple owners.",
+      "tags": [
+        "concurrency",
+        "state"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:sqlite-state",
+      "type": "concept",
+      "name": "SQLite state",
+      "summary": "Shared openclaw.sqlite plus per-agent DBs and sessions.json index; writer queue ordering.",
+      "tags": [
+        "state",
+        "sqlite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:cron-automation",
+      "type": "concept",
+      "name": "Cron automation",
+      "summary": "Declarative persistent cron jobs run by CronService on the GatewayScheduler timer.",
+      "tags": [
+        "cron",
+        "automation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:hooks-ingress",
+      "type": "concept",
+      "name": "Hooks ingress",
+      "summary": "HTTP webhooks trigger work; in-process hooks subscribe to lifecycle/tool events.",
+      "tags": [
+        "hooks",
+        "ingress"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:node-connection-model",
+      "type": "concept",
+      "name": "Node connection model",
+      "summary": "Nodes use the same WS server with role:node, caps/commands/permissions, device pairing.",
+      "tags": [
+        "nodes",
+        "model"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:node-capability-claims",
+      "type": "concept",
+      "name": "Node capability claims",
+      "summary": "Node caps/commands/permissions are claims enforced server-side; descriptors pruned on disconnect.",
+      "tags": [
+        "nodes",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:operator-scopes",
+      "type": "concept",
+      "name": "Operator scopes",
+      "summary": "Closed scope set (read/write/admin/approvals/questions/pairing/talk/talk.secrets/sessions).",
+      "tags": [
+        "authz",
+        "scopes"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "concept:worker-role-protocol",
+      "type": "concept",
+      "name": "Worker role protocol",
+      "summary": "Closed worker WS protocol with hash-at-rest short-lived credential; frames <64KiB except inference.start.",
+      "tags": [
+        "worker",
+        "protocol"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "pipeline:agent-turn-pipeline",
+      "type": "pipeline",
+      "name": "Agent turn pipeline",
+      "summary": "End-to-end per-session turn from inbound message to persisted reply.",
+      "tags": [
+        "agent",
+        "pipeline"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "flow:connect-lifecycle",
+      "type": "flow",
+      "name": "Connect lifecycle",
+      "summary": "challenge -> connect -> hello-ok -> events -> req/res flow for one client.",
+      "tags": [
+        "protocol",
+        "flow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "step:turn-intake",
+      "type": "step",
+      "name": "Turn intake",
+      "summary": "Validate params, resolve session, persist metadata, return runId.",
+      "tags": [
+        "agent",
+        "step"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "step:context-assembly",
+      "type": "step",
+      "name": "Context assembly",
+      "summary": "Resolve workspace, skills snapshot, bootstrap files, system prompt.",
+      "tags": [
+        "agent",
+        "step"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "step:model-inference",
+      "type": "step",
+      "name": "Model inference",
+      "summary": "Resolve model + auth profile and stream provider responses.",
+      "tags": [
+        "agent",
+        "step"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "step:tool-execution",
+      "type": "step",
+      "name": "Tool execution",
+      "summary": "Run tool calls with start/update/end events and steering checkpoints.",
+      "tags": [
+        "agent",
+        "step"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "step:persistence",
+      "type": "step",
+      "name": "Persistence",
+      "summary": "Commit transcript under the activeWriterRunId writer-claim fence.",
+      "tags": [
+        "agent",
+        "step"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-kernel.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/net.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-runtime-config.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server/http-listen.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-http-upgrades.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server/ws-connection.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server/connection.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/methods/registry.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-broadcast.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/node-registry.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/config-reload.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-cron.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-node-events.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server/hooks.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "file:src/gateway/server-methods/agent.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/plugins",
+      "target": "file:src/plugins/loader.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/plugins",
+      "target": "file:src/plugins/activation-planner.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/plugins",
+      "target": "file:src/plugins/gateway-startup-plugin-loader.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/state",
+      "target": "file:src/state/openclaw-state-db.paths.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/state",
+      "target": "file:src/state/openclaw-agent-db-schema.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/cron",
+      "target": "file:src/cron/service.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-protocol",
+      "target": "file:packages/gateway-protocol/src/version.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-protocol",
+      "target": "file:packages/gateway-protocol/src/schema/frames.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-protocol",
+      "target": "file:packages/gateway-protocol/src/schema.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-protocol",
+      "target": "file:packages/gateway-protocol/src/schema/protocol-schemas.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-protocol",
+      "target": "file:packages/gateway-protocol/src/index.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-protocol",
+      "target": "file:packages/gateway-protocol/src/secret-ref-contract.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-client",
+      "target": "file:packages/gateway-client/src/client.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-client",
+      "target": "file:packages/gateway-client/src/protocol-client.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:@openclaw/gateway-client",
+      "target": "file:packages/gateway-client/src/reconnect-policy.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:src/gateway",
+      "target": "domain:gateway-runtime",
+      "type": "categorized_under",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "domain:gateway-runtime",
+      "target": "service:openclaw-gateway",
+      "type": "instance_of",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "domain:agent-runtime",
+      "target": "pipeline:agent-turn-pipeline",
+      "type": "instance_of",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/gateway/server.ts:startGatewayServer",
+      "target": "file:src/gateway/server.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/net.ts:resolveGatewayBindHost",
+      "target": "file:src/gateway/net.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/net.ts:defaultGatewayBindMode",
+      "target": "file:src/gateway/net.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server-http-upgrades.ts:attachGatewayUpgradeHandler",
+      "target": "file:src/gateway/server-http-upgrades.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server/ws-connection.ts:attachGatewayWsConnectionHandler",
+      "target": "file:src/gateway/server/ws-connection.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server/connection.ts:attachGatewayConnection",
+      "target": "file:src/gateway/server/connection.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server/ws-connection/message-handler.ts:attachGatewayWsMessageHandler",
+      "target": "file:src/gateway/server/ws-connection/message-handler.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server/ws-connection/authenticated-request-dispatch.ts:createGatewayAuthenticatedRequestDispatcher",
+      "target": "file:src/gateway/server/ws-connection/authenticated-request-dispatch.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/methods/registry.ts:createGatewayMethodRegistry",
+      "target": "file:src/gateway/methods/registry.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/methods/core-method-policy.ts:createCoreGatewayMethodDescriptors",
+      "target": "file:src/gateway/methods/core-method-policy.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server-methods-list.ts:listGatewayMethods",
+      "target": "file:src/gateway/server-methods-list.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/auth.ts:assertGatewayAuthConfigured",
+      "target": "file:src/gateway/auth.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/auth-mode-policy.ts:hasAmbiguousGatewayAuthModeConfig",
+      "target": "file:src/gateway/auth-mode-policy.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server-broadcast.ts:createGatewayBroadcaster",
+      "target": "file:src/gateway/server-broadcast.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:src/gateway/node-registry.ts:NodeRegistry",
+      "target": "file:src/gateway/node-registry.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/config-reload.ts:startGatewayConfigReloader",
+      "target": "file:src/gateway/config-reload.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server-cron.ts:buildGatewayCronService",
+      "target": "file:src/gateway/server-cron.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server/hooks.ts:createGatewayHookDispatcher",
+      "target": "file:src/gateway/server/hooks.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server/hooks-request-handler.ts:createHooksRequestHandler",
+      "target": "file:src/gateway/server/hooks-request-handler.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/gateway/server-methods/agent.ts:agentWaitHandler",
+      "target": "file:src/gateway/server-methods/agent.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/agents/embedded-agent-runner/run-orchestrator.ts:runEmbeddedAgent",
+      "target": "file:src/agents/embedded-agent-runner/run-orchestrator.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:src/infra/gateway-scheduler.ts:GatewayScheduler",
+      "target": "file:src/infra/gateway-scheduler.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:src/cron/service.ts:CronService",
+      "target": "file:src/cron/service.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/routing/session-key.ts:buildAgentMainSessionKey",
+      "target": "file:src/routing/session-key.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/routing/resolve-route.ts:resolveAgentRoute",
+      "target": "file:src/routing/resolve-route.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/routing/resolve-route.ts:buildAgentSessionKey",
+      "target": "file:src/routing/resolve-route.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/config/sessions/paths.ts:resolveDefaultSessionStorePath",
+      "target": "file:src/config/sessions/paths.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/config/io.load.ts:loadConfigWithEffects",
+      "target": "file:src/config/io.load.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/plugins/loader.ts:loadOpenClawPlugins",
+      "target": "file:src/plugins/loader.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/plugins/activation-planner.ts:resolveManifestActivationPlan",
+      "target": "file:src/plugins/activation-planner.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/plugins/gateway-startup-plugin-loader.ts:loadGatewayStartupPluginPlan",
+      "target": "file:src/plugins/gateway-startup-plugin-loader.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/state/openclaw-state-db.paths.ts:resolveOpenClawStateSqlitePath",
+      "target": "file:src/state/openclaw-state-db.paths.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/state/openclaw-agent-db-schema.ts:ensureOpenClawAgentDatabaseSchema",
+      "target": "file:src/state/openclaw-agent-db-schema.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:packages/gateway-client/src/client.ts:GatewayClient",
+      "target": "file:packages/gateway-client/src/client.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:packages/gateway-client/src/protocol-client.ts:GatewayProtocolClient",
+      "target": "file:packages/gateway-client/src/protocol-client.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "schema:hello-ok",
+      "target": "file:packages/gateway-protocol/src/schema/frames.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "schema:connect-params",
+      "target": "file:packages/gateway-protocol/src/schema/frames.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "schema:gateway-frame",
+      "target": "file:packages/gateway-protocol/src/schema/frames.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "schema:secret-input",
+      "target": "file:src/config/zod-schema.secret-input.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "config:protocol.schema.json",
+      "target": "file:packages/gateway-protocol/src/index.ts",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:protocol.schema.json",
+      "target": "concept:protocol-codegen",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/gateway/server.ts:startGatewayServer",
+      "target": "function:src/gateway/net.ts:resolveGatewayBindHost",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/gateway/server.ts:startGatewayServer",
+      "target": "concept:gateway-state-lock",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/server.ts:startGatewayServer",
+      "target": "file:src/state/openclaw-state-db.paths.ts",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/gateway/server-http-upgrades.ts:attachGatewayUpgradeHandler",
+      "target": "function:src/gateway/server/ws-connection.ts:attachGatewayWsConnectionHandler",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/server/ws-connection.ts:attachGatewayWsConnectionHandler",
+      "target": "function:src/gateway/server/connection.ts:attachGatewayConnection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/gateway/server/connection.ts:attachGatewayConnection",
+      "target": "concept:connect-handshake",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/gateway/server/ws-connection/message-handler.ts:attachGatewayWsMessageHandler",
+      "target": "function:src/gateway/server/ws-connection/authenticated-request-dispatch.ts:createGatewayAuthenticatedRequestDispatcher",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/gateway/server/ws-connection/authenticated-request-dispatch.ts:createGatewayAuthenticatedRequestDispatcher",
+      "target": "function:src/gateway/methods/registry.ts:createGatewayMethodRegistry",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/methods/registry.ts:createGatewayMethodRegistry",
+      "target": "function:src/gateway/methods/core-method-policy.ts:createCoreGatewayMethodDescriptors",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/server-methods-list.ts:listGatewayMethods",
+      "target": "function:src/gateway/methods/core-method-policy.ts:createCoreGatewayMethodDescriptors",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/server-methods/agent.ts:agentWaitHandler",
+      "target": "function:src/agents/embedded-agent-runner/run-orchestrator.ts:runEmbeddedAgent",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/agents/embedded-agent-runner/run-orchestrator.ts:runEmbeddedAgent",
+      "target": "pipeline:agent-turn-pipeline",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/agents/embedded-agent-runner/run-orchestrator.ts:runEmbeddedAgent",
+      "target": "concept:session-lane-queue",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/server-cron.ts:buildGatewayCronService",
+      "target": "class:src/cron/service.ts:CronService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:src/cron/service.ts:CronService",
+      "target": "class:src/infra/gateway-scheduler.ts:GatewayScheduler",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/config-reload.ts:startGatewayConfigReloader",
+      "target": "concept:config-hot-reload",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/gateway/config-reload.ts:startGatewayConfigReloader",
+      "target": "function:src/config/io.load.ts:loadConfigWithEffects",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/config/io.load.ts:loadConfigWithEffects",
+      "target": "concept:json5-config",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/config/io.load.ts:loadConfigWithEffects",
+      "target": "schema:secret-input",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/gateway/auth.ts:assertGatewayAuthConfigured",
+      "target": "concept:auth-modes",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/gateway/auth-mode-policy.ts:hasAmbiguousGatewayAuthModeConfig",
+      "target": "file:src/gateway/auth.ts",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/gateway/auth.ts:assertGatewayAuthConfigured",
+      "target": "file:src/gateway/operator-scopes.ts",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/gateway/server-methods/agent.ts:agentWaitHandler",
+      "target": "file:src/gateway/operator-scopes.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/gateway/method-scopes.ts",
+      "target": "file:src/gateway/operator-scopes.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/gateway/method-scopes.ts",
+      "target": "concept:method-scope-authorization",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:src/gateway/methods/core-method-policy.ts",
+      "target": "concept:method-scope-authorization",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/gateway/server-broadcast.ts:createGatewayBroadcaster",
+      "target": "concept:server-push-events",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:src/gateway/server-node-events.ts",
+      "target": "class:src/gateway/node-registry.ts:NodeRegistry",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/gateway/server-node-events.ts",
+      "target": "function:src/gateway/server-broadcast.ts:createGatewayBroadcaster",
+      "type": "publishes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:src/gateway/node-registry.ts:NodeRegistry",
+      "target": "concept:node-connection-model",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:src/gateway/server-methods-list.ts",
+      "target": "concept:rpc-methods",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/server-methods-list.ts",
+      "target": "concept:server-push-events",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/gateway-protocol/src/version.ts",
+      "target": "concept:protocol-versioning",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "schema:hello-ok",
+      "target": "concept:hello-ok-negotiation",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "schema:connect-params",
+      "target": "concept:connect-handshake",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "schema:gateway-frame",
+      "target": "concept:rpc-methods",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:packages/gateway-protocol/src/schema/protocol-schemas.ts",
+      "target": "schema:gateway-frame",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/gateway-protocol/src/schema.ts",
+      "target": "file:packages/gateway-protocol/src/schema/protocol-schemas.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/gateway-protocol/src/index.ts",
+      "target": "file:packages/gateway-protocol/src/schema.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:packages/gateway-protocol/src/secret-ref-contract.ts",
+      "target": "schema:secret-input",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:packages/gateway-protocol/src/secret-ref-contract.ts",
+      "target": "concept:secretref",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:packages/gateway-client/src/client.ts:GatewayClient",
+      "target": "class:packages/gateway-client/src/protocol-client.ts:GatewayProtocolClient",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:packages/gateway-client/src/protocol-client.ts:GatewayProtocolClient",
+      "target": "file:packages/gateway-client/src/reconnect-policy.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:packages/gateway-client/src/protocol-client.ts:GatewayProtocolClient",
+      "target": "concept:connect-handshake",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:packages/gateway-client/src/client.ts:GatewayClient",
+      "target": "concept:rpc-methods",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:src/gateway/server-http-upgrades.ts:WS gateway control",
+      "target": "class:packages/gateway-client/src/client.ts:GatewayClient",
+      "type": "serves",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:src/gateway/server-http-upgrades.ts:WS gateway control",
+      "target": "function:src/gateway/server-http-upgrades.ts:attachGatewayUpgradeHandler",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:src/gateway/server-http-upgrades.ts:POST /hooks",
+      "target": "function:src/gateway/server/hooks-request-handler.ts:createHooksRequestHandler",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:src/gateway/server-http-upgrades.ts:WS /__openclaw__/worker",
+      "target": "function:src/gateway/server-http-upgrades.ts:attachGatewayUpgradeHandler",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:src/gateway/server-http-upgrades.ts:WS /__openclaw__/worker",
+      "target": "concept:worker-role-protocol",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/gateway/server/hooks-request-handler.ts:createHooksRequestHandler",
+      "target": "function:src/gateway/server/hooks.ts:createGatewayHookDispatcher",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/gateway/server/hooks.ts:createGatewayHookDispatcher",
+      "target": "concept:hooks-ingress",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "config:openclaw.json",
+      "target": "concept:json5-config",
+      "type": "instance_of",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:openclaw.json",
+      "target": "function:src/config/io.load.ts:loadConfigWithEffects",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:openclaw.json",
+      "target": "function:src/gateway/config-reload.ts:startGatewayConfigReloader",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:openclaw.json",
+      "target": "concept:secretref",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/configuration.md",
+      "target": "config:openclaw.json",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/secrets.md",
+      "target": "concept:secretref",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/protocol/handshake.md",
+      "target": "concept:connect-handshake",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/protocol/handshake.md",
+      "target": "concept:node-capability-claims",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/protocol/transport.md",
+      "target": "concept:rpc-methods",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/protocol/transport.md",
+      "target": "concept:server-push-events",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/gateway/protocol/versioning.md",
+      "target": "concept:protocol-versioning",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/architecture.md",
+      "target": "concept:gateway-process-model",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/architecture.md",
+      "target": "class:src/infra/gateway-scheduler.ts:GatewayScheduler",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/agent-loop.md",
+      "target": "pipeline:agent-turn-pipeline",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/agent-loop.md",
+      "target": "step:context-assembly",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/queue-steering.md",
+      "target": "concept:queue-steering",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/main-session.md",
+      "target": "concept:main-session",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/architecture.md",
+      "target": "concept:worker-role-protocol",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/plugins/gateway-startup-plugin-loader.ts:loadGatewayStartupPluginPlan",
+      "target": "function:src/plugins/activation-planner.ts:resolveManifestActivationPlan",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/plugins/loader.ts:loadOpenClawPlugins",
+      "target": "function:src/plugins/activation-planner.ts:resolveManifestActivationPlan",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/gateway/methods/registry.ts:createGatewayMethodRegistry",
+      "target": "concept:plugin-activation",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "table:src/state/openclaw-agent-db-schema.ts:session_transcript_fts",
+      "target": "file:src/state/openclaw-agent-db-schema.ts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "function:src/state/openclaw-agent-db-schema.ts:ensureOpenClawAgentDatabaseSchema",
+      "target": "table:src/state/openclaw-agent-db-schema.ts:session_transcript_fts",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/state/openclaw-state-db.paths.ts:resolveOpenClawStateSqlitePath",
+      "target": "concept:sqlite-state",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/state/openclaw-state-db.paths.ts:resolveOpenClawStateSqlitePath",
+      "target": "function:src/gateway/server.ts:startGatewayServer",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:sqlite-state",
+      "target": "concept:gateway-state-lock",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:src/routing/session-key.ts:buildAgentMainSessionKey",
+      "target": "concept:main-session",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/routing/resolve-route.ts:resolveAgentRoute",
+      "target": "concept:session-keys",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/routing/resolve-route.ts:buildAgentSessionKey",
+      "target": "function:src/routing/session-key.ts:buildAgentMainSessionKey",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/config/sessions/paths.ts:resolveDefaultSessionStorePath",
+      "target": "concept:session-keys",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/routing/resolve-route.ts",
+      "target": "file:src/config/sessions/paths.ts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "function:src/agents/embedded-agent-runner/run-orchestrator.ts:runEmbeddedAgent",
+      "target": "function:src/routing/resolve-route.ts:resolveAgentRoute",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "pipeline:agent-turn-pipeline",
+      "target": "step:turn-intake",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "pipeline:agent-turn-pipeline",
+      "target": "step:context-assembly",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "pipeline:agent-turn-pipeline",
+      "target": "step:model-inference",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "pipeline:agent-turn-pipeline",
+      "target": "step:tool-execution",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "pipeline:agent-turn-pipeline",
+      "target": "step:persistence",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:turn-intake",
+      "target": "step:context-assembly",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:context-assembly",
+      "target": "step:model-inference",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:model-inference",
+      "target": "step:tool-execution",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:tool-execution",
+      "target": "step:persistence",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:tool-execution",
+      "target": "concept:queue-steering",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:persistence",
+      "target": "concept:turn-lifecycle",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "step:model-inference",
+      "target": "concept:streaming-events",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:agent-loop",
+      "target": "concept:turn-lifecycle",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:agent-loop",
+      "target": "concept:session-lane-queue",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:connect-lifecycle",
+      "target": "concept:connect-handshake",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:connect-lifecycle",
+      "target": "concept:hello-ok-negotiation",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:connect-lifecycle",
+      "target": "concept:server-push-events",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/operator-scopes.ts",
+      "target": "concept:operator-scopes",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "document:docs/gateway/protocol/handshake.md",
+      "target": "concept:operator-scopes",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/node-registry.ts",
+      "target": "service:node-registry",
+      "type": "instance_of",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "service:node-registry",
+      "target": "concept:node-connection-model",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/server-kernel.ts",
+      "target": "class:src/infra/gateway-scheduler.ts:GatewayScheduler",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:src/gateway/server-kernel.ts",
+      "target": "service:openclaw-gateway",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/gateway/server.ts",
+      "target": "service:openclaw-gateway",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/gateway/server-runtime-config.ts",
+      "target": "concept:loopback-bind-default",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/gateway/net.ts:resolveGatewayBindHost",
+      "target": "concept:loopback-bind-default",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "function:src/gateway/net.ts:defaultGatewayBindMode",
+      "target": "function:src/gateway/net.ts:resolveGatewayBindHost",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/gateway/server/http-listen.ts",
+      "target": "concept:loopback-bind-default",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/server-http-upgrades.ts",
+      "target": "concept:gateway-process-model",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/server-constants.ts",
+      "target": "concept:rpc-methods",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/config-reload.ts",
+      "target": "config:openclaw.json",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/config-reload.ts",
+      "target": "concept:config-hot-reload",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:src/config/zod-schema.gateway.ts",
+      "target": "file:src/gateway/operator-scopes.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/config/sessions/paths.ts",
+      "target": "concept:session-keys",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/cron/service.ts",
+      "target": "concept:cron-automation",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:src/infra/gateway-scheduler.ts:GatewayScheduler",
+      "target": "concept:cron-automation",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/server-cron.ts",
+      "target": "concept:cron-automation",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "concept:turn-lifecycle",
+      "target": "schema:connect-params",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/server-methods/agent.ts",
+      "target": "schema:hello-ok",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/operator-scopes.ts",
+      "target": "file:src/gateway/auth.ts",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:auth-modes",
+      "target": "concept:operator-scopes",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:gateway-process-model",
+      "target": "concept:loopback-bind-default",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:plugin-activation",
+      "target": "function:src/gateway/server/hooks.ts:createGatewayHookDispatcher",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:node-capability-claims",
+      "target": "class:src/gateway/node-registry.ts:NodeRegistry",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "domain:gateway-runtime",
+      "target": "module:@openclaw/gateway-protocol",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:gateway-runtime",
+      "target": "module:@openclaw/gateway-client",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:agent-runtime",
+      "target": "file:src/agents/embedded-agent-runner/run-orchestrator.ts",
+      "type": "categorized_under",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

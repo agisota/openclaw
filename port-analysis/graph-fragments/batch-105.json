@@ -1,0 +1,2987 @@
+{
+ "nodes": [
+  {
+   "id": "file:extensions/memory-core/index.ts",
+   "type": "file",
+   "name": "memory-core plugin entry",
+   "summary": "definePluginEntry registers the memory capability (recallToolNames memory_search/memory_get, promptBuilder, flushPlanResolver, runtime, publicArtifacts), the memory_search/memory_get/intent tools, the before_prompt_build standing-intent hook, the /dreaming command, and the memory CLI.",
+   "tags": [
+    "plugin",
+    "memory-core",
+    "registration",
+    "tools"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/index.ts",
+   "lineRange": [
+    204,
+    371
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/tools.ts",
+   "type": "file",
+   "name": "memory tool implementations",
+   "summary": "createMemorySearchTool/createMemoryGetTool execute memory_search/memory_get with corpus selection, deadline control, wiki blending, citation presentation, and short-term recall recording.",
+   "tags": [
+    "tools",
+    "search",
+    "recall"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/tools.ts",
+   "lineRange": [
+    226,
+    562
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory-tool-contract.ts",
+   "type": "file",
+   "name": "memory tool contracts",
+   "summary": "Tool schemas and description contracts for memory_search/memory_get plus buildMemoryPromptSection, which renders the Memory Recall guidance lines.",
+   "tags": [
+    "tools",
+    "prompt",
+    "contract"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory-tool-contract.ts",
+   "lineRange": [
+    90,
+    168
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/session-ingestion.ts",
+   "type": "file",
+   "name": "session transcript ingestion",
+   "summary": "Scans interactive session transcript sources, classifies per-line provenance, dedups by hash, applies admission policy/tombstones, and appends rendered snippets to memory/.dreams/session-corpus/<day>.txt.",
+   "tags": [
+    "ingestion",
+    "transcripts",
+    "provenance"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/session-ingestion.ts",
+   "lineRange": [
+    311,
+    522
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory-entry-origins.ts",
+   "type": "file",
+   "name": "memory entry origins",
+   "summary": "Records/lists/prunes entry origin rows in the per-agent agent SQLite db and transfers parent origins across consolidation, backing memory forget lineage.",
+   "tags": [
+    "provenance",
+    "lineage",
+    "forget"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory-entry-origins.ts",
+   "lineRange": [
+    120,
+    306
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/short-term-promotion.ts",
+   "type": "file",
+   "name": "short-term promotion ranking",
+   "summary": "Ranks staged short-term recall candidates with weighted frequency/relevance/diversity/recency/consolidation/conceptual signals and phase boosts before promotion.",
+   "tags": [
+    "dreaming",
+    "promotion",
+    "ranking"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/short-term-promotion.ts",
+   "lineRange": [
+    32,
+    227
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/dreaming.ts",
+   "type": "file",
+   "name": "dreaming sweep",
+   "summary": "runShortTermDreamingPromotion runs the three-phase sweep, ranks candidates, applies promotions into MEMORY.md, writes the DREAMS report and narrative; registerShortTermPromotionDreaming wires the cron.",
+   "tags": [
+    "dreaming",
+    "consolidation",
+    "cron"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/dreaming.ts",
+   "lineRange": [
+    149,
+    358
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/dreaming-consolidation-candidates.ts",
+   "type": "file",
+   "name": "promotion gates",
+   "summary": "isPromotionOriginBlocked structurally excludes untrusted/system candidates; isConsolidationCandidateEligible admits only owner/agent provenance.",
+   "tags": [
+    "dreaming",
+    "gate",
+    "provenance"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/dreaming-consolidation-candidates.ts",
+   "lineRange": [
+    4,
+    21
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/flush-plan.ts",
+   "type": "file",
+   "name": "memory flush plan",
+   "summary": "buildMemoryFlushPlan produces the pre-compaction flush prompt/systemPrompt, date-stamped target memory/YYYY-MM-DD.md, soft threshold, force byte size, and reserve floor.",
+   "tags": [
+    "flush",
+    "compaction"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/flush-plan.ts",
+   "lineRange": [
+    63,
+    108
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "type": "file",
+   "name": "hybrid result fusion",
+   "summary": "mergeHybridResults fuses vector+keyword legs by weight, preserves exact-path tiers, then applies temporal decay, importance, project ranking and MMR; selectHybridSearchResults enforces minScore.",
+   "tags": [
+    "search",
+    "hybrid",
+    "ranking"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory/hybrid.ts",
+   "lineRange": [
+    56,
+    310
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/importance.ts",
+   "type": "file",
+   "name": "importance multiplier",
+   "summary": "importanceMultiplier maps 1..10 importance to 0.75+n*0.05 and treats null as neutral; applyImportanceMultiplier scales result scores.",
+   "tags": [
+    "ranking",
+    "importance"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/memory/importance.ts",
+   "lineRange": [
+    1,
+    16
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/temporal-decay.ts",
+   "type": "file",
+   "name": "temporal decay",
+   "summary": "applyTemporalDecayToHybridResults applies exp(-(ln2/halfLife)*ageDays) to dated memory/ and session sources while MEMORY.md/USER.md/undated files stay evergreen.",
+   "tags": [
+    "ranking",
+    "recency",
+    "decay"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/temporal-decay.ts",
+   "lineRange": [
+    15,
+    142
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/mmr.ts",
+   "type": "file",
+   "name": "MMR diversity re-ranking",
+   "summary": "applyMMRToHybridResults reorders candidates with lambda*relevance-(1-lambda)*maxJaccardSimilarity over snippet tokens (fixed lambda 0.7).",
+   "tags": [
+    "ranking",
+    "mmr",
+    "diversity"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/mmr.ts",
+   "lineRange": [
+    28,
+    91
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/project-ranking.ts",
+   "type": "file",
+   "name": "project ranking",
+   "summary": "projectScoreMultiplier boosts 1.15 when all stored project keys are active, demotes 0.9 otherwise, and drops invalid-annotation entries.",
+   "tags": [
+    "ranking",
+    "project"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/memory/project-ranking.ts",
+   "lineRange": [
+    8,
+    48
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "type": "file",
+   "name": "search orchestration",
+   "summary": "MemorySearchOrchestration.search runs FTS5 keyword + vector legs, handles provider fallback/index identity repair, merges via mergeHybridResults, and selects results.",
+   "tags": [
+    "search",
+    "orchestration",
+    "index"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "lineRange": [
+    45,
+    673
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/manager-search.ts",
+   "type": "file",
+   "name": "keyword retrieval",
+   "summary": "builds FTS5 MATCH queries, ranks with bm25()/bm25RankToScore, supports path-FTS and LIKE fallback, and produces KeywordSearchHit rows.",
+   "tags": [
+    "search",
+    "fts",
+    "bm25"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory/manager-search.ts",
+   "lineRange": [
+    344,
+    592
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "type": "file",
+   "name": "chunk writer",
+   "summary": "createMemoryChunkWriter upserts memory_index_chunks, memory_index_chunk_recall_metadata and memory_index_chunk_provenance rows (untrusted/unknown fallback) per chunk.",
+   "tags": [
+    "index",
+    "write",
+    "provenance"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "lineRange": [
+    48,
+    136
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/manager-source-index-kernel.ts",
+   "type": "file",
+   "name": "source index kernel",
+   "summary": "Replaces a source's chunks/embeddings atomically, writes chunks via the chunk writer and vectors, and cleans up stale chunk rows.",
+   "tags": [
+    "index",
+    "embeddings",
+    "write"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory/manager-source-index-kernel.ts",
+   "lineRange": [
+    28,
+    181
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/keyword-query.ts",
+   "type": "file",
+   "name": "keyword query helpers",
+   "summary": "bm25RankToScore converts SQLite bm25() rank to a positive score; buildFtsQuery/buildMatchQueryFromTerms build MATCH expressions.",
+   "tags": [
+    "fts",
+    "bm25",
+    "query"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/memory/keyword-query.ts",
+   "lineRange": [
+    14,
+    14
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory/search-manager.ts",
+   "type": "file",
+   "name": "search manager factory",
+   "summary": "getMemorySearchManager resolves config/workspace access and constructs the MemoryIndexManager; close helpers release managers.",
+   "tags": [
+    "search",
+    "manager",
+    "lifecycle"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/search-manager.ts",
+   "lineRange": [
+    35,
+    81
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/memory-corpus.ts",
+   "type": "file",
+   "name": "memory corpus aggregation",
+   "summary": "Ranks/blends supplement (wiki) corpus results and enforces the memory_search/memory_get deadline with composeMemoryCorpusMetadata warnings.",
+   "tags": [
+    "corpus",
+    "wiki",
+    "deadline"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory-corpus.ts",
+   "lineRange": [
+    96,
+    301
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/session-search-visibility.ts",
+   "type": "file",
+   "name": "session hit visibility",
+   "summary": "filterMemorySearchHitsBySessionVisibility applies tools.sessions.visibility and cross-agent scoping to session transcript hits.",
+   "tags": [
+    "visibility",
+    "sessions",
+    "security"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/session-search-visibility.ts",
+   "lineRange": [
+    165,
+    412
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/standing-intents.ts",
+   "type": "file",
+   "name": "standing intents",
+   "summary": "create/list/cancel/match/sweep event-conditioned standing intents, matched on prompt via keywords and injected as hidden context.",
+   "tags": [
+    "intents",
+    "prospective",
+    "recall"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/standing-intents.ts",
+   "lineRange": [
+    83,
+    145
+   ]
+  },
+  {
+   "id": "file:extensions/memory-core/src/standing-intents-kernel.ts",
+   "type": "file",
+   "name": "standing intents store",
+   "summary": "SQLite persistence and FTS shadow for standing intents: insert/update/select rows and keyword search joining standing_intents_fts.",
+   "tags": [
+    "intents",
+    "sqlite",
+    "store"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/standing-intents-kernel.ts",
+   "lineRange": [
+    26,
+    155
+   ]
+  },
+  {
+   "id": "file:extensions/active-memory/index.ts",
+   "type": "file",
+   "name": "active-memory plugin entry",
+   "summary": "Registers the active-memory command, the before_prompt_build hook that runs lane-1 trigger recall, private-transcript cross-conversation recall, and lane-2 escalation recall.",
+   "tags": [
+    "active-memory",
+    "recall",
+    "hook"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/active-memory/index.ts",
+   "lineRange": [
+    55,
+    565
+   ]
+  },
+  {
+   "id": "file:extensions/active-memory/trigger-recall.ts",
+   "type": "file",
+   "name": "trigger recall lane 1",
+   "summary": "loads lexical-only candidates, scores stored trigger phrases against the inbound message, selects strong matches (>=0.65, top 3), and builds a compact prefixed context block.",
+   "tags": [
+    "trigger",
+    "recall",
+    "lane1"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/active-memory/trigger-recall.ts",
+   "lineRange": [
+    18,
+    442
+   ]
+  },
+  {
+   "id": "file:extensions/active-memory/escalation.ts",
+   "type": "file",
+   "name": "recall escalation",
+   "summary": "hasRecallIntent detects past/temporal phrasing; resolveRecallEscalationDecision decides recall vs skip for escalate/always/off modes.",
+   "tags": [
+    "escalation",
+    "lane2",
+    "policy"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/active-memory/escalation.ts",
+   "lineRange": [
+    68,
+    83
+   ]
+  },
+  {
+   "id": "file:extensions/memory-wiki/index.ts",
+   "type": "file",
+   "name": "memory-wiki plugin entry",
+   "summary": "Registers wiki prompt supplement/preparation and corpus supplement, gateway methods, services, and the wiki_status/wiki_lint/wiki_apply/wiki_search/wiki_get tools.",
+   "tags": [
+    "wiki",
+    "plugin",
+    "knowledge"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-wiki/index.ts",
+   "lineRange": [
+    76,
+    248
+   ]
+  },
+  {
+   "id": "file:extensions/memory-wiki/src/tool.ts",
+   "type": "file",
+   "name": "wiki tools",
+   "summary": "wiki_status/search/get/apply/lint tool implementations with WikiClaimSchema/WikiClaimEvidenceSchema validation, contradictions, and provenance-gap linting.",
+   "tags": [
+    "wiki",
+    "tools",
+    "claims"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-wiki/src/tool.ts",
+   "lineRange": [
+    84,
+    273
+   ]
+  },
+  {
+   "id": "file:extensions/memory-wiki/src/compile.ts",
+   "type": "file",
+   "name": "wiki compiler",
+   "summary": "Compiles the vault, computes claim health, and renders dashboards including contradictions and low-confidence claims.",
+   "tags": [
+    "wiki",
+    "compile",
+    "dashboards"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-wiki/src/compile.ts",
+   "lineRange": [
+    128,
+    182
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/memory-schema.ts",
+   "type": "file",
+   "name": "memory index schema setup",
+   "summary": "ensureMemoryIndexSchema builds canonical+derived tables, migrates sources identity, installs revision triggers, provenance/recall tables, STRICT migration, and FTS availability.",
+   "tags": [
+    "schema",
+    "sqlite",
+    "migration"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema.ts",
+   "lineRange": [
+    237,
+    435
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "type": "file",
+   "name": "canonical schema SQL",
+   "summary": "Defines memory_index_chunks, memory_index_sources, memory_embedding_cache, memory_index_state STRICT schemas and the rebuild-safe derived-table ordering.",
+   "tags": [
+    "schema",
+    "sqlite",
+    "tables"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "lineRange": [
+    16,
+    97
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/memory-schema-fts.ts",
+   "type": "file",
+   "name": "FTS5 schema",
+   "summary": "Creates/validates memory_index_chunks_fts and memory_index_paths_fts virtual tables, triggers, and rebuilds with unicode61/trigram tokenizers.",
+   "tags": [
+    "schema",
+    "fts",
+    "sqlite"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-fts.ts",
+   "lineRange": [
+    30,
+    333
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/memory-schema-provenance.ts",
+   "type": "file",
+   "name": "provenance schema",
+   "summary": "memory_index_chunk_provenance table (origin_class/session_kind/observed_at/supersedes_key) with FK to chunks and untrusted/unknown backfill.",
+   "tags": [
+    "schema",
+    "provenance"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-provenance.ts",
+   "lineRange": [
+    7,
+    65
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/memory-schema-recall.ts",
+   "type": "file",
+   "name": "recall metadata schema",
+   "summary": "memory_index_chunk_recall_metadata table (importance CHECK 1..10, triggers, project_key) and migration out of legacy chunk columns.",
+   "tags": [
+    "schema",
+    "recall",
+    "migration"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-recall.ts",
+   "lineRange": [
+    7,
+    86
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/session-files.ts",
+   "type": "file",
+   "name": "session file projection",
+   "summary": "buildSessionEntry projects transcripts into content/lines/timestamps/lineProvenance, drops heartbeat/recalled-memory/cron/dreaming-narrative turns, and hashes a snapshot.",
+   "tags": [
+    "sessions",
+    "transcript",
+    "provenance"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/memory-host-sdk/src/host/session-files.ts",
+   "lineRange": [
+    679,
+    841
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/session-provenance.ts",
+   "type": "file",
+   "name": "message origin classifier",
+   "summary": "classifySessionMessageOrigin maps user/assistant messages (+turnOrigin, turnTainted, senderIsOwner, internal_system) to owner/agent/untrusted/system.",
+   "tags": [
+    "provenance",
+    "classify"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/session-provenance.ts",
+   "lineRange": [
+    4,
+    24
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/curated-annotations.ts",
+   "type": "file",
+   "name": "curated annotation parsing",
+   "summary": "extractCuratedEntryRecallMetadata parses trigger/importance/project comments into recall metadata; normalizeProjectAnnotationKey validates keys.",
+   "tags": [
+    "annotations",
+    "curated",
+    "metadata"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/memory-host-sdk/src/host/curated-annotations.ts",
+   "lineRange": [
+    37,
+    160
+   ]
+  },
+  {
+   "id": "file:packages/memory-host-sdk/src/host/types.ts",
+   "type": "file",
+   "name": "memory host types",
+   "summary": "Shared contracts: MemoryOriginClass, MemorySessionKind, MemoryEntryProvenance, MemorySearchResult, and isMemoryOriginEligibleForAutomaticInjection.",
+   "tags": [
+    "types",
+    "contract",
+    "provenance"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/types.ts",
+   "lineRange": [
+    4,
+    50
+   ]
+  },
+  {
+   "id": "file:src/plugins/memory-state.ts",
+   "type": "file",
+   "name": "memory plugin state",
+   "summary": "prepareMemoryPromptSection/buildMemoryPromptSection build a run-scoped immutable memory prompt snapshot; getMemoryRuntime/getMemoryProviderRuntime and flush-plan resolution expose the selected capability.",
+   "tags": [
+    "plugin",
+    "prompt",
+    "state"
+   ],
+   "complexity": "complex",
+   "filePath": "src/plugins/memory-state.ts",
+   "lineRange": [
+    271,
+    502
+   ]
+  },
+  {
+   "id": "file:src/plugins/memory-provider-adapter.ts",
+   "type": "file",
+   "name": "memory provider adapter",
+   "summary": "Adapts the legacy MemorySearchManager to MemoryProviderHandle; convert() attaches automaticRecall {eligible,projectKeys,triggers,importance} used by lane-1 injection.",
+   "tags": [
+    "adapter",
+    "provider",
+    "recall"
+   ],
+   "complexity": "complex",
+   "filePath": "src/plugins/memory-provider-adapter.ts",
+   "lineRange": [
+    197,
+    320
+   ]
+  },
+  {
+   "id": "file:src/context-engine/delegate.ts",
+   "type": "file",
+   "name": "context engine delegates",
+   "summary": "delegateCompactionToRuntime bridges to built-in compaction; buildMemorySystemPromptAddition/prepareMemorySystemPromptAddition expose the memory prompt to plugin engines.",
+   "tags": [
+    "context-engine",
+    "delegate",
+    "prompt"
+   ],
+   "complexity": "complex",
+   "filePath": "src/context-engine/delegate.ts",
+   "lineRange": [
+    66,
+    181
+   ]
+  },
+  {
+   "id": "file:src/context-engine/legacy.ts",
+   "type": "file",
+   "name": "legacy context engine",
+   "summary": "LegacyContextEngine implements ContextEngine as ingest no-op / assemble pass-through / compact=delegateCompactionToRuntime (the default engine).",
+   "tags": [
+    "context-engine",
+    "legacy"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/context-engine/legacy.ts",
+   "lineRange": [
+    14,
+    37
+   ]
+  },
+  {
+   "id": "file:src/agents/project-memory-bootstrap.ts",
+   "type": "file",
+   "name": "project memory bootstrap",
+   "summary": "filterProjectScopedCuratedContextFiles prunes curated files by active project keys; buildProjectMemoryBootstrap renders a budgeted Project Memory block.",
+   "tags": [
+    "project",
+    "bootstrap",
+    "prompt"
+   ],
+   "complexity": "complex",
+   "filePath": "src/agents/project-memory-bootstrap.ts",
+   "lineRange": [
+    35,
+    143
+   ]
+  },
+  {
+   "id": "file:src/agents/tools/sessions-search-tool.ts",
+   "type": "file",
+   "name": "sessions_search tool",
+   "summary": "createSessionsSearchTool searches visible past-session transcripts via the Gateway and returns sessionKey/messageId/sessionId for sessions_history.",
+   "tags": [
+    "sessions",
+    "search",
+    "tool"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/agents/tools/sessions-search-tool.ts",
+   "lineRange": [
+    297,
+    330
+   ]
+  },
+  {
+   "id": "file:src/agents/embedded-agent-helpers/bootstrap.ts",
+   "type": "file",
+   "name": "agent bootstrap files",
+   "summary": "Builds bootstrap context files (AGENTS/SOUL/MEMORY/USER) with per-file budget limits and a fixed USER.md cap.",
+   "tags": [
+    "bootstrap",
+    "context",
+    "files"
+   ],
+   "complexity": "complex",
+   "filePath": "src/agents/embedded-agent-helpers/bootstrap.ts",
+   "lineRange": [
+    90,
+    455
+   ]
+  },
+  {
+   "id": "document:docs/concepts/memory-architecture.md",
+   "type": "document",
+   "name": "Memory architecture doc",
+   "summary": "End-to-end architecture: tiers, provenance, dreaming gates, recall lanes, project scope, security model, config map.",
+   "tags": [
+    "docs",
+    "architecture"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/concepts/memory-architecture.md"
+  },
+  {
+   "id": "document:docs/concepts/memory-search.md",
+   "type": "document",
+   "name": "Memory search doc",
+   "summary": "Hybrid search pipeline, providers, recency decay, MMR, session memory search, visibility.",
+   "tags": [
+    "docs",
+    "search"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/concepts/memory-search.md"
+  },
+  {
+   "id": "document:docs/concepts/context-engine.md",
+   "type": "document",
+   "name": "Context engine doc",
+   "summary": "ContextEngine lifecycle interface, legacy vs plugin engines, ownsCompaction, host requirements, failure isolation.",
+   "tags": [
+    "docs",
+    "context-engine"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/concepts/context-engine.md"
+  },
+  {
+   "id": "document:docs/concepts/memory-provenance.md",
+   "type": "document",
+   "name": "Provenance and deletion doc",
+   "summary": "Lineage records, admission policy, memory forget purge semantics and boundaries.",
+   "tags": [
+    "docs",
+    "provenance"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/concepts/memory-provenance.md"
+  },
+  {
+   "id": "document:docs/concepts/memory-builtin.md",
+   "type": "document",
+   "name": "Builtin engine doc",
+   "summary": "SQLite backend: FTS5/keyword/vector/hybrid, index location, chunking, maintenance, QMD migration.",
+   "tags": [
+    "docs",
+    "builtin"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/concepts/memory-builtin.md"
+  },
+  {
+   "id": "document:docs/cli/memory.md",
+   "type": "document",
+   "name": "memory CLI doc",
+   "summary": "Command reference for status/index/reset/search/forget/promote/rem-backfill/session-backfill.",
+   "tags": [
+    "docs",
+    "cli"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/cli/memory.md"
+  },
+  {
+   "id": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "table",
+   "name": "memory_index_chunks",
+   "summary": "STRICT table of indexed chunks (id,path,source,start_line,end_line,hash,model,text,embedding BLOB,updated_at).",
+   "tags": [
+    "sqlite",
+    "table"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-base.ts"
+  },
+  {
+   "id": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_sources",
+   "type": "table",
+   "name": "memory_index_sources",
+   "summary": "STRICT source rows (id,path,source,hash,mtime,size, UNIQUE(path,source)) with revision triggers.",
+   "tags": [
+    "sqlite",
+    "table"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-base.ts"
+  },
+  {
+   "id": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_embedding_cache",
+   "type": "table",
+   "name": "memory_embedding_cache",
+   "summary": "STRICT embedding cache keyed by (provider,model,provider_key,hash) with dims and updated_at.",
+   "tags": [
+    "sqlite",
+    "table"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-base.ts"
+  },
+  {
+   "id": "table:packages/memory-host-sdk/src/host/memory-schema-provenance.ts:memory_index_chunk_provenance",
+   "type": "table",
+   "name": "memory_index_chunk_provenance",
+   "summary": "Per-chunk authoritative provenance (origin_class CHECK owner/agent/untrusted/system, session_kind, observed_at, supersedes_key).",
+   "tags": [
+    "sqlite",
+    "provenance"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-provenance.ts"
+  },
+  {
+   "id": "table:packages/memory-host-sdk/src/host/memory-schema-recall.ts:memory_index_chunk_recall_metadata",
+   "type": "table",
+   "name": "memory_index_chunk_recall_metadata",
+   "summary": "Per-chunk recall metadata (importance CHECK 1..10, triggers, project_key) kept out of the canonical chunk table.",
+   "tags": [
+    "sqlite",
+    "recall"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-recall.ts"
+  },
+  {
+   "id": "table:packages/memory-host-sdk/src/host/memory-schema-fts.ts:memory_index_chunks_fts",
+   "type": "table",
+   "name": "memory_index_chunks_fts",
+   "summary": "FTS5 virtual table over chunk text using unicode61/trigram tokenizers for BM25 keyword search.",
+   "tags": [
+    "sqlite",
+    "fts"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-fts.ts"
+  },
+  {
+   "id": "table:extensions/memory-core/src/standing-intents-kernel.ts:standing_intents",
+   "type": "table",
+   "name": "standing_intents",
+   "summary": "Per-agent SQLite table of event-conditioned intents with an FTS shadow for keyword matching.",
+   "tags": [
+    "sqlite",
+    "intents"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/standing-intents-kernel.ts"
+  },
+  {
+   "id": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "type": "schema",
+   "name": "memory index STRICT schema",
+   "summary": "buildMemoryIndexStrictSchema composes canonical tables; MEMORY_INDEX_DERIVED_TABLES declares rebuild order.",
+   "tags": [
+    "schema",
+    "sqlite"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema-base.ts"
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "type": "function",
+   "name": "mergeHybridResults",
+   "summary": "Fuses vector and keyword candidates with weights, exact-path tiers, temporal decay, importance, project ranking and MMR.",
+   "tags": [
+    "search",
+    "hybrid"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory/hybrid.ts",
+   "lineRange": [
+    56,
+    259
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/importance.ts:applyImportanceMultiplier",
+   "type": "function",
+   "name": "applyImportanceMultiplier",
+   "summary": "Scales result scores by 0.75+clamp(importance)*0.05 (neutral when null).",
+   "tags": [
+    "ranking",
+    "importance"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/memory/importance.ts",
+   "lineRange": [
+    9,
+    16
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/temporal-decay.ts:applyTemporalDecayToHybridResults",
+   "type": "function",
+   "name": "applyTemporalDecayToHybridResults",
+   "summary": "Exponentially decays dated memory/session results by age with configured half-life; evergreen files untouched.",
+   "tags": [
+    "ranking",
+    "recency"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/temporal-decay.ts",
+   "lineRange": [
+    92,
+    142
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/mmr.ts:applyMMRToHybridResults",
+   "type": "function",
+   "name": "applyMMRToHybridResults",
+   "summary": "Greedy MMR re-ranking with Jaccard token similarity and lambda weighting.",
+   "tags": [
+    "ranking",
+    "mmr"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/mmr.ts",
+   "lineRange": [
+    28,
+    91
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/project-ranking.ts:projectScoreMultiplier",
+   "type": "function",
+   "name": "projectScoreMultiplier",
+   "summary": "Returns 1.15 when all stored project keys are active, 0.9 otherwise, 1 when untagged.",
+   "tags": [
+    "ranking",
+    "project"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/memory/project-ranking.ts",
+   "lineRange": [
+    14,
+    26
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "type": "function",
+   "name": "createMemoryChunkWriter",
+   "summary": "Upserts chunk, recall-metadata, and provenance rows for one published chunk.",
+   "tags": [
+    "index",
+    "write"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "lineRange": [
+    48,
+    135
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/keyword-query.ts:bm25RankToScore",
+   "type": "function",
+   "name": "bm25RankToScore",
+   "summary": "Converts SQLite bm25() rank into a non-negative retrieval score.",
+   "tags": [
+    "fts",
+    "bm25"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/memory/keyword-query.ts",
+   "lineRange": [
+    14,
+    14
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory/search-manager.ts:getMemorySearchManager",
+   "type": "function",
+   "name": "getMemorySearchManager",
+   "summary": "Resolves memory config/workspace access and returns a MemoryIndexManager (or error+debug).",
+   "tags": [
+    "search",
+    "manager"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory/search-manager.ts",
+   "lineRange": [
+    35,
+    60
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory-corpus.ts:searchMemoryCorpusSupplements",
+   "type": "function",
+   "name": "searchMemoryCorpusSupplements",
+   "summary": "Runs registered corpus supplements under a shared deadline and merges their scored results.",
+   "tags": [
+    "corpus",
+    "wiki"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory-corpus.ts",
+   "lineRange": [
+    260,
+    278
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/tools.ts:createMemorySearchTool",
+   "type": "function",
+   "name": "createMemorySearchTool",
+   "summary": "Executes memory_search with corpus/deadline handling, wiki blending, citations and recall recording.",
+   "tags": [
+    "tools",
+    "search"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/tools.ts",
+   "lineRange": [
+    226,
+    562
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory-tool-contract.ts:buildMemoryPromptSection",
+   "type": "function",
+   "name": "buildMemoryPromptSection",
+   "summary": "Renders the Memory Recall prompt guidance lines based on available tools and citation mode.",
+   "tags": [
+    "prompt",
+    "contract"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory-tool-contract.ts",
+   "lineRange": [
+    131,
+    168
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/session-ingestion.ts:scanSessionIngestionSource",
+   "type": "function",
+   "name": "scanSessionIngestionSource",
+   "summary": "Scans one transcript source into bounded, provenance-stamped, deduped candidates for a day.",
+   "tags": [
+    "ingestion",
+    "scan"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/session-ingestion.ts",
+   "lineRange": [
+    311,
+    458
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/session-ingestion.ts:appendSessionCorpusLines",
+   "type": "function",
+   "name": "appendSessionCorpusLines",
+   "summary": "Appends rendered ingest snippets to memory/.dreams/session-corpus/<day>.txt and returns per-line results.",
+   "tags": [
+    "ingestion",
+    "write"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/session-ingestion.ts",
+   "lineRange": [
+    472,
+    501
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/memory-entry-origins.ts:recordMemoryEntryOrigins",
+   "type": "function",
+   "name": "recordMemoryEntryOrigins",
+   "summary": "Records entry-to-session origin rows in the agent SQLite database via the CPU worker.",
+   "tags": [
+    "provenance",
+    "lineage"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/memory-entry-origins.ts",
+   "lineRange": [
+    120,
+    142
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/short-term-promotion.ts:rankShortTermPromotionCandidates",
+   "type": "function",
+   "name": "rankShortTermPromotionCandidates",
+   "summary": "Scores staged recall entries with weighted signals and returns sorted promotion candidates.",
+   "tags": [
+    "dreaming",
+    "ranking"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/short-term-promotion.ts",
+   "lineRange": [
+    88,
+    227
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/dreaming-consolidation-candidates.ts:isPromotionOriginBlocked",
+   "type": "function",
+   "name": "isPromotionOriginBlocked",
+   "summary": "Structurally blocks untrusted/system provenance from promotion before any prompt.",
+   "tags": [
+    "dreaming",
+    "gate"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/memory-core/src/dreaming-consolidation-candidates.ts",
+   "lineRange": [
+    11,
+    17
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/flush-plan.ts:buildMemoryFlushPlan",
+   "type": "function",
+   "name": "buildMemoryFlushPlan",
+   "summary": "Builds the pre-compaction flush plan (prompt, systemPrompt, relativePath, thresholds).",
+   "tags": [
+    "flush",
+    "compaction"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/flush-plan.ts",
+   "lineRange": [
+    63,
+    108
+   ]
+  },
+  {
+   "id": "function:extensions/memory-core/src/standing-intents.ts:matchStandingIntents",
+   "type": "function",
+   "name": "matchStandingIntents",
+   "summary": "Deterministically prefiltered keyword+scope matching of armed intents against an inbound prompt.",
+   "tags": [
+    "intents",
+    "match"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-core/src/standing-intents.ts",
+   "lineRange": [
+    145,
+    145
+   ]
+  },
+  {
+   "id": "function:extensions/active-memory/trigger-recall.ts:selectStrongTriggerMatches",
+   "type": "function",
+   "name": "selectStrongTriggerMatches",
+   "summary": "Scores stored trigger phrases against the message and returns top strong trusted matches.",
+   "tags": [
+    "trigger",
+    "recall"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/active-memory/trigger-recall.ts",
+   "lineRange": [
+    84,
+    104
+   ]
+  },
+  {
+   "id": "function:extensions/active-memory/escalation.ts:resolveRecallEscalationDecision",
+   "type": "function",
+   "name": "resolveRecallEscalationDecision",
+   "summary": "Decides whether lane-2 recall runs given mode, recall intent, and lane-1 hit strength.",
+   "tags": [
+    "escalation",
+    "policy"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/active-memory/escalation.ts",
+   "lineRange": [
+    82,
+    83
+   ]
+  },
+  {
+   "id": "function:extensions/memory-wiki/src/tool.ts:createWikiSearchTool",
+   "type": "function",
+   "name": "createWikiSearchTool",
+   "summary": "wiki_search tool: searches wiki pages and optionally the active memory corpus by title/path/id/body.",
+   "tags": [
+    "wiki",
+    "search"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/memory-wiki/src/tool.ts",
+   "lineRange": [
+    141,
+    200
+   ]
+  },
+  {
+   "id": "function:packages/memory-host-sdk/src/host/memory-schema.ts:ensureMemoryIndexSchema",
+   "type": "function",
+   "name": "ensureMemoryIndexSchema",
+   "summary": "Creates/migrates the full memory index schema and returns FTS availability.",
+   "tags": [
+    "schema",
+    "migration"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/memory-host-sdk/src/host/memory-schema.ts",
+   "lineRange": [
+    322,
+    435
+   ]
+  },
+  {
+   "id": "function:packages/memory-host-sdk/src/host/session-provenance.ts:classifySessionMessageOrigin",
+   "type": "function",
+   "name": "classifySessionMessageOrigin",
+   "summary": "Assigns the authoritative origin class to a transcript message.",
+   "tags": [
+    "provenance",
+    "classify"
+   ],
+   "complexity": "simple",
+   "filePath": "packages/memory-host-sdk/src/host/session-provenance.ts",
+   "lineRange": [
+    4,
+    24
+   ]
+  },
+  {
+   "id": "function:packages/memory-host-sdk/src/host/curated-annotations.ts:extractCuratedEntryRecallMetadata",
+   "type": "function",
+   "name": "extractCuratedEntryRecallMetadata",
+   "summary": "Parses trigger/importance/project annotations into neutral-or-valued recall metadata.",
+   "tags": [
+    "annotations",
+    "parse"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/memory-host-sdk/src/host/curated-annotations.ts",
+   "lineRange": [
+    114,
+    159
+   ]
+  },
+  {
+   "id": "function:src/plugins/memory-state.ts:prepareMemoryPromptSection",
+   "type": "function",
+   "name": "prepareMemoryPromptSection",
+   "summary": "Builds and freezes the run-scoped memory prompt lines from primary + supplement registrations.",
+   "tags": [
+    "prompt",
+    "state"
+   ],
+   "complexity": "complex",
+   "filePath": "src/plugins/memory-state.ts",
+   "lineRange": [
+    331,
+    360
+   ]
+  },
+  {
+   "id": "function:src/context-engine/delegate.ts:buildMemorySystemPromptAddition",
+   "type": "function",
+   "name": "buildMemorySystemPromptAddition",
+   "summary": "Renders the active memory prompt section into a systemPromptAddition for plugin context engines.",
+   "tags": [
+    "context-engine",
+    "prompt"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/context-engine/delegate.ts",
+   "lineRange": [
+    158,
+    173
+   ]
+  },
+  {
+   "id": "function:src/agents/project-memory-bootstrap.ts:buildProjectMemoryBootstrap",
+   "type": "function",
+   "name": "buildProjectMemoryBootstrap",
+   "summary": "Renders the budgeted project-scoped memory block from eligible curated entries.",
+   "tags": [
+    "project",
+    "bootstrap"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/agents/project-memory-bootstrap.ts",
+   "lineRange": [
+    74,
+    134
+   ]
+  },
+  {
+   "id": "function:src/agents/tools/sessions-search-tool.ts:createSessionsSearchTool",
+   "type": "function",
+   "name": "createSessionsSearchTool",
+   "summary": "Gateway-backed exact transcript search returning anchors for sessions_history.",
+   "tags": [
+    "sessions",
+    "search"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/agents/tools/sessions-search-tool.ts",
+   "lineRange": [
+    297,
+    330
+   ]
+  },
+  {
+   "id": "class:extensions/memory-core/src/memory/manager-search-orchestration.ts:MemorySearchOrchestration",
+   "type": "class",
+   "name": "MemorySearchOrchestration",
+   "summary": "Abstract search class owning keyword+vector retrieval, provider fallback, index identity repair, and hybrid merge.",
+   "tags": [
+    "search",
+    "orchestration"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "lineRange": [
+    45,
+    88
+   ]
+  },
+  {
+   "id": "class:src/context-engine/legacy.ts:LegacyContextEngine",
+   "type": "class",
+   "name": "LegacyContextEngine",
+   "summary": "Default ContextEngine implementation delegating compaction to the built-in runtime.",
+   "tags": [
+    "context-engine",
+    "legacy"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/context-engine/legacy.ts",
+   "lineRange": [
+    14,
+    37
+   ]
+  },
+  {
+   "id": "concept:memory-tiers",
+   "type": "concept",
+   "name": "memory-tiers",
+   "summary": "Five-tier memory model (instructions, curated core, episodic, prospective, review) with distinct write/inject rules.",
+   "tags": [
+    "tiers",
+    "model"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:provenance-origin-class",
+   "type": "concept",
+   "name": "provenance-origin-class",
+   "summary": "SQLite-owned origin_class (owner/agent/untrusted/system) that prose cannot rewrite; gates promotion and injection.",
+   "tags": [
+    "provenance",
+    "security"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:hybrid-retrieval",
+   "type": "concept",
+   "name": "hybrid-retrieval",
+   "summary": "Parallel BM25 FTS + vector similarity fused by weights into one ranked candidate set.",
+   "tags": [
+    "search",
+    "hybrid"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:temporal-decay",
+   "type": "concept",
+   "name": "temporal-decay",
+   "summary": "30-day half-life exponential decay for dated notes; curated files evergreen.",
+   "tags": [
+    "recency",
+    "ranking"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:importance-ranking",
+   "type": "concept",
+   "name": "importance-ranking",
+   "summary": "Write-time importance (1-10) multiplier so importance scoring needs no query-time model call.",
+   "tags": [
+    "ranking",
+    "importance"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:mmr-diversity",
+   "type": "concept",
+   "name": "mmr-diversity",
+   "summary": "Maximal Marginal Relevance re-ranking to reduce near-duplicate snippets.",
+   "tags": [
+    "ranking",
+    "diversity"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:trigger-recall",
+   "type": "concept",
+   "name": "trigger-recall",
+   "summary": "Lane-1 deterministic lexical+vector prefilter over stored trigger phrases injecting up to 3 hidden entries at >=0.65.",
+   "tags": [
+    "recall",
+    "trigger"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:recall-lanes",
+   "type": "concept",
+   "name": "recall-lanes",
+   "summary": "Two-lane recall: always-on deterministic lane-1 vs costly lane-2 escalation sub-agent.",
+   "tags": [
+    "recall",
+    "lanes"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:dreaming-consolidation",
+   "type": "concept",
+   "name": "dreaming-consolidation",
+   "summary": "Background sleep-time sweep (light/REM/deep) that merges and supersedes into MEMORY.md with DREAMS review.",
+   "tags": [
+    "dreaming",
+    "consolidation"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:promotion-gates",
+   "type": "concept",
+   "name": "promotion-gates",
+   "summary": "Deterministic threshold + provenance exclusion before any consolidation prompt.",
+   "tags": [
+    "dreaming",
+    "gate"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:project-scoped-memory",
+   "type": "concept",
+   "name": "project-scoped-memory",
+   "summary": "Repository-identity annotation driving ranking boost and auto-injection eligibility per active project keys.",
+   "tags": [
+    "project",
+    "scope"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:memory-flush",
+   "type": "concept",
+   "name": "memory-flush",
+   "summary": "Silent pre-compaction turn that persists unwritten durable context to a daily note.",
+   "tags": [
+    "flush",
+    "compaction"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:context-engine-legacy",
+   "type": "concept",
+   "name": "context-engine-legacy",
+   "summary": "Built-in context engine: ingest no-op, assemble pass-through, compact delegate.",
+   "tags": [
+    "context-engine"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:active-memory-escalation",
+   "type": "concept",
+   "name": "active-memory-escalation",
+   "summary": "Blocking recall sub-agent run only on recall-intent turns with no lane-1 strong hit (mode escalate/always/off).",
+   "tags": [
+    "active-memory",
+    "escalation"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:session-vs-memory-search",
+   "type": "concept",
+   "name": "session-vs-memory-search",
+   "summary": "memory_search returns session snippets as references; sessions_search/sessions_history give exact bounded excerpts.",
+   "tags": [
+    "search",
+    "sessions"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:multi-user-scoping",
+   "type": "concept",
+   "name": "multi-user-scoping",
+   "summary": "Per-agent stores plus tools.sessions.visibility/agentToAgent governing cross-agent transcript hits.",
+   "tags": [
+    "multiuser",
+    "scope"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:memory-wiki",
+   "type": "concept",
+   "name": "memory-wiki",
+   "summary": "Compiled claims/evidence wiki vault layered beside the active memory plugin (not a replacement).",
+   "tags": [
+    "wiki",
+    "knowledge"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:honcho-external-provider",
+   "type": "concept",
+   "name": "honcho-external-provider",
+   "summary": "External plugin persisting turns to a service, building user/agent models, injecting on before_prompt_build.",
+   "tags": [
+    "external",
+    "provider"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:memory-forget-lineage",
+   "type": "concept",
+   "name": "memory-forget-lineage",
+   "summary": "Entry-origin + promotion-marker lineage enabling selective purge and permanent forgotten-session exclusion.",
+   "tags": [
+    "forget",
+    "lineage"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:standing-intents",
+   "type": "concept",
+   "name": "standing-intents",
+   "summary": "Prospective memory compiled out of the model into SQLite intents with deterministic prefilter injection.",
+   "tags": [
+    "intents",
+    "prospective"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "module:memory-core",
+   "type": "module",
+   "name": "memory-core",
+   "summary": "Memory Core plugin: file-backed search tools, index, dreaming, CLI, provenance and forget.",
+   "tags": [
+    "module",
+    "memory"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:memory-host-sdk",
+   "type": "module",
+   "name": "memory-host-sdk",
+   "summary": "Shared memory host contracts, SQLite schema, embeddings adapters, and session projection.",
+   "tags": [
+    "module",
+    "sdk"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:context-engine",
+   "type": "module",
+   "name": "context-engine",
+   "summary": "Context engine registry and delegates controlling assembly/compaction/prompt injection.",
+   "tags": [
+    "module",
+    "context-engine"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "service:active-memory",
+   "type": "service",
+   "name": "active-memory",
+   "summary": "Deep-recall lane plugin: trigger recall + escalation sub-agent + private transcript recall.",
+   "tags": [
+    "service",
+    "active-memory"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "service:memory-wiki",
+   "type": "service",
+   "name": "memory-wiki",
+   "summary": "Knowledge-vault plugin: compiled wiki, claims, dashboards, wiki tools.",
+   "tags": [
+    "service",
+    "wiki"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "pipeline:memory-write-pipeline",
+   "type": "pipeline",
+   "name": "memory write pipeline",
+   "summary": "conversation -> extraction (flush/ingestion/annotations) -> store (files+SQLite) -> retrieval (hybrid) -> prompt injection (bootstrap/trigger/escalation), with dreaming promotion feedback.",
+   "tags": [
+    "pipeline",
+    "memory"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "flow:recall-pipeline",
+   "type": "flow",
+   "name": "recall pipeline",
+   "summary": "Query -> embed+tokenize -> vector+BM25 -> weighted merge -> decay/importance/project -> MMR -> top results -> tool/citation injection.",
+   "tags": [
+    "flow",
+    "recall"
+   ],
+   "complexity": "complex"
+  }
+ ],
+ "edges": [
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/tools.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/memory-tool-contract.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/session-ingestion.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/memory-entry-origins.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/short-term-promotion.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/dreaming.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/dreaming-consolidation-candidates.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/flush-plan.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/memory-corpus.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/session-search-visibility.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/standing-intents.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-core",
+   "target": "file:extensions/memory-core/src/standing-intents-kernel.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/memory-schema.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/memory-schema-fts.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/memory-schema-provenance.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/memory-schema-recall.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/session-files.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/session-provenance.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/curated-annotations.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:memory-host-sdk",
+   "target": "file:packages/memory-host-sdk/src/host/types.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:context-engine",
+   "target": "file:src/context-engine/delegate.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:context-engine",
+   "target": "file:src/context-engine/legacy.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:active-memory",
+   "target": "file:extensions/active-memory/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:active-memory",
+   "target": "file:extensions/active-memory/trigger-recall.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:active-memory",
+   "target": "file:extensions/active-memory/escalation.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:memory-wiki",
+   "target": "file:extensions/memory-wiki/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:memory-wiki",
+   "target": "file:extensions/memory-wiki/src/tool.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:memory-wiki",
+   "target": "file:extensions/memory-wiki/src/compile.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "target": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/importance.ts",
+   "target": "function:extensions/memory-core/src/memory/importance.ts:applyImportanceMultiplier",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/temporal-decay.ts",
+   "target": "function:extensions/memory-core/src/memory/temporal-decay.ts:applyTemporalDecayToHybridResults",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/mmr.ts",
+   "target": "function:extensions/memory-core/src/memory/mmr.ts:applyMMRToHybridResults",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/project-ranking.ts",
+   "target": "function:extensions/memory-core/src/memory/project-ranking.ts:projectScoreMultiplier",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "target": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/keyword-query.ts",
+   "target": "function:extensions/memory-core/src/memory/keyword-query.ts:bm25RankToScore",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/search-manager.ts",
+   "target": "function:extensions/memory-core/src/memory/search-manager.ts:getMemorySearchManager",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory-corpus.ts",
+   "target": "function:extensions/memory-core/src/memory-corpus.ts:searchMemoryCorpusSupplements",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/tools.ts",
+   "target": "function:extensions/memory-core/src/tools.ts:createMemorySearchTool",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory-tool-contract.ts",
+   "target": "function:extensions/memory-core/src/memory-tool-contract.ts:buildMemoryPromptSection",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/session-ingestion.ts",
+   "target": "function:extensions/memory-core/src/session-ingestion.ts:scanSessionIngestionSource",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/session-ingestion.ts",
+   "target": "function:extensions/memory-core/src/session-ingestion.ts:appendSessionCorpusLines",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory-entry-origins.ts",
+   "target": "function:extensions/memory-core/src/memory-entry-origins.ts:recordMemoryEntryOrigins",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/short-term-promotion.ts",
+   "target": "function:extensions/memory-core/src/short-term-promotion.ts:rankShortTermPromotionCandidates",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/dreaming-consolidation-candidates.ts",
+   "target": "function:extensions/memory-core/src/dreaming-consolidation-candidates.ts:isPromotionOriginBlocked",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/flush-plan.ts",
+   "target": "function:extensions/memory-core/src/flush-plan.ts:buildMemoryFlushPlan",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/standing-intents.ts",
+   "target": "function:extensions/memory-core/src/standing-intents.ts:matchStandingIntents",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/active-memory/trigger-recall.ts",
+   "target": "function:extensions/active-memory/trigger-recall.ts:selectStrongTriggerMatches",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/active-memory/escalation.ts",
+   "target": "function:extensions/active-memory/escalation.ts:resolveRecallEscalationDecision",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-wiki/src/tool.ts",
+   "target": "function:extensions/memory-wiki/src/tool.ts:createWikiSearchTool",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema.ts",
+   "target": "function:packages/memory-host-sdk/src/host/memory-schema.ts:ensureMemoryIndexSchema",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/session-provenance.ts",
+   "target": "function:packages/memory-host-sdk/src/host/session-provenance.ts:classifySessionMessageOrigin",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/curated-annotations.ts",
+   "target": "function:packages/memory-host-sdk/src/host/curated-annotations.ts:extractCuratedEntryRecallMetadata",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/plugins/memory-state.ts",
+   "target": "function:src/plugins/memory-state.ts:prepareMemoryPromptSection",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/context-engine/delegate.ts",
+   "target": "function:src/context-engine/delegate.ts:buildMemorySystemPromptAddition",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/agents/project-memory-bootstrap.ts",
+   "target": "function:src/agents/project-memory-bootstrap.ts:buildProjectMemoryBootstrap",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/agents/tools/sessions-search-tool.ts",
+   "target": "function:src/agents/tools/sessions-search-tool.ts:createSessionsSearchTool",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "class:extensions/memory-core/src/memory/manager-search-orchestration.ts:MemorySearchOrchestration",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/context-engine/legacy.ts",
+   "target": "class:src/context-engine/legacy.ts:LegacyContextEngine",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_sources",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_embedding_cache",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-provenance.ts:memory_index_chunk_provenance",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-recall.ts:memory_index_chunk_recall_metadata",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema.ts",
+   "target": "schema:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-fts.ts:memory_index_chunks_fts",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema-base.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema-provenance.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-provenance.ts:memory_index_chunk_provenance",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema-recall.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-recall.ts:memory_index_chunk_recall_metadata",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema-fts.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-fts.ts:memory_index_chunks_fts",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/src/standing-intents-kernel.ts",
+   "target": "table:extensions/memory-core/src/standing-intents-kernel.ts:standing_intents",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/index.ts",
+   "target": "file:extensions/memory-core/src/tools.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/index.ts",
+   "target": "file:extensions/memory-core/src/memory-tool-contract.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "file:extensions/memory-core/src/memory/importance.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "file:extensions/memory-core/src/memory/temporal-decay.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "file:extensions/memory-core/src/memory/project-ranking.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "file:extensions/memory-core/src/memory/manager-search.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "target": "file:extensions/memory-core/src/memory/mmr.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "target": "file:extensions/memory-core/src/memory/importance.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "target": "file:extensions/memory-core/src/memory/temporal-decay.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "target": "file:extensions/memory-core/src/memory/project-ranking.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-source-index-kernel.ts",
+   "target": "file:extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search.ts",
+   "target": "file:extensions/memory-core/src/memory/keyword-query.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "target": "file:packages/memory-host-sdk/src/host/types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/session-ingestion.ts",
+   "target": "file:packages/memory-host-sdk/src/host/session-files.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/active-memory/index.ts",
+   "target": "file:extensions/active-memory/trigger-recall.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/active-memory/index.ts",
+   "target": "file:extensions/active-memory/escalation.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/active-memory/trigger-recall.ts",
+   "target": "file:src/plugins/memory-state.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-wiki/index.ts",
+   "target": "file:extensions/memory-wiki/src/tool.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-wiki/src/tool.ts",
+   "target": "file:extensions/memory-core/src/memory-corpus.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/plugins/memory-provider-adapter.ts",
+   "target": "file:extensions/memory-core/src/memory/search-manager.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/context-engine/delegate.ts",
+   "target": "file:src/plugins/memory-state.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/agents/project-memory-bootstrap.ts",
+   "target": "file:packages/memory-host-sdk/src/host/types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/memory-core/src/tools.ts",
+   "target": "function:extensions/memory-core/src/tools.ts:createMemorySearchTool",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/index.ts",
+   "target": "function:extensions/memory-core/src/memory-tool-contract.ts:buildMemoryPromptSection",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/memory-core/src/memory/manager-search-orchestration.ts:MemorySearchOrchestration",
+   "target": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "target": "function:extensions/memory-core/src/memory/importance.ts:applyImportanceMultiplier",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "target": "function:extensions/memory-core/src/memory/temporal-decay.ts:applyTemporalDecayToHybridResults",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "target": "function:extensions/memory-core/src/memory/mmr.ts:applyMMRToHybridResults",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "target": "function:extensions/memory-core/src/memory/project-ranking.ts:projectScoreMultiplier",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search.ts",
+   "target": "function:extensions/memory-core/src/memory/keyword-query.ts:bm25RankToScore",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-source-index-kernel.ts",
+   "target": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/src/dreaming.ts",
+   "target": "function:extensions/memory-core/src/short-term-promotion.ts:rankShortTermPromotionCandidates",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/short-term-promotion.ts:rankShortTermPromotionCandidates",
+   "target": "function:extensions/memory-core/src/dreaming-consolidation-candidates.ts:isPromotionOriginBlocked",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/src/tools.ts",
+   "target": "function:extensions/memory-core/src/memory-corpus.ts:searchMemoryCorpusSupplements",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/active-memory/index.ts",
+   "target": "function:extensions/active-memory/trigger-recall.ts:selectStrongTriggerMatches",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/active-memory/index.ts",
+   "target": "function:extensions/active-memory/escalation.ts:resolveRecallEscalationDecision",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/context-engine/delegate.ts",
+   "target": "function:src/context-engine/delegate.ts:buildMemorySystemPromptAddition",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/context-engine/legacy.ts",
+   "target": "function:src/context-engine/delegate.ts:buildMemorySystemPromptAddition",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/plugins/memory-state.ts",
+   "target": "function:src/plugins/memory-state.ts:prepareMemoryPromptSection",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/agents/project-memory-bootstrap.ts",
+   "target": "function:src/agents/project-memory-bootstrap.ts:buildProjectMemoryBootstrap",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-wiki/index.ts",
+   "target": "function:extensions/memory-wiki/src/tool.ts:createWikiSearchTool",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/memory-core/src/session-ingestion.ts",
+   "target": "function:packages/memory-host-sdk/src/host/session-provenance.ts:classifySessionMessageOrigin",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/session-ingestion.ts:scanSessionIngestionSource",
+   "target": "function:extensions/memory-core/src/session-ingestion.ts:appendSessionCorpusLines",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-provenance.ts:memory_index_chunk_provenance",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-recall.ts:memory_index_chunk_recall_metadata",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-fts.ts:memory_index_chunks_fts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/session-ingestion.ts:appendSessionCorpusLines",
+   "target": "file:extensions/memory-core/src/session-ingestion.ts",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory-entry-origins.ts:recordMemoryEntryOrigins",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_sources",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/memory/search-manager.ts:getMemorySearchManager",
+   "target": "file:extensions/memory-core/src/memory/manager-search-orchestration.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/standing-intents-kernel.ts",
+   "target": "table:extensions/memory-core/src/standing-intents-kernel.ts:standing_intents",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/tools.ts:createMemorySearchTool",
+   "target": "file:extensions/memory-core/src/memory/search-manager.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/standing-intents.ts",
+   "target": "table:extensions/memory-core/src/standing-intents-kernel.ts:standing_intents",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/memory-core/src/short-term-promotion.ts:rankShortTermPromotionCandidates",
+   "target": "table:packages/memory-host-sdk/src/host/memory-schema-base.ts:memory_index_chunks",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/index.ts",
+   "target": "module:memory-host-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/manager-chunk-writer.ts",
+   "target": "module:memory-host-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/memory-wiki/index.ts",
+   "target": "module:memory-core",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/active-memory/index.ts",
+   "target": "module:memory-core",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/context-engine/delegate.ts",
+   "target": "module:context-engine",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/memory-core/index.ts",
+   "target": "concept:memory-tiers",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/memory-core/src/flush-plan.ts",
+   "target": "concept:memory-flush",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/memory-core/src/short-term-promotion.ts",
+   "target": "concept:promotion-gates",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "target": "concept:hybrid-retrieval",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/temporal-decay.ts",
+   "target": "concept:temporal-decay",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/importance.ts",
+   "target": "concept:importance-ranking",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/mmr.ts",
+   "target": "concept:mmr-diversity",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory/project-ranking.ts",
+   "target": "concept:project-scoped-memory",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:packages/memory-host-sdk/src/host/memory-schema-provenance.ts",
+   "target": "concept:provenance-origin-class",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/dreaming.ts",
+   "target": "concept:dreaming-consolidation",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/dreaming-consolidation-candidates.ts",
+   "target": "concept:promotion-gates",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/active-memory/trigger-recall.ts",
+   "target": "concept:trigger-recall",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/active-memory/index.ts",
+   "target": "concept:recall-lanes",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/active-memory/escalation.ts",
+   "target": "concept:active-memory-escalation",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/session-search-visibility.ts",
+   "target": "concept:multi-user-scoping",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/memory-entry-origins.ts",
+   "target": "concept:memory-forget-lineage",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-wiki/index.ts",
+   "target": "concept:memory-wiki",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/memory-core/src/standing-intents.ts",
+   "target": "concept:standing-intents",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/context-engine/legacy.ts",
+   "target": "concept:context-engine-legacy",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/agents/tools/sessions-search-tool.ts",
+   "target": "concept:session-vs-memory-search",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:memory-tiers",
+   "target": "pipeline:memory-write-pipeline",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:honcho-external-provider",
+   "target": "concept:memory-tiers",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:memory-write-pipeline",
+   "target": "function:extensions/memory-core/src/session-ingestion.ts:scanSessionIngestionSource",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "pipeline:memory-write-pipeline",
+   "target": "function:extensions/memory-core/src/memory/manager-chunk-writer.ts:createMemoryChunkWriter",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "pipeline:memory-write-pipeline",
+   "target": "function:extensions/memory-core/src/memory/hybrid.ts:mergeHybridResults",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "pipeline:memory-write-pipeline",
+   "target": "function:src/context-engine/delegate.ts:buildMemorySystemPromptAddition",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "pipeline:memory-write-pipeline",
+   "target": "concept:dreaming-consolidation",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "flow:recall-pipeline",
+   "target": "class:extensions/memory-core/src/memory/manager-search-orchestration.ts:MemorySearchOrchestration",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "flow:recall-pipeline",
+   "target": "concept:temporal-decay",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "flow:recall-pipeline",
+   "target": "concept:mmr-diversity",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "document:docs/concepts/memory-architecture.md",
+   "target": "file:extensions/memory-core/src/dreaming.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-architecture.md",
+   "target": "file:extensions/memory-core/src/session-ingestion.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-search.md",
+   "target": "file:extensions/memory-core/src/memory/hybrid.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-search.md",
+   "target": "file:extensions/memory-core/src/memory/temporal-decay.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/context-engine.md",
+   "target": "file:src/context-engine/legacy.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/context-engine.md",
+   "target": "file:src/context-engine/delegate.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-provenance.md",
+   "target": "file:extensions/memory-core/src/memory-entry-origins.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-builtin.md",
+   "target": "file:packages/memory-host-sdk/src/host/memory-schema.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/cli/memory.md",
+   "target": "file:extensions/memory-core/index.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-architecture.md",
+   "target": "concept:provenance-origin-class",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/concepts/memory-search.md",
+   "target": "concept:hybrid-retrieval",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/agents/embedded-agent-helpers/bootstrap.ts",
+   "target": "file:src/agents/project-memory-bootstrap.ts",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/agents/embedded-agent-helpers/bootstrap.ts",
+   "target": "concept:memory-tiers",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  }
+ ]
+}

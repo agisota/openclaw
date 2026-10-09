@@ -1,0 +1,2265 @@
+{
+ "nodes": [
+  {
+   "id": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "type": "file",
+   "name": "Preload bootstrap",
+   "summary": "Exposes window.electronAPI via contextBridge; resolves workspace id/ws port through sendSync, builds RoutedClient + initial WsRpcClient and calls buildClientApi(client, CHANNEL_MAP).",
+   "tags": [
+    "electron",
+    "preload",
+    "contextbridge",
+    "ipc",
+    "routed-client"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/preload/bootstrap.ts",
+   "lineRange": [
+    20,
+    241
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/transport/channel-map.ts",
+   "type": "file",
+   "name": "CHANNEL_MAP method-channel map",
+   "summary": "Single source of truth mapping ElectronAPI method names to RPC_CHANNELS entries via invoke()/listener() helpers; dotted keys become nested namespaces.",
+   "tags": [
+    "ipc",
+    "channels",
+    "typed-contract"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/electron/src/transport/channel-map.ts",
+   "lineRange": [
+    19,
+    1046
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/transport/build-api.ts",
+   "type": "file",
+   "name": "buildClientApi proxy builder",
+   "summary": "Turns a ChannelMap into an ElectronAPI proxy: invoke() awaits client.invoke, listener() subscribes via client.on; re-shapes thrown errors into plain objects so code/data survive contextBridge.",
+   "tags": [
+    "ipc",
+    "proxy",
+    "error-shape"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/electron/src/transport/build-api.ts",
+   "lineRange": [
+    26,
+    85
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/transport/routed-client.ts",
+   "type": "file",
+   "name": "RoutedClient channel router",
+   "summary": "Wraps local + workspace WsRpcClients; LOCAL_ONLY channels go local, everything else to the workspace-owning server; re-subscribes REMOTE_ELIGIBLE listeners on workspace switch (make-before-break) and translates workspace IDs.",
+   "tags": [
+    "transport",
+    "routing",
+    "workspace-switch"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/transport/routed-client.ts",
+   "lineRange": [
+    42,
+    292
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/protocol/channels.ts",
+   "type": "file",
+   "name": "RPC_CHANNELS registry",
+   "summary": "Nested channel-name registry (sessions, tasks, meetings, skills, memory, voice, fabric, \u2026) forming the wire contract for all RPC.",
+   "tags": [
+    "protocol",
+    "channels",
+    "contract"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/protocol/channels.ts",
+   "lineRange": [
+    6,
+    1148
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/protocol/routing.ts",
+   "type": "file",
+   "name": "Channel routing table",
+   "summary": "Exhaustive LOCAL_ONLY_CHANNELS vs REMOTE_ELIGIBLE_CHANNELS classification; an exhaustiveness test fails CI until every new channel is classified.",
+   "tags": [
+    "routing",
+    "local-remote",
+    "ci-gate"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/protocol/routing.ts",
+   "lineRange": [
+    17,
+    1124
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/transport/server.ts",
+   "type": "file",
+   "name": "WsRpcServer",
+   "summary": "WebSocket implementation of RpcServer: attaches ws WebSocketServer to HTTP or HTTPS, validates tokens/cookies on upgrade, enforces per-handler access + native authorization.",
+   "tags": [
+    "transport",
+    "websocket",
+    "server"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/transport/server.ts",
+   "lineRange": [
+    197,
+    900
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/transport/client.ts",
+   "type": "file",
+   "name": "WsRpcClient",
+   "summary": "WebSocket RpcClient with automatic reconnection and exponential backoff; usable in renderer (global WebSocket) and Node (ws lib); emits synthetic __transport:reconnected.",
+   "tags": [
+    "transport",
+    "websocket",
+    "client",
+    "reconnect"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/transport/client.ts",
+   "lineRange": [
+    124,
+    400
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/transport/types.ts",
+   "type": "file",
+   "name": "Transport interface contracts",
+   "summary": "RpcServer/RpcClient/RequestContext/RpcHandlerOptions/EventSink: the shared transport contract for Electron-local and headless hosts.",
+   "tags": [
+    "transport",
+    "contracts",
+    "access-control"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/server-core/src/transport/types.ts",
+   "lineRange": [
+    28,
+    90
+   ]
+  },
+  {
+   "id": "file:rox/packages/server/src/index.ts",
+   "type": "file",
+   "name": "Headless server entry",
+   "summary": "Bun-run standalone Craft Agent server: env contract (CRAFT_SERVER_TOKEN/PORT/TLS/WEBUI_DIR), bootstrapServer, registerCoreRpcHandlers, optional WebUI + messaging workers.",
+   "tags": [
+    "server",
+    "headless",
+    "bun",
+    "entrypoint"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server/src/index.ts",
+   "lineRange": [
+    1,
+    382
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/bootstrap/headless-start.ts",
+   "type": "file",
+   "name": "bootstrapServer",
+   "summary": "Shared startup used by both Electron main and standalone server; constructs WsRpcServer with native authority, declares native event channels and event projectors.",
+   "tags": [
+    "bootstrap",
+    "startup",
+    "transport"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/bootstrap/headless-start.ts",
+   "lineRange": [
+    435,
+    734
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/webui/http-server.ts",
+   "type": "file",
+   "name": "WebUI HTTP handler",
+   "summary": "Serves the browser Control UI from the same RPC host: /login, POST /api/auth, /api/config, /api/config/workspaces, OAuth callback; web-standard handler + node adapter.",
+   "tags": [
+    "webui",
+    "http",
+    "control-ui",
+    "auth"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/webui/http-server.ts",
+   "lineRange": [
+    1,
+    410
+   ]
+  },
+  {
+   "id": "file:rox/apps/webui/src/browser-main.tsx",
+   "type": "file",
+   "name": "Web UI browser entry",
+   "summary": "React root for the browser Control-UI build; renders the app that talks to the RPC server over WebSocket.",
+   "tags": [
+    "webui",
+    "react",
+    "entrypoint"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/webui/src/browser-main.tsx",
+   "lineRange": [
+    1,
+    60
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/agent/omp-agent.ts",
+   "type": "file",
+   "name": "OmpAgent",
+   "summary": "BaseAgent backend that spawns omp --mode rpc (NDJSON stdio): answers extension_ui_request, publishes craft session tools via set_host_tools, maps thinking/tool events, emits omp_turn_anchor for branching.",
+   "tags": [
+    "omp",
+    "runtime",
+    "backend",
+    "stdio"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/agent/omp-agent.ts",
+   "lineRange": [
+    386,
+    2880
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/agent/session-tool-defs.ts",
+   "type": "file",
+   "name": "buildSessionToolDefs",
+   "summary": "Builds the host-tool set published into OMP: session tools (spawn_session/call_llm/browser_tool/mcp__session__*) plus MCP source-proxy defs; loadMode 'essential'.",
+   "tags": [
+    "omp",
+    "host-tools",
+    "session-tools"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/agent/session-tool-defs.ts",
+   "lineRange": [
+    61,
+    107
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/sessions/SessionManager.ts",
+   "type": "file",
+   "name": "SessionManager",
+   "summary": "Owns session lifecycle, OMP process wiring, permission brokering and event fan-out; pushes every session event to RPC_CHANNELS.sessions.EVENT for the workspace.",
+   "tags": [
+    "sessions",
+    "lifecycle",
+    "events"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/sessions/SessionManager.ts",
+   "lineRange": [
+    1628,
+    10788
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/sessions/SessionEventBus.ts",
+   "type": "file",
+   "name": "SessionEventBus",
+   "summary": "Typed in-process pub/sub for session lifecycle events (session.created, prompt.assembled, tool.call, session.complete, workspace.idle, \u2026); SessionManager publishes, learning/analytics consume.",
+   "tags": [
+    "sessions",
+    "events",
+    "pubsub"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/server-core/src/sessions/SessionEventBus.ts",
+   "lineRange": [
+    136,
+    214
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/meetings/repository.ts",
+   "type": "file",
+   "name": "MeetingRepository",
+   "summary": "Persistent meeting store root; createMeetingRepository(rootDir) opens the journal-backed repository.",
+   "tags": [
+    "meetings",
+    "repository",
+    "persistence"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/server-core/src/meetings/repository.ts",
+   "lineRange": [
+    4,
+    60
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/main/meetings/ipc.ts",
+   "type": "file",
+   "name": "Meeting capture IPC",
+   "summary": "Electron main IPC handlers START/PAUSE/STOP/STATUS for meeting capture via MEETING_CAPTURE_IPC and registerMeetingCaptureIpc.",
+   "tags": [
+    "meetings",
+    "ipc",
+    "electron-main"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/electron/src/main/meetings/ipc.ts",
+   "lineRange": [
+    21,
+    79
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/main/meetings/local-store.ts",
+   "type": "file",
+   "name": "LocalMeetingStore",
+   "summary": "Local Electron-side meeting store (audio, transcript state, extraction results) persisted for the desktop capture pipeline.",
+   "tags": [
+    "meetings",
+    "store",
+    "electron-main"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/main/meetings/local-store.ts",
+   "lineRange": [
+    111,
+    400
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/shared/meetings-local.ts",
+   "type": "file",
+   "name": "Meetings local contracts",
+   "summary": "Shared local meeting types + MEETINGS_LOCAL_IPC: LocalMeeting, LocalTranscript, LocalMeetingExtraction, MeetingsLocalApi.",
+   "tags": [
+    "meetings",
+    "types",
+    "ipc"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/shared/meetings-local.ts",
+   "lineRange": [
+    12,
+    247
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/meeting-agents/router.ts",
+   "type": "file",
+   "name": "MeetingJobDispatcher",
+   "summary": "Routes meeting/transcript events to multi-role meeting agents with concurrency limits (MEETING_CONCURRENT_JOBS=2) and priority queueing.",
+   "tags": [
+    "meetings",
+    "agents",
+    "dispatch"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/meeting-agents/router.ts",
+   "lineRange": [
+    23,
+    200
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/meeting-agents/planning.ts",
+   "type": "file",
+   "name": "planMeetingActions",
+   "summary": "Plans meeting action/recipe jobs (slash parsing, recipe binding, follow-up planning) from a meeting profile + source revision.",
+   "tags": [
+    "meetings",
+    "planning",
+    "recipes"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/meeting-agents/planning.ts",
+   "lineRange": [
+    26,
+    140
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/skills/omp-discovery.ts",
+   "type": "file",
+   "name": "OMP skill discovery",
+   "summary": "Scans ~/.omp/agent/skills, ~/.agents/skills and <ws>/.omp/skills with a 60s TTL cache; listOmpSkills de-dupes by slug; OMP skills are read-only in the UI.",
+   "tags": [
+    "skills",
+    "discovery",
+    "omp"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/skills/omp-discovery.ts",
+   "lineRange": [
+    23,
+    148
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/skills/storage.ts",
+   "type": "file",
+   "name": "Skill storage and loading",
+   "summary": "Roots for global/app-managed/project skills (~/.agents/skills, <config>/skills, .agents/skills) and loadAllSkills/loadWorkspaceSkills with cache invalidation.",
+   "tags": [
+    "skills",
+    "storage",
+    "loading"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/skills/storage.ts",
+   "lineRange": [
+    42,
+    391
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/skills/bundled-core.ts",
+   "type": "file",
+   "name": "Skills.lock reader",
+   "summary": "Defines SKILLS_LOCK_FILE and readSkillsLock to parse the pinned pack catalog (slug/origin/commit/license/skills), plus sha/manifest helpers.",
+   "tags": [
+    "skills",
+    "lockfile",
+    "provenance"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/skills/bundled-core.ts",
+   "lineRange": [
+    63,
+    311
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/resources/skills/SKILLS.lock",
+   "type": "file",
+   "name": "SKILLS.lock",
+   "summary": "Pinned offline skill-pack catalog (version 2): each pack's upstream origin, commit, license and skill list.",
+   "tags": [
+    "skills",
+    "pins",
+    "license"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/electron/resources/skills/SKILLS.lock",
+   "lineRange": [
+    1,
+    3391
+   ]
+  },
+  {
+   "id": "file:rox/packages/core/src/platform/identity/store.ts",
+   "type": "file",
+   "name": "IdentityStore",
+   "summary": "Persisted user profile + workspace membership + service-connection state with default profile creation.",
+   "tags": [
+    "identity",
+    "store",
+    "profile"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/core/src/platform/identity/store.ts",
+   "lineRange": [
+    1,
+    200
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/credentials/fabric/broker.ts",
+   "type": "file",
+   "name": "InProcessCredentialBroker",
+   "summary": "Mints lease-scoped credential access from grants: AccessGrant/CredentialLease types, BrokerDenial errors, audit events; backs the connection fabric.",
+   "tags": [
+    "credentials",
+    "broker",
+    "leases",
+    "grants"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/credentials/fabric/broker.ts",
+   "lineRange": [
+    12,
+    100
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/credentials/manager.ts",
+   "type": "file",
+   "name": "CredentialManager",
+   "summary": "Encrypted credential vault manager (headless + desktop), kind classification and getCredentialManager singleton.",
+   "tags": [
+    "credentials",
+    "vault",
+    "manager"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/credentials/manager.ts",
+   "lineRange": [
+    35,
+    981
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/authority/native-authority.ts",
+   "type": "file",
+   "name": "NativeAuthority",
+   "summary": "Server-minted principals/credentials for non-Electron clients: authenticate, authorize(action), permissionFence, messaging bindings, self-profile.",
+   "tags": [
+    "authority",
+    "native",
+    "access-control"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/authority/native-authority.ts",
+   "lineRange": [
+    12,
+    576
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/collaboration/sync-service.ts",
+   "type": "file",
+   "name": "CollaborationSyncService",
+   "summary": "Server-side collaboration sync over the native journal + native authority (workspace sharing/publication).",
+   "tags": [
+    "collaboration",
+    "sync",
+    "server"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/collaboration/sync-service.ts",
+   "lineRange": [
+    17,
+    200
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/main/auto-update.ts",
+   "type": "file",
+   "name": "Auto-update",
+   "summary": "electron-updater integration: GitHub feed rox-one/rox-one, autoDownload, prerelease allowed, download-progress/ready broadcast, ad-hoc-sign detection and feed suppression.",
+   "tags": [
+    "update",
+    "electron-updater",
+    "release"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/main/auto-update.ts",
+   "lineRange": [
+    17,
+    320
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/main/window-manager.ts",
+   "type": "file",
+   "name": "WindowManager",
+   "summary": "Owns BrowserWindows per workspace, pushToWindow channel fan-out, mini-window modes and window lookup by webContents/workspace.",
+   "tags": [
+    "electron",
+    "windows",
+    "lifecycle"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/main/window-manager.ts",
+   "lineRange": [
+    58,
+    895
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/main/openclaw-host-control.ts",
+   "type": "file",
+   "name": "OpenClaw host control",
+   "summary": "Electron direct-only host control for an OpenClaw runtime: confirmation-gated install/provision/start/stop and an isolated Control-UI window (createControlUiWindowOptions).",
+   "tags": [
+    "openclaw",
+    "host-control",
+    "control-ui"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/main/openclaw-host-control.ts",
+   "lineRange": [
+    90,
+    375
+   ]
+  },
+  {
+   "id": "file:rox/apps/electron/src/main/voice/overlay-window.ts",
+   "type": "file",
+   "name": "Voice overlay window",
+   "summary": "Main-process always-on-top dictation overlay window driven by voice overlay IPC.",
+   "tags": [
+    "voice",
+    "overlay",
+    "electron-main"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/electron/src/main/voice/overlay-window.ts",
+   "lineRange": [
+    1,
+    150
+   ]
+  },
+  {
+   "id": "file:rox/packages/server-core/src/memory/MemoryService.ts",
+   "type": "file",
+   "name": "MemoryService",
+   "summary": "Distils sessions into lessons/context: redactSecrets, parseDistillResult and injectable deps; core of the workspace memory subsystem.",
+   "tags": [
+    "memory",
+    "lessons",
+    "distill"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/memory/MemoryService.ts",
+   "lineRange": [
+    165,
+    400
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/workflows/types.ts",
+   "type": "file",
+   "name": "Workflow canvas spec",
+   "summary": "Defines CanvasNodeKinds/ports/edges, CanvasNode/CanvasEdge, SessionWorkflowSpec and run modes; the data model for the Session Map Canvas.",
+   "tags": [
+    "canvas",
+    "workflow",
+    "graph"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/workflows/types.ts",
+   "lineRange": [
+    22,
+    99
+   ]
+  },
+  {
+   "id": "file:rox/packages/shared/src/i18n/languages.ts",
+   "type": "file",
+   "name": "Language registry",
+   "summary": "DEFAULT_LANGUAGE_CODE='ru', SUPPORTED_LANGUAGE_CODES and language metadata; ru is the default UI language.",
+   "tags": [
+    "i18n",
+    "languages",
+    "default-ru"
+   ],
+   "complexity": "simple",
+   "filePath": "rox/packages/shared/src/i18n/languages.ts",
+   "lineRange": [
+    6,
+    40
+   ]
+  },
+  {
+   "id": "file:rox/scripts/check-raw-sends.sh",
+   "type": "file",
+   "name": "lint:ipc-sends gate",
+   "summary": "Fails if raw webContents/sender/window.send( appears in apps/electron/src/{main,preload} outside a tiny allowlist; forces new IPC through the typed transport.",
+   "tags": [
+    "lint",
+    "ipc",
+    "ci-gate"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/scripts/check-raw-sends.sh",
+   "lineRange": [
+    7,
+    53
+   ]
+  },
+  {
+   "id": "file:rox/AGENTS.md",
+   "type": "file",
+   "name": "ROX agent guide",
+   "summary": "Binding contributor contract: Bun workflow, OMP backend, host tools, skills sync, i18n all-12-locales rule, runtime 0.11.8 defaults.",
+   "tags": [
+    "docs",
+    "contract",
+    "conventions"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/AGENTS.md",
+   "lineRange": [
+    1,
+    53
+   ]
+  },
+  {
+   "id": "function:rox/apps/electron/src/transport/build-api.ts:buildClientApi",
+   "type": "function",
+   "name": "buildClientApi",
+   "summary": "Builds the ElectronAPI proxy from CHANNEL_MAP; re-shapes errors to plain objects for contextBridge.",
+   "tags": [
+    "ipc",
+    "proxy"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/apps/electron/src/transport/build-api.ts",
+   "lineRange": [
+    26,
+    85
+   ]
+  },
+  {
+   "id": "class:rox/apps/electron/src/transport/routed-client.ts:RoutedClient",
+   "type": "class",
+   "name": "RoutedClient",
+   "summary": "Client-side channel router selecting local vs workspace WS client and re-binding listeners on workspace switch.",
+   "tags": [
+    "routing",
+    "transport"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/transport/routed-client.ts",
+   "lineRange": [
+    42,
+    292
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/transport/server.ts:WsRpcServer",
+   "type": "class",
+   "name": "WsRpcServer",
+   "summary": "WebSocket RpcServer with upgrade auth, handler access options and native authorization.",
+   "tags": [
+    "websocket",
+    "server"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/transport/server.ts",
+   "lineRange": [
+    197,
+    900
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/transport/client.ts:WsRpcClient",
+   "type": "class",
+   "name": "WsRpcClient",
+   "summary": "Reconnecting WebSocket RpcClient used by renderer, webui and Node hosts.",
+   "tags": [
+    "websocket",
+    "client"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/transport/client.ts",
+   "lineRange": [
+    124,
+    400
+   ]
+  },
+  {
+   "id": "function:rox/packages/server-core/src/bootstrap/headless-start.ts:bootstrapServer",
+   "type": "function",
+   "name": "bootstrapServer",
+   "summary": "Shared host startup creating WsRpcServer, native authority and event-channel wiring for both Electron and headless.",
+   "tags": [
+    "bootstrap",
+    "startup"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/bootstrap/headless-start.ts",
+   "lineRange": [
+    435,
+    734
+   ]
+  },
+  {
+   "id": "class:rox/packages/shared/src/agent/omp-agent.ts:OmpAgent",
+   "type": "class",
+   "name": "OmpAgent",
+   "summary": "BaseAgent OMP backend: spawns omp --mode rpc, answers extension_ui_request, registers host tools, emits turn anchors.",
+   "tags": [
+    "omp",
+    "agent"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/agent/omp-agent.ts",
+   "lineRange": [
+    386,
+    2880
+   ]
+  },
+  {
+   "id": "function:rox/packages/shared/src/agent/session-tool-defs.ts:buildSessionToolDefs",
+   "type": "function",
+   "name": "buildSessionToolDefs",
+   "summary": "Assembles session + MCP-proxy host tool defs published into OMP via set_host_tools.",
+   "tags": [
+    "host-tools",
+    "omp"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/agent/session-tool-defs.ts",
+   "lineRange": [
+    61,
+    107
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/sessions/SessionManager.ts:SessionManager",
+   "type": "class",
+   "name": "SessionManager",
+   "summary": "Central session lifecycle owner; publishes every event to RPC_CHANNELS.sessions.EVENT.",
+   "tags": [
+    "sessions",
+    "events"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/sessions/SessionManager.ts",
+   "lineRange": [
+    1628,
+    10788
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/sessions/SessionEventBus.ts:SessionEventBus",
+   "type": "class",
+   "name": "SessionEventBus",
+   "summary": "Typed in-process session lifecycle pub/sub with a no-op default instance.",
+   "tags": [
+    "sessions",
+    "pubsub"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/server-core/src/sessions/SessionEventBus.ts",
+   "lineRange": [
+    136,
+    214
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/meetings/repository.ts:MeetingRepository",
+   "type": "class",
+   "name": "MeetingRepository",
+   "summary": "Journal-backed meeting persistence root created with createMeetingRepository.",
+   "tags": [
+    "meetings",
+    "persistence"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/server-core/src/meetings/repository.ts",
+   "lineRange": [
+    4,
+    60
+   ]
+  },
+  {
+   "id": "class:rox/apps/electron/src/main/meetings/local-store.ts:LocalMeetingStore",
+   "type": "class",
+   "name": "LocalMeetingStore",
+   "summary": "Electron-main local meeting store for capture/transcript/extraction state.",
+   "tags": [
+    "meetings",
+    "store"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/apps/electron/src/main/meetings/local-store.ts",
+   "lineRange": [
+    111,
+    400
+   ]
+  },
+  {
+   "id": "class:rox/packages/shared/src/meeting-agents/router.ts:MeetingJobDispatcher",
+   "type": "class",
+   "name": "MeetingJobDispatcher",
+   "summary": "Dispatches meeting/transcript events to multi-role agents with concurrency + priority limits.",
+   "tags": [
+    "meetings",
+    "dispatch"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/meeting-agents/router.ts",
+   "lineRange": [
+    178,
+    200
+   ]
+  },
+  {
+   "id": "function:rox/packages/shared/src/meeting-agents/planning.ts:planMeetingActions",
+   "type": "function",
+   "name": "planMeetingActions",
+   "summary": "Plans meeting action/recipe jobs from a profile and source revision.",
+   "tags": [
+    "meetings",
+    "planning"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/meeting-agents/planning.ts",
+   "lineRange": [
+    116,
+    140
+   ]
+  },
+  {
+   "id": "function:rox/packages/shared/src/skills/omp-discovery.ts:listOmpSkills",
+   "type": "function",
+   "name": "listOmpSkills",
+   "summary": "Enumerates OMP/global/workspace skills, de-duped by slug, with a 60s cache.",
+   "tags": [
+    "skills",
+    "discovery"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/skills/omp-discovery.ts",
+   "lineRange": [
+    125,
+    148
+   ]
+  },
+  {
+   "id": "function:rox/packages/shared/src/skills/storage.ts:loadAllSkills",
+   "type": "function",
+   "name": "loadAllSkills",
+   "summary": "Loads global/app-managed/project skills into the merged catalog.",
+   "tags": [
+    "skills",
+    "loading"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/skills/storage.ts",
+   "lineRange": [
+    302,
+    391
+   ]
+  },
+  {
+   "id": "function:rox/packages/shared/src/skills/bundled-core.ts:readSkillsLock",
+   "type": "function",
+   "name": "readSkillsLock",
+   "summary": "Parses SKILLS.lock into pinned pack metadata.",
+   "tags": [
+    "skills",
+    "lockfile"
+   ],
+   "complexity": "moderate",
+   "filePath": "rox/packages/shared/src/skills/bundled-core.ts",
+   "lineRange": [
+    163,
+    180
+   ]
+  },
+  {
+   "id": "class:rox/packages/core/src/platform/identity/store.ts:IdentityStore",
+   "type": "class",
+   "name": "IdentityStore",
+   "summary": "Persisted identity/profile/membership store with default profile creation.",
+   "tags": [
+    "identity",
+    "store"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/core/src/platform/identity/store.ts",
+   "lineRange": [
+    1,
+    200
+   ]
+  },
+  {
+   "id": "class:rox/packages/shared/src/credentials/fabric/broker.ts:InProcessCredentialBroker",
+   "type": "class",
+   "name": "InProcessCredentialBroker",
+   "summary": "In-process credential broker issuing lease-scoped access from grants with audit + denial errors.",
+   "tags": [
+    "credentials",
+    "broker"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/credentials/fabric/broker.ts",
+   "lineRange": [
+    12,
+    100
+   ]
+  },
+  {
+   "id": "class:rox/packages/shared/src/credentials/manager.ts:CredentialManager",
+   "type": "class",
+   "name": "CredentialManager",
+   "summary": "Encrypted credential vault manager and getCredentialManager singleton.",
+   "tags": [
+    "credentials",
+    "vault"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/shared/src/credentials/manager.ts",
+   "lineRange": [
+    35,
+    981
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/authority/native-authority.ts:NativeAuthority",
+   "type": "class",
+   "name": "NativeAuthority",
+   "summary": "Server-minted principals for native clients with authorize/permissionFence.",
+   "tags": [
+    "authority",
+    "access-control"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/authority/native-authority.ts",
+   "lineRange": [
+    12,
+    576
+   ]
+  },
+  {
+   "id": "class:rox/packages/server-core/src/collaboration/sync-service.ts:CollaborationSyncService",
+   "type": "class",
+   "name": "CollaborationSyncService",
+   "summary": "Server-side collaboration sync over native journal + authority.",
+   "tags": [
+    "collaboration",
+    "sync"
+   ],
+   "complexity": "complex",
+   "filePath": "rox/packages/server-core/src/collaboration/sync-service.ts",
+   "lineRange": [
+    17,
+    200
+   ]
+  },
+  {
+   "id": "concept:rox-electron-ipc-bridge",
+   "type": "concept",
+   "name": "Electron IPC bridge",
+   "summary": "Renderer reaches main only through window.electronAPI: preload buildClientApi(CHANNEL_MAP) exposes invoke/listener functions over the WS RPC transport, never raw ipcRenderer.",
+   "tags": [
+    "ipc",
+    "electron",
+    "bridge"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-typed-channel-map",
+   "type": "concept",
+   "name": "Typed channel map",
+   "summary": "Every renderer method maps to a named RPC_CHANNELS entry in channel-map.ts; dotted keys become nested namespaces, and ElectronAPI enforces the shape at compile time.",
+   "tags": [
+    "ipc",
+    "contract",
+    "channels"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-ipc-sends-lint",
+   "type": "concept",
+   "name": "lint:ipc-sends gate",
+   "summary": "scripts/check-raw-sends.sh forbids raw webContents/sender/window.send in main/preload except an allowlist; part of bun run lint.",
+   "tags": [
+    "lint",
+    "guardrail",
+    "ipc"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:rox-local-only-vs-remote-eligible",
+   "type": "concept",
+   "name": "Local-only vs remote-eligible routing",
+   "summary": "Each channel is classified in routing.ts; RoutedClient sends LOCAL_ONLY to the embedded server and the rest to the workspace-owning server.",
+   "tags": [
+    "routing",
+    "transport",
+    "workspace"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-embedded-ws-rpc-server",
+   "type": "concept",
+   "name": "Embedded WS RPC server",
+   "summary": "Electron main hosts an in-process WsRpcServer (same bootstrap as headless) on a local port; renderer/webui connect over WebSocket with token/cookie auth.",
+   "tags": [
+    "transport",
+    "websocket",
+    "electron"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-webui-control-ui",
+   "type": "concept",
+   "name": "WebUI Control UI",
+   "summary": "The browser Control UI (apps/webui) is served by createWebuiHandler on the same RPC host, sharing channel routing and auth; the nearest analogue to OpenClaw's Control UI.",
+   "tags": [
+    "webui",
+    "control-ui",
+    "http"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-omp-rpc-runtime",
+   "type": "concept",
+   "name": "OMP RPC runtime",
+   "summary": "All sessions run as omp --mode rpc child processes over NDJSON stdio; OmpAgent answers extension_ui_request, negotiates protocol 2 and restores native transcripts.",
+   "tags": [
+    "omp",
+    "runtime",
+    "stdio"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-session-event-stream",
+   "type": "concept",
+   "name": "Per-session event stream",
+   "summary": "SessionManager publishes every session event to RPC_CHANNELS.sessions.EVENT ({to:'workspace',workspaceId}); in-process consumers use SessionEventBus. New per-session streams attach here, not via a new socket.",
+   "tags": [
+    "sessions",
+    "events",
+    "stream"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-host-tools-bridge",
+   "type": "concept",
+   "name": "Host tools bridge",
+   "summary": "ROX publishes spawn_session/call_llm/browser_tool + MCP source-proxy defs into OMP via set_host_tools; OMP calls back with host_tool_call executed by the craft session registry.",
+   "tags": [
+    "omp",
+    "tools",
+    "bridge"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-meetings-domain",
+   "type": "concept",
+   "name": "Meetings domain",
+   "summary": "Journal + repository + proposals/executor + native capture/finalize/manual intents + evidence/gate op model under server-core/src/meetings.",
+   "tags": [
+    "meetings",
+    "domain",
+    "proposals"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-meetings-local-capture",
+   "type": "concept",
+   "name": "Local meeting capture",
+   "summary": "Electron-main capture (mic/screen), local or cloud ASR, overlay and LocalMeetingStore; MEETINGS_LOCAL_IPC bridges main and renderer.",
+   "tags": [
+    "meetings",
+    "capture",
+    "electron"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-meeting-agents",
+   "type": "concept",
+   "name": "Meeting agents",
+   "summary": "Multi-role meeting agent dispatcher (router) + planning/recipes/policies/extraction producing meeting artifacts, distinct from a channel-joining bot.",
+   "tags": [
+    "meetings",
+    "agents",
+    "multi-role"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-skills-catalog",
+   "type": "concept",
+   "name": "Skills catalog",
+   "summary": "Pinned 330-skill catalog (SKILLS.lock + REQUESTED-SKILLS.json) synced into the managed skills tier and discovered from OMP/global/workspace roots.",
+   "tags": [
+    "skills",
+    "catalog",
+    "pins"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-skill-discovery-roots",
+   "type": "concept",
+   "name": "Skill discovery roots",
+   "summary": "omp-discovery scans ~/.omp/agent/skills, ~/.agents/skills and <ws>/.omp/skills with a TTL cache; storage.ts adds <config>/skills and .agents/skills.",
+   "tags": [
+    "skills",
+    "discovery",
+    "roots"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-identity-fabric",
+   "type": "concept",
+   "name": "Identity fabric",
+   "summary": "IdentityStore + profile/workspace membership/service connections in packages/core/src/platform/identity, exposed via identity RPC channels.",
+   "tags": [
+    "identity",
+    "profile",
+    "contracts"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-credentials-fabric",
+   "type": "concept",
+   "name": "Credentials fabric",
+   "summary": "Connection Fabric: InProcessCredentialBroker grants/leases, OS/cloud importers (keychain, AWS, SSH agent, GitHub OAuth), header-delivery and materialization.",
+   "tags": [
+    "credentials",
+    "fabric",
+    "leases"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-native-authority",
+   "type": "concept",
+   "name": "Native authority",
+   "summary": "NativeAuthority mints principals for non-Electron clients and enforces authorize/permissionFence; NativePrincipal bounds every native handler.",
+   "tags": [
+    "authority",
+    "native",
+    "access-control"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-multi-user-collaboration",
+   "type": "concept",
+   "name": "Multi-user collaboration",
+   "summary": "Workspace membership + orgs + CollaborationSyncService + presence + session publication form ROX's multi-user layer (server-side, journal-backed).",
+   "tags": [
+    "collaboration",
+    "orgs",
+    "presence"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-auto-update",
+   "type": "concept",
+   "name": "Auto-update",
+   "summary": "electron-updater against the rox-one/rox-one GitHub feed with prerelease allowed, download-progress/ready broadcast and ad-hoc-sign/feed suppression guards.",
+   "tags": [
+    "update",
+    "electron-updater",
+    "release"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-installer-packaging",
+   "type": "concept",
+   "name": "Installer packaging",
+   "summary": "electron-builder.yml ships macOS dmg/zip, Windows nsis, Linux AppImage; dist:* scripts build per platform.",
+   "tags": [
+    "installer",
+    "packaging",
+    "release"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-i18n-russian-first",
+   "type": "concept",
+   "name": "Russian-first i18n",
+   "summary": "ru is the default UI language; all user-facing strings go through t() and every new key must be added to all 12 locale files with ASCII-sorted parity gates.",
+   "tags": [
+    "i18n",
+    "russian",
+    "parity"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-macos-shell",
+   "type": "concept",
+   "name": "macOS shell",
+   "summary": "Electron main owns native windows, menu, deep links, notifications, power management, native replica and the embedded server lifecycle.",
+   "tags": [
+    "macos",
+    "electron",
+    "lifecycle"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-workflow-canvas",
+   "type": "concept",
+   "name": "Workflow canvas",
+   "summary": "SessionWorkflowSpec with CanvasNode/CanvasEdge is the existing canvas/graph model (with a canvas-spec test) and the nearest analogue to a canvas/workboard surface.",
+   "tags": [
+    "canvas",
+    "workflow",
+    "graph"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-kanban-workboard",
+   "type": "concept",
+   "name": "Kanban workboard",
+   "summary": "KanbanBoardConfig/columns plus the workgraph server module back task-board style workboard views.",
+   "tags": [
+    "kanban",
+    "workboard",
+    "tasks"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:rox-memory-service",
+   "type": "concept",
+   "name": "Memory service",
+   "summary": "MemoryService distils sessions into lessons/context (redactSecrets, parseDistillResult); proposal store + fts index + learning pipeline surround it.",
+   "tags": [
+    "memory",
+    "lessons",
+    "distill"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-voice-runtime",
+   "type": "concept",
+   "name": "Voice runtime",
+   "summary": "Shared voice runtime (contracts, job machine, transcription, history, hotkeys) plus a main-process overlay window and dictation host; meeting-stream bridges into meetings.",
+   "tags": [
+    "voice",
+    "runtime",
+    "dictation"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-openclaw-host-control",
+   "type": "concept",
+   "name": "OpenClaw host control",
+   "summary": "ROX already hosts an OpenClaw runtime: direct-only Electron host control (confirmation-gated install/provision/start/stop + isolated Control-UI window) plus server-side runtime manager and audit.",
+   "tags": [
+    "openclaw",
+    "host",
+    "integration"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:rox-port-target-surface",
+   "type": "concept",
+   "name": "ROX port target surface",
+   "summary": "The mapping from OpenClaw feature areas (a1/b1/b2/c1/c2/d1/d2/e1/e2) onto ROX files: channels to routing to server-core domain, with i18n and IPC-lint cross-cutting gates.",
+   "tags": [
+    "port",
+    "mapping",
+    "architecture"
+   ],
+   "complexity": "moderate"
+  }
+ ],
+ "edges": [
+  {
+   "source": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "target": "file:rox/apps/electron/src/transport/channel-map.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "target": "file:rox/apps/electron/src/transport/build-api.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "target": "file:rox/apps/electron/src/transport/routed-client.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "target": "function:rox/apps/electron/src/transport/build-api.ts:buildClientApi",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "target": "class:rox/apps/electron/src/transport/routed-client.ts:RoutedClient",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/build-api.ts",
+   "target": "file:rox/apps/electron/src/transport/channel-map.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "CHANNEL_MAP consumed by buildClientApi"
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/build-api.ts",
+   "target": "function:rox/apps/electron/src/transport/build-api.ts:buildClientApi",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/routed-client.ts",
+   "target": "class:rox/apps/electron/src/transport/routed-client.ts:RoutedClient",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/channel-map.ts",
+   "target": "file:rox/packages/shared/src/protocol/channels.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "map keys are RPC_CHANNELS values"
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/channel-map.ts",
+   "target": "concept:rox-typed-channel-map",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:rox/apps/electron/src/transport/build-api.ts:buildClientApi",
+   "target": "concept:rox-electron-ipc-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/apps/electron/src/preload/bootstrap.ts",
+   "target": "concept:rox-electron-ipc-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/scripts/check-raw-sends.sh",
+   "target": "concept:rox-ipc-sends-lint",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/routed-client.ts",
+   "target": "file:rox/packages/server-core/src/transport/client.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/routed-client.ts",
+   "target": "file:rox/packages/shared/src/protocol/channels.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/routed-client.ts",
+   "target": "file:rox/packages/shared/src/protocol/routing.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "class:rox/apps/electron/src/transport/routed-client.ts:RoutedClient",
+   "target": "concept:rox-local-only-vs-remote-eligible",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/packages/shared/src/protocol/routing.ts",
+   "target": "file:rox/packages/shared/src/protocol/channels.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/packages/shared/src/protocol/routing.ts",
+   "target": "concept:rox-local-only-vs-remote-eligible",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/packages/server-core/src/transport/server.ts",
+   "target": "class:rox/packages/server-core/src/transport/server.ts:WsRpcServer",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/server-core/src/transport/server.ts",
+   "target": "file:rox/packages/server-core/src/transport/types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/packages/server-core/src/transport/client.ts",
+   "target": "class:rox/packages/server-core/src/transport/client.ts:WsRpcClient",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/server-core/src/transport/client.ts",
+   "target": "file:rox/packages/server-core/src/transport/types.ts",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:rox/packages/server-core/src/transport/server.ts:WsRpcServer",
+   "target": "concept:rox-embedded-ws-rpc-server",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/packages/server-core/src/bootstrap/headless-start.ts",
+   "target": "function:rox/packages/server-core/src/bootstrap/headless-start.ts:bootstrapServer",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "function:rox/packages/server-core/src/bootstrap/headless-start.ts:bootstrapServer",
+   "target": "class:rox/packages/server-core/src/transport/server.ts:WsRpcServer",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:rox/packages/server-core/src/bootstrap/headless-start.ts:bootstrapServer",
+   "target": "concept:rox-embedded-ws-rpc-server",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/packages/server/src/index.ts",
+   "target": "function:rox/packages/server-core/src/bootstrap/headless-start.ts:bootstrapServer",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/packages/server/src/index.ts",
+   "target": "file:rox/packages/server-core/src/transport/server.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:rox-embedded-ws-rpc-server",
+   "target": "file:rox/packages/server-core/src/transport/types.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/packages/server-core/src/webui/http-server.ts",
+   "target": "concept:rox-webui-control-ui",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/packages/server-core/src/webui/http-server.ts",
+   "target": "concept:rox-embedded-ws-rpc-server",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/apps/webui/src/browser-main.tsx",
+   "target": "concept:rox-webui-control-ui",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/apps/webui/src/browser-main.tsx",
+   "target": "class:rox/packages/server-core/src/transport/client.ts:WsRpcClient",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/openclaw-host-control.ts",
+   "target": "concept:rox-webui-control-ui",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "isolated Control-UI window"
+  },
+  {
+   "source": "file:rox/packages/shared/src/agent/omp-agent.ts",
+   "target": "class:rox/packages/shared/src/agent/omp-agent.ts:OmpAgent",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/agent/session-tool-defs.ts",
+   "target": "function:rox/packages/shared/src/agent/session-tool-defs.ts:buildSessionToolDefs",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/agent/omp-agent.ts",
+   "target": "file:rox/packages/shared/src/agent/session-tool-defs.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "class:rox/packages/shared/src/agent/omp-agent.ts:OmpAgent",
+   "target": "function:rox/packages/shared/src/agent/session-tool-defs.ts:buildSessionToolDefs",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "set_host_tools payload"
+  },
+  {
+   "source": "class:rox/packages/shared/src/agent/omp-agent.ts:OmpAgent",
+   "target": "concept:rox-omp-rpc-runtime",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:rox/packages/shared/src/agent/omp-agent.ts:OmpAgent",
+   "target": "concept:rox-host-tools-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/AGENTS.md",
+   "target": "concept:rox-omp-rpc-runtime",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/AGENTS.md",
+   "target": "concept:rox-host-tools-bridge",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/server-core/src/sessions/SessionManager.ts",
+   "target": "class:rox/packages/server-core/src/sessions/SessionManager.ts:SessionManager",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/server-core/src/sessions/SessionEventBus.ts",
+   "target": "class:rox/packages/server-core/src/sessions/SessionEventBus.ts:SessionEventBus",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "class:rox/packages/server-core/src/sessions/SessionManager.ts:SessionManager",
+   "target": "class:rox/packages/server-core/src/sessions/SessionEventBus.ts:SessionEventBus",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "publishes lifecycle events"
+  },
+  {
+   "source": "class:rox/packages/server-core/src/sessions/SessionManager.ts:SessionManager",
+   "target": "concept:rox-session-event-stream",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:rox/packages/server-core/src/sessions/SessionEventBus.ts:SessionEventBus",
+   "target": "concept:rox-session-event-stream",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:rox/packages/server-core/src/sessions/SessionManager.ts:SessionManager",
+   "target": "class:rox/packages/shared/src/agent/omp-agent.ts:OmpAgent",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.7,
+   "description": "spawns OMP backend"
+  },
+  {
+   "source": "file:rox/packages/shared/src/protocol/routing.ts",
+   "target": "file:rox/packages/server-core/src/sessions/SessionManager.ts",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/server-core/src/meetings/repository.ts",
+   "target": "class:rox/packages/server-core/src/meetings/repository.ts:MeetingRepository",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/meetings/ipc.ts",
+   "target": "file:rox/apps/electron/src/main/meetings/local-store.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/meetings/local-store.ts",
+   "target": "class:rox/apps/electron/src/main/meetings/local-store.ts:LocalMeetingStore",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/meetings/ipc.ts",
+   "target": "file:rox/apps/electron/src/shared/meetings-local.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/apps/electron/src/shared/meetings-local.ts",
+   "target": "concept:rox-meetings-local-capture",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/meetings/local-store.ts",
+   "target": "concept:rox-meetings-local-capture",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/packages/server-core/src/meetings/repository.ts",
+   "target": "concept:rox-meetings-domain",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/packages/shared/src/meeting-agents/router.ts",
+   "target": "class:rox/packages/shared/src/meeting-agents/router.ts:MeetingJobDispatcher",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/meeting-agents/planning.ts",
+   "target": "function:rox/packages/shared/src/meeting-agents/planning.ts:planMeetingActions",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "class:rox/packages/shared/src/meeting-agents/router.ts:MeetingJobDispatcher",
+   "target": "function:rox/packages/shared/src/meeting-agents/planning.ts:planMeetingActions",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/packages/shared/src/meeting-agents/router.ts",
+   "target": "concept:rox-meeting-agents",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/packages/shared/src/meeting-agents/planning.ts",
+   "target": "concept:rox-meeting-agents",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/packages/server-core/src/meetings/repository.ts",
+   "target": "concept:rox-meeting-agents",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/server-core/src/meetings/repository.ts",
+   "target": "concept:rox-meetings-local-capture",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "server domain consumes local capture"
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/meetings/ipc.ts",
+   "target": "file:rox/apps/electron/src/shared/meetings-local.ts",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/shared/src/skills/omp-discovery.ts",
+   "target": "function:rox/packages/shared/src/skills/omp-discovery.ts:listOmpSkills",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/skills/storage.ts",
+   "target": "function:rox/packages/shared/src/skills/storage.ts:loadAllSkills",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/skills/bundled-core.ts",
+   "target": "function:rox/packages/shared/src/skills/bundled-core.ts:readSkillsLock",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "function:rox/packages/shared/src/skills/bundled-core.ts:readSkillsLock",
+   "target": "file:rox/apps/electron/resources/skills/SKILLS.lock",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/packages/shared/src/skills/bundled-core.ts",
+   "target": "file:rox/apps/electron/resources/skills/SKILLS.lock",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/shared/src/skills/omp-discovery.ts",
+   "target": "concept:rox-skill-discovery-roots",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/packages/shared/src/skills/storage.ts",
+   "target": "concept:rox-skill-discovery-roots",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "function:rox/packages/shared/src/skills/bundled-core.ts:readSkillsLock",
+   "target": "concept:rox-skills-catalog",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/resources/skills/SKILLS.lock",
+   "target": "concept:rox-skills-catalog",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/AGENTS.md",
+   "target": "concept:rox-skills-catalog",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/core/src/platform/identity/store.ts",
+   "target": "class:rox/packages/core/src/platform/identity/store.ts:IdentityStore",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/credentials/fabric/broker.ts",
+   "target": "class:rox/packages/shared/src/credentials/fabric/broker.ts:InProcessCredentialBroker",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/shared/src/credentials/manager.ts",
+   "target": "class:rox/packages/shared/src/credentials/manager.ts:CredentialManager",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:rox/packages/server-core/src/authority/native-authority.ts",
+   "target": "class:rox/packages/server-core/src/authority/native-authority.ts:NativeAuthority",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "class:rox/packages/server-core/src/authority/native-authority.ts:NativeAuthority",
+   "target": "file:rox/packages/core/src/platform/identity/store.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "self identity profile"
+  },
+  {
+   "source": "file:rox/packages/core/src/platform/identity/store.ts",
+   "target": "concept:rox-identity-fabric",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/packages/shared/src/credentials/fabric/broker.ts",
+   "target": "concept:rox-credentials-fabric",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/packages/shared/src/credentials/manager.ts",
+   "target": "concept:rox-credentials-fabric",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:rox/packages/server-core/src/authority/native-authority.ts:NativeAuthority",
+   "target": "concept:rox-native-authority",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/packages/server-core/src/transport/types.ts",
+   "target": "file:rox/packages/server-core/src/authority/native-authority.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:rox-credentials-fabric",
+   "target": "concept:rox-identity-fabric",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "credential refs attach to identity"
+  },
+  {
+   "source": "file:rox/packages/server-core/src/collaboration/sync-service.ts",
+   "target": "class:rox/packages/server-core/src/collaboration/sync-service.ts:CollaborationSyncService",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "class:rox/packages/server-core/src/collaboration/sync-service.ts:CollaborationSyncService",
+   "target": "concept:rox-multi-user-collaboration",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:rox/packages/server-core/src/authority/native-authority.ts:NativeAuthority",
+   "target": "concept:rox-multi-user-collaboration",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "membership scoping"
+  },
+  {
+   "source": "file:rox/packages/core/src/platform/identity/store.ts",
+   "target": "concept:rox-multi-user-collaboration",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/auto-update.ts",
+   "target": "concept:rox-auto-update",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/window-manager.ts",
+   "target": "concept:rox-macos-shell",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/openclaw-host-control.ts",
+   "target": "concept:rox-macos-shell",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:rox-auto-update",
+   "target": "concept:rox-macos-shell",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "update surfaced in shell"
+  },
+  {
+   "source": "concept:rox-macos-shell",
+   "target": "concept:rox-embedded-ws-rpc-server",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/apps/electron/src/transport/channel-map.ts",
+   "target": "concept:rox-electron-ipc-bridge",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/voice/overlay-window.ts",
+   "target": "concept:rox-voice-runtime",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:rox/apps/electron/src/shared/meetings-local.ts",
+   "target": "concept:rox-meetings-domain",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:rox/packages/server-core/src/memory/MemoryService.ts",
+   "target": "concept:rox-memory-service",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:rox/packages/server-core/src/memory/MemoryService.ts",
+   "target": "class:rox/packages/server-core/src/sessions/SessionEventBus.ts:SessionEventBus",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "consumes session lifecycle"
+  },
+  {
+   "source": "file:rox/packages/shared/src/workflows/types.ts",
+   "target": "concept:rox-workflow-canvas",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "concept:rox-workflow-canvas",
+   "target": "concept:rox-session-event-stream",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "canvas traces session runs"
+  },
+  {
+   "source": "file:rox/packages/shared/src/workflows/types.ts",
+   "target": "concept:rox-kanban-workboard",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "canvas + board surfaces"
+  },
+  {
+   "source": "file:rox/packages/shared/src/i18n/languages.ts",
+   "target": "concept:rox-i18n-russian-first",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:rox/AGENTS.md",
+   "target": "concept:rox-i18n-russian-first",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:rox/apps/electron/src/main/openclaw-host-control.ts",
+   "target": "concept:rox-openclaw-host-control",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:rox/packages/server-core/src/authority/native-authority.ts:NativeAuthority",
+   "target": "concept:rox-openclaw-host-control",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-electron-ipc-bridge",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-webui-control-ui",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-omp-rpc-runtime",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-session-event-stream",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-meetings-domain",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-skills-catalog",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-identity-fabric",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-multi-user-collaboration",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-voice-runtime",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-memory-service",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-workflow-canvas",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-macos-shell",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-openclaw-host-control",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-i18n-russian-first",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-port-target-surface",
+   "target": "concept:rox-auto-update",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:rox-installer-packaging",
+   "target": "concept:rox-auto-update",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "packaging feeds the updater"
+  },
+  {
+   "source": "concept:rox-installer-packaging",
+   "target": "concept:rox-macos-shell",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  }
+ ]
+}

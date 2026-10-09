@@ -1,0 +1,3364 @@
+{
+ "nodes": [
+  {
+   "id": "module:workboard",
+   "type": "module",
+   "name": "Workboard plugin",
+   "summary": "Bundled, disabled-by-default Control UI plugin adding a Kanban Cards board and a rule-based Sessions board over Gateway-owned facts.",
+   "tags": [
+    "workboard",
+    "plugin",
+    "dashboard"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:canvas",
+   "type": "module",
+   "name": "Canvas plugin",
+   "summary": "Plugin that validates/renders A2UI JSONL board widgets and presents hosted widget documents on paired macOS node panels.",
+   "tags": [
+    "canvas",
+    "a2ui",
+    "plugin"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:workboard-contract",
+   "type": "module",
+   "name": "Workboard contract package",
+   "summary": "Shared @openclaw/workboard-contract enums and types consumed by both the Gateway plugin and the Control UI browser plugin.",
+   "tags": [
+    "contract",
+    "types",
+    "workboard"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "module:canvas-host",
+   "type": "module",
+   "name": "Core canvas host (src/canvas)",
+   "summary": "Core show_widget tool, canvas document store/serve, widget HTML wrapper and board-widget materialization for streaming widgets into chat.",
+   "tags": [
+    "canvas",
+    "widgets",
+    "host"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:gateway-board",
+   "type": "module",
+   "name": "Gateway board methods",
+   "summary": "board.widget.put / canvas.document.* handlers plus board sandbox, view-ticket and view-auth helpers.",
+   "tags": [
+    "gateway",
+    "board",
+    "sandbox"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:control-ui",
+   "type": "module",
+   "name": "Control UI (ui/)",
+   "summary": "Lit web app that hosts dashboards, workboard tab and sandboxed widget iframes; wire contract for the macOS native browser bridge.",
+   "tags": [
+    "control-ui",
+    "lit",
+    "renderer"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:macos-app",
+   "type": "module",
+   "name": "macOS app (Swift)",
+   "summary": "AppKit/WebKit app owning embedded reading tabs, dashboard windows, WebChat windows and native alert/download surfaces.",
+   "tags": [
+    "macos",
+    "swift",
+    "webkit"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:workboard-board",
+   "type": "concept",
+   "name": "Workboard board",
+   "summary": "A named namespace of agent-owned cards with statuses triage..done, priorities, claims, dispatch and diagnostics.",
+   "tags": [
+    "workboard",
+    "cards"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:sessions-board",
+   "type": "concept",
+   "name": "Sessions board",
+   "summary": "Board whose columns are match rules over Gateway run state, observer health and pull-request state; sessions placed by rule then operator pin.",
+   "tags": [
+    "sessions",
+    "rules",
+    "placement"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:a2ui-widget-system",
+   "type": "concept",
+   "name": "A2UI widget system",
+   "summary": "Agent emits declarative JSONL widget messages that are validated (v0.8/v0.9), composed into an HTML document and rendered by openclaw-a2ui-host.",
+   "tags": [
+    "a2ui",
+    "widgets",
+    "jsonl"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:canvas-host",
+   "type": "concept",
+   "name": "Canvas host / widget host",
+   "summary": "Sandboxed iframe/document host that wraps agent-authored widget bytes with a pre-widget message-channel bridge and default-src none CSP.",
+   "tags": [
+    "sandbox",
+    "csp",
+    "iframe"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:dashboard-flavors",
+   "type": "concept",
+   "name": "Dashboard flavors",
+   "summary": "Distinguishes Control UI, Workboard, canvas/board widgets and the macOS embedded reading browser as separate surfaces.",
+   "tags": [
+    "dashboard",
+    "surfaces"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:native-browser-bridge",
+   "type": "concept",
+   "name": "Native browser bridge",
+   "summary": "Wire contract between the Control UI web page and the macOS WKWebView tab host via webkit.messageHandlers.openclawBrowser.",
+   "tags": [
+    "bridge",
+    "webkit",
+    "native"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:webchat-window-lifecycle",
+   "type": "concept",
+   "name": "WebChat window lifecycle",
+   "summary": "Manager-owned fleet of Gateway chat/dashboard windows with per-target routing, fallback between Web and Native experiences.",
+   "tags": [
+    "webchat",
+    "windows",
+    "lifecycle"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "file:extensions/workboard/index.ts",
+   "type": "file",
+   "name": "Workboard plugin entry",
+   "summary": "definePluginEntry for id workboard: opens the SQLite store, wires change-event/automation/sessions-board/lifecycle services, registers Control UI tab+widget descriptors, RPC, tools, command and CLI.",
+   "tags": [
+    "workboard",
+    "plugin-entry"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/index.ts",
+   "lineRange": [
+    24,
+    149
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/src/gateway.ts",
+   "type": "file",
+   "name": "Workboard RPC methods",
+   "summary": "registerWorkboardGatewayMethods registers every workboard.* method under operator.read/operator.write with CAS, workspace authority and claim-token redaction.",
+   "tags": [
+    "workboard",
+    "rpc"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    109,
+    388
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/src/change-events.ts",
+   "type": "file",
+   "name": "Workboard change events",
+   "summary": "Service that emits plugin.workboard.changed on every store change and polls reconcileExternalChanges once per second.",
+   "tags": [
+    "workboard",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/change-events.ts",
+   "lineRange": [
+    7,
+    80
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/src/sessions-board.ts",
+   "type": "file",
+   "name": "Sessions board service",
+   "summary": "createWorkboardSessionsBoardService reads/updates/moves the sessions board, fusing run state, observer digests and PR facts into placements.",
+   "tags": [
+    "sessions",
+    "service"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/sessions-board.ts",
+   "lineRange": [
+    522,
+    566
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/src/store.ts",
+   "type": "file",
+   "name": "Workboard SQLite store",
+   "summary": "WorkboardStore holds cards, boards, events, attempts, comments, links, proof, artifacts, attachments, diagnostics and notifications in a plugin-owned relational DB.",
+   "tags": [
+    "store",
+    "sqlite"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/store.ts"
+  },
+  {
+   "id": "file:extensions/workboard/src/dispatcher.ts",
+   "type": "file",
+   "name": "Workboard dispatcher",
+   "summary": "Promotes dependency-ready cards, blocks expired claims and starts Gateway subagent worker runs for a bounded batch of ready cards.",
+   "tags": [
+    "dispatch",
+    "workers"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/dispatcher.ts",
+   "lineRange": [
+    237,
+    237
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/src/lifecycle-sync.ts",
+   "type": "file",
+   "name": "Workboard lifecycle sync",
+   "summary": "Keeps card status in sync with linked session lifecycle; persists terminal outcomes on agent/subagent end and sweeps once per minute.",
+   "tags": [
+    "lifecycle",
+    "sync"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/lifecycle-sync.ts"
+  },
+  {
+   "id": "file:extensions/workboard/src/tools.ts",
+   "type": "file",
+   "name": "Workboard card tools",
+   "summary": "createWorkboardTools exposes the workboard_* card tools to agents, gated by workspace access.",
+   "tags": [
+    "tools",
+    "agent"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/tools.ts",
+   "lineRange": [
+    69,
+    69
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/src/tools-sessions-board.ts",
+   "type": "file",
+   "name": "Sessions board tools",
+   "summary": "createWorkboardSessionsBoardTools exposes workboard_sessions_board_read/update/move to the docked Board agent without a tools.allow entry.",
+   "tags": [
+    "tools",
+    "sessions"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/tools-sessions-board.ts",
+   "lineRange": [
+    68,
+    68
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/index.ts",
+   "type": "file",
+   "name": "Workboard Control UI plugin",
+   "summary": "defineControlUiPlugin activate: registers page, navigation per board, session accessory and mini/card/board widgets; subscribes to invalidations and plugin.workboard.changed.",
+   "tags": [
+    "workboard",
+    "control-ui"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/browser/index.ts",
+   "lineRange": [
+    19,
+    164
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/host.ts",
+   "type": "file",
+   "name": "Workboard browser host",
+   "summary": "Holds the active ControlUiHost and redaction function for the browser plugin; throws when the plugin is no longer active.",
+   "tags": [
+    "host",
+    "redaction"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/workboard/browser/host.ts",
+   "lineRange": [
+    6,
+    33
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/widgets.ts",
+   "type": "file",
+   "name": "Workboard widgets",
+   "summary": "createWorkboardWidget mounts mini/card/board widgets with lit, leasing a shared widget runtime only while presented and honoring write access.",
+   "tags": [
+    "widgets",
+    "lit"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/widgets.ts",
+   "lineRange": [
+    10,
+    59
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/catalog.ts",
+   "type": "file",
+   "name": "WorkboardCatalog",
+   "summary": "Loads the board catalog on connect and on change events, retrying after 2s, and publishes a catalog snapshot to navigation.",
+   "tags": [
+    "catalog",
+    "navigation"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/catalog.ts",
+   "lineRange": [
+    19,
+    161
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/delete-board.ts",
+   "type": "file",
+   "name": "Delete board dialog",
+   "summary": "Confirmation dialog that calls workboard.boards.delete and handles abort/unavailable/write-scope states.",
+   "tags": [
+    "delete",
+    "dialog"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/delete-board.ts",
+   "lineRange": [
+    8,
+    91
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/lib/workboard/live-refresh.ts",
+   "type": "file",
+   "name": "Workboard live refresh",
+   "summary": "Coalesces plugin.workboard.changed into at most one pending canonical reload, deferring during drags/writes and while the document is hidden.",
+   "tags": [
+    "live-refresh",
+    "events"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/browser/lib/workboard/live-refresh.ts",
+   "lineRange": [
+    103,
+    155
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/lib/workboard/types.ts",
+   "type": "file",
+   "name": "Workboard UI state types",
+   "summary": "Re-exports the contract and defines WorkboardUiState, WorkboardLifecycle and dispatch-summary types for the browser plugin.",
+   "tags": [
+    "types",
+    "ui-state"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/lib/workboard/types.ts",
+   "lineRange": [
+    1,
+    121
+   ]
+  },
+  {
+   "id": "file:extensions/workboard/browser/lib/workboard/capability.ts",
+   "type": "file",
+   "name": "Workboard capability",
+   "summary": "Shared browser capability object with state/boardsReady/notify/subscribe and catalog clearing used by page, widgets and accessory.",
+   "tags": [
+    "state",
+    "capability"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/lib/workboard/capability.ts",
+   "lineRange": [
+    19,
+    64
+   ]
+  },
+  {
+   "id": "file:packages/workboard-contract/src/index.ts",
+   "type": "file",
+   "name": "Workboard contract index",
+   "summary": "Enums (statuses/priorities/events/diagnostics), WORKBOARD_CHANGED_EVENT, WorkboardChange, board metadata/summary and card shape types.",
+   "tags": [
+    "contract",
+    "enums"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/workboard-contract/src/index.ts",
+   "lineRange": [
+    1,
+    321
+   ]
+  },
+  {
+   "id": "file:packages/workboard-contract/src/sessions-board.ts",
+   "type": "file",
+   "name": "Sessions board contract",
+   "summary": "WorkboardSessionsBoardSpec/Read types, observer-health/run/PR unions and createDefaultWorkboardSessionsBoardSpec with the six default columns.",
+   "tags": [
+    "contract",
+    "sessions"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/workboard-contract/src/sessions-board.ts",
+   "lineRange": [
+    11,
+    120
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/index.ts",
+   "type": "file",
+   "name": "Canvas plugin entry",
+   "summary": "Registers the A2UI board widget content kind, A2UI HTTP route, node-panel widget presenter, node.invoke policy and the canvas agent tool.",
+   "tags": [
+    "canvas",
+    "plugin-entry"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/index.ts",
+   "lineRange": [
+    22,
+    61
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/tool.ts",
+   "type": "file",
+   "name": "Canvas agent tool",
+   "summary": "createCanvasTool resolves an eligible node and invokes canvas.present/hide/navigate via node.invoke with transport timeout grace.",
+   "tags": [
+    "canvas",
+    "tool"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/tool.ts",
+   "lineRange": [
+    20,
+    94
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/tool-schema.ts",
+   "type": "file",
+   "name": "Canvas tool schema",
+   "summary": "Typebox schema for the canvas tool: action present|hide|navigate, node selector, placement and url/gateway params.",
+   "tags": [
+    "schema",
+    "canvas"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/canvas/src/tool-schema.ts",
+   "lineRange": [
+    9,
+    29
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/widget-presenter.ts",
+   "type": "file",
+   "name": "Canvas widget presenter",
+   "summary": "createCanvasWidgetPresenter targets node_panel, selects an eligible canvas-capable node and invokes canvas.present with the hosted document URL.",
+   "tags": [
+    "presenter",
+    "node-panel"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/widget-presenter.ts",
+   "lineRange": [
+    24,
+    104
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/board-widget.ts",
+   "type": "file",
+   "name": "A2UI board widget kind",
+   "summary": "canvasA2UIBoardWidgetKind declares kind a2ui, bundle resources, validateSource and composeDocument producing boot script + openclaw-a2ui-host.",
+   "tags": [
+    "a2ui",
+    "widget-kind"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/canvas/src/board-widget.ts",
+   "lineRange": [
+    32,
+    60
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/a2ui-jsonl.ts",
+   "type": "file",
+   "name": "A2UI JSONL validator",
+   "summary": "validateSupportedA2UIJsonl parses one-action-per-line JSONL, enforces v0.8 (unversioned) vs v0.9 (schema-validated) and rejects mixed files.",
+   "tags": [
+    "a2ui",
+    "validation"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/canvas/src/a2ui-jsonl.ts",
+   "lineRange": [
+    16,
+    100
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/config.ts",
+   "type": "file",
+   "name": "Canvas plugin config",
+   "summary": "Parses canvas.host config and decides host enablement, honoring the OPENCLAW_SKIP_CANVAS_HOST env override.",
+   "tags": [
+    "config",
+    "canvas"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/canvas/src/config.ts",
+   "lineRange": [
+    14,
+    41
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/host/a2ui.ts",
+   "type": "file",
+   "name": "A2UI host resolver",
+   "summary": "Resolves the on-disk A2UI root across candidate dirs with a 10s null-retry cache and serves requests via the shared route handler.",
+   "tags": [
+    "a2ui",
+    "host"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/host/a2ui.ts",
+   "lineRange": [
+    19,
+    103
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/host/a2ui-route.ts",
+   "type": "file",
+   "name": "A2UI HTTP route",
+   "summary": "handleA2uiHttpRequestWithRootResolver serves A2UI assets GET/HEAD with no-store caching and the given root resolver.",
+   "tags": [
+    "http",
+    "route"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/host/a2ui-route.ts",
+   "lineRange": [
+    14,
+    81
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/host/a2ui-shared.ts",
+   "type": "file",
+   "name": "A2UI path constants",
+   "summary": "Defines A2UI_PATH, CANVAS_HOST_PATH and isA2uiPath for the canvas host routes.",
+   "tags": [
+    "constants",
+    "paths"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/canvas/src/host/a2ui-shared.ts",
+   "lineRange": [
+    1,
+    7
+   ]
+  },
+  {
+   "id": "file:extensions/canvas/src/node-eligibility.ts",
+   "type": "file",
+   "name": "Canvas node eligibility",
+   "summary": "Selects canvas-capable nodes and defines CANVAS_PRESENT_COMMAND used by the tool and presenter.",
+   "tags": [
+    "nodes",
+    "eligibility"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/canvas/src/node-eligibility.ts"
+  },
+  {
+   "id": "file:src/canvas/widget-tool.ts",
+   "type": "file",
+   "name": "show_widget tool",
+   "summary": "createShowWidgetTool validates widget code/report/kind, pins through board.widget.put or hosts a canvas document and returns inline/canvas/pinned results.",
+   "tags": [
+    "widgets",
+    "tool",
+    "dashboard"
+   ],
+   "complexity": "complex",
+   "filePath": "src/canvas/widget-tool.ts",
+   "lineRange": [
+    275,
+    638
+   ]
+  },
+  {
+   "id": "file:src/canvas/documents.ts",
+   "type": "file",
+   "name": "Canvas document store",
+   "summary": "createCanvasDocument writes index.html + manifest.json under the canvas documents root, normalizing ids/paths and pruning per-scope documents.",
+   "tags": [
+    "documents",
+    "store"
+   ],
+   "complexity": "complex",
+   "filePath": "src/canvas/documents.ts",
+   "lineRange": [
+    71,
+    213
+   ]
+  },
+  {
+   "id": "file:src/canvas/serve.runtime.ts",
+   "type": "file",
+   "name": "Canvas document server",
+   "summary": "handleCanvasDocumentHttpRequest serves canvas documents from the fs-safe root, adding a CSP sandbox header for script-enabled HTML.",
+   "tags": [
+    "serve",
+    "http"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/canvas/serve.runtime.ts",
+   "lineRange": [
+    43,
+    101
+   ]
+  },
+  {
+   "id": "file:src/canvas/wrap.ts",
+   "type": "file",
+   "name": "Widget HTML wrapper",
+   "summary": "buildWidgetDocument wraps widget code in a full HTML document with bridge bootstrap, default-src none CSP, size reporter and theme bridge.",
+   "tags": [
+    "wrap",
+    "csp",
+    "bridge"
+   ],
+   "complexity": "complex",
+   "filePath": "src/canvas/wrap.ts",
+   "lineRange": [
+    66,
+    269
+   ]
+  },
+  {
+   "id": "file:src/canvas/constants.ts",
+   "type": "file",
+   "name": "Canvas host constants",
+   "summary": "CANVAS_DOCUMENTS_PATH, the core canvas node capability and helpers to add it while removing stale plugin duplicates.",
+   "tags": [
+    "constants",
+    "capability"
+   ],
+   "complexity": "simple",
+   "filePath": "src/canvas/constants.ts",
+   "lineRange": [
+    4,
+    34
+   ]
+  },
+  {
+   "id": "file:src/canvas/widget-script-syntax.ts",
+   "type": "file",
+   "name": "Widget script syntax check",
+   "summary": "findWidgetScriptSyntaxError flags invalid inline widget scripts before hosting.",
+   "tags": [
+    "validation",
+    "script"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/canvas/widget-script-syntax.ts"
+  },
+  {
+   "id": "file:src/gateway/server-methods/board.ts",
+   "type": "file",
+   "name": "Board gateway method",
+   "summary": "board.widget.put materializes html/canvas-doc/mcp-app/registered content, wraps HTML with buildWidgetDocument and stores the widget on the board.",
+   "tags": [
+    "gateway",
+    "board"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/server-methods/board.ts",
+   "lineRange": [
+    242,
+    400
+   ]
+  },
+  {
+   "id": "file:src/gateway/server-methods/canvas.ts",
+   "type": "file",
+   "name": "Canvas gateway methods",
+   "summary": "canvas.document.view/preview return html + sandbox url/port/origin from the shared isolated sandbox host with caller assertions.",
+   "tags": [
+    "gateway",
+    "canvas"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server-methods/canvas.ts",
+   "lineRange": [
+    73,
+    120
+   ]
+  },
+  {
+   "id": "file:src/gateway/board-sandbox.ts",
+   "type": "file",
+   "name": "Board widget sandbox",
+   "summary": "buildBoardWidgetSandboxPath + buildBoardWidgetContentSecurityPolicy produce the sandbox host path and default-src none / sandbox allow-scripts CSP.",
+   "tags": [
+    "sandbox",
+    "csp"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/board-sandbox.ts",
+   "lineRange": [
+    18,
+    51
+   ]
+  },
+  {
+   "id": "file:src/gateway/board-widget-view.ts",
+   "type": "file",
+   "name": "Board widget view auth",
+   "summary": "withAuthorizedBoardWidgetView verifies a view ticket and re-composes registered content for a widget view.",
+   "tags": [
+    "auth",
+    "view"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/board-widget-view.ts",
+   "lineRange": [
+    16,
+    70
+   ]
+  },
+  {
+   "id": "file:src/gateway/board-view-ticket.ts",
+   "type": "file",
+   "name": "Board view tickets",
+   "summary": "create/verify board view tickets with a 20-minute TTL bound to sessionKey/agentId/name/revision/viewGeneration and frame URLs.",
+   "tags": [
+    "ticket",
+    "ttl"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/board-view-ticket.ts",
+   "lineRange": [
+    14,
+    257
+   ]
+  },
+  {
+   "id": "file:ui/src/lib/board/widget-sandbox-host.ts",
+   "type": "file",
+   "name": "BoardWidgetSandboxHost",
+   "summary": "Owns one trusted outer sandbox frame and its ticket-bound inner widget bridge, forwarding board.event/prompt/data/canvas bridge messages.",
+   "tags": [
+    "sandbox",
+    "iframe"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/lib/board/widget-sandbox-host.ts",
+   "lineRange": [
+    51,
+    405
+   ]
+  },
+  {
+   "id": "file:ui/src/lib/board/widget-bridge.ts",
+   "type": "file",
+   "name": "BoardWidgetBridgeController",
+   "summary": "Validates openclaw:widget-bridge-request messages and proxies board.event, board.prompt.authorize and data.read/action to the Gateway.",
+   "tags": [
+    "bridge",
+    "postmessage"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/lib/board/widget-bridge.ts",
+   "lineRange": [
+    45,
+    193
+   ]
+  },
+  {
+   "id": "file:ui/src/components/board/board-widget-frame.ts",
+   "type": "file",
+   "name": "BoardWidgetFrame",
+   "summary": "Lit element that hosts a board widget iframe, resolving the sandbox URL, refreshing tickets before expiry and reporting size/scroll.",
+   "tags": [
+    "frame",
+    "widget"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/components/board/board-widget-frame.ts",
+   "lineRange": [
+    1,
+    70
+   ]
+  },
+  {
+   "id": "file:ui/src/app/native-browser-bridge.ts",
+   "type": "file",
+   "name": "Native browser bridge (UI)",
+   "summary": "Typed Control UI client for openclawBrowser: validates outgoing messages, posts via webkit.messageHandlers and reads/pushes native browser state.",
+   "tags": [
+    "bridge",
+    "native"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/app/native-browser-bridge.ts",
+   "lineRange": [
+    200,
+    283
+   ]
+  },
+  {
+   "id": "file:ui/src/pages/dashboards/dashboards-page.ts",
+   "type": "file",
+   "name": "DashboardsPage",
+   "summary": "Lit page element that loads route data and renders the dashboard gallery and board views.",
+   "tags": [
+    "page",
+    "dashboards"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/pages/dashboards/dashboards-page.ts",
+   "lineRange": [
+    20,
+    30
+   ]
+  },
+  {
+   "id": "file:ui/src/pages/dashboards/view.ts",
+   "type": "file",
+   "name": "Dashboards view",
+   "summary": "renderDashboards renders the dashboard gallery with filters and handlers.",
+   "tags": [
+    "render",
+    "dashboards"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/pages/dashboards/view.ts",
+   "lineRange": [
+    281,
+    281
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift",
+   "type": "file",
+   "name": "DashboardBrowserTab",
+   "summary": "A WKWebView reading tab with its own website data store and a navigation-identity alias for redirect-safe link reuse.",
+   "tags": [
+    "webkit",
+    "tab"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift",
+   "lineRange": [
+    6,
+    124
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+   "type": "file",
+   "name": "DashboardNativeBrowserHost",
+   "summary": "Owns tabs, download map and per-scope presentations, pushing debounced DashboardBrowserState to the Control UI.",
+   "tags": [
+    "tabs",
+    "presentation"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+   "lineRange": [
+    26,
+    377
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+   "type": "file",
+   "name": "DashboardBrowserMessageHandler",
+   "summary": "WKScriptMessageHandlerWithReply named openclawBrowser that decodes open/navigate/present/inspect/action requests with strict validation.",
+   "tags": [
+    "bridge",
+    "decode"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+   "lineRange": [
+    50,
+    151
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift",
+   "type": "file",
+   "name": "DashboardBrowserDownload",
+   "summary": "WKDownloadDelegate that stages downloads in an item-replacement dir and commits only on success via an NSSavePanel.",
+   "tags": [
+    "download",
+    "webkit"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift",
+   "lineRange": [
+    7,
+    154
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+   "type": "file",
+   "name": "DashboardBrowserSessionStore",
+   "summary": "Per-saved-Gateway WKWebsiteDataStore with revision-gated leases that validate sessions before preparing controllers and publishing cookies.",
+   "tags": [
+    "session",
+    "cookies"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+   "lineRange": [
+    8,
+    140
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift",
+   "type": "file",
+   "name": "DashboardAlertPresenter",
+   "summary": "Presents NSAlerts as window sheets or floating NSPanels, coalescing identical informational alerts without a nested modal loop.",
+   "tags": [
+    "alerts",
+    "appkit"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift",
+   "lineRange": [
+    5,
+    133
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardWebView.swift",
+   "type": "file",
+   "name": "DashboardWebView",
+   "summary": "WKWebView subclass that filters native-browser context menu items such as open-in-new-window and download.",
+   "tags": [
+    "webkit",
+    "context-menu"
+   ],
+   "complexity": "simple",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardWebView.swift",
+   "lineRange": [
+    4,
+    37
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/DashboardWindowController+NativeBrowser.swift",
+   "type": "file",
+   "name": "DashboardWindowController native browser",
+   "summary": "Extension that validates and dispatches openclawBrowser messages to the native browser host and publishes browser state to the web page.",
+   "tags": [
+    "controller",
+    "bridge"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardWindowController+NativeBrowser.swift",
+   "lineRange": [
+    4,
+    102
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+   "type": "file",
+   "name": "WebChatManager",
+   "summary": "Owns the fleet of Gateway chat/dashboard windows, routing and key/front-window state, closing windows on profile changes.",
+   "tags": [
+    "webchat",
+    "windows"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/WebChatManager.swift",
+   "lineRange": [
+    37,
+    404
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/WebChatRoute.swift",
+   "type": "file",
+   "name": "WebChatRoute",
+   "summary": "Struct mapping a session key + agent id to a Control UI dashboard path or draft fragment, encoding dot/key segments.",
+   "tags": [
+    "routing",
+    "webchat"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/WebChatRoute.swift",
+   "lineRange": [
+    3,
+    70
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+   "type": "file",
+   "name": "WebChatSwiftUI",
+   "summary": "SwiftUI native chat surface used by Quick Chat and the Native experience fallback, talking to the Gateway WebSocket.",
+   "tags": [
+    "swiftui",
+    "chat"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift"
+  },
+  {
+   "id": "document:docs/plugins/workboard.md",
+   "type": "document",
+   "name": "Workboard plugin doc",
+   "summary": "Documents the Workboard plugin: cards, Sessions board rules, widgets, RPC scopes, storage and troubleshooting.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/plugins/workboard.md"
+  },
+  {
+   "id": "document:docs/cli/workboard.md",
+   "type": "document",
+   "name": "Workboard CLI doc",
+   "summary": "Documents openclaw workboard list/create/show/move/dispatch, id prefixes, dispatch selection and Gateway fallback.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/cli/workboard.md"
+  },
+  {
+   "id": "document:docs/web/webchat.md",
+   "type": "document",
+   "name": "WebChat doc",
+   "summary": "Documents the WebChat RPC/event data plane, history normalization, mentions and delivery model.",
+   "tags": [
+    "webchat"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/webchat.md"
+  },
+  {
+   "id": "document:docs/platforms/mac/webchat.md",
+   "type": "document",
+   "name": "WebChat macOS doc",
+   "summary": "Documents the macOS Web vs Native experience, native chat window, Quick Chat and Gateway window management.",
+   "tags": [
+    "webchat"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/platforms/mac/webchat.md"
+  },
+  {
+   "id": "function:extensions/workboard/src/gateway.ts:registerWorkboardGatewayMethods",
+   "type": "function",
+   "name": "registerWorkboardGatewayMethods",
+   "summary": "Registers all workboard.* RPC methods with read/write scopes and store-operation wrapping.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    109,
+    113
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/src/change-events.ts:createWorkboardChangeEventService",
+   "type": "function",
+   "name": "createWorkboardChangeEventService",
+   "summary": "Builds the service that subscribes store changes, emits plugin.workboard.changed and polls external changes.",
+   "tags": [
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/change-events.ts",
+   "lineRange": [
+    7,
+    12
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/src/sessions-board.ts:createWorkboardSessionsBoardService",
+   "type": "function",
+   "name": "createWorkboardSessionsBoardService",
+   "summary": "Builds the sessions-board service exposing read/update/move over fused session facts.",
+   "tags": [
+    "sessions"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/sessions-board.ts",
+   "lineRange": [
+    522,
+    530
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/src/tools.ts:createWorkboardTools",
+   "type": "function",
+   "name": "createWorkboardTools",
+   "summary": "Creates the workboard_* card agent tools scoped to a plugin context.",
+   "tags": [
+    "tools"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/tools.ts",
+   "lineRange": [
+    69,
+    80
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/src/tools-sessions-board.ts:createWorkboardSessionsBoardTools",
+   "type": "function",
+   "name": "createWorkboardSessionsBoardTools",
+   "summary": "Creates the sessions-board agent tools used by the docked Board agent.",
+   "tags": [
+    "tools"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/tools-sessions-board.ts",
+   "lineRange": [
+    68,
+    80
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/src/dispatcher.ts:dispatchAndStartWorkboardCards",
+   "type": "function",
+   "name": "dispatchAndStartWorkboardCards",
+   "summary": "Promotes, blocks and starts a bounded batch of ready cards as Gateway subagent worker runs.",
+   "tags": [
+    "dispatch"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/workboard/src/dispatcher.ts",
+   "lineRange": [
+    237,
+    237
+   ]
+  },
+  {
+   "id": "class:extensions/workboard/browser/catalog.ts:WorkboardCatalog",
+   "type": "class",
+   "name": "WorkboardCatalog",
+   "summary": "Class that loads and republishes the board catalog with generation guards and retry.",
+   "tags": [
+    "catalog"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/catalog.ts",
+   "lineRange": [
+    19,
+    31
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/browser/widgets.ts:createWorkboardWidget",
+   "type": "function",
+   "name": "createWorkboardWidget",
+   "summary": "Returns a mount function for a mini/card/board workboard widget using lit render.",
+   "tags": [
+    "widgets"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/widgets.ts",
+   "lineRange": [
+    10,
+    13
+   ]
+  },
+  {
+   "id": "function:extensions/workboard/browser/lib/workboard/live-refresh.ts:handleWorkboardChanged",
+   "type": "function",
+   "name": "handleWorkboardChanged",
+   "summary": "Normalizes a change payload, updates epoch/revision and schedules a coalesced canonical reload.",
+   "tags": [
+    "live-refresh"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/browser/lib/workboard/live-refresh.ts",
+   "lineRange": [
+    126,
+    148
+   ]
+  },
+  {
+   "id": "function:packages/workboard-contract/src/sessions-board.ts:createDefaultWorkboardSessionsBoardSpec",
+   "type": "function",
+   "name": "createDefaultWorkboardSessionsBoardSpec",
+   "summary": "Returns the default six-column sessions board spec (needs-input/stuck/working/in-review/merged/done).",
+   "tags": [
+    "sessions"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/workboard-contract/src/sessions-board.ts",
+   "lineRange": [
+    68,
+    120
+   ]
+  },
+  {
+   "id": "function:extensions/canvas/src/tool.ts:createCanvasTool",
+   "type": "function",
+   "name": "createCanvasTool",
+   "summary": "Builds the lazy canvas agent tool that invokes node canvas commands.",
+   "tags": [
+    "canvas"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/tool.ts",
+   "lineRange": [
+    20,
+    22
+   ]
+  },
+  {
+   "id": "function:extensions/canvas/src/widget-presenter.ts:createCanvasWidgetPresenter",
+   "type": "function",
+   "name": "createCanvasWidgetPresenter",
+   "summary": "Builds the node_panel widget presenter that selects an eligible node and invokes canvas.present.",
+   "tags": [
+    "presenter"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/widget-presenter.ts",
+   "lineRange": [
+    24,
+    25
+   ]
+  },
+  {
+   "id": "function:extensions/canvas/src/a2ui-jsonl.ts:validateSupportedA2UIJsonl",
+   "type": "function",
+   "name": "validateSupportedA2UIJsonl",
+   "summary": "Validates A2UI JSONL and returns version, messageCount and parsed messages.",
+   "tags": [
+    "validation"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/canvas/src/a2ui-jsonl.ts",
+   "lineRange": [
+    16,
+    17
+   ]
+  },
+  {
+   "id": "function:extensions/canvas/src/host/a2ui.ts:handleA2uiHttpRequest",
+   "type": "function",
+   "name": "handleA2uiHttpRequest",
+   "summary": "Serves A2UI assets resolved through the cached realpath root.",
+   "tags": [
+    "http"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/canvas/src/host/a2ui.ts",
+   "lineRange": [
+    77,
+    82
+   ]
+  },
+  {
+   "id": "function:src/canvas/widget-tool.ts:createShowWidgetTool",
+   "type": "function",
+   "name": "createShowWidgetTool",
+   "summary": "Builds the show_widget tool that pins or hosts agent-authored widgets.",
+   "tags": [
+    "widgets"
+   ],
+   "complexity": "complex",
+   "filePath": "src/canvas/widget-tool.ts",
+   "lineRange": [
+    275,
+    276
+   ]
+  },
+  {
+   "id": "function:src/canvas/documents.ts:createCanvasDocument",
+   "type": "function",
+   "name": "createCanvasDocument",
+   "summary": "Creates a canvas document directory + manifest and returns its manifest/entryUrl.",
+   "tags": [
+    "documents"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/canvas/documents.ts",
+   "lineRange": [
+    177,
+    183
+   ]
+  },
+  {
+   "id": "function:src/canvas/serve.runtime.ts:handleCanvasDocumentHttpRequest",
+   "type": "function",
+   "name": "handleCanvasDocumentHttpRequest",
+   "summary": "Serves canvas documents from the fs-safe root with optional CSP sandbox header.",
+   "tags": [
+    "serve"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/canvas/serve.runtime.ts",
+   "lineRange": [
+    43,
+    46
+   ]
+  },
+  {
+   "id": "function:src/canvas/wrap.ts:buildWidgetDocument",
+   "type": "function",
+   "name": "buildWidgetDocument",
+   "summary": "Composes the widget HTML document with bridge bootstrap and CSP.",
+   "tags": [
+    "wrap"
+   ],
+   "complexity": "complex",
+   "filePath": "src/canvas/wrap.ts",
+   "lineRange": [
+    66,
+    70
+   ]
+  },
+  {
+   "id": "function:src/gateway/board-sandbox.ts:buildBoardWidgetSandboxPath",
+   "type": "function",
+   "name": "buildBoardWidgetSandboxPath",
+   "summary": "Builds the sandbox host path from granted connect/media/resource domains.",
+   "tags": [
+    "sandbox"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/board-sandbox.ts",
+   "lineRange": [
+    18,
+    18
+   ]
+  },
+  {
+   "id": "function:src/gateway/board-widget-view.ts:withAuthorizedBoardWidgetView",
+   "type": "function",
+   "name": "withAuthorizedBoardWidgetView",
+   "summary": "Verifies a widget view ticket and re-composes registered content under authority.",
+   "tags": [
+    "auth"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/board-widget-view.ts",
+   "lineRange": [
+    16,
+    21
+   ]
+  },
+  {
+   "id": "class:ui/src/lib/board/widget-sandbox-host.ts:BoardWidgetSandboxHost",
+   "type": "class",
+   "name": "BoardWidgetSandboxHost",
+   "summary": "Owns the outer sandbox frame and inner ticket-bound widget bridge.",
+   "tags": [
+    "sandbox"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/lib/board/widget-sandbox-host.ts",
+   "lineRange": [
+    51,
+    56
+   ]
+  },
+  {
+   "id": "class:ui/src/lib/board/widget-bridge.ts:BoardWidgetBridgeController",
+   "type": "class",
+   "name": "BoardWidgetBridgeController",
+   "summary": "Handles widget bridge requests and proxies them to Gateway methods.",
+   "tags": [
+    "bridge"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/lib/board/widget-bridge.ts",
+   "lineRange": [
+    45,
+    50
+   ]
+  },
+  {
+   "id": "class:ui/src/pages/dashboards/dashboards-page.ts:DashboardsPage",
+   "type": "class",
+   "name": "DashboardsPage",
+   "summary": "Lit page element owning dashboard gallery filters and rendering.",
+   "tags": [
+    "page"
+   ],
+   "complexity": "simple",
+   "filePath": "ui/src/pages/dashboards/dashboards-page.ts",
+   "lineRange": [
+    20,
+    22
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift:DashboardBrowserTab",
+   "type": "class",
+   "name": "DashboardBrowserTab",
+   "summary": "MainActor class wrapping one WKWebView reading tab and its navigation state.",
+   "tags": [
+    "webkit"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift",
+   "lineRange": [
+    6,
+    26
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "type": "class",
+   "name": "DashboardNativeBrowserHost",
+   "summary": "MainActor host of tabs, downloads and presentations.",
+   "tags": [
+    "tabs"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+   "lineRange": [
+    26,
+    33
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+   "type": "class",
+   "name": "DashboardBrowserMessageHandler",
+   "summary": "Script message handler with reply for the native browser bridge.",
+   "tags": [
+    "bridge"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+   "lineRange": [
+    51,
+    54
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift:DashboardBrowserDownload",
+   "type": "class",
+   "name": "DashboardBrowserDownload",
+   "summary": "WKDownloadDelegate for one user-requested transfer.",
+   "tags": [
+    "download"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift",
+   "lineRange": [
+    41,
+    48
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:DashboardBrowserSessionStore",
+   "type": "class",
+   "name": "DashboardBrowserSessionStore",
+   "summary": "Per-profile WebKit data store with revision-gated leases.",
+   "tags": [
+    "session"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+   "lineRange": [
+    8,
+    18
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift:DashboardAlertPresenter",
+   "type": "class",
+   "name": "DashboardAlertPresenter",
+   "summary": "MainActor alert presenter with sheet/panel fallback and coalescing.",
+   "tags": [
+    "alerts"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift",
+   "lineRange": [
+    5,
+    59
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+   "type": "class",
+   "name": "WebChatManager",
+   "summary": "Manages the fleet of Gateway chat/dashboard windows and their routing.",
+   "tags": [
+    "webchat"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/WebChatManager.swift",
+   "lineRange": [
+    37,
+    44
+   ]
+  },
+  {
+   "id": "class:apps/macos/Sources/OpenClaw/WebChatRoute.swift:WebChatRoute",
+   "type": "class",
+   "name": "WebChatRoute",
+   "summary": "Value type mapping session keys to Control UI dashboard paths.",
+   "tags": [
+    "routing"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/WebChatRoute.swift",
+   "lineRange": [
+    3,
+    10
+   ]
+  },
+  {
+   "id": "endpoint:src/gateway/server-methods/board.ts:board.widget.put",
+   "type": "endpoint",
+   "name": "board.widget.put",
+   "summary": "Gateway write method that materializes and stores a pinned board widget.",
+   "tags": [
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server-methods/board.ts",
+   "lineRange": [
+    242,
+    245
+   ]
+  },
+  {
+   "id": "endpoint:src/gateway/server-methods/canvas.ts:canvas.document.view",
+   "type": "endpoint",
+   "name": "canvas.document.view",
+   "summary": "Gateway read method returning a canvas document's html + sandbox host info.",
+   "tags": [
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server-methods/canvas.ts",
+   "lineRange": [
+    74,
+    77
+   ]
+  },
+  {
+   "id": "endpoint:src/gateway/server-methods/canvas.ts:canvas.document.preview",
+   "type": "endpoint",
+   "name": "canvas.document.preview",
+   "summary": "Gateway method hosting a caller-provided HTML preview inside the isolated sandbox.",
+   "tags": [
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server-methods/canvas.ts",
+   "lineRange": [
+    96,
+    99
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.list",
+   "type": "endpoint",
+   "name": "workboard.cards.list",
+   "summary": "operator.read method listing cards with revision-freshness shortcut.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    161,
+    163
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.update",
+   "type": "endpoint",
+   "name": "workboard.cards.update",
+   "summary": "operator.write method updating a card with optional expectedUpdatedAt CAS.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    178,
+    181
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.move",
+   "type": "endpoint",
+   "name": "workboard.cards.move",
+   "summary": "operator.write method moving a card status/position with CAS.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    195,
+    197
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.boards.upsert",
+   "type": "endpoint",
+   "name": "workboard.boards.upsert",
+   "summary": "operator.write method creating/updating a board spec.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    253,
+    255
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.boards.delete",
+   "type": "endpoint",
+   "name": "workboard.boards.delete",
+   "summary": "operator.write method deleting a board.",
+   "tags": [
+    "workboard"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    300,
+    301
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.sessionsBoard.read",
+   "type": "endpoint",
+   "name": "workboard.sessionsBoard.read",
+   "summary": "operator.read method returning fused sessions board facts/placements with revision.",
+   "tags": [
+    "sessions"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    263,
+    265
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.dispatch",
+   "type": "endpoint",
+   "name": "workboard.cards.dispatch",
+   "summary": "operator.write method starting a dispatch pass that launches subagent workers.",
+   "tags": [
+    "dispatch"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    246,
+    247
+   ]
+  },
+  {
+   "id": "endpoint:extensions/workboard/src/gateway.ts:workboard.notifications.events",
+   "type": "endpoint",
+   "name": "workboard.notifications.events",
+   "summary": "operator.read method returning notification events without cursor advance.",
+   "tags": [
+    "notifications"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/workboard/src/gateway.ts",
+   "lineRange": [
+    345,
+    347
+   ]
+  },
+  {
+   "id": "endpoint:ui/src/lib/board/widget-bridge.ts:board.event",
+   "type": "endpoint",
+   "name": "board.event",
+   "summary": "Gateway method the widget bridge calls to forward widget-originated events.",
+   "tags": [
+    "bridge"
+   ],
+   "complexity": "simple",
+   "filePath": "ui/src/lib/board/widget-bridge.ts",
+   "lineRange": [
+    103,
+    103
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/gateway.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/change-events.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/sessions-board.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/store.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/dispatcher.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/lifecycle-sync.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/tools.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/src/tools-sessions-board.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/host.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/widgets.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/catalog.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/delete-board.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/lib/workboard/live-refresh.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/lib/workboard/types.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard",
+   "target": "file:extensions/workboard/browser/lib/workboard/capability.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/tool.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/tool-schema.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/widget-presenter.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/board-widget.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/a2ui-jsonl.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/config.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/host/a2ui.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/host/a2ui-route.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/host/a2ui-shared.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas",
+   "target": "file:extensions/canvas/src/node-eligibility.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "file:src/canvas/widget-tool.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "file:src/canvas/documents.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "file:src/canvas/serve.runtime.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "file:src/canvas/wrap.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "file:src/canvas/constants.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "file:src/canvas/widget-script-syntax.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway-board",
+   "target": "file:src/gateway/server-methods/board.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway-board",
+   "target": "file:src/gateway/server-methods/canvas.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway-board",
+   "target": "file:src/gateway/board-sandbox.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway-board",
+   "target": "file:src/gateway/board-widget-view.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway-board",
+   "target": "file:src/gateway/board-view-ticket.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:control-ui",
+   "target": "file:ui/src/lib/board/widget-sandbox-host.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:control-ui",
+   "target": "file:ui/src/lib/board/widget-bridge.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:control-ui",
+   "target": "file:ui/src/components/board/board-widget-frame.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:control-ui",
+   "target": "file:ui/src/app/native-browser-bridge.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:control-ui",
+   "target": "file:ui/src/pages/dashboards/dashboards-page.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:control-ui",
+   "target": "file:ui/src/pages/dashboards/view.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardWebView.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardWindowController+NativeBrowser.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/WebChatRoute.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:macos-app",
+   "target": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard-contract",
+   "target": "file:packages/workboard-contract/src/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:workboard-contract",
+   "target": "file:packages/workboard-contract/src/sessions-board.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "concept:workboard-board",
+   "target": "module:workboard",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:sessions-board",
+   "target": "module:workboard",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:a2ui-widget-system",
+   "target": "module:canvas",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:canvas-host",
+   "target": "module:canvas-host",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:dashboard-flavors",
+   "target": "module:control-ui",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:native-browser-bridge",
+   "target": "module:macos-app",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:webchat-window-lifecycle",
+   "target": "module:macos-app",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "module:workboard",
+   "target": "module:workboard-contract",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "module:canvas",
+   "target": "module:canvas-host",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "module:gateway-board",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "module:control-ui",
+   "target": "module:gateway-board",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "module:macos-app",
+   "target": "module:control-ui",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "function:extensions/workboard/src/gateway.ts:registerWorkboardGatewayMethods",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/change-events.ts",
+   "target": "function:extensions/workboard/src/change-events.ts:createWorkboardChangeEventService",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/sessions-board.ts",
+   "target": "function:extensions/workboard/src/sessions-board.ts:createWorkboardSessionsBoardService",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/tools.ts",
+   "target": "function:extensions/workboard/src/tools.ts:createWorkboardTools",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/tools-sessions-board.ts",
+   "target": "function:extensions/workboard/src/tools-sessions-board.ts:createWorkboardSessionsBoardTools",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/dispatcher.ts",
+   "target": "function:extensions/workboard/src/dispatcher.ts:dispatchAndStartWorkboardCards",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/browser/catalog.ts",
+   "target": "class:extensions/workboard/browser/catalog.ts:WorkboardCatalog",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/browser/widgets.ts",
+   "target": "function:extensions/workboard/browser/widgets.ts:createWorkboardWidget",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/browser/lib/workboard/live-refresh.ts",
+   "target": "function:extensions/workboard/browser/lib/workboard/live-refresh.ts:handleWorkboardChanged",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:packages/workboard-contract/src/sessions-board.ts",
+   "target": "function:packages/workboard-contract/src/sessions-board.ts:createDefaultWorkboardSessionsBoardSpec",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/canvas/src/tool.ts",
+   "target": "function:extensions/canvas/src/tool.ts:createCanvasTool",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/canvas/src/widget-presenter.ts",
+   "target": "function:extensions/canvas/src/widget-presenter.ts:createCanvasWidgetPresenter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/canvas/src/a2ui-jsonl.ts",
+   "target": "function:extensions/canvas/src/a2ui-jsonl.ts:validateSupportedA2UIJsonl",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/canvas/src/host/a2ui.ts",
+   "target": "function:extensions/canvas/src/host/a2ui.ts:handleA2uiHttpRequest",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/canvas/widget-tool.ts",
+   "target": "function:src/canvas/widget-tool.ts:createShowWidgetTool",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/canvas/documents.ts",
+   "target": "function:src/canvas/documents.ts:createCanvasDocument",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/canvas/serve.runtime.ts",
+   "target": "function:src/canvas/serve.runtime.ts:handleCanvasDocumentHttpRequest",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/canvas/wrap.ts",
+   "target": "function:src/canvas/wrap.ts:buildWidgetDocument",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/board-sandbox.ts",
+   "target": "function:src/gateway/board-sandbox.ts:buildBoardWidgetSandboxPath",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/board-widget-view.ts",
+   "target": "function:src/gateway/board-widget-view.ts:withAuthorizedBoardWidgetView",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:ui/src/lib/board/widget-sandbox-host.ts",
+   "target": "class:ui/src/lib/board/widget-sandbox-host.ts:BoardWidgetSandboxHost",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:ui/src/lib/board/widget-bridge.ts",
+   "target": "class:ui/src/lib/board/widget-bridge.ts:BoardWidgetBridgeController",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:ui/src/pages/dashboards/dashboards-page.ts",
+   "target": "class:ui/src/pages/dashboards/dashboards-page.ts:DashboardsPage",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift:DashboardBrowserTab",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift:DashboardBrowserDownload",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:DashboardBrowserSessionStore",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift:DashboardAlertPresenter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/WebChatRoute.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/WebChatRoute.swift:WebChatRoute",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server-methods/board.ts",
+   "target": "endpoint:src/gateway/server-methods/board.ts:board.widget.put",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server-methods/canvas.ts",
+   "target": "endpoint:src/gateway/server-methods/canvas.ts:canvas.document.view",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server-methods/canvas.ts",
+   "target": "endpoint:src/gateway/server-methods/canvas.ts:canvas.document.preview",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.list",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.update",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.move",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.boards.upsert",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.boards.delete",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.sessionsBoard.read",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.dispatch",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.notifications.events",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:ui/src/lib/board/widget-bridge.ts",
+   "target": "endpoint:ui/src/lib/board/widget-bridge.ts:board.event",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "function:extensions/workboard/src/gateway.ts:registerWorkboardGatewayMethods",
+   "target": "file:extensions/workboard/src/gateway.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "function:extensions/workboard/src/gateway.ts:registerWorkboardGatewayMethods",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "function:extensions/workboard/src/change-events.ts:createWorkboardChangeEventService",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "function:extensions/workboard/src/sessions-board.ts:createWorkboardSessionsBoardService",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "function:extensions/workboard/src/tools.ts:createWorkboardTools",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "function:extensions/workboard/src/tools-sessions-board.ts:createWorkboardSessionsBoardTools",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "file:extensions/workboard/src/dispatcher.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/workboard/index.ts",
+   "target": "file:extensions/workboard/src/lifecycle-sync.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:extensions/workboard/src/change-events.ts:createWorkboardChangeEventService",
+   "target": "concept:workboard-board",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "emits plugin.workboard.changed with scope operator.read"
+  },
+  {
+   "source": "function:extensions/workboard/src/change-events.ts:createWorkboardChangeEventService",
+   "target": "file:extensions/workboard/src/store.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "store.subscribeChanges / reconcileExternalChanges"
+  },
+  {
+   "source": "file:extensions/workboard/src/gateway.ts",
+   "target": "file:packages/workboard-contract/src/index.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/workboard/src/sessions-board.ts",
+   "target": "file:packages/workboard-contract/src/sessions-board.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "function:extensions/workboard/src/dispatcher.ts:dispatchAndStartWorkboardCards",
+   "target": "function:extensions/workboard/src/gateway.ts:registerWorkboardGatewayMethods",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "endpoint:extensions/workboard/src/gateway.ts:workboard.sessionsBoard.read",
+   "target": "function:extensions/workboard/src/sessions-board.ts:createWorkboardSessionsBoardService",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.dispatch",
+   "target": "function:extensions/workboard/src/dispatcher.ts:dispatchAndStartWorkboardCards",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/workboard/src/sessions-board.ts:createWorkboardSessionsBoardService",
+   "target": "function:packages/workboard-contract/src/sessions-board.ts:createDefaultWorkboardSessionsBoardSpec",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "concept:sessions-board",
+   "target": "concept:workboard-board",
+   "type": "variant_of",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "function:extensions/workboard/browser/widgets.ts:createWorkboardWidget",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "class:extensions/workboard/browser/catalog.ts:WorkboardCatalog",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "file:extensions/workboard/browser/host.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "file:extensions/workboard/browser/lib/workboard/capability.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "file:extensions/workboard/browser/lib/workboard/types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "file:extensions/workboard/browser/delete-board.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/workboard/browser/catalog.ts:WorkboardCatalog",
+   "target": "function:extensions/workboard/browser/lib/workboard/live-refresh.ts:handleWorkboardChanged",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "handleGatewayEvent on plugin.workboard.changed"
+  },
+  {
+   "source": "file:extensions/workboard/browser/index.ts",
+   "target": "function:extensions/workboard/browser/lib/workboard/live-refresh.ts:handleWorkboardChanged",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "host.onEvent(WORKBOARD_CHANGED_EVENT)"
+  },
+  {
+   "source": "file:packages/workboard-contract/src/index.ts",
+   "target": "file:extensions/workboard/browser/lib/workboard/types.ts",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "types.ts re-exports the contract"
+  },
+  {
+   "source": "function:extensions/workboard/browser/lib/workboard/live-refresh.ts:handleWorkboardChanged",
+   "target": "endpoint:extensions/workboard/src/gateway.ts:workboard.cards.list",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "schedules canonical reload"
+  },
+  {
+   "source": "file:extensions/workboard/browser/lib/workboard/types.ts",
+   "target": "file:packages/workboard-contract/src/index.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/workboard/browser/widgets.ts",
+   "target": "concept:dashboard-flavors",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:workboard-board",
+   "target": "document:docs/plugins/workboard.md",
+   "type": "cites",
+   "direction": "backward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/plugins/workboard.md",
+   "target": "concept:sessions-board",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/plugins/workboard.md",
+   "target": "module:workboard",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/cli/workboard.md",
+   "target": "module:workboard",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/workboard/src/dispatcher.ts:dispatchAndStartWorkboardCards",
+   "target": "document:docs/cli/workboard.md",
+   "type": "cites",
+   "direction": "backward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "file:extensions/canvas/src/board-widget.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "file:extensions/canvas/src/tool.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "file:extensions/canvas/src/widget-presenter.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "file:extensions/canvas/src/host/a2ui-shared.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "file:extensions/canvas/src/config.ts",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "function:extensions/canvas/src/tool.ts:createCanvasTool",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "function:extensions/canvas/src/widget-presenter.ts:createCanvasWidgetPresenter",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "function:extensions/canvas/src/host/a2ui.ts:handleA2uiHttpRequest",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/canvas/src/tool.ts:createCanvasTool",
+   "target": "file:extensions/canvas/src/node-eligibility.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:extensions/canvas/src/widget-presenter.ts:createCanvasWidgetPresenter",
+   "target": "file:extensions/canvas/src/node-eligibility.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:extensions/canvas/src/widget-presenter.ts:createCanvasWidgetPresenter",
+   "target": "file:extensions/canvas/src/tool.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "invokes canvas.present node command"
+  },
+  {
+   "source": "file:extensions/canvas/src/board-widget.ts",
+   "target": "function:extensions/canvas/src/a2ui-jsonl.ts:validateSupportedA2UIJsonl",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/canvas/src/a2ui-jsonl.ts:validateSupportedA2UIJsonl",
+   "target": "concept:a2ui-widget-system",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "concept:a2ui-widget-system",
+   "target": "file:extensions/canvas/src/board-widget.ts",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/canvas/src/host/a2ui.ts",
+   "target": "file:extensions/canvas/src/host/a2ui-route.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/canvas/src/host/a2ui.ts",
+   "target": "file:extensions/canvas/src/host/a2ui-shared.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/canvas/src/host/a2ui-route.ts",
+   "target": "file:extensions/canvas/src/host/a2ui-shared.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "function:extensions/canvas/src/host/a2ui.ts:handleA2uiHttpRequest",
+   "target": "file:extensions/canvas/src/host/a2ui-route.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/canvas/src/tool-schema.ts",
+   "target": "file:extensions/canvas/src/tool.ts",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/canvas/index.ts",
+   "target": "concept:a2ui-widget-system",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "module:canvas",
+   "target": "concept:a2ui-widget-system",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "function:src/canvas/widget-tool.ts:createShowWidgetTool",
+   "target": "endpoint:src/gateway/server-methods/board.ts:board.widget.put",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "gatewayCall board.widget.put to pin a widget"
+  },
+  {
+   "source": "function:src/canvas/widget-tool.ts:createShowWidgetTool",
+   "target": "function:src/canvas/documents.ts:createCanvasDocument",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/canvas/widget-tool.ts:createShowWidgetTool",
+   "target": "function:src/canvas/wrap.ts:buildWidgetDocument",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/canvas/widget-tool.ts",
+   "target": "file:src/canvas/documents.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/canvas/widget-tool.ts",
+   "target": "file:src/canvas/wrap.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/canvas/widget-tool.ts",
+   "target": "file:src/canvas/widget-script-syntax.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/canvas/widget-tool.ts",
+   "target": "file:src/canvas/constants.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/canvas/serve.runtime.ts",
+   "target": "file:src/canvas/documents.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "function:src/canvas/serve.runtime.ts:handleCanvasDocumentHttpRequest",
+   "target": "file:src/canvas/documents.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/canvas/documents.ts:createCanvasDocument",
+   "target": "file:src/canvas/constants.ts",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "writes manifest + entryUrl under CANVAS_DOCUMENTS_PATH"
+  },
+  {
+   "source": "function:src/canvas/wrap.ts:buildWidgetDocument",
+   "target": "concept:canvas-host",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/canvas/widget-tool.ts",
+   "target": "concept:dashboard-flavors",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/canvas/widget-tool.ts:createShowWidgetTool",
+   "target": "endpoint:src/gateway/server-methods/canvas.ts:canvas.document.view",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "module:canvas-host",
+   "target": "concept:canvas-host",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "endpoint:src/gateway/server-methods/board.ts:board.widget.put",
+   "target": "function:src/canvas/wrap.ts:buildWidgetDocument",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/server-methods/board.ts",
+   "target": "file:src/gateway/board-sandbox.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/server-methods/board.ts",
+   "target": "file:src/gateway/board-widget-view.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/server-methods/board.ts",
+   "target": "file:src/gateway/board-view-ticket.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/server-methods/board.ts",
+   "target": "file:src/canvas/documents.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "readCanvasDocumentHtmlSource for canvas-doc content"
+  },
+  {
+   "source": "file:src/gateway/server-methods/canvas.ts",
+   "target": "file:src/canvas/documents.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server-methods/canvas.ts",
+   "target": "function:src/gateway/board-sandbox.ts:buildBoardWidgetSandboxPath",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "endpoint:src/gateway/server-methods/canvas.ts:canvas.document.view",
+   "target": "file:src/canvas/serve.runtime.ts",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "document served through the isolated sandbox host"
+  },
+  {
+   "source": "function:src/gateway/board-sandbox.ts:buildBoardWidgetSandboxPath",
+   "target": "concept:canvas-host",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/board-widget-view.ts:withAuthorizedBoardWidgetView",
+   "target": "file:src/gateway/board-view-ticket.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/board-view-ticket.ts",
+   "target": "file:src/gateway/server-methods/board.ts",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:ui/src/components/board/board-widget-frame.ts",
+   "target": "class:ui/src/lib/board/widget-sandbox-host.ts:BoardWidgetSandboxHost",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/lib/board/widget-sandbox-host.ts:BoardWidgetSandboxHost",
+   "target": "class:ui/src/lib/board/widget-bridge.ts:BoardWidgetBridgeController",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/lib/board/widget-bridge.ts:BoardWidgetBridgeController",
+   "target": "endpoint:ui/src/lib/board/widget-bridge.ts:board.event",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/lib/board/widget-bridge.ts:BoardWidgetBridgeController",
+   "target": "concept:canvas-host",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:ui/src/lib/board/widget-sandbox-host.ts:BoardWidgetSandboxHost",
+   "target": "concept:canvas-host",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:ui/src/pages/dashboards/dashboards-page.ts",
+   "target": "file:ui/src/pages/dashboards/view.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/pages/dashboards/dashboards-page.ts:DashboardsPage",
+   "target": "file:ui/src/pages/dashboards/view.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/app/native-browser-bridge.ts",
+   "target": "concept:native-browser-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:ui/src/app/native-browser-bridge.ts",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "posts to webkit.messageHandlers.openclawBrowser"
+  },
+  {
+   "source": "concept:canvas-host",
+   "target": "concept:dashboard-flavors",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:native-browser-bridge",
+   "target": "concept:dashboard-flavors",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:a2ui-widget-system",
+   "target": "concept:dashboard-flavors",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift:DashboardBrowserTab",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserDownload.swift:DashboardBrowserDownload",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "shared navigation/ui delegates passed to tabs"
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift:DashboardBrowserTab",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:DashboardBrowserSessionStore",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "tabs share the session store's WKWebsiteDataStore"
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardWindowController+NativeBrowser.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "receiveBrowserMessage dispatches decoded requests"
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/DashboardWindowController+NativeBrowser.swift",
+   "target": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+   "target": "concept:native-browser-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift:DashboardAlertPresenter",
+   "target": "file:apps/macos/Sources/OpenClaw/DashboardWindowController+NativeBrowser.swift",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "sheet/panel fallback for browser prompts"
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+   "target": "class:apps/macos/Sources/OpenClaw/WebChatRoute.swift:WebChatRoute",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+   "target": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:webchat-window-lifecycle",
+   "target": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/WebChatRoute.swift:WebChatRoute",
+   "target": "module:control-ui",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "maps sessions to Control UI dashboard paths"
+  },
+  {
+   "source": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+   "target": "module:control-ui",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "publishes DashboardBrowserState to the dashboard page"
+  },
+  {
+   "source": "document:docs/web/webchat.md",
+   "target": "concept:webchat-window-lifecycle",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/webchat.md",
+   "target": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/webchat.md",
+   "target": "concept:native-browser-bridge",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/webchat.md",
+   "target": "concept:dashboard-flavors",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/plugins/workboard.md",
+   "target": "concept:workboard-board",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/cli/workboard.md",
+   "target": "function:extensions/workboard/src/dispatcher.ts:dispatchAndStartWorkboardCards",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/webchat.md",
+   "target": "module:control-ui",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  }
+ ]
+}

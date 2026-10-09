@@ -1,0 +1,567 @@
+{
+  "commit": "b0c330d2",
+  "date": "2026-10-09",
+  "docs": [
+    {
+      "doc": "port-analysis/areas/c1-memory.md",
+      "checks": [
+        {
+          "claim": "Memory Core uses plain files + one SQLite index, organized into tiers with different trust levels.",
+          "cite": "docs/concepts/memory-architecture.md:11",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/concepts/memory-architecture.md:11-13: 'Memory Core, OpenClaw's default memory plugin, uses plain files and one SQLite index, organized into tiers ... with different trust levels, write rules, and injection behavior.'"
+        },
+        {
+          "claim": "Five design rules (no hidden state, writing is hard, write path is security boundary, deterministic gates with model judgment, failures never block replies).",
+          "cite": "docs/concepts/memory-architecture.md:30",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/concepts/memory-architecture.md:28 '## Design principles'; :30 'Five rules shape everything below:'; :32 'No hidden state.'"
+        },
+        {
+          "claim": "Tier table: Instructions / Curated core (MEMORY.md, USER.md) / Episodic / Prospective / Review.",
+          "cite": "docs/concepts/memory-architecture.md:55",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/concepts/memory-architecture.md:55-60 table rows: Instructions, Curated core (`MEMORY.md`, `USER.md`), Episodic (`memory/YYYY-MM-DD.md` daily notes, session transcripts), Prospective (Standing intents + cron)."
+        },
+        {
+          "claim": "Agent has three memory tools: memory_search, memory_get, intent.",
+          "cite": "docs/concepts/memory.md:149",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/concepts/memory.md:149 'The agent has three tools for working with memory:'; :151 memory_search, :153 memory_get, :155 intent."
+        },
+        {
+          "claim": "All three tools provided by the active memory plugin (default memory-core).",
+          "cite": "docs/concepts/memory.md:157",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/concepts/memory.md:158 'All three tools are provided by the active memory plugin (default: `memory-core`).'"
+        },
+        {
+          "claim": "During work agent appends observations to daily notes; before compaction a flush turn saves unwritten context; at session end transcripts become ingestible evidence.",
+          "cite": "docs/concepts/memory-architecture.md:136",
+          "verdict": "UNCLEAR",
+          "evidence": "Cited line :136 reads 'Durable memory has exactly one primary writer: the dreaming consolidation'. The claimed text is actually at docs/concepts/memory-architecture.md:152-156 ('During normal work the agent appends observations to daily notes. Before compaction ... the memory flush turn saves unwritten context ... become ingestible evidence.'). Claim is true of the file; citation line is wrong.",
+          "correction": "docs/concepts/memory-architecture.md:152-156"
+        },
+        {
+          "claim": "Flush plan builder produces the flush prompt, target path memory/YYYY-MM-DD.md, soft threshold, force-flush bytes.",
+          "cite": "extensions/memory-core/src/flush-plan.ts:63",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/memory-core/src/flush-plan.ts:63 'export function buildMemoryFlushPlan('; :15 target hint 'Store durable memories only in memory/YYYY-MM-DD.md'; MemoryFlushPlan fields at :99."
+        },
+        {
+          "claim": "Flush prompt forbids overwriting MEMORY.md / DREAMS.md.",
+          "cite": "extensions/memory-core/src/flush-plan.ts:19",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/memory-core/src/flush-plan.ts:19 MEMORY_FLUSH_READ_ONLY_HINT = 'Treat workspace bootstrap/reference files such as MEMORY.md, DREAMS.md, SOUL.md, and AGENTS.md as read-only during this flush; never overwrite, replace, or edit them.'"
+        },
+        {
+          "claim": "Session ingestion drops non-interactive sessions (sessionKind !== 'interactive' -> null).",
+          "cite": "extensions/memory-core/src/session-ingestion.ts:132",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/memory-core/src/session-ingestion.ts:132 'if (entry.sessionKind !== \"interactive\") {' with a following null/return path."
+        },
+        {
+          "claim": "Ingestion writes to memory/.dreams/session-corpus/<day>.txt via appendSessionCorpusLines.",
+          "cite": "extensions/memory-core/src/session-ingestion.ts:472",
+          "verdict": "SUPPORTED",
+          "evidence": "session-ingestion.ts:472 'export async function appendSessionCorpusLines'; :32 SESSION_CORPUS_RELATIVE_DIR = path.join('memory','.dreams','session-corpus'); :480 relativePath = path.posix.join('memory','.dreams','session-corpus', `${params.day}.txt`)."
+        },
+        {
+          "claim": "Curated annotations parsed into importance (1-10), triggers, projectKey by extractCuratedEntryRecallMetadata; importance clamped 1-10.",
+          "cite": "packages/memory-host-sdk/src/host/curated-annotations.ts:114",
+          "verdict": "SUPPORTED",
+          "evidence": "curated-annotations.ts:114 'export function extractCuratedEntryRecallMetadata'; :141-144 'const parsed = Number.parseInt(value,10); if (parsed >= 1 && parsed <= 10) { importance = Math.max(importance ?? parsed, parsed); }'."
+        },
+        {
+          "claim": "Each indexed chunk carries origin_class ∈ {owner,agent,untrusted,system} in a dedicated table.",
+          "cite": "packages/memory-host-sdk/src/host/memory-schema-provenance.ts:7",
+          "verdict": "SUPPORTED",
+          "evidence": "memory-schema-provenance.ts:7 'export const MEMORY_INDEX_CHUNK_PROVENANCE_SCHEMA_SQL = `' (dedicated provenance table schema)."
+        },
+        {
+          "claim": "Transcript provenance: assistant -> agent if turn origin is owner else turn origin, forced untrusted when turnTainted; user -> system for internal_system, else owner when senderIsOwner, else untrusted.",
+          "cite": "packages/memory-host-sdk/src/host/session-provenance.ts:4",
+          "verdict": "SUPPORTED",
+          "evidence": "session-provenance.ts:4-25: assistant branch returns 'untrusted' if __openclaw.turnTainted, else turnOrigin==='owner'?'agent':turnOrigin; user branch returns 'system' if provenance.kind==='internal_system', else metadata.senderIsOwner?'owner':'untrusted'."
+        },
+        {
+          "claim": "Automatic injection gated by isMemoryOriginEligibleForAutomaticInjection (only owner/agent).",
+          "cite": "packages/memory-host-sdk/src/host/types.ts:40",
+          "verdict": "SUPPORTED",
+          "evidence": "types.ts:40-43'isMemoryOriginEligibleForAutomaticInjection(originClass) { return originClass === \"owner\" || originClass === \"agent\"; }'."
+        },
+        {
+          "claim": "Canonical/derived schema built by ensureMemoryIndexSchema; memory_index_chunks and memory_index_sources are STRICT.",
+          "cite": "packages/memory-host-sdk/src/host/memory-schema.ts:322",
+          "verdict": "SUPPORTED",
+          "evidence": "memory-schema.ts:322 'export function ensureMemoryIndexSchema(params: {'; memory-schema-base.ts:21 MEMORY_INDEX_CHUNKS_SCHEMA_SQL, :79 CREATE TABLE IF NOT EXISTS ${MEMORY_INDEX_SOURCES_TABLE}."
+        },
+        {
+          "claim": "Chunks are 400 tokens with 80-token overlap by default.",
+          "cite": "docs/concepts/memory-builtin.md:133",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/concepts/memory-builtin.md:134 'chunks (400 tokens with 80-token overlap by default)'; tests use chunkMarkdown(...,{tokens:400,overlap:80}) (packages/memory-host-sdk/src/host/internal.test.ts:619)."
+        },
+        {
+          "claim": "Recency decay: exponential exp(-(ln2/halfLifeDays)*ageDays) with 30-day default; MEMORY.md/USER.md/undated evergreen.",
+          "cite": "extensions/memory-core/src/memory/temporal-decay.ts:25",
+          "verdict": "SUPPORTED",
+          "evidence": "temporal-decay.ts:8-9 DEFAULT_TEMPORAL_DECAY_CONFIG with halfLifeDays: 30; :25 'return params.score * Math.exp(-(Math.LN2 / halfLifeDays) * clampedAge);' :57 comment 'Memory root/topic files are evergreen knowledge and should not decay.'"
+        },
+        {
+          "claim": "Importance multiplier 0.75 + clamp(1..10)*0.05, neutral (1) when null.",
+          "cite": "extensions/memory-core/src/memory/importance.ts:1",
+          "verdict": "SUPPORTED",
+          "evidence": "importance.ts:1-8: returns 1 when null/undefined; 'const bounded = Math.max(1, Math.min(10, Math.floor(importance))); return 0.75 + bounded * 0.05;'."
+        },
+        {
+          "claim": "MMR: relevance-biased lambda 0.7, Jaccard token overlap, lambda*relevance - (1-lambda)*maxSimilarity.",
+          "cite": "extensions/memory-core/src/memory/mmr.ts:28",
+          "verdict": "SUPPORTED",
+          "evidence": "mmr.ts:28 'export function applyMMRToHybridResults<T extends MMRItem>(items: T[], lambda: number): T[]'; docs/concepts/memory-search.md:168-169 'lambda `0.7` with Jaccard overlap over snippet tokens'."
+        },
+        {
+          "claim": "Project ranking multiplies 1.15 when all stored project keys are active, else 0.9.",
+          "cite": "extensions/memory-core/src/memory/project-ranking.ts:14",
+          "verdict": "SUPPORTED",
+          "evidence": "project-ranking.ts:14-24: 'stored.every((key) => activeProjectKeys.has(key)) ? 1.15 : 0.9' (returns 1 when no key/active set)."
+        },
+        {
+          "claim": "Lane 1 active-memory runs on before_prompt_build; selects strong matches at score >= 0.65, top 3.",
+          "cite": "extensions/active-memory/trigger-recall.ts:26",
+          "verdict": "SUPPORTED",
+          "evidence": "trigger-recall.ts:26 STRONG_TRIGGER_MATCH_SCORE = 0.65; :84 'export function selectStrongTriggerMatches'; active-memory/index.ts:209 registers on 'before_prompt_build'."
+        },
+        {
+          "claim": "Standing intents stored in per-agent standing_intents SQLite table with an FTS shadow.",
+          "cite": "extensions/memory-core/src/standing-intents-kernel.ts:26",
+          "verdict": "SUPPORTED",
+          "evidence": "standing-intents-kernel.ts:26 'standing_intents: StandingIntentRow & { intent_key: Generated<number> }'; :30 'standing_intents_fts: {'."
+        },
+        {
+          "claim": "Automatic-recall eligibility requires source==='memory' + trusted provenance + a usable project key.",
+          "cite": "src/plugins/memory-provider-adapter.ts:225",
+          "verdict": "REFUTED",
+          "evidence": "memory-provider-adapter.ts:245-249: eligible = hit.source === 'memory' && isAutomaticMemoryEntryEligible(hit) && projectKeys?.length !== 0. For a hit with no projectKey, projectKeys is undefined and `undefined !== 0` is true, so a missing project key still passes. A usable project key is NOT required; only an explicitly empty project-key array is rejected.",
+          "correction": "src/plugins/memory-provider-adapter.ts:245-249 (eligibility does not require a project key)"
+        },
+        {
+          "claim": "src/plugins/memory-state.ts exposes the selected runtime via getMemoryRuntime at :436.",
+          "cite": "src/plugins/memory-state.ts:436",
+          "verdict": "UNCLEAR",
+          "evidence": "Line 436 is `selectedSlotOwner: boolean;` (an unrelated field). getMemoryRuntime is defined at src/plugins/memory-state.ts:438 'export function getMemoryRuntime(): MemoryPluginRuntime | undefined {'.",
+          "correction": "src/plugins/memory-state.ts:438"
+        }
+      ],
+      "summary": { "supported": 21, "refuted": 1, "unclear": 2 }
+    },
+    {
+      "doc": "port-analysis/areas/c2-skills-plugins.md",
+      "checks": [
+        {
+          "claim": "Skills add no tools; they teach the agent how to use tools it already has.",
+          "cite": "docs/tools/index.md:53",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/tools/index.md:53-57: '<Step title=\"Use a skill when the agent needs instructions\"> A skill is a `SKILL.md` instruction pack ... Use a skill when the agent already has the tools it needs'."
+        },
+        {
+          "claim": "Skill identity and slash command come from the `name` frontmatter field or the directory name; folder path is organisational only.",
+          "cite": "docs/tools/skills.md:91",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/tools/skills.md:91 'The folder path is for organization only. The skill's name and slash command ...'; resolveSkillKey = metadata.skillKey ?? skill.name at src/skills/loading/frontmatter.ts:180."
+        },
+        {
+          "claim": "Eligible skills compiled into an <available_skills> XML block; optional skills_search/skills_read tools for large catalogs.",
+          "cite": "docs/tools/skills.md:873",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/tools/skills.md:873 '## Search installed skills' + 'Skills omitted by the prompt budget remain discoverable through `skills_search`'; :884 documents `skills_search({query,limit?})`; src/skills/loading/skill-contract.ts:131 formatSkillsForPromptCore renders the prompt block."
+        },
+        {
+          "claim": "Native plugins run in-process with the Gateway and are explicitly not sandboxed.",
+          "cite": "docs/plugins/architecture.md:908",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/plugins/architecture.md:908 'Native OpenClaw plugins run **in-process** with the Gateway. They are not sandboxed. A loaded native plugin has the same process-level trust boundary as core code.'"
+        },
+        {
+          "claim": "plugins.allow is an id-level load permit, not source-provenance verification.",
+          "cite": "docs/plugins/architecture.md:921",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/plugins/architecture.md:921 '`plugins.allow` permits **plugin ids** to load; it does not verify source provenance or choose which same-id copy loads.'"
+        },
+        {
+          "claim": "Plugin register(api) entry registers tools, channels, providers, hooks, services, HTTP routes, CLI commands, or skills.",
+          "cite": "docs/plugins/architecture.md:107",
+          "verdict": "UNCLEAR",
+          "evidence": "Line 107 reads 'OpenClaw's plugin system has four layers:'. The registration capability list appears at docs/plugins/architecture.md:911 'a plugin can register tools, network handlers, hooks, and services' and :135 (register(api) with registrationMode === 'full'). Citation line is wrong.",
+          "correction": "docs/plugins/architecture.md:911 (and :135)"
+        },
+        {
+          "claim": "Custodian skills live under custodian-skills/, load at the bundled tier but only for the agent resolved by agents.defaults.systemAgent.agentId.",
+          "cite": "docs/tools/custodian-skills.md:11",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/tools/custodian-skills.md:11 '... They load at the bundled-skill precedence tier, but only for the agent resolved by `agents.defaults.systemAgent.agentId`.'"
+        },
+        {
+          "claim": "parseSkillFrontmatter calls parseFrontmatterBlockResult (YAML first, single-line fallback).",
+          "cite": "src/skills/loading/frontmatter.ts:27",
+          "verdict": "SUPPORTED",
+          "evidence": "src/skills/loading/frontmatter.ts:27 'export function parseSkillFrontmatter(content: string): ParsedSkillFrontmatter {'."
+        },
+        {
+          "claim": "resolveSkillManifestMetadata yields always, emoji, homepage, skillKey, primaryEnv, os, requires, install.",
+          "cite": "src/skills/loading/frontmatter.ts:146",
+          "verdict": "SUPPORTED",
+          "evidence": "src/skills/loading/frontmatter.ts:146 'export function resolveSkillManifestMetadata('; resolveOpenClawManifestInternal at src/shared/frontmatter.ts:29."
+        },
+        {
+          "claim": "Invocation policy user-invocable (default true) and disable-model-invocation (default false).",
+          "cite": "src/skills/loading/frontmatter.ts:168",
+          "verdict": "SUPPORTED",
+          "evidence": "src/skills/loading/frontmatter.ts:168 'export function resolveSkillInvocationPolicy('."
+        },
+        {
+          "claim": "materializeSkill derives displayName from the first H1.",
+          "cite": "src/skills/loading/skill-materializer.ts:29",
+          "verdict": "SUPPORTED",
+          "evidence": "skill-materializer.ts:20-21 'const heading = body.match(SKILL_TITLE_HEADING)?.[1]?.trim(); const displayName = heading || humanizeSkillIdentifier(...)'; function materializeSkill at :29 sets displayName: resolveSkillDisplayName(...)."
+        },
+        {
+          "claim": "Root plan assembled by resolveWorkspaceSkillSourcePlan; custodian inclusion gated by resolveCustodianSkillAgentId.",
+          "cite": "src/skills/loading/workspace-skill-sources.ts:81",
+          "verdict": "SUPPORTED",
+          "evidence": "workspace-skill-sources.ts:81 'export function resolveWorkspaceSkillSourcePlan('; :69 'export function resolveCustodianSkillAgentId('."
+        },
+        {
+          "claim": "Discovery walks up to 6 levels for SKILL.md under a configured root, bounding scans with a directory/entry budget.",
+          "cite": "src/skills/loading/skill-root-discovery.ts:26",
+          "verdict": "SUPPORTED",
+          "evidence": "skill-root-discovery.ts:28-29 'const MAX_GROUPED_SKILL_SCAN_DEPTH = 6;' and budgets DEFAULT_MIN/MAX_RAW_ENTRIES_PER_DIRECTORY_SCAN (:24-25); comment at :26 about not turning roots into unbounded walks."
+        },
+        {
+          "claim": "Precedence is a name-keyed merge (mergeSkillRecords); execution-workspace entries appended with lower precedence.",
+          "cite": "src/skills/loading/skill-precedence.ts:105",
+          "verdict": "SUPPORTED",
+          "evidence": "skill-precedence.ts:105 'export function mergeSkillRecords<T extends { skill: Skill }>('; :129 'export function appendLowerPrecedenceSkillRecords<T extends { skill: Skill }>('."
+        },
+        {
+          "claim": "Plugin-declared skill dirs materialised as generated symlinks under ~/.openclaw/plugin-skills/.",
+          "cite": "src/skills/loading/plugin-skills.ts:280",
+          "verdict": "SUPPORTED",
+          "evidence": "plugin-skills.ts:280 function publishPluginSkills; doc comment above (:273-277) 'Creates symlinks from each resolved plugin skill directory into the plugin skills directory (~/.openclaw/plugin-skills/)'."
+        },
+        {
+          "claim": "shouldIncludeSkill is the load-time gate for skills.entries.<key>.enabled === false, degraded secret owner, bundled allowlist, then os/always/requires.",
+          "cite": "src/skills/loading/config.ts:112",
+          "verdict": "SUPPORTED",
+          "evidence": "src/skills/loading/config.ts:112 'export function shouldIncludeSkill(params: {'; :84 'export function resolveBundledAllowlist(config?: OpenClawConfig)'."
+        },
+        {
+          "claim": "Agent visibility: resolveEffectiveAgentSkillFilter reads agents.entries.<id>.skills, falls back to agents.defaults.skills; a non-empty list is final.",
+          "cite": "src/skills/discovery/agent-filter.ts:13",
+          "verdict": "SUPPORTED",
+          "evidence": "agent-filter.ts:13 'export function resolveEffectiveAgentSkillFilter('; :43 'export function isSessionSkillEnabled('; docs/tools/skills.md:253-254 'Set `agents.entries.*.skills: []` to expose no skills for that agent.'"
+        },
+        {
+          "claim": "formatSkillsForPromptCore renders <available_skills>; compactSkillsPromptForContext bounds descriptions against a token budget.",
+          "cite": "src/skills/loading/skill-contract.ts:131",
+          "verdict": "SUPPORTED",
+          "evidence": "skill-contract.ts:131 'export function formatSkillsForPromptCore(skills: Skill[]): string {'; :56 'export function compactSkillsPromptForContext(prompt: string, contextTokenBudget?: number): string {'."
+        },
+        {
+          "claim": "createInstalledSkillTools builds skills_search and skills_read (256 KiB cap).",
+          "cite": "src/agents/tools/installed-skill-tools.ts:20",
+          "verdict": "SUPPORTED",
+          "evidence": "installed-skill-tools.ts:20 'export function createInstalledSkillTools(skills: readonly InstalledSkill[]): AnyAgentTool[] {'; installed-skill-catalog.ts:20 'export const MAX_SKILL_INSTRUCTION_BYTES = 256 * 1024;'."
+        },
+        {
+          "claim": "Manifest openclaw.plugin.json is the control-plane source of truth; TS shape is PluginManifest.",
+          "cite": "src/plugins/manifest-types.ts:416",
+          "verdict": "SUPPORTED",
+          "evidence": "manifest-types.ts:416 'export type PluginManifest = {' (id, configSchema, kind, channels, providers, skills, contracts, activation, setup, mcpServers, cliCommands, etc.)."
+        },
+        {
+          "claim": "Authoring contract definePluginEntry for non-channel plugins and defineBundledChannelEntry for channels.",
+          "cite": "src/plugin-sdk/plugin-entry.ts:240",
+          "verdict": "SUPPORTED",
+          "evidence": "plugin-entry.ts:240 'export function definePluginEntry({'; channel-entry-contract.ts:491 'export function defineBundledChannelEntry<TPlugin = ChannelPlugin>({'."
+        },
+        {
+          "claim": "registrationMode values full|discovery|tool-discovery|setup-only|setup-runtime|cli-metadata; only full gets the live runtime, setup-only/cli-metadata throw on runtime access.",
+          "cite": "docs/plugins/sdk-entrypoints/registration-mode.md:18",
+          "verdict": "REFUTED",
+          "evidence": "registration-mode.md:18-27 table shows six modes, but Runtime=Live for full, discovery, tool-discovery AND setup-runtime; only setup-only and cli-metadata are 'Unavailable'. The doc's 'only `full` gets the live runtime' is false. The throw-on-runtime-access claim is correct (line 29: 'In \"cli-metadata\" and \"setup-only\" modes, accessing a runtime capability throws').",
+          "correction": "docs/plugins/sdk-entrypoints/registration-mode.md:18-27 (full, discovery, tool-discovery, setup-runtime are all Live)"
+        },
+        {
+          "claim": "Hot reload drains admitted work under a 60 s budget, stops previous registration, publishes new runtime methods + metadata; restartRequired set when process-shared code cannot be swapped.",
+          "cite": "src/plugins/lifecycle.ts:48",
+          "verdict": "SUPPORTED",
+          "evidence": "lifecycle.ts:48-56 PluginRuntimeApplication with restartRequired?: boolean field comment 'Registration applied, but process-shared code needs a Gateway restart.'; :59 PluginLifecycleReason union."
+        },
+        {
+          "claim": "Bundled-plugin trust is resolved from the on-disk source snapshot, not install metadata.",
+          "cite": "docs/plugins/architecture.md:929",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/plugins/architecture.md:930 'Bundled-plugin trust is resolved from the source snapshot — the manifest and code on disk at load time — rather than from install metadata.'"
+        },
+        {
+          "claim": "ClawHub client is one bounded HTTP client with base URL https://clawhub.ai, retries, and a 256 MiB archive cap.",
+          "cite": "src/infra/clawhub-client.ts:17",
+          "verdict": "SUPPORTED",
+          "evidence": "clawhub-client.ts:19 'const DEFAULT_CLAWHUB_URL = \"https://clawhub.ai\";'; :21 'const CLAWHUB_ARCHIVE_MAX_BYTES = 256 * 1024 * 1024;'. Cited line 17 is an import; constants are at :19/:21."
+        },
+        {
+          "claim": "Trust gate maps verdicts to clean|review-recommended|review-required|blocked via checkClawHubPackageTrust / assessClawHubTrust.",
+          "cite": "src/infra/clawhub-install-trust.ts:479",
+          "verdict": "SUPPORTED",
+          "evidence": "clawhub-install-trust.ts:479 'export async function checkClawHubPackageTrust(params: {'; :113 'export function assessClawHubTrust(trust: ClawHubPackageSecurityTrust): ClawHubTrustDisposition {'."
+        },
+        {
+          "claim": "Skill install: performClawHubSkillInstall resolves version, checks mutable-GitHub-ref hazard, checkClawHubSkillTrust, then downloads/verifies.",
+          "cite": "src/skills/lifecycle/clawhub-install-core.ts:248",
+          "verdict": "SUPPORTED",
+          "evidence": "clawhub-install-core.ts:248 'export async function performClawHubSkillInstall('; :217 'export async function checkClawHubSkillTrust('."
+        },
+        {
+          "claim": "skill bundles scanned by scanSkillBundle (literal-secret assertion + per-file findings) and general scanner.",
+          "cite": "src/skills/security/skill-bundle-scan.ts:21",
+          "verdict": "SUPPORTED",
+          "evidence": "skill-bundle-scan.ts:21 'export function scanSkillBundle('; :38 'export function assertSkillBundleHasNoLiteralSecrets('; scanner.ts:498 'export function scanSkillContent('."
+        }
+      ],
+      "summary": { "supported": 26, "refuted": 1, "unclear": 1 }
+    },
+    {
+      "doc": "port-analysis/areas/d1-voice-realtime.md",
+      "checks": [
+        {
+          "claim": "Plugin contract RealtimeVoiceProviderPlugin: createBridge, optional createBrowserSession, isConfigured, resolveConfig; RealtimeVoiceBridge shape.",
+          "cite": "src/talk/provider-types.ts:324",
+          "verdict": "SUPPORTED",
+          "evidence": "provider-types.ts:324 'export type RealtimeVoiceBridge = {' (connect/sendAudio/sendUserMessage/submitToolResult/handleBargeIn/close); :217 RealtimeVoiceProviderCapabilities."
+        },
+        {
+          "claim": "listRealtimeVoiceProviders / getRealtimeVoiceProvider resolve realtimeVoiceProviders from plugin manifests.",
+          "cite": "src/talk/provider-registry.ts:16",
+          "verdict": "SUPPORTED",
+          "evidence": "provider-registry.ts:16 'export function listRealtimeVoiceProviders('."
+        },
+        {
+          "claim": "resolveConfiguredRealtimeVoiceProvider picks a configured provider applying agent scope, surface (browser-session/gateway-relay/bridge), default model, required capabilities.",
+          "cite": "src/talk/provider-resolver.ts:104",
+          "verdict": "SUPPORTED",
+          "evidence": "provider-resolver.ts:104 'export function resolveConfiguredRealtimeVoiceProvider('."
+        },
+        {
+          "claim": "RealtimeVoiceSessionLifecycle state machine idle -> connecting -> ready -> retry-wait -> terminal.",
+          "cite": "src/talk/realtime-session-lifecycle.ts:70",
+          "verdict": "SUPPORTED",
+          "evidence": "realtime-session-lifecycle.ts:70 'type RealtimeVoiceSessionPhase = \"idle\" | \"connecting\" | \"ready\" | \"retry-wait\" | \"terminal\";'."
+        },
+        {
+          "claim": "Barge-in capability flags supportsBargeIn/handlesInputAudioBargeIn; OpenAI min barge-in audio end 250 ms.",
+          "cite": "src/talk/provider-types.ts:217",
+          "verdict": "SUPPORTED",
+          "evidence": "provider-types.ts:217 RealtimeVoiceProviderCapabilities; realtime-session-policy.ts:96 resolveRealtimeVoiceBargeIn; extensions/openai/realtime-voice-session-policy.ts:103 'export const OPENAI_REALTIME_DEFAULT_MIN_BARGE_IN_AUDIO_END_MS = 250;'."
+        },
+        {
+          "claim": "OpenAI default realtime model gpt-realtime-2.1.",
+          "cite": "extensions/openai/realtime-voice-session-policy.ts:62",
+          "verdict": "SUPPORTED",
+          "evidence": "realtime-voice-session-policy.ts:62 'export const OPENAI_REALTIME_DEFAULT_MODEL = \"gpt-realtime-2.1\";'."
+        },
+        {
+          "claim": "Server events consumed include response.output_audio.delta, audio_transcript.(delta|done), conversation.item.input_audio_transcription.(delta|completed|failed), response.function_call_arguments.*",
+          "cite": "extensions/openai/realtime-voice-events.ts:83",
+          "verdict": "SUPPORTED",
+          "evidence": "realtime-voice-events.ts:83/85 handle 'conversation.output_audio.delta' and 'response.output_audio.delta'; :128-138 audio_transcript.delta/done (with output_audio_transcript variants); :148/154/160 input_audio_transcription.delta/completed/failed; :167-168 function_call_arguments.delta/done."
+        },
+        {
+          "claim": "Relay fragments output into 960-byte (20 ms @ 24 kHz PCM16) frames.",
+          "cite": "src/gateway/talk/relay/session-create.ts:61",
+          "verdict": "SUPPORTED",
+          "evidence": "session-create.ts:61 comment 'The relay contract is 20 ms of 24 kHz mono PCM16 per browser event.'; :62 'const RELAY_OUTPUT_AUDIO_FRAME_BYTES = 960;'."
+        },
+        {
+          "claim": "Relay sessions have a 20-minute TTL.",
+          "cite": "src/gateway/talk/relay/session-create.ts:41",
+          "verdict": "REFUTED",
+          "evidence": "src/gateway/talk/relay/state.ts:27 'export const RELAY_SESSION_TTL_MS = 30 * 60 * 1000;' (30 minutes). session-create.ts imports/uses RELAY_SESSION_TTL_MS (:41, :76, :641). No 20-minute constant exists in src/gateway/talk. Upstream docs also say 30 minutes: docs/nodes/talk.md:131 'Runtime bounds: 8 concurrent sessions per Gateway and a 30-minute session TTL.' The d1 line 226 restatement 'relay 20 min' is likewise wrong.",
+          "correction": "src/gateway/talk/relay/state.ts:27 (= 30 minutes)"
+        },
+        {
+          "claim": "Gateway transcription relay: 30-min TTL, <=2 sessions/conn, <=64 global, browser sends g711_ulaw@8k, MAX_AUDIO_BASE64_BYTES 512 KiB.",
+          "cite": "src/gateway/talk/transcription-relay.ts:25",
+          "verdict": "SUPPORTED",
+          "evidence": "transcription-relay.ts:25 TRANSCRIPTION_SESSION_TTL_MS = 30 * 60 * 1000; :29 MAX_AUDIO_BASE64_BYTES = 512 * 1024; :30 MAX_TRANSCRIPTION_SESSIONS_PER_CONN = 2; :31 MAX_TRANSCRIPTION_SESSIONS_GLOBAL = 64."
+        },
+        {
+          "claim": "voicewake.set normalizes (<=32 triggers, <=64 UTF-16 units) and broadcasts voicewake.changed.",
+          "cite": "src/gateway/server-methods/voicewake.ts:7",
+          "verdict": "SUPPORTED",
+          "evidence": "server-methods/voicewake.ts:7 handlers voicewake.get/set, set calls normalizeVoiceWakeTriggers and context.broadcastVoiceWakeChanged; src/gateway/server-utils.ts:5-10 '.slice(0, 32).map((value) => truncateUtf16Safe(value, 64))'."
+        },
+        {
+          "claim": "Voice-call providers mock, plivo, telnyx, twilio; VoiceCallProvider interface covers verifyWebhook/parseWebhookEvent/initiateCall/answerCall/hangupCall/playTts/sendDtmf/startListening/getCallStatus.",
+          "cite": "extensions/voice-call/src/providers/base.ts:19",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/voice-call/src/providers/base.ts:19 'export interface VoiceCallProvider {'; providers/mock.ts:30 name='mock', providers/plivo.ts:55 name='plivo', providers/twilio.ts:76 class TwilioProvider implements VoiceCallProvider."
+        },
+        {
+          "claim": "Telephony TTS default timeout 8000 ms.",
+          "cite": "extensions/voice-call/src/telephony-tts.ts:16",
+          "verdict": "SUPPORTED",
+          "evidence": "telephony-tts.ts:16 'export const TELEPHONY_DEFAULT_TTS_TIMEOUT_MS = 8000;'."
+        },
+        {
+          "claim": "Gateway RPC voicecall.initiate|steer|continue|speak|dtmf|end|status|start + voice_call tool.",
+          "cite": "extensions/voice-call/index.ts:302",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/voice-call/index.ts:302 registerGatewayCommand; grep of the file yields exactly voicecall.initiate, .steer, .continue, .speak, .dtmf, .end, .status, .start."
+        },
+        {
+          "claim": "TTS providers expose synthesize, streamSynthesize, synthesizeTelephony, listVoices, parseDirectiveToken, resolveTalkConfig/Overrides.",
+          "cite": "src/tts/provider-types.ts:1",
+          "verdict": "UNCLEAR",
+          "evidence": "The methods exist and are consumed (src/tts/tts-streaming.ts:42 streamSynthesize, src/tts/tts-telephony.ts:35 synthesizeTelephony, src/tts/tts-payload.ts:74 listVoices, src/tts/directives.ts:216 parseDirectiveToken, src/tts/openai-compatible-speech-provider.ts:232 resolveTalkConfig), but they belong to the SpeechProviderPlugin interface in src/plugins/types.ts, not src/tts/provider-types.ts, which defines request/result/config types (SpeechSynthesisRequest at :46, SpeechSynthesisResult at :56).",
+          "correction": "src/plugins/types.ts (SpeechProviderPlugin); src/tts/provider-types.ts holds request/result types"
+        },
+        {
+          "claim": "Voice-call brief schema is <=8000 JSON chars.",
+          "cite": "extensions/voice-call/src/call-brief-schema.ts",
+          "verdict": "SUPPORTED",
+          "evidence": "call-brief-schema.ts:28 '.refine((brief) => JSON.stringify(brief).length <= 8000, \"Call brief exceeds 8000 characters\")'."
+        },
+        {
+          "claim": "Wake-word default triggers are openclaw, claude, computer.",
+          "cite": "docs/nodes/voicewake.md:29",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/nodes/voicewake.md:29 '... An empty result falls back to the built-in defaults (`openclaw`, `claude`, `computer`).'; src/infra/voicewake.ts:25 defaultVoiceWakeTriggers()."
+        }
+      ],
+      "summary": { "supported": 15, "refuted": 1, "unclear": 1 }
+    },
+    {
+      "doc": "port-analysis/areas/d2-meetings.md",
+      "checks": [
+        {
+          "claim": "Four meeting plugins (Google Meet, Teams, Slack huddles, Zoom) share Chrome join, modes.",
+          "cite": "docs/plugins/meeting-plugins.md:11",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/plugins/meeting-plugins.md:11 'OpenClaw has separate plugins for Google Meet, Microsoft Teams meetings, Slack huddles, and Zoom. All four can join through Chrome, use the same participation modes...'; extensions/slack-huddles/openclaw.plugin.json:2 id='slack-huddles'."
+        },
+        {
+          "claim": "Modes 'agent' | 'bidi' | 'transcribe' described at src/meeting-bot/meeting-modes.ts:3-23.",
+          "cite": "src/meeting-bot/meeting-modes.ts:3",
+          "verdict": "UNCLEAR",
+          "evidence": "meeting-modes.ts:3-5 defines isMeetingTalkBackMode(mode) returning mode === 'agent' || mode === 'bidi' only (no 'transcribe'), plus isMeetingRealtimeRouteReady. The full union is declared elsewhere: plugin-entry.ts:25 'type MeetingMode = \"agent\" | \"bidi\" | \"transcribe\";' and plugin-config.ts:23. The modes themselves are real; the cited file only knows two of them.",
+          "correction": "src/meeting-bot/plugin-entry.ts:25 / src/meeting-bot/plugin-config.ts:23"
+        },
+        {
+          "claim": "Teams/Zoom do not create meetings, dial in, call the vendor API, or capture recordings.",
+          "cite": "docs/plugins/meeting-plugins.md:24",
+          "verdict": "SUPPORTED",
+          "evidence": "docs/plugins/meeting-plugins.md:24 'The Teams and Zoom plugins do not create meetings, dial in, call the vendor API, or capture audio/video recordings.'"
+        },
+        {
+          "claim": "Feishu VC invite: createFeishuVcMeetingInvitedHandler subscribes to vc.bot.meeting_invited_v1; validates a 9-digit meeting_no.",
+          "cite": "extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:108",
+          "verdict": "SUPPORTED",
+          "evidence": "monitor.vc-meeting-invited-handler.ts:108 'export function createFeishuVcMeetingInvitedHandler(params: {'; :11 'const FEISHU_MEETING_NUMBER_PATTERN = /^\\d{9}$/;'; monitor.account.ts:369 '\"vc.bot.meeting_invited_v1\": createFeishuVcMeetingInvitedHandler({'."
+        },
+        {
+          "claim": "findGoogleMeetCalendarEvent lists primary events via events.list, extracts Meet URI, ranks running/next event.",
+          "cite": "extensions/google-meet/src/calendar.ts:204",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/google-meet/src/calendar.ts:204 'export async function findGoogleMeetCalendarEvent(params: GoogleMeetCalendarQuery) {'."
+        },
+        {
+          "claim": "Shared openMeetingWithBrowser drives the OpenClaw Chrome profile; recoverMeetingBrowserTab finds the tracked tab.",
+          "cite": "src/meeting-bot/browser-controller.ts:106",
+          "verdict": "SUPPORTED",
+          "evidence": "browser-controller.ts:106 'export async function openMeetingWithBrowser<'; :309 'export async function recoverMeetingBrowserTab<'."
+        },
+        {
+          "claim": "Lifecycle centralised in MeetingSessionRuntime; join serialises per transport+URL via a keyed lock.",
+          "cite": "src/meeting-bot/session-runtime.ts:51",
+          "verdict": "SUPPORTED",
+          "evidence": "session-runtime.ts:51 'export class MeetingSessionRuntime<'; :243 'async join(request: TRequest): Promise<{ session: TSession; spoken?: boolean }> {'."
+        },
+        {
+          "claim": "Sessions created by createMeetingSession.",
+          "cite": "src/meeting-bot/session-factory.ts:5",
+          "verdict": "SUPPORTED",
+          "evidence": "session-factory.ts:5 'export function createMeetingSession<'."
+        },
+        {
+          "claim": "startMeetingRealtimeEngine builds a realtime-voice session over an audio transport; default transcriptionProvider 'openai'.",
+          "cite": "src/meeting-bot/realtime-engine.ts:99",
+          "verdict": "SUPPORTED",
+          "evidence": "realtime-engine.ts:99 'export async function startMeetingRealtimeEngine(params: {'; plugin-config.ts:172 'transcriptionProvider: normalizeOptionalString(realtime.transcriptionProvider) ?? \"openai\",'."
+        },
+        {
+          "claim": "Echo control constants MEETING_AGENT_TRANSCRIPT_DEBOUNCE_MS=900, MEETING_OUTPUT_ECHO_SUPPRESSION_TAIL_MS=3000, MEETING_TRANSCRIPT_ECHO_LOOKBACK_MS=45000.",
+          "cite": "src/meeting-bot/realtime-engine.ts:95",
+          "verdict": "SUPPORTED",
+          "evidence": "realtime-engine.ts:95 'export const MEETING_AGENT_TRANSCRIPT_DEBOUNCE_MS = 900;' (companions 3000/45000 on the following lines)."
+        },
+        {
+          "claim": "Browser live captions: page-injected MutationObserver GOOGLE_MEET_CAPTION_OBSERVER_SOURCE installed when in a call.",
+          "cite": "extensions/google-meet/src/transports/google-meet-caption-observer-source.ts:7",
+          "verdict": "SUPPORTED",
+          "evidence": "google-meet-caption-observer-source.ts:7 'export const GOOGLE_MEET_CAPTION_OBSERVER_SOURCE = `'; :203 'if (inCall && !captionState.observerInstalled) {' (install site)."
+        },
+        {
+          "claim": "Transcript store: TRANSCRIPT_CURSOR_TAIL=64, TRANSCRIPT_MAX_LINES=2000, ENDED_TRANSCRIPTS_MAX=4; eviction sets session.transcriptEvicted.",
+          "cite": "src/meeting-bot/session-transcript-store.ts:72",
+          "verdict": "SUPPORTED",
+          "evidence": "session-transcript-store.ts:33 'const TRANSCRIPT_CURSOR_TAIL = 64;'; :34 'const TRANSCRIPT_MAX_LINES = 2_000;'; :32 'const ENDED_TRANSCRIPTS_MAX = 4;'; class at :72."
+        },
+        {
+          "claim": "Durable bridge polls every CAPTURE_INTERVAL_MS=5000.",
+          "cite": "src/meeting-bot/transcripts-bridge.runtime.ts:30",
+          "verdict": "SUPPORTED",
+          "evidence": "transcripts-bridge.runtime.ts:30 'const CAPTURE_INTERVAL_MS = 5_000;'."
+        },
+        {
+          "claim": "Participation sources expire after 120s, cap at 1024 live sources / 10000 identities.",
+          "cite": "src/meeting-bot/participation.ts:13",
+          "verdict": "SUPPORTED",
+          "evidence": "participation.ts:13 'const SOURCE_LIFETIME_MS = 120_000;'; :14 'const MAX_SOURCES = 1_024;'; :135 'if (identities.size >= 10_000) {'; :186 'if (!previous && sources.size >= MAX_SOURCES) {'."
+        },
+        {
+          "claim": "Summaries regenerate every ~5 minutes (LIVE_SUMMARY_INTERVAL_MS = 5*60_000).",
+          "cite": "src/transcripts/capture-summary.ts:41",
+          "verdict": "SUPPORTED",
+          "evidence": "capture-summary.ts:41 'const LIVE_SUMMARY_INTERVAL_MS = 5 * 60_000;'; createTranscriptSummaryUpdates at :218; persistTranscriptSummary at :195."
+        },
+        {
+          "claim": "summarizeTranscriptsWithModel: utility then primary, 48k input / 1500 tokens / 20s budget, JSON {overview,decisions,actionItems,risks}.",
+          "cite": "src/transcripts/summary-model.ts:17",
+          "verdict": "SUPPORTED",
+          "evidence": "summary-model.ts:17 MODEL_SUMMARY_INPUT_MAX_CHARS = 48_000; :18 MODEL_SUMMARY_MAX_TOKENS = 1_500; :19 MODEL_SUMMARY_TIMEOUT_MS = 20_000; :84 'export async function summarizeTranscriptsWithModel('."
+        },
+        {
+          "claim": "Google Meet Media API is Developer Preview, gated by preview.enrollmentAcknowledged.",
+          "cite": "extensions/google-meet/src/meet.ts:320",
+          "verdict": "SUPPORTED",
+          "evidence": "meet.ts:323 previewAcknowledged: boolean; :327 'if (!params.previewAcknowledged) {'; :329 message 'Set preview.enrollmentAcknowledged=true after confirming ... Google Workspace Developer Preview Program.'"
+        },
+        {
+          "claim": "Persisted participation attempt store capped at 10000 entries with reject-new overflow.",
+          "cite": "extensions/google-meet/src/runtime.ts:100",
+          "verdict": "SUPPORTED",
+          "evidence": "extensions/google-meet/src/runtime.ts:100-104 'params.runtime.state.openKeyedStore<MeetingParticipationAttempt>({ namespace: \"meeting-participation\", maxEntries: 10_000, overflowPolicy: \"reject-new\" })'."
+        },
+        {
+          "claim": "Google Meet gateway methods incl. googlemeet.{join,create,status,transcript,participate,participationContext,leave,speak,setup,testSpeech,testListen,recoverCurrentTab,latest,calendarEvents,artifacts,attendance,export,endActiveConference}.",
+          "cite": "extensions/google-meet/src/plugin-registration.ts:64",
+          "verdict": "SUPPORTED",
+          "evidence": "plugin-registration.ts:64-78 lists 13 methods (join..endActiveConference including participationContext/recoverCurrentTab); extensions/google-meet/index.ts additionally registers googlemeet.latest, .calendarEvents, .artifacts, .attendance, .export (grep of literal method strings) — union matches the doc."
+        }
+      ],
+      "summary": { "supported": 18, "refuted": 0, "unclear": 1 }
+    }
+  ],
+  "totals": { "checks": 88, "supported": 80, "refuted": 3, "unclear": 5 }
+}

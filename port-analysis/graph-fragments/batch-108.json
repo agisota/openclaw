@@ -1,0 +1,2687 @@
+{
+ "nodes": [
+  {
+   "id": "file:src/meeting-bot/session-runtime.ts",
+   "type": "file",
+   "name": "session-runtime.ts",
+   "summary": "Shared lifecycle owner for meeting sessions: serialises joins per transport+URL, reuses/ends conflicting sessions, transfers single browser-tab ownership, and coalesces leave/cleanup retries.",
+   "tags": [
+    "meetings",
+    "session-lifecycle"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/session-runtime.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/session-durable-transcripts.ts",
+   "type": "file",
+   "name": "session-durable-transcripts.ts",
+   "summary": "Starts/stops the durable transcript bridge per session, honours transcripts.enabled, reconciles on config reload, and retries finalization with 1s->60s backoff.",
+   "tags": [
+    "transcripts",
+    "durability"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/session-durable-transcripts.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/session-transcript-store.ts",
+   "type": "file",
+   "name": "session-transcript-store.ts",
+   "summary": "Bounded live-caption transcript store: epoch+tail-key cursor dedupe, 64-line tail, 2000-line cap, and 4 retained ended sessions with transcriptEvicted signalling.",
+   "tags": [
+    "transcripts",
+    "cursor"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/session-transcript-store.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "type": "file",
+   "name": "transcripts-bridge.runtime.ts",
+   "summary": "Durable transcript bridge: 5s capture polling, utterance append to TranscriptsStore, subscriber attach/detach with replay, and final summary persistence.",
+   "tags": [
+    "transcripts",
+    "bridge"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/transcripts-bridge.runtime.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/transcripts-bridge.ts",
+   "type": "file",
+   "name": "transcripts-bridge.ts",
+   "summary": "Type contracts for the durable transcript bridge and its options/logger.",
+   "tags": [
+    "transcripts",
+    "types"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/transcripts-bridge.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/participation.ts",
+   "type": "file",
+   "name": "participation.ts",
+   "summary": "Replay-safe in-call participation action channel: fingerprints requestIds, mints source identities from caption observations, and enforces one-correction and do-not-retry semantics.",
+   "tags": [
+    "participation",
+    "idempotency"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/participation.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/platform-adapter.ts",
+   "type": "file",
+   "name": "platform-adapter.ts",
+   "summary": "Builds MeetingPlatformAdapter objects with browser status/transcript/leave parsers and wires the shared plugin contracts.",
+   "tags": [
+    "platform-adapter",
+    "parsing"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/platform-adapter.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/plugin-entry.ts",
+   "type": "file",
+   "name": "plugin-entry.ts",
+   "summary": "Shared plugin entry factory for browser meeting plugins: registers tools, Gateway methods, node host command/policy, and the transcript source provider.",
+   "tags": [
+    "plugins",
+    "gateway-methods"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/plugin-entry.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/browser-plugin.ts",
+   "type": "file",
+   "name": "browser-plugin.ts",
+   "summary": "defineBrowserMeetingPlugin convenience factory wiring chrome transport, runtime probes, node handler, CLI, and per-platform messages.",
+   "tags": [
+    "plugins",
+    "browser"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/browser-plugin.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/meeting-modes.ts",
+   "type": "file",
+   "name": "meeting-modes.ts",
+   "summary": "Mode helpers: talk-back modes (agent/bidi) and realtime-route readiness from browser health.",
+   "tags": [
+    "modes"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/meeting-modes.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/session-types.ts",
+   "type": "file",
+   "name": "session-types.ts",
+   "summary": "Wire types for meeting sessions, transcript lines/snapshots/provenance, browser health, and adapter sessions.",
+   "tags": [
+    "types",
+    "schema"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/session-types.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/realtime-engine.ts",
+   "type": "file",
+   "name": "realtime-engine.ts",
+   "summary": "Realtime voice/transcription engine over an audio transport with output queue, barge-in, echo suppression windows, and agent consult tool continuity.",
+   "tags": [
+    "realtime",
+    "stt"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/realtime-engine.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/agent-consult.ts",
+   "type": "file",
+   "name": "agent-consult.ts",
+   "summary": "Binds the realtime engine to OpenClaw agent consultation (fork context, tool policy, abort) and registers the consult tool.",
+   "tags": [
+    "realtime",
+    "agent-consult"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/agent-consult.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/realtime-engine-support.ts",
+   "type": "file",
+   "name": "realtime-engine-support.ts",
+   "summary": "Resolves realtime provider/model and audio-format helpers used by the realtime engine.",
+   "tags": [
+    "realtime",
+    "providers"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/realtime-engine-support.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/browser-controller.ts",
+   "type": "file",
+   "name": "browser-controller.ts",
+   "summary": "Opens and recovers the tracked meeting browser tab through the OpenClaw Chrome profile (per-platform page scripts).",
+   "tags": [
+    "browser",
+    "automation"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/browser-controller.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/chrome-transport.ts",
+   "type": "file",
+   "name": "chrome-transport.ts",
+   "summary": "Chrome meeting transport: launches/navigates the tab, attaches the command-pair audio bridge, and exposes speak/health/stop handles.",
+   "tags": [
+    "chrome",
+    "audio-bridge"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/chrome-transport.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/session-factory.ts",
+   "type": "file",
+   "name": "session-factory.ts",
+   "summary": "createMeetingSession builds the shared session record including the realtime block.",
+   "tags": [
+    "sessions",
+    "factory"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/session-factory.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/plugin-config.ts",
+   "type": "file",
+   "name": "plugin-config.ts",
+   "summary": "Normalises browser meeting plugin config: chrome/node blocks, realtime providers (default openai), timeouts, and gateway operation timeout.",
+   "tags": [
+    "config",
+    "realtime"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/plugin-config.ts"
+  },
+  {
+   "id": "file:src/meeting-bot/observation-provenance.ts",
+   "type": "file",
+   "name": "observation-provenance.ts",
+   "summary": "Normalises caption observation provenance and derives participation sources from transcript snapshots.",
+   "tags": [
+    "provenance",
+    "transcripts"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/observation-provenance.ts"
+  },
+  {
+   "id": "file:src/transcripts/capture-summary.ts",
+   "type": "file",
+   "name": "capture-summary.ts",
+   "summary": "Summary lanes: serialises per-session note generation, runs a 5-minute live cadence, and persists/finalizes summaries with revision guards.",
+   "tags": [
+    "summary",
+    "lane"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/capture-summary.ts"
+  },
+  {
+   "id": "file:src/transcripts/summary-model.ts",
+   "type": "file",
+   "name": "summary-model.ts",
+   "summary": "Model-backed meeting notes: utility-then-primary model, 48k input / 1500 token / 20s budget, strict JSON {overview,decisions,actionItems,risks}.",
+   "tags": [
+    "summary",
+    "model"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/summary-model.ts"
+  },
+  {
+   "id": "file:src/transcripts/summary.ts",
+   "type": "file",
+   "name": "summary.ts",
+   "summary": "Deterministic heuristic summary from utterances plus markdown rendering (decisions/action-items/risks regexes).",
+   "tags": [
+    "summary",
+    "heuristic"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/summary.ts"
+  },
+  {
+   "id": "file:src/transcripts/config.ts",
+   "type": "file",
+   "name": "config.ts",
+   "summary": "Normalises the transcripts config block (enabled, maxUtterances, autoStart locators).",
+   "tags": [
+    "transcripts",
+    "config"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/config.ts"
+  },
+  {
+   "id": "file:src/transcripts/store.ts",
+   "type": "file",
+   "name": "store.ts",
+   "summary": "TranscriptsStore over SQLite: session descriptors, utterance append, summary read/write with revision guards.",
+   "tags": [
+    "transcripts",
+    "store"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/store.ts"
+  },
+  {
+   "id": "file:src/transcripts/provider-types.ts",
+   "type": "file",
+   "name": "provider-types.ts",
+   "summary": "Transcript provider wire types: descriptor, utterance, start/stop requests, status.",
+   "tags": [
+    "transcripts",
+    "types"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/provider-types.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/index.ts",
+   "type": "file",
+   "name": "index.ts",
+   "summary": "Google Meet plugin entry: registers googlemeet.* Gateway methods, the google_meet tool, node host command/policy, CLI, and the transcript source provider.",
+   "tags": [
+    "google-meet",
+    "plugin"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/index.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/plugin-registration.ts",
+   "type": "file",
+   "name": "plugin-registration.ts",
+   "summary": "Google Meet registration helpers: gateway method map, param parsing, host/transport support gating, and lazy runtime accessor.",
+   "tags": [
+    "google-meet",
+    "registration"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/plugin-registration.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/runtime.ts",
+   "type": "file",
+   "name": "runtime.ts",
+   "summary": "GoogleMeetRuntime: extends MeetingSessionRuntime with chrome/chrome-node/twilio join, health refresh, transcript capture, leave, and participation store.",
+   "tags": [
+    "google-meet",
+    "runtime"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/google-meet/src/runtime.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/config.ts",
+   "type": "file",
+   "name": "config.ts",
+   "summary": "resolveGoogleMeetConfig: transport/mode, chrome audio commands+backend, twilio+voiceCall, realtime providers, and oauth/auth surfaces.",
+   "tags": [
+    "google-meet",
+    "config"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/config.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/meet-api.ts",
+   "type": "file",
+   "name": "meet-api.ts",
+   "summary": "Google Meet Media API client: spaces.create/get, conferenceRecords, participants, transcripts, smartNotes with per-call scope enforcement.",
+   "tags": [
+    "google-meet",
+    "api"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/meet-api.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/meet.ts",
+   "type": "file",
+   "name": "meet.ts",
+   "summary": "Artifacts/attendance assembly: merges participant sessions, late/early decoration, transcript entries, and linked Doc bodies.",
+   "tags": [
+    "google-meet",
+    "artifacts"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/meet.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/oauth.ts",
+   "type": "file",
+   "name": "oauth.ts",
+   "summary": "Google OAuth PKCE flow: auth URL, local callback with manual fallback, cached-token fast path, and refresh.",
+   "tags": [
+    "google-meet",
+    "oauth"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/oauth.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/calendar.ts",
+   "type": "file",
+   "name": "calendar.ts",
+   "summary": "Google Calendar lookup: events.list, Meet URI extraction from hangoutLink/entryPoints/text, and current/next event ranking.",
+   "tags": [
+    "google-meet",
+    "calendar"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/calendar.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/drive.ts",
+   "type": "file",
+   "name": "drive.ts",
+   "summary": "Google Drive Doc text export for transcript/smart-note artifacts (drive.meet.readonly).",
+   "tags": [
+    "google-meet",
+    "drive"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/drive.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/create.ts",
+   "type": "file",
+   "name": "create.ts",
+   "summary": "Creates a Meet space via API or signed-in browser, with optional create-then-join flow.",
+   "tags": [
+    "google-meet",
+    "create"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/create.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/voice-call-gateway.ts",
+   "type": "file",
+   "name": "voice-call-gateway.ts",
+   "summary": "Delegates the Twilio phone leg to the voice-call plugin gateway (join, DTMF/intro, speak, status, end).",
+   "tags": [
+    "google-meet",
+    "voice-call"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/voice-call-gateway.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/cli-artifact-commands.ts",
+   "type": "file",
+   "name": "cli-artifact-commands.ts",
+   "summary": "CLI: googlemeet artifacts/attendance/export commands rendering summary/markdown/csv and writing bundles.",
+   "tags": [
+    "google-meet",
+    "cli"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/cli-artifact-commands.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/transports/google-meet-platform-adapter.ts",
+   "type": "file",
+   "name": "google-meet-platform-adapter.ts",
+   "summary": "GOOGLE_MEET_PLATFORM_ADAPTER: Google Meet urls, page scripts, dial-in plan, and create adapter.",
+   "tags": [
+    "google-meet",
+    "adapter"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/transports/google-meet-platform-adapter.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/transports/google-meet-caption-observer-source.ts",
+   "type": "file",
+   "name": "google-meet-caption-observer-source.ts",
+   "summary": "Injected page observer that scrapes Meet captions into lines with source identity and own-echo provenance.",
+   "tags": [
+    "google-meet",
+    "captions"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/transports/google-meet-caption-observer-source.ts"
+  },
+  {
+   "id": "file:extensions/google-meet/src/transports/chrome.ts",
+   "type": "file",
+   "name": "chrome.ts",
+   "summary": "Chrome transport for Meet: launchChromeMeet(+OnNode), leaveChromeMeet, readChromeMeetTranscript, recoverCurrentMeetTab.",
+   "tags": [
+    "google-meet",
+    "chrome"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/transports/chrome.ts"
+  },
+  {
+   "id": "file:extensions/teams-meetings/src/transports/teams-meetings-platform-adapter.ts",
+   "type": "file",
+   "name": "teams-meetings-platform-adapter.ts",
+   "summary": "TEAMS_MEETINGS_PLATFORM_ADAPTER: Teams work/consumer guest join, urls, page scripts, agent consult surface.",
+   "tags": [
+    "teams",
+    "adapter"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/teams-meetings/src/transports/teams-meetings-platform-adapter.ts"
+  },
+  {
+   "id": "file:extensions/zoom-meetings/src/transports/zoom-meetings-platform-adapter.ts",
+   "type": "file",
+   "name": "zoom-meetings-platform-adapter.ts",
+   "summary": "ZOOM_MEETINGS_PLATFORM_ADAPTER: Zoom guest join via Web App, admission reasons, meeting-ended status.",
+   "tags": [
+    "zoom",
+    "adapter"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/zoom-meetings/src/transports/zoom-meetings-platform-adapter.ts"
+  },
+  {
+   "id": "file:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts",
+   "type": "file",
+   "name": "monitor.vc-meeting-invited-handler.ts",
+   "summary": "Feishu vc.bot.meeting_invited_v1 handler: validates invite, gated by vcAutoJoin, dispatches a synthetic p2p join message.",
+   "tags": [
+    "feishu",
+    "invite"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/feishu/src/monitor.vc-meeting-invited-handler.ts"
+  },
+  {
+   "id": "file:extensions/feishu/src/monitor.account.ts",
+   "type": "file",
+   "name": "monitor.account.ts",
+   "summary": "Wires the Feishu account event map including vc.bot.meeting_invited_v1 to the invite handler.",
+   "tags": [
+    "feishu",
+    "account"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/feishu/src/monitor.account.ts"
+  },
+  {
+   "id": "file:extensions/feishu/src/config-schema.ts",
+   "type": "file",
+   "name": "config-schema.ts",
+   "summary": "Feishu account config schema including vcAutoJoin (default off).",
+   "tags": [
+    "feishu",
+    "config"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/feishu/src/config-schema.ts"
+  },
+  {
+   "id": "file:docs/plugins/meeting-plugins.md",
+   "type": "file",
+   "name": "meeting-plugins.md",
+   "summary": "User doc: plugin choice matrix, modes, Chrome/virtual-audio setup, verification, and platform policy guidance.",
+   "tags": [
+    "docs",
+    "meetings"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/plugins/meeting-plugins.md"
+  },
+  {
+   "id": "file:docs/cli/transcripts.md",
+   "type": "file",
+   "name": "transcripts.md",
+   "summary": "CLI doc for openclaw transcripts: SQLite canonical store, exports, and the Control UI Meetings reader.",
+   "tags": [
+    "docs",
+    "transcripts"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/cli/transcripts.md"
+  },
+  {
+   "id": "file:docs/plugins/zoom-meetings.md",
+   "type": "file",
+   "name": "zoom-meetings.md",
+   "summary": "Zoom plugin doc: guest Web App join steps, manual-action handling, and tool/Gateway surface.",
+   "tags": [
+    "docs",
+    "zoom"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/plugins/zoom-meetings.md"
+  },
+  {
+   "id": "file:extensions/google-meet/openclaw.plugin.json",
+   "type": "file",
+   "name": "openclaw.plugin.json",
+   "summary": "Google Meet manifest: id, cliCommands, contracts (tools/transcriptSourceProviders), uiHints, configSchema, secretInputs.",
+   "tags": [
+    "manifest",
+    "google-meet"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/openclaw.plugin.json"
+  },
+  {
+   "id": "file:extensions/teams-meetings/openclaw.plugin.json",
+   "type": "file",
+   "name": "openclaw.plugin.json",
+   "summary": "Teams manifest: id, contracts, chrome/chromeNode/realtime config schema.",
+   "tags": [
+    "manifest",
+    "teams"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/teams-meetings/openclaw.plugin.json"
+  },
+  {
+   "id": "file:extensions/zoom-meetings/openclaw.plugin.json",
+   "type": "file",
+   "name": "openclaw.plugin.json",
+   "summary": "Zoom manifest: id, contracts, chrome/chromeNode/realtime config schema.",
+   "tags": [
+    "manifest",
+    "zoom"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/zoom-meetings/openclaw.plugin.json"
+  },
+  {
+   "id": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "type": "class",
+   "name": "MeetingSessionRuntime",
+   "summary": "Owns session map, keyed meeting lock, participation, durable transcripts, join/leave/speak/status, and single-tab ownership transfer.",
+   "tags": [
+    "sessions",
+    "lifecycle"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/session-runtime.ts"
+  },
+  {
+   "id": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "type": "class",
+   "name": "MeetingSessionDurableTranscripts",
+   "summary": "Enables/disables durable capture per session, lazily loads the bridge, and schedules stop retries.",
+   "tags": [
+    "transcripts",
+    "retry"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/session-durable-transcripts.ts"
+  },
+  {
+   "id": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "type": "class",
+   "name": "MeetingSessionTranscriptStore",
+   "summary": "Maintains retained live-caption snapshots and computes snapshot deltas against the epoch+tail-key cursor.",
+   "tags": [
+    "transcripts",
+    "cursor"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/session-transcript-store.ts"
+  },
+  {
+   "id": "class:src/meeting-bot/participation.ts:MeetingParticipation",
+   "type": "class",
+   "name": "MeetingParticipation",
+   "summary": "Observes caption sources, claims requestIds by fingerprint, and executes idempotent participation actions.",
+   "tags": [
+    "participation"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/participation.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "type": "function",
+   "name": "createMeetingDurableTranscriptBridge",
+   "summary": "Builds the durable capture bridge: polling, utterance persistence, subscriber replay, and final summary persistence.",
+   "tags": [
+    "transcripts",
+    "bridge"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/transcripts-bridge.runtime.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/platform-adapter.ts:createMeetingPlatformAdapter",
+   "type": "function",
+   "name": "createMeetingPlatformAdapter",
+   "summary": "Assembles a platform adapter, parsing browser status, leave results, and caption transcripts.",
+   "tags": [
+    "adapter",
+    "parsing"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/platform-adapter.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/plugin-entry.ts:createMeetingPluginEntryOptions",
+   "type": "function",
+   "name": "createMeetingPluginEntryOptions",
+   "summary": "Returns the definePluginEntry options for a browser meeting plugin with all Gateway methods and the tool.",
+   "tags": [
+    "plugins",
+    "entry"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/plugin-entry.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/browser-plugin.ts:defineBrowserMeetingPlugin",
+   "type": "function",
+   "name": "defineBrowserMeetingPlugin",
+   "summary": "High-level factory composing chrome transport, setup probes, node handler, CLI, and messages.",
+   "tags": [
+    "plugins",
+    "factory"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/browser-plugin.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/meeting-modes.ts:isMeetingTalkBackMode",
+   "type": "function",
+   "name": "isMeetingTalkBackMode",
+   "summary": "True for agent/bidi; companion isMeetingRealtimeRouteReady checks in-call, unmuted, routed audio, no manualAction.",
+   "tags": [
+    "modes"
+   ],
+   "complexity": "simple",
+   "filePath": "src/meeting-bot/meeting-modes.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/realtime-engine.ts:startMeetingRealtimeEngine",
+   "type": "function",
+   "name": "startMeetingRealtimeEngine",
+   "summary": "Starts the realtime voice session over the audio transport and returns speak/health/stop handles.",
+   "tags": [
+    "realtime",
+    "engine"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/realtime-engine.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/agent-consult.ts:createMeetingRealtimeEngineBindings",
+   "type": "function",
+   "name": "createMeetingRealtimeEngineBindings",
+   "summary": "Builds platform identity, consultAgent (fork session key), consult tools, and tool-call handler.",
+   "tags": [
+    "agent-consult"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/agent-consult.ts"
+  },
+  {
+   "id": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "type": "class",
+   "name": "GoogleMeetRuntime",
+   "summary": "Google Meet runtime: transport join (chrome/node/twilio), health refresh, transcript capture, leave, participation store.",
+   "tags": [
+    "google-meet",
+    "runtime"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/google-meet/src/runtime.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/meet-api.ts:createGoogleMeetSpace",
+   "type": "function",
+   "name": "createGoogleMeetSpace",
+   "summary": "POST spaces with optional accessType/entryPointAccess; scopes space.created(+settings).",
+   "tags": [
+    "google-meet",
+    "api"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/meet-api.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/meet-api.ts:fetchGoogleMeetSpace",
+   "type": "function",
+   "name": "fetchGoogleMeetSpace",
+   "summary": "Normalises a Meet URL/code to spaces/{id} and GETs the space with meetings.space.readonly.",
+   "tags": [
+    "google-meet",
+    "api"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/google-meet/src/meet-api.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "type": "function",
+   "name": "fetchGoogleMeetArtifacts",
+   "summary": "Lists participants/recordings/transcripts/smartNotes, optionally transcript entries and linked Doc bodies.",
+   "tags": [
+    "google-meet",
+    "artifacts"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/meet.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetAttendance",
+   "type": "function",
+   "name": "fetchGoogleMeetAttendance",
+   "summary": "Builds attendance rows from participant sessions, merging duplicates and decorating late/early-leave.",
+   "tags": [
+    "google-meet",
+    "attendance"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/meet.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/oauth.ts:resolveGoogleMeetAccessToken",
+   "type": "function",
+   "name": "resolveGoogleMeetAccessToken",
+   "summary": "Uses a cached access token when >60s valid, else refreshes with clientId+refreshToken.",
+   "tags": [
+    "google-meet",
+    "oauth"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/google-meet/src/oauth.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/calendar.ts:findGoogleMeetCalendarEvent",
+   "type": "function",
+   "name": "findGoogleMeetCalendarEvent",
+   "summary": "Lists calendar events and returns the best event carrying a Google Meet URI.",
+   "tags": [
+    "google-meet",
+    "calendar"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/calendar.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/drive.ts:exportGoogleDriveDocumentText",
+   "type": "function",
+   "name": "exportGoogleDriveDocumentText",
+   "summary": "Exports a linked Google Doc as text/plain with drive.meet.readonly.",
+   "tags": [
+    "google-meet",
+    "drive"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/google-meet/src/drive.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/voice-call-gateway.ts:joinMeetViaVoiceCallGateway",
+   "type": "function",
+   "name": "joinMeetViaVoiceCallGateway",
+   "summary": "Delegates a Meet dial-in to the voice-call plugin gateway, returning callId/DTMF/intro state.",
+   "tags": [
+    "google-meet",
+    "voice-call"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/voice-call-gateway.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/create.ts:createAndJoinMeetFromParams",
+   "type": "function",
+   "name": "createAndJoinMeetFromParams",
+   "summary": "Creates a space/URL then calls GoogleMeetRuntime.join with the resolved transport/mode.",
+   "tags": [
+    "google-meet",
+    "create"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/create.ts"
+  },
+  {
+   "id": "function:extensions/google-meet/src/cli-artifact-commands.ts:registerGoogleMeetArtifactCommands",
+   "type": "function",
+   "name": "registerGoogleMeetArtifactCommands",
+   "summary": "Registers artifacts/attendance/export CLI commands and output formatting.",
+   "tags": [
+    "google-meet",
+    "cli"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/cli-artifact-commands.ts"
+  },
+  {
+   "id": "function:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:createFeishuVcMeetingInvitedHandler",
+   "type": "function",
+   "name": "createFeishuVcMeetingInvitedHandler",
+   "summary": "Returns the VC invite event handler: validate, gate on vcAutoJoin, synthesize and dispatch a p2p message.",
+   "tags": [
+    "feishu",
+    "invite"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/feishu/src/monitor.vc-meeting-invited-handler.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/browser-controller.ts:openMeetingWithBrowser",
+   "type": "function",
+   "name": "openMeetingWithBrowser",
+   "summary": "Opens the tracked meeting tab in the OpenClaw Chrome profile and returns the tab/health.",
+   "tags": [
+    "browser",
+    "automation"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/browser-controller.ts"
+  },
+  {
+   "id": "function:src/meeting-bot/session-factory.ts:createMeetingSession",
+   "type": "function",
+   "name": "createMeetingSession",
+   "summary": "Creates the shared MeetingSessionRecord with a realtime block from config.",
+   "tags": [
+    "sessions",
+    "factory"
+   ],
+   "complexity": "simple",
+   "filePath": "src/meeting-bot/session-factory.ts"
+  },
+  {
+   "id": "function:src/transcripts/summary.ts:summarizeTranscripts",
+   "type": "function",
+   "name": "summarizeTranscripts",
+   "summary": "Deterministic heuristic notes: participants, overview, and regex-matched decisions/action-items/risks.",
+   "tags": [
+    "summary",
+    "heuristic"
+   ],
+   "complexity": "simple",
+   "filePath": "src/transcripts/summary.ts"
+  },
+  {
+   "id": "function:src/transcripts/summary-model.ts:summarizeTranscriptsWithModel",
+   "type": "function",
+   "name": "summarizeTranscriptsWithModel",
+   "summary": "Runs an isolated utility-then-primary completion returning strict JSON meeting notes.",
+   "tags": [
+    "summary",
+    "model"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/summary-model.ts"
+  },
+  {
+   "id": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "type": "function",
+   "name": "createTranscriptSummaryUpdates",
+   "summary": "Owns the live summary lane: 5-minute timer, generation guard, and retirement on capture end.",
+   "tags": [
+    "summary",
+    "lane"
+   ],
+   "complexity": "complex",
+   "filePath": "src/transcripts/capture-summary.ts"
+  },
+  {
+   "id": "function:src/transcripts/capture-summary.ts:persistTranscriptSummary",
+   "type": "function",
+   "name": "persistTranscriptSummary",
+   "summary": "Reads a summary snapshot and writes the finalized summary with revision guards.",
+   "tags": [
+    "summary",
+    "persist"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/transcripts/capture-summary.ts"
+  },
+  {
+   "id": "resource:google-meet-platform-adapter",
+   "type": "resource",
+   "name": "google-meet-platform-adapter",
+   "summary": "Google Meet adapter object binding urls, page scripts, dial-in plan, and create overrides.",
+   "tags": [
+    "google-meet",
+    "adapter"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "resource:teams-meetings-platform-adapter",
+   "type": "resource",
+   "name": "teams-meetings-platform-adapter",
+   "summary": "Teams adapter object binding urls, page scripts, and guest-join behaviour.",
+   "tags": [
+    "teams",
+    "adapter"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "resource:zoom-meetings-platform-adapter",
+   "type": "resource",
+   "name": "zoom-meetings-platform-adapter",
+   "summary": "Zoom adapter object binding urls, page scripts, admission reasons, and status fields.",
+   "tags": [
+    "zoom",
+    "adapter"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "resource:google-meet-caption-observer-source",
+   "type": "resource",
+   "name": "google-meet-caption-observer-source",
+   "summary": "Injected observer script string that scrapes caption DOM into provenance-stamped lines.",
+   "tags": [
+    "google-meet",
+    "captions"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "service:google-meet",
+   "type": "service",
+   "name": "google-meet",
+   "summary": "Google Meet participant plugin: chrome/chrome-node/twilio join, API create, artifacts, OAuth, and durable notes.",
+   "tags": [
+    "google-meet",
+    "plugin"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "service:teams-meetings",
+   "type": "service",
+   "name": "teams-meetings",
+   "summary": "Microsoft Teams browser meeting plugin: guest join and shared durable notes.",
+   "tags": [
+    "teams",
+    "plugin"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "service:zoom-meetings",
+   "type": "service",
+   "name": "zoom-meetings",
+   "summary": "Zoom browser meeting plugin: Web App guest join and shared durable notes.",
+   "tags": [
+    "zoom",
+    "plugin"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "service:slack-huddles",
+   "type": "service",
+   "name": "slack-huddles",
+   "summary": "Slack huddles browser meeting plugin (documented sibling; not inspected in this slice).",
+   "tags": [
+    "slack",
+    "plugin"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:meeting-modes",
+   "type": "concept",
+   "name": "meeting-modes",
+   "summary": "The three shared modes agent/bidi/transcribe and their talk-back vs observe-only behaviour.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:durable-meeting-transcripts",
+   "type": "concept",
+   "name": "durable-meeting-transcripts",
+   "summary": "Automatic note-taking path that persists caption rows and meeting notes independent of live talk-back.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:live-caption-observation",
+   "type": "concept",
+   "name": "live-caption-observation",
+   "summary": "Scraping platform captions with per-line source identity and self/other provenance.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:participation-idempotency",
+   "type": "concept",
+   "name": "participation-idempotency",
+   "summary": "Request fingerprint dedupe, source-bound claims, one correction, do-not-retry-on-uncertain.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:chrome-node-transport",
+   "type": "concept",
+   "name": "chrome-node-transport",
+   "summary": "Running Chrome and native virtual audio on a paired node instead of the Gateway host.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:virtual-audio-backend",
+   "type": "concept",
+   "name": "virtual-audio-backend",
+   "summary": "BlackHole 2ch (macOS) or PipeWire-Pulse (Linux) null sink used for talk-back audio routing.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:meeting-summary-lanes",
+   "type": "concept",
+   "name": "meeting-summary-lanes",
+   "summary": "Per-session serialised lanes that generate and invalidate meeting notes.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:transcript-source-provider",
+   "type": "concept",
+   "name": "transcript-source-provider",
+   "summary": "registerTranscriptSourceProvider contract exposing live-caption capture to the transcripts subsystem.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:manual-action-gate",
+   "type": "concept",
+   "name": "manual-action-gate",
+   "summary": "Platform states (login/lobby/passcode/CAPTCHA/permission) surfaced as manualAction that automation will not bypass.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:realtime-agent-consult",
+   "type": "concept",
+   "name": "realtime-agent-consult",
+   "summary": "Delegating a live question to the OpenClaw agent via openclaw_agent_consult with a tool policy.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:meeting-artifacts",
+   "type": "concept",
+   "name": "meeting-artifacts",
+   "summary": "Google Meet conference artifacts: recordings, transcripts, smartNotes, attendance.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:calendar-meeting-trigger",
+   "type": "concept",
+   "name": "calendar-meeting-trigger",
+   "summary": "Deriving a Meet link from a Google Calendar event to trigger a join.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:feishu-vc-invite-trigger",
+   "type": "concept",
+   "name": "feishu-vc-invite-trigger",
+   "summary": "Feishu vc.bot.meeting_invited_v1 event converted into a synthetic join instruction.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:meeting-notes-retention",
+   "type": "concept",
+   "name": "meeting-notes-retention",
+   "summary": "Bounded in-memory transcript retention, eviction signalling, and transcripts.enabled kill switch.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:no-recording-policy",
+   "type": "concept",
+   "name": "no-recording-policy",
+   "summary": "Meeting plugins capture text notes only; no audio/video recording is produced.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:participant-identity",
+   "type": "concept",
+   "name": "participant-identity",
+   "summary": "Session participantIdentity string (e.g. guest in OpenClaw Chrome profile) recorded per session.",
+   "tags": [
+    "meetings",
+    "concept"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "endpoint:extensions/google-meet/index.ts:googlemeet.join",
+   "type": "endpoint",
+   "name": "googlemeet.join",
+   "summary": "Gateway method joining a Meet via resolved transport/mode.",
+   "tags": [
+    "meetings",
+    "surface"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/index.ts"
+  },
+  {
+   "id": "endpoint:extensions/google-meet/index.ts:googlemeet.artifacts",
+   "type": "endpoint",
+   "name": "googlemeet.artifacts",
+   "summary": "Gateway method listing conference-record artifacts.",
+   "tags": [
+    "meetings",
+    "surface"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/index.ts"
+  },
+  {
+   "id": "endpoint:src/meeting-bot/plugin-entry.ts:teamsmeetings.join",
+   "type": "endpoint",
+   "name": "teamsmeetings.join",
+   "summary": "Shared Gateway method joining a Teams meeting as a Chrome guest.",
+   "tags": [
+    "meetings",
+    "surface"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/plugin-entry.ts"
+  },
+  {
+   "id": "endpoint:src/meeting-bot/plugin-entry.ts:zoommeetings.join",
+   "type": "endpoint",
+   "name": "zoommeetings.join",
+   "summary": "Shared Gateway method joining a Zoom meeting as a Chrome guest.",
+   "tags": [
+    "meetings",
+    "surface"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/meeting-bot/plugin-entry.ts"
+  },
+  {
+   "id": "endpoint:extensions/google-meet/index.ts:googlemeet.create",
+   "type": "endpoint",
+   "name": "googlemeet.create",
+   "summary": "Gateway method creating a Meet space (API or browser) optionally joining.",
+   "tags": [
+    "meetings",
+    "surface"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/index.ts"
+  },
+  {
+   "id": "endpoint:extensions/google-meet/src/cli-artifact-commands.ts:googlemeet.export",
+   "type": "endpoint",
+   "name": "googlemeet.export",
+   "summary": "CLI export writing artifacts/attendance/raw JSON bundle to a folder.",
+   "tags": [
+    "meetings",
+    "surface"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google-meet/src/cli-artifact-commands.ts"
+  },
+  {
+   "id": "pipeline:invite-to-deliver",
+   "type": "pipeline",
+   "name": "invite-to-deliver",
+   "summary": "End-to-end meeting pipeline: invite/trigger -> join -> transcribe -> summarize -> deliver.",
+   "tags": [
+    "pipeline",
+    "flow"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "step:invite-trigger",
+   "type": "step",
+   "name": "invite-trigger",
+   "summary": "Feishu VC invite, Google Calendar event, or direct tool/CLI request resolves a meeting URL.",
+   "tags": [
+    "flow",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:join-meeting",
+   "type": "step",
+   "name": "join-meeting",
+   "summary": "Chrome guest join (local or paired node) or Twilio dial-in delegates the phone leg.",
+   "tags": [
+    "flow",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:transcribe-meeting",
+   "type": "step",
+   "name": "transcribe-meeting",
+   "summary": "Realtime STT provider (agent/bidi) and/or browser caption observer feed utterance lines.",
+   "tags": [
+    "flow",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:summarize-meeting",
+   "type": "step",
+   "name": "summarize-meeting",
+   "summary": "Heuristic plus model summary lanes produce decisions/action items/risks.",
+   "tags": [
+    "flow",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:deliver-notes",
+   "type": "step",
+   "name": "deliver-notes",
+   "summary": "Notes persist to the SQLite archive and are exported/read via CLI and Control UI Meetings.",
+   "tags": [
+    "flow",
+    "step"
+   ],
+   "complexity": "simple"
+  }
+ ],
+ "edges": [
+  {
+   "source": "file:src/meeting-bot/session-runtime.ts",
+   "target": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/session-durable-transcripts.ts",
+   "target": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/session-transcript-store.ts",
+   "target": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "target": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/participation.ts",
+   "target": "class:src/meeting-bot/participation.ts:MeetingParticipation",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/platform-adapter.ts",
+   "target": "function:src/meeting-bot/platform-adapter.ts:createMeetingPlatformAdapter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/plugin-entry.ts",
+   "target": "function:src/meeting-bot/plugin-entry.ts:createMeetingPluginEntryOptions",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/browser-plugin.ts",
+   "target": "function:src/meeting-bot/browser-plugin.ts:defineBrowserMeetingPlugin",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/meeting-modes.ts",
+   "target": "function:src/meeting-bot/meeting-modes.ts:isMeetingTalkBackMode",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/realtime-engine.ts",
+   "target": "function:src/meeting-bot/realtime-engine.ts:startMeetingRealtimeEngine",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/agent-consult.ts",
+   "target": "function:src/meeting-bot/agent-consult.ts:createMeetingRealtimeEngineBindings",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/browser-controller.ts",
+   "target": "function:src/meeting-bot/browser-controller.ts:openMeetingWithBrowser",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/session-factory.ts",
+   "target": "function:src/meeting-bot/session-factory.ts:createMeetingSession",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/transcripts/capture-summary.ts",
+   "target": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/transcripts/capture-summary.ts",
+   "target": "function:src/transcripts/capture-summary.ts:persistTranscriptSummary",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/transcripts/summary-model.ts",
+   "target": "function:src/transcripts/summary-model.ts:summarizeTranscriptsWithModel",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/transcripts/summary.ts",
+   "target": "function:src/transcripts/summary.ts:summarizeTranscripts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/runtime.ts",
+   "target": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/meet-api.ts",
+   "target": "function:extensions/google-meet/src/meet-api.ts:createGoogleMeetSpace",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/meet-api.ts",
+   "target": "function:extensions/google-meet/src/meet-api.ts:fetchGoogleMeetSpace",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/meet.ts",
+   "target": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/meet.ts",
+   "target": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetAttendance",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/oauth.ts",
+   "target": "function:extensions/google-meet/src/oauth.ts:resolveGoogleMeetAccessToken",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/calendar.ts",
+   "target": "function:extensions/google-meet/src/calendar.ts:findGoogleMeetCalendarEvent",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/drive.ts",
+   "target": "function:extensions/google-meet/src/drive.ts:exportGoogleDriveDocumentText",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/create.ts",
+   "target": "function:extensions/google-meet/src/create.ts:createAndJoinMeetFromParams",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/voice-call-gateway.ts",
+   "target": "function:extensions/google-meet/src/voice-call-gateway.ts:joinMeetViaVoiceCallGateway",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/cli-artifact-commands.ts",
+   "target": "function:extensions/google-meet/src/cli-artifact-commands.ts:registerGoogleMeetArtifactCommands",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/transports/google-meet-platform-adapter.ts",
+   "target": "resource:google-meet-platform-adapter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/transports/google-meet-caption-observer-source.ts",
+   "target": "resource:google-meet-caption-observer-source",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/teams-meetings/src/transports/teams-meetings-platform-adapter.ts",
+   "target": "resource:teams-meetings-platform-adapter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/zoom-meetings/src/transports/zoom-meetings-platform-adapter.ts",
+   "target": "resource:zoom-meetings-platform-adapter",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts",
+   "target": "function:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:createFeishuVcMeetingInvitedHandler",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/index.ts",
+   "target": "endpoint:extensions/google-meet/index.ts:googlemeet.join",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/index.ts",
+   "target": "endpoint:extensions/google-meet/index.ts:googlemeet.artifacts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/index.ts",
+   "target": "endpoint:extensions/google-meet/index.ts:googlemeet.create",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/plugin-entry.ts",
+   "target": "endpoint:src/meeting-bot/plugin-entry.ts:teamsmeetings.join",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/plugin-entry.ts",
+   "target": "endpoint:src/meeting-bot/plugin-entry.ts:zoommeetings.join",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google-meet/src/cli-artifact-commands.ts",
+   "target": "endpoint:extensions/google-meet/src/cli-artifact-commands.ts:googlemeet.export",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/plugin-registration.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/runtime.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/config.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/meet-api.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/meet.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/oauth.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/calendar.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/drive.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/create.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/voice-call-gateway.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/cli-artifact-commands.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/transports/google-meet-platform-adapter.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/transports/google-meet-caption-observer-source.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/src/transports/chrome.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:google-meet",
+   "target": "file:extensions/google-meet/openclaw.plugin.json",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:teams-meetings",
+   "target": "file:extensions/teams-meetings/src/transports/teams-meetings-platform-adapter.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:teams-meetings",
+   "target": "file:extensions/teams-meetings/openclaw.plugin.json",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:zoom-meetings",
+   "target": "file:extensions/zoom-meetings/src/transports/zoom-meetings-platform-adapter.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:zoom-meetings",
+   "target": "file:extensions/zoom-meetings/openclaw.plugin.json",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:teams-meetings",
+   "target": "file:src/meeting-bot/plugin-entry.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:zoom-meetings",
+   "target": "file:src/meeting-bot/plugin-entry.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "service:zoom-meetings",
+   "target": "file:src/meeting-bot/browser-plugin.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "target": "file:src/transcripts/capture-summary.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "target": "file:src/transcripts/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "target": "file:src/meeting-bot/transcripts-bridge.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "target": "file:src/transcripts/store.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/transcripts-bridge.runtime.ts",
+   "target": "file:src/transcripts/config.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/session-transcript-store.ts",
+   "target": "file:src/meeting-bot/observation-provenance.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/google-meet/index.ts",
+   "target": "file:extensions/google-meet/src/plugin-registration.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/feishu/src/monitor.account.ts",
+   "target": "file:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/platform-adapter.ts",
+   "target": "file:src/meeting-bot/plugin-entry.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/platform-adapter.ts",
+   "target": "file:src/meeting-bot/browser-plugin.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/browser-plugin.ts",
+   "target": "file:src/meeting-bot/plugin-entry.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/meeting-bot/browser-plugin.ts",
+   "target": "file:src/meeting-bot/platform-adapter.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "class:src/meeting-bot/participation.ts:MeetingParticipation",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "function:src/meeting-bot/session-factory.ts:createMeetingSession",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "function:src/meeting-bot/browser-controller.ts:openMeetingWithBrowser",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "function:src/meeting-bot/meeting-modes.ts:isMeetingTalkBackMode",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "file:src/meeting-bot/session-types.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "target": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "target": "file:src/transcripts/config.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "target": "file:src/transcripts/provider-types.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "target": "class:src/meeting-bot/participation.ts:MeetingParticipation",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "target": "file:src/meeting-bot/observation-provenance.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "target": "file:src/transcripts/store.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "target": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "target": "function:src/transcripts/capture-summary.ts:persistTranscriptSummary",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "target": "function:src/transcripts/summary-model.ts:summarizeTranscriptsWithModel",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "target": "function:src/transcripts/summary.ts:summarizeTranscripts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/transcripts/capture-summary.ts:persistTranscriptSummary",
+   "target": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/meeting-bot/realtime-engine.ts:startMeetingRealtimeEngine",
+   "target": "function:src/meeting-bot/agent-consult.ts:createMeetingRealtimeEngineBindings",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/meeting-bot/realtime-engine.ts:startMeetingRealtimeEngine",
+   "target": "file:src/meeting-bot/realtime-engine-support.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/meeting-bot/agent-consult.ts:createMeetingRealtimeEngineBindings",
+   "target": "concept:realtime-agent-consult",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "type": "inherits",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "function:extensions/google-meet/src/voice-call-gateway.ts:joinMeetViaVoiceCallGateway",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "function:extensions/google-meet/src/create.ts:createAndJoinMeetFromParams",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "function:extensions/google-meet/src/meet-api.ts:createGoogleMeetSpace",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "function:extensions/google-meet/src/meet-api.ts:fetchGoogleMeetSpace",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "file:extensions/google-meet/src/config.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "file:extensions/google-meet/src/transports/chrome.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "file:src/meeting-bot/chrome-transport.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "resource:google-meet-platform-adapter",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "target": "function:extensions/google-meet/src/meet-api.ts:fetchGoogleMeetSpace",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "target": "function:extensions/google-meet/src/drive.ts:exportGoogleDriveDocumentText",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetAttendance",
+   "target": "function:extensions/google-meet/src/meet-api.ts:fetchGoogleMeetSpace",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/google-meet/src/cli-artifact-commands.ts:registerGoogleMeetArtifactCommands",
+   "target": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/google-meet/src/cli-artifact-commands.ts:registerGoogleMeetArtifactCommands",
+   "target": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetAttendance",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:createFeishuVcMeetingInvitedHandler",
+   "target": "file:extensions/feishu/src/monitor.account.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:createFeishuVcMeetingInvitedHandler",
+   "target": "file:extensions/feishu/src/config-schema.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:createFeishuVcMeetingInvitedHandler",
+   "target": "concept:feishu-vc-invite-trigger",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/meeting-bot/platform-adapter.ts:createMeetingPlatformAdapter",
+   "target": "function:src/meeting-bot/browser-controller.ts:openMeetingWithBrowser",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/meeting-bot/platform-adapter.ts:createMeetingPlatformAdapter",
+   "target": "file:src/meeting-bot/session-types.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/meeting-bot/plugin-entry.ts:createMeetingPluginEntryOptions",
+   "target": "function:src/meeting-bot/platform-adapter.ts:createMeetingPlatformAdapter",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/meeting-bot/browser-plugin.ts:defineBrowserMeetingPlugin",
+   "target": "function:src/meeting-bot/plugin-entry.ts:createMeetingPluginEntryOptions",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/meeting-bot/browser-plugin.ts:defineBrowserMeetingPlugin",
+   "target": "function:src/meeting-bot/platform-adapter.ts:createMeetingPlatformAdapter",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/meeting-bot/meeting-modes.ts:isMeetingTalkBackMode",
+   "target": "concept:meeting-modes",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "target": "concept:meeting-artifacts",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetAttendance",
+   "target": "concept:meeting-artifacts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/google-meet/src/calendar.ts:findGoogleMeetCalendarEvent",
+   "target": "concept:calendar-meeting-trigger",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/meeting-bot/realtime-engine.ts:startMeetingRealtimeEngine",
+   "target": "concept:realtime-agent-consult",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "resource:google-meet-platform-adapter",
+   "target": "file:src/meeting-bot/plugin-config.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "target": "concept:durable-meeting-transcripts",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "target": "concept:live-caption-observation",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:src/meeting-bot/participation.ts:MeetingParticipation",
+   "target": "concept:participation-idempotency",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/meeting-bot/chrome-transport.ts",
+   "target": "concept:virtual-audio-backend",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "resource:google-meet-platform-adapter",
+   "target": "concept:chrome-node-transport",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "resource:teams-meetings-platform-adapter",
+   "target": "concept:chrome-node-transport",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "resource:zoom-meetings-platform-adapter",
+   "target": "concept:chrome-node-transport",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "target": "concept:meeting-summary-lanes",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/meeting-bot/transcripts-bridge.runtime.ts:createMeetingDurableTranscriptBridge",
+   "target": "concept:transcript-source-provider",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/meeting-bot/platform-adapter.ts",
+   "target": "concept:manual-action-gate",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:durable-meeting-transcripts",
+   "target": "concept:meeting-notes-retention",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:src/meeting-bot/session-runtime.ts:MeetingSessionRuntime",
+   "target": "concept:no-recording-policy",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/meeting-bot/session-factory.ts:createMeetingSession",
+   "target": "concept:participant-identity",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:meeting-modes",
+   "target": "concept:realtime-agent-consult",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/meeting-bot/meeting-modes.ts",
+   "target": "concept:meeting-modes",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "resource:google-meet-caption-observer-source",
+   "target": "concept:live-caption-observation",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/google-meet/src/transports/google-meet-caption-observer-source.ts",
+   "target": "concept:live-caption-observation",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/meeting-bot/observation-provenance.ts",
+   "target": "concept:live-caption-observation",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:extensions/google-meet/index.ts:googlemeet.join",
+   "target": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:extensions/google-meet/index.ts:googlemeet.artifacts",
+   "target": "function:extensions/google-meet/src/meet.ts:fetchGoogleMeetArtifacts",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:src/meeting-bot/plugin-entry.ts:teamsmeetings.join",
+   "target": "function:src/meeting-bot/browser-plugin.ts:defineBrowserMeetingPlugin",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:src/meeting-bot/plugin-entry.ts:zoommeetings.join",
+   "target": "function:src/meeting-bot/browser-plugin.ts:defineBrowserMeetingPlugin",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:extensions/google-meet/index.ts:googlemeet.create",
+   "target": "function:extensions/google-meet/src/create.ts:createAndJoinMeetFromParams",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:extensions/google-meet/src/cli-artifact-commands.ts:googlemeet.export",
+   "target": "function:extensions/google-meet/src/cli-artifact-commands.ts:registerGoogleMeetArtifactCommands",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:invite-to-deliver",
+   "target": "step:invite-trigger",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:invite-to-deliver",
+   "target": "step:join-meeting",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:invite-to-deliver",
+   "target": "step:transcribe-meeting",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:invite-to-deliver",
+   "target": "step:summarize-meeting",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:invite-to-deliver",
+   "target": "step:deliver-notes",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:invite-trigger",
+   "target": "step:join-meeting",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:join-meeting",
+   "target": "step:transcribe-meeting",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:transcribe-meeting",
+   "target": "step:summarize-meeting",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:summarize-meeting",
+   "target": "step:deliver-notes",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:feishu-vc-invite-trigger",
+   "target": "step:invite-trigger",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:calendar-meeting-trigger",
+   "target": "step:invite-trigger",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "endpoint:extensions/google-meet/index.ts:googlemeet.join",
+   "target": "step:invite-trigger",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "step:join-meeting",
+   "target": "service:google-meet",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:join-meeting",
+   "target": "service:teams-meetings",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:join-meeting",
+   "target": "service:zoom-meetings",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:transcribe-meeting",
+   "target": "class:src/meeting-bot/session-durable-transcripts.ts:MeetingSessionDurableTranscripts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "step:transcribe-meeting",
+   "target": "class:src/meeting-bot/session-transcript-store.ts:MeetingSessionTranscriptStore",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "step:summarize-meeting",
+   "target": "function:src/transcripts/capture-summary.ts:createTranscriptSummaryUpdates",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "step:summarize-meeting",
+   "target": "function:src/transcripts/summary-model.ts:summarizeTranscriptsWithModel",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "step:deliver-notes",
+   "target": "file:src/transcripts/store.ts",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:deliver-notes",
+   "target": "file:docs/cli/transcripts.md",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/meeting-plugins.md",
+   "target": "service:google-meet",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/meeting-plugins.md",
+   "target": "service:teams-meetings",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/meeting-plugins.md",
+   "target": "service:zoom-meetings",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/meeting-plugins.md",
+   "target": "concept:meeting-modes",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/meeting-plugins.md",
+   "target": "concept:durable-meeting-transcripts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/meeting-plugins.md",
+   "target": "concept:manual-action-gate",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/plugins/zoom-meetings.md",
+   "target": "service:zoom-meetings",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/cli/transcripts.md",
+   "target": "concept:durable-meeting-transcripts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/cli/transcripts.md",
+   "target": "file:src/transcripts/store.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/google-meet/openclaw.plugin.json",
+   "target": "service:google-meet",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/teams-meetings/openclaw.plugin.json",
+   "target": "service:teams-meetings",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/zoom-meetings/openclaw.plugin.json",
+   "target": "service:zoom-meetings",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/feishu/src/config-schema.ts",
+   "target": "function:extensions/feishu/src/monitor.vc-meeting-invited-handler.ts:createFeishuVcMeetingInvitedHandler",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "resource:google-meet-platform-adapter",
+   "target": "resource:teams-meetings-platform-adapter",
+   "type": "similar_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "resource:teams-meetings-platform-adapter",
+   "target": "resource:zoom-meetings-platform-adapter",
+   "type": "similar_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "resource:google-meet-platform-adapter",
+   "target": "resource:zoom-meetings-platform-adapter",
+   "type": "similar_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:extensions/google-meet/src/runtime.ts:GoogleMeetRuntime",
+   "target": "function:src/meeting-bot/plugin-entry.ts:createMeetingPluginEntryOptions",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:google-meet",
+   "target": "service:slack-huddles",
+   "type": "similar_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:slack-huddles",
+   "target": "file:docs/plugins/meeting-plugins.md",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/google-meet/src/meet-api.ts:createGoogleMeetSpace",
+   "target": "concept:meeting-artifacts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/google-meet/src/oauth.ts:resolveGoogleMeetAccessToken",
+   "target": "file:extensions/google-meet/src/oauth.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  }
+ ]
+}

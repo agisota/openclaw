@@ -1,0 +1,2393 @@
+{
+ "nodes": [
+  {
+   "id": "file:docs/concepts/multi-user.md",
+   "type": "file",
+   "name": "multi-user.md",
+   "summary": "Multi-user mode concept doc: trust boundary, three ownership layers, per-person model accounts, mentions inbox, presence, agent-spawned sessions.",
+   "tags": [
+    "multi-user",
+    "ownership",
+    "presence",
+    "docs"
+   ],
+   "complexity": "complex",
+   "filePath": "docs/concepts/multi-user.md"
+  },
+  {
+   "id": "file:docs/concepts/user-model.md",
+   "type": "file",
+   "name": "user-model.md",
+   "summary": "User-model doc: USER.md personal files on a shared Gateway, Gateway profile + GitHub credit, channel identity links, profile merges, GitHub connections.",
+   "tags": [
+    "user-model",
+    "identity",
+    "github",
+    "docs"
+   ],
+   "complexity": "complex",
+   "filePath": "docs/concepts/user-model.md"
+  },
+  {
+   "id": "file:docs/gateway/team-server.md",
+   "type": "file",
+   "name": "team-server.md",
+   "summary": "Production team Gateway deploy guide: Cloudflare Tunnel/Access, trusted-proxy config JSON, named roles bootstrap, OIDC, session sharing, operations.",
+   "tags": [
+    "team-server",
+    "deployment",
+    "cloudflare",
+    "docs"
+   ],
+   "complexity": "complex",
+   "filePath": "docs/gateway/team-server.md"
+  },
+  {
+   "id": "file:docs/gateway/operator-scopes.md",
+   "type": "file",
+   "name": "operator-scopes.md",
+   "summary": "Operator scopes reference: scope levels, named roles + accessPolicyPlugin, identityScopes grants, method scope gates, pairing approvals.",
+   "tags": [
+    "operator-scopes",
+    "roles",
+    "authz",
+    "docs"
+   ],
+   "complexity": "complex",
+   "filePath": "docs/gateway/operator-scopes.md"
+  },
+  {
+   "id": "file:docs/concepts/presence.md",
+   "type": "file",
+   "name": "presence.md",
+   "summary": "Presence doc: producers (self/WS connect/system-event/node), TTL 5min + max 200, who can see presence, online vs active, watched-session filtering.",
+   "tags": [
+    "presence",
+    "ws",
+    "docs"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/concepts/presence.md"
+  },
+  {
+   "id": "file:docs/web/urls.md",
+   "type": "file",
+   "name": "urls.md",
+   "summary": "Web URLs doc incl. public session transcripts: normal /chat URL publish, signed-out reader, revocation, /share/session token links bound to installation identity.",
+   "tags": [
+    "public-session",
+    "urls",
+    "docs"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/urls.md"
+  },
+  {
+   "id": "file:docs/start/teams.md",
+   "type": "file",
+   "name": "teams.md",
+   "summary": "Team setup quickstart: one trust boundary, per-person sign-in, shared sessions, guest roles, roles via users.setRole.",
+   "tags": [
+    "teams",
+    "setup",
+    "roles",
+    "docs"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/start/teams.md"
+  },
+  {
+   "id": "file:docs/reference/database-schemas/agent-schema-history.md",
+   "type": "file",
+   "name": "agent-schema-history.md",
+   "summary": "Agent DB schema history incl. creator namespace migration (agent schema 19 / state 14) and participant identity migration (agent schema 18).",
+   "tags": [
+    "database",
+    "migration",
+    "schema",
+    "docs"
+   ],
+   "complexity": "complex",
+   "filePath": "docs/reference/database-schemas/agent-schema-history.md"
+  },
+  {
+   "id": "file:src/gateway/server-methods/sessions-mutations.ts",
+   "type": "file",
+   "name": "sessions-mutations.ts",
+   "summary": "Gateway session mutation handlers: setInvolvement, assignOwner (identified caller, visibility-authorized, runExclusiveSessionLifecycleMutation), patch/rename.",
+   "tags": [
+    "sessions",
+    "ownership",
+    "gateway"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/server-methods/sessions-mutations.ts"
+  },
+  {
+   "id": "file:src/gateway/session-sharing-authorization.ts",
+   "type": "file",
+   "name": "session-sharing-authorization.ts",
+   "summary": "Session mutation authorization: VISIBILITY_AUTHORIZED_METHODS set, target-changed fences, expected-mutation-target validation.",
+   "tags": [
+    "sessions",
+    "authz",
+    "gateway"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/session-sharing-authorization.ts"
+  },
+  {
+   "id": "file:src/gateway/operator-role-policy.ts",
+   "type": "file",
+   "name": "operator-role-policy.ts",
+   "summary": "Named operator role resolution: assignment cache, byGithubLogin matching, deny-all fallback, creator sandbox requirement, scope-ceiling check.",
+   "tags": [
+    "roles",
+    "authz",
+    "gateway"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/operator-role-policy.ts"
+  },
+  {
+   "id": "file:src/gateway/gateway-owner-profile.ts",
+   "type": "file",
+   "name": "gateway-owner-profile.ts",
+   "summary": "shouldUseGatewayOwnerProfile: selects the shared Owner profile only for operator connections without authenticated user id (token/password when roles configured).",
+   "tags": [
+    "owner-profile",
+    "identity",
+    "gateway"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/gateway-owner-profile.ts"
+  },
+  {
+   "id": "file:src/config/zod-schema.gateway.ts",
+   "type": "file",
+   "name": "zod-schema.gateway.ts",
+   "summary": "Gateway config zod schema: auth (trustedProxy, cloudflareAccessOidc, identityScopes), roles definitions/assignments/default, per-role sessions/agents/scopes/sandbox/modelPolicy/accessPolicyPlugin.",
+   "tags": [
+    "config",
+    "schema",
+    "roles",
+    "trusted-proxy"
+   ],
+   "complexity": "complex",
+   "filePath": "src/config/zod-schema.gateway.ts"
+  },
+  {
+   "id": "file:src/config/sessions/session-entry-provenance.ts",
+   "type": "file",
+   "name": "session-entry-provenance.ts",
+   "summary": "Session provenance types/helpers: SessionActor, SessionCreatedActor (source profile|channel|unknown), SessionOwnerAssignment, personal-profile selection, spawn owner inheritance, creation stamps.",
+   "tags": [
+    "sessions",
+    "ownership",
+    "provenance"
+   ],
+   "complexity": "complex",
+   "filePath": "src/config/sessions/session-entry-provenance.ts"
+  },
+  {
+   "id": "file:src/state/creator-namespace-migration.ts",
+   "type": "file",
+   "name": "creator-namespace-migration.ts",
+   "summary": "migrateLegacySessionCreator: doctor/upgrade-only normalization of historical createdBy into createdActor with a source discriminator.",
+   "tags": [
+    "migration",
+    "sessions",
+    "provenance"
+   ],
+   "complexity": "simple",
+   "filePath": "src/state/creator-namespace-migration.ts"
+  },
+  {
+   "id": "file:src/state/user-profiles.types.ts",
+   "type": "file",
+   "name": "user-profiles.types.ts",
+   "summary": "User profile types + table shapes: user_profiles (id, display_name, primary_github_account_id, avatar, merged_into, role), user_profile_emails, identity/authority facts.",
+   "tags": [
+    "profiles",
+    "identity",
+    "database"
+   ],
+   "complexity": "complex",
+   "filePath": "src/state/user-profiles.types.ts"
+  },
+  {
+   "id": "file:src/gateway/control-ui-public-session.ts",
+   "type": "file",
+   "name": "control-ui-public-session.ts",
+   "summary": "Public session share HTTP route /{basePath}/share/session: secure-ingress-only GET, CSP default-src none, ETag/304, rate-limited admission, token resolution.",
+   "tags": [
+    "public-session",
+    "http",
+    "gateway"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui-public-session.ts"
+  },
+  {
+   "id": "file:src/gateway/control-ui-public-session-token.ts",
+   "type": "file",
+   "name": "control-ui-public-session-token.ts",
+   "summary": "Opaque public-session share token codec: AES-256-GCM sealed locator {v,agentId,sessionKey,sessionId,shareId} keyed by HKDF over the process Ed25519 identity; v1. prefix.",
+   "tags": [
+    "public-session",
+    "crypto",
+    "token"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui-public-session-token.ts"
+  },
+  {
+   "id": "file:src/gateway/server/client-presence.ts",
+   "type": "file",
+   "name": "client-presence.ts",
+   "summary": "Gateway WS client presence: snapshotClientPresence/refreshClientPresence, profile-derived presence identity, 30s activity-broadcast coalescing, person-wide timing merge.",
+   "tags": [
+    "presence",
+    "websocket",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server/client-presence.ts"
+  },
+  {
+   "id": "file:packages/gateway-protocol/src/schema/session-participant.ts",
+   "type": "file",
+   "name": "session-participant.ts",
+   "summary": "Wire schema for participant identity (profile|agent|remote|observation|legacy) and bounds MAX 32 / preview 4.",
+   "tags": [
+    "sessions",
+    "participants",
+    "protocol"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-protocol/src/schema/session-participant.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/index.ts",
+   "type": "file",
+   "name": "index.ts",
+   "summary": "Visitor Access plugin entry: registers visitor_* tools, registerGatewayAccessPolicy (authorize/resume), hourly sweep service tied to gateway_start lifetime.",
+   "tags": [
+    "visitor-access",
+    "plugin",
+    "gateway"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/index.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/src/visitors.ts",
+   "type": "file",
+   "name": "visitors.ts",
+   "summary": "VisitorAccessService: in-memory grant map + abort controllers, serialized mutation queue, invite/revoke/list/sweep, expiry timer.",
+   "tags": [
+    "visitor-access",
+    "grants",
+    "queue"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/visitors.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/src/cloudflare.ts",
+   "type": "file",
+   "name": "cloudflare.ts",
+   "summary": "VisitorPolicyClient: Cloudflare Access policies API read/modify/write, managed policy schema, email + OIDC include rules, provider-mapping validation.",
+   "tags": [
+    "visitor-access",
+    "cloudflare",
+    "policy"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/cloudflare.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/src/roles.ts",
+   "type": "file",
+   "name": "roles.ts",
+   "summary": "Visitor role predicates: isRestrictedVisitorRole, profileUsesVisitorRole, resolveVisitorRole (validates gateway.roles.default is a restricted guest).",
+   "tags": [
+    "visitor-access",
+    "roles",
+    "policy"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/visitor-access/src/roles.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/src/access.ts",
+   "type": "file",
+   "name": "access.ts",
+   "summary": "createVisitorAccessReader: reads users.list profiles/githubProfiles, maps email/github account to profile, describes Gateway access, exposes withProfile.",
+   "tags": [
+    "visitor-access",
+    "profiles",
+    "access"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/access.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/src/config.ts",
+   "type": "file",
+   "name": "config.ts",
+   "summary": "visitorConfigSchema: accountId, appId, apiToken, policyName, defaultTtlDays (14), maxVisitors (50).",
+   "tags": [
+    "visitor-access",
+    "config",
+    "schema"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/visitor-access/src/config.ts"
+  },
+  {
+   "id": "file:extensions/visitor-access/src/tools.ts",
+   "type": "file",
+   "name": "tools.ts",
+   "summary": "createVisitorTools: visitor_invite/revoke/list agent tools, owner/admin gated, runtime service binding, typed result schemas.",
+   "tags": [
+    "visitor-access",
+    "tools",
+    "plugin"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/tools.ts"
+  },
+  {
+   "id": "file:src/plugins/gateway-access-policy.types.ts",
+   "type": "file",
+   "name": "gateway-access-policy.types.ts",
+   "summary": "Gateway access-policy plugin contract: PluginGatewayAccessPolicy {authorize,resume}, PluginGatewayAccessAuthority {grantId?,assertCurrent,signal}, context profile facts.",
+   "tags": [
+    "plugins",
+    "authz",
+    "contract"
+   ],
+   "complexity": "simple",
+   "filePath": "src/plugins/gateway-access-policy.types.ts"
+  },
+  {
+   "id": "file:src/gateway/methods/core-descriptors.ts",
+   "type": "file",
+   "name": "core-descriptors.ts",
+   "summary": "Core Gateway RPC method descriptors incl. sessions.assignOwner -> sessions-mutations, operator.write, since 2026.8.",
+   "tags": [
+    "gateway",
+    "rpc",
+    "descriptors"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/methods/core-descriptors.ts"
+  },
+  {
+   "id": "function:src/state/creator-namespace-migration.ts:migrateLegacySessionCreator",
+   "type": "function",
+   "name": "migrateLegacySessionCreator",
+   "summary": "Maps legacy createdBy records to createdActor with source profile/channel/unknown; preserves ids/attribution, never invents creator authority.",
+   "tags": [
+    "migration",
+    "sessions",
+    "provenance"
+   ],
+   "complexity": "simple",
+   "filePath": "src/state/creator-namespace-migration.ts",
+   "lineRange": [
+    6,
+    31
+   ]
+  },
+  {
+   "id": "function:src/config/sessions/session-entry-provenance.ts:sessionPersonalProfileId",
+   "type": "function",
+   "name": "sessionPersonalProfileId",
+   "summary": "Returns assigned human owner id, else authenticated human creator profile id; drives per-person USER.md selection.",
+   "tags": [
+    "ownership",
+    "provenance",
+    "sessions"
+   ],
+   "complexity": "simple",
+   "filePath": "src/config/sessions/session-entry-provenance.ts",
+   "lineRange": [
+    59,
+    64
+   ]
+  },
+  {
+   "id": "function:src/config/sessions/session-entry-provenance.ts:sessionCreatorProfileId",
+   "type": "function",
+   "name": "sessionCreatorProfileId",
+   "summary": "Extracts a profile creator id only when actor.type==='human' && source==='profile'.",
+   "tags": [
+    "ownership",
+    "provenance",
+    "sessions"
+   ],
+   "complexity": "simple",
+   "filePath": "src/config/sessions/session-entry-provenance.ts",
+   "lineRange": [
+    22,
+    26
+   ]
+  },
+  {
+   "id": "function:src/config/sessions/session-entry-provenance.ts:inheritSpawnSessionOwner",
+   "type": "function",
+   "name": "inheritSpawnSessionOwner",
+   "summary": "Computes a spawn child's initial owner from the requesting human's verified profile or the assigned agent; changes responsibility not creator.",
+   "tags": [
+    "ownership",
+    "spawn",
+    "sessions"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/config/sessions/session-entry-provenance.ts",
+   "lineRange": [
+    67,
+    116
+   ]
+  },
+  {
+   "id": "function:src/gateway/operator-role-policy.ts:resolveOperatorRoleSelection",
+   "type": "function",
+   "name": "resolveOperatorRoleSelection",
+   "summary": "Resolves effective role name: explicit assignment -> byGithubLogin mapping -> gateway.roles.default, with roleSource.",
+   "tags": [
+    "roles",
+    "authz",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/operator-role-policy.ts",
+   "lineRange": [
+    95,
+    120
+   ]
+  },
+  {
+   "id": "function:src/gateway/operator-role-policy.ts:resolveOperatorRolePolicyForProfile",
+   "type": "function",
+   "name": "resolveOperatorRolePolicyForProfile",
+   "summary": "Returns the role definition for a profile or the deny-all definition for missing identity; owner profile bypasses roles.",
+   "tags": [
+    "roles",
+    "authz",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/operator-role-policy.ts",
+   "lineRange": [
+    123,
+    174
+   ]
+  },
+  {
+   "id": "function:src/gateway/operator-role-policy.ts:resolveCreatorSandbox",
+   "type": "function",
+   "name": "resolveCreatorSandbox",
+   "summary": "Returns 'required' when the creator actor is a human whose current role requires sandboxing; not identity proof.",
+   "tags": [
+    "roles",
+    "sandbox",
+    "provenance"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/operator-role-policy.ts",
+   "lineRange": [
+    177,
+    187
+   ]
+  },
+  {
+   "id": "function:src/gateway/gateway-owner-profile.ts:shouldUseGatewayOwnerProfile",
+   "type": "function",
+   "name": "shouldUseGatewayOwnerProfile",
+   "summary": "Decides whether an unattributed operator connection receives the shared owner profile.",
+   "tags": [
+    "owner-profile",
+    "identity",
+    "gateway"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/gateway-owner-profile.ts",
+   "lineRange": [
+    4,
+    15
+   ]
+  },
+  {
+   "id": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "type": "class",
+   "name": "VisitorAccessService",
+   "summary": "Owns visitor grants, expiry timers, and the single serialized mutation queue for Cloudflare policy + durable records.",
+   "tags": [
+    "visitor-access",
+    "grants",
+    "queue"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/visitors.ts",
+   "lineRange": [
+    83,
+    727
+   ]
+  },
+  {
+   "id": "class:extensions/visitor-access/src/cloudflare.ts:VisitorPolicyClient",
+   "type": "class",
+   "name": "VisitorPolicyClient",
+   "summary": "Cloudflare Access policy client; update() starts from a fresh read, folds targets into include rules, preserves restrictions.",
+   "tags": [
+    "visitor-access",
+    "cloudflare",
+    "policy"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/cloudflare.ts",
+   "lineRange": [
+    63,
+    291
+   ]
+  },
+  {
+   "id": "function:extensions/visitor-access/src/roles.ts:isRestrictedVisitorRole",
+   "type": "function",
+   "name": "isRestrictedVisitorRole",
+   "summary": "Predicate for the restricted guest role: accessPolicyPlugin visitor-access, others=view, sandbox required, modelPolicy, only operator.sessions.* scopes.",
+   "tags": [
+    "visitor-access",
+    "roles",
+    "policy"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/visitor-access/src/roles.ts",
+   "lineRange": [
+    21,
+    33
+   ]
+  },
+  {
+   "id": "function:extensions/visitor-access/src/roles.ts:resolveVisitorRole",
+   "type": "function",
+   "name": "resolveVisitorRole",
+   "summary": "Validates gateway.roles.default is a restricted visitor role and returns its name or throws guidance.",
+   "tags": [
+    "visitor-access",
+    "roles",
+    "policy"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/visitor-access/src/roles.ts",
+   "lineRange": [
+    36,
+    47
+   ]
+  },
+  {
+   "id": "function:extensions/visitor-access/src/access.ts:createVisitorAccessReader",
+   "type": "function",
+   "name": "createVisitorAccessReader",
+   "summary": "Builds a reader over users.list profiles/githubProfiles; describe/assertInvitable/withProfile for invite and revoke flows.",
+   "tags": [
+    "visitor-access",
+    "profiles",
+    "access"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/visitor-access/src/access.ts",
+   "lineRange": [
+    39,
+    107
+   ]
+  },
+  {
+   "id": "function:extensions/visitor-access/src/tools.ts:createVisitorTools",
+   "type": "function",
+   "name": "createVisitorTools",
+   "summary": "Builds the visitor_invite/revoke/list tools with owner/admin gating and typed result schemas.",
+   "tags": [
+    "visitor-access",
+    "tools",
+    "plugin"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/visitor-access/src/tools.ts",
+   "lineRange": [
+    27,
+    118
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-public-session-token.ts:resolvePublicSessionShareToken",
+   "type": "function",
+   "name": "resolvePublicSessionShareToken",
+   "summary": "Read-only token resolution that never mints durable identity for anonymous traffic.",
+   "tags": [
+    "public-session",
+    "token",
+    "gateway"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-public-session-token.ts",
+   "lineRange": [
+    260,
+    271
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-public-session-token.ts:createPublicSessionShareTokenCodec",
+   "type": "function",
+   "name": "createPublicSessionShareTokenCodec",
+   "summary": "Creates the AES-256-GCM mint/resolve codec from one durable device identity.",
+   "tags": [
+    "public-session",
+    "crypto",
+    "token"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-public-session-token.ts",
+   "lineRange": [
+    117,
+    189
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-public-session.ts:isControlUiPublicSessionPath",
+   "type": "function",
+   "name": "isControlUiPublicSessionPath",
+   "summary": "Matches the exact /{basePath}/share/session route.",
+   "tags": [
+    "public-session",
+    "http",
+    "gateway"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-public-session.ts",
+   "lineRange": [
+    20,
+    22
+   ]
+  },
+  {
+   "id": "function:src/gateway/server/client-presence.ts:snapshotClientPresence",
+   "type": "function",
+   "name": "snapshotClientPresence",
+   "summary": "Projects live WS clients into presence entries (connectionId, clientId, ip omitted when local, roles, person timing).",
+   "tags": [
+    "presence",
+    "websocket",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server/client-presence.ts",
+   "lineRange": [
+    27,
+    57
+   ]
+  },
+  {
+   "id": "function:src/gateway/server/client-presence.ts:refreshClientPresence",
+   "type": "function",
+   "name": "refreshClientPresence",
+   "summary": "Merges person timing across an identity's live peers and coalesces activity broadcasts (30s window).",
+   "tags": [
+    "presence",
+    "websocket",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server/client-presence.ts",
+   "lineRange": [
+    60,
+    124
+   ]
+  },
+  {
+   "id": "concept:gateway-profile-identity",
+   "type": "concept",
+   "name": "Gateway profile identity",
+   "summary": "Durable per-person identity in the shared-state DB with display name/avatar, aliases, role, merged_into; distinct from channel senders and agent actors.",
+   "tags": [
+    "identity",
+    "profile",
+    "multi-user"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:channel-sender-identity",
+   "type": "concept",
+   "name": "Channel sender identity",
+   "summary": "Remote channel identity domain/kind; only an admin-attested users.linkChannelIdentity associates it with a Gateway profile.",
+   "tags": [
+    "identity",
+    "channel",
+    "multi-user"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:agent-actor-identity",
+   "type": "concept",
+   "name": "Agent actor identity",
+   "summary": "Configured agent identity used as a session actor/owner; separate namespace from humans even when ids match.",
+   "tags": [
+    "identity",
+    "agent",
+    "multi-user"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "concept:session-creator-attribution",
+   "type": "concept",
+   "name": "Session creator attribution",
+   "summary": "Immutable write-once createdActor with human source profile|channel|unknown; anchors sharing/visibility authority.",
+   "tags": [
+    "ownership",
+    "provenance",
+    "sessions"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:session-owner-assignment",
+   "type": "concept",
+   "name": "Session owner assignment",
+   "summary": "Mutable owner {actor, assignedBy, assignedAt}; drives sidebar avatar, owner filter, personal USER.md selection.",
+   "tags": [
+    "ownership",
+    "sessions",
+    "assign"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:session-participants",
+   "type": "concept",
+   "name": "Session participants",
+   "summary": "Bounded (<=32) aggregate of authenticated people, channel senders, requesting agents who prompted; never the session agent or passive viewers.",
+   "tags": [
+    "ownership",
+    "participants",
+    "sessions"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:named-operator-roles",
+   "type": "concept",
+   "name": "Named operator roles",
+   "summary": "Configurable per-profile policy binding: sessions.others, agents, scopes ceiling, sandbox, modelPolicy, accessPolicyPlugin.",
+   "tags": [
+    "roles",
+    "config",
+    "multi-user"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:operator-scopes",
+   "type": "concept",
+   "name": "Operator scopes",
+   "summary": "Closed set of operator.* scopes with implications; intersected with role ceiling at admission.",
+   "tags": [
+    "scopes",
+    "authz",
+    "multi-user"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:restricted-guest-policy",
+   "type": "concept",
+   "name": "Restricted guest policy",
+   "summary": "Sandbox-required, own-session-only role with accessPolicyPlugin binding; the default role Visitor Access manages.",
+   "tags": [
+    "guest",
+    "roles",
+    "visitor-access"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:presence",
+   "type": "concept",
+   "name": "Presence",
+   "summary": "Best-effort ephemeral view of connected clients/people with TTL/size bounds and per-recipient watched-session filtering.",
+   "tags": [
+    "presence",
+    "multi-user"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:public-session-links",
+   "type": "concept",
+   "name": "Public session links",
+   "summary": "Creator/admin publishes a session so anonymous readers get transcript text via the normal thread URL; separate from teammate visibility.",
+   "tags": [
+    "public-session",
+    "sharing"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:public-session-share-token",
+   "type": "concept",
+   "name": "Public session share token",
+   "summary": "Opaque AES-256-GCM sealed locator bound to the installation identity; older /share/session links are not revived by re-enabling.",
+   "tags": [
+    "public-session",
+    "token",
+    "crypto"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:per-person-model-accounts",
+   "type": "concept",
+   "name": "Per-person model accounts",
+   "summary": "Profile-owned saved provider credentials with new-chat default and session-sticky chat selection; stored in shared state DB, pending sign-ins memory-only.",
+   "tags": [
+    "models",
+    "accounts",
+    "multi-user"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:visitor-access-plugin",
+   "type": "concept",
+   "name": "Visitor Access plugin",
+   "summary": "Internal plugin granting individuals access to team.openclaw.ai by managing one Cloudflare Access allow policy with TTL grants.",
+   "tags": [
+    "visitor-access",
+    "plugin",
+    "cloudflare"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:cloudflare-access-policy",
+   "type": "concept",
+   "name": "Cloudflare Access policy",
+   "summary": "Single managed allow policy named policyName; include rules are email or OIDC githubAccountIdClaim selectors; OR-combined with existing org policy.",
+   "tags": [
+    "cloudflare",
+    "policy",
+    "access"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:visitor-grant-ttl",
+   "type": "concept",
+   "name": "Visitor grant TTL",
+   "summary": "Grant expiresAt (default 14 days, explicit forever allowed); enforced by abort timers, hourly sweep, and admission-time assertCurrent.",
+   "tags": [
+    "visitor-access",
+    "ttl",
+    "expiry"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:mutation-queue",
+   "type": "concept",
+   "name": "Serialized mutation queue",
+   "summary": "One promise chain owns Cloudflare policy read/modify/write plus its durable record; records are kept until revocation succeeds.",
+   "tags": [
+    "visitor-access",
+    "concurrency",
+    "queue"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:trusted-proxy-auth",
+   "type": "concept",
+   "name": "Trusted-proxy auth",
+   "summary": "gateway.auth.mode trusted-proxy: userHeader + requiredHeaders identity from an identity-aware proxy (Cloudflare Access / Tailscale).",
+   "tags": [
+    "auth",
+    "trusted-proxy",
+    "gateway"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:cloudflare-access-oidc",
+   "type": "concept",
+   "name": "Cloudflare Access OIDC",
+   "summary": "issuer + providerId + githubAccountIdClaim mapping used for verified GitHub credit and visitor GitHub invitations.",
+   "tags": [
+    "auth",
+    "oidc",
+    "github"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:creator-namespace-migration",
+   "type": "concept",
+   "name": "Creator namespace migration",
+   "summary": "Agent schema 19 / state 14 adds a human-creator source discriminator in existing JSON records; no new table.",
+   "tags": [
+    "migration",
+    "provenance",
+    "schema"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:participant-identity-migration",
+   "type": "concept",
+   "name": "Participant identity migration",
+   "summary": "Agent schema 18 rebuilds session_participants keyed (session_key, identity_namespace, actor_id).",
+   "tags": [
+    "migration",
+    "participants",
+    "schema"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:identity-scope-grants",
+   "type": "concept",
+   "name": "Identity scope grants",
+   "summary": "gateway.auth.identityScopes grants operator scopes to verified proxy/Tailscale identities; session-only, operator-role only.",
+   "tags": [
+    "scopes",
+    "identity",
+    "auth"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:gateway-access-policy-plugin",
+   "type": "concept",
+   "name": "Gateway access policy plugin",
+   "summary": "Plugin hook that authorizes admission for a role bound via accessPolicyPlugin; denied connects get OPERATOR_ACCESS_DENIED.",
+   "tags": [
+    "plugins",
+    "authz",
+    "contract"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:one-trust-boundary",
+   "type": "concept",
+   "name": "One trust boundary",
+   "summary": "A Gateway is one trust domain; ownership/roles/presence are collaboration guardrails, not isolation. Untrusted users need separate Gateways.",
+   "tags": [
+    "security",
+    "trust",
+    "multi-user"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "config:extensions/visitor-access/openclaw.plugin.json",
+   "type": "config",
+   "name": "visitor-access plugin manifest",
+   "summary": "Plugin manifest declaring visitor-access id, entry, and config schema.",
+   "tags": [
+    "visitor-access",
+    "config",
+    "plugin"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/visitor-access/openclaw.plugin.json"
+  },
+  {
+   "id": "table:src/state/user-profiles.types.ts:user_profiles",
+   "type": "table",
+   "name": "user_profiles",
+   "summary": "Shared-state table for durable Gateway profiles (id, display_name, primary_github_account_id, avatar, merged_into, role, timestamps).",
+   "tags": [
+    "profiles",
+    "database",
+    "identity"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/state/user-profiles.types.ts",
+   "lineRange": [
+    137,
+    148
+   ]
+  },
+  {
+   "id": "table:src/state/user-profiles.types.ts:user_profile_emails",
+   "type": "table",
+   "name": "user_profile_emails",
+   "summary": "Shared-state email alias bindings per profile (email, profile_id, binding_id).",
+   "tags": [
+    "profiles",
+    "database",
+    "identity"
+   ],
+   "complexity": "simple",
+   "filePath": "src/state/user-profiles.types.ts",
+   "lineRange": [
+    149,
+    154
+   ]
+  },
+  {
+   "id": "schema:packages/gateway-protocol/src/schema/session-participant.ts",
+   "type": "schema",
+   "name": "SessionParticipantIdentitySchema",
+   "summary": "Union schema of participant identity kinds with bounds (MAX 32, preview 4).",
+   "tags": [
+    "sessions",
+    "participants",
+    "schema"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-protocol/src/schema/session-participant.ts",
+   "lineRange": [
+    12,
+    44
+   ]
+  },
+  {
+   "id": "endpoint:src/gateway/control-ui-public-session.ts:/share/session",
+   "type": "endpoint",
+   "name": "/share/session",
+   "summary": "Public session share HTTP route serving anonymous transcript HTML on secure ingress only.",
+   "tags": [
+    "public-session",
+    "http",
+    "route"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-public-session.ts",
+   "lineRange": [
+    20,
+    22
+   ]
+  },
+  {
+   "id": "endpoint:src/gateway/methods/core-descriptors.ts:sessions.assignOwner",
+   "type": "endpoint",
+   "name": "sessions.assignOwner",
+   "summary": "Gateway RPC descriptor: operator.write, since 2026.8, handler sessions-mutations.",
+   "tags": [
+    "sessions",
+    "rpc",
+    "assign"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/methods/core-descriptors.ts",
+   "lineRange": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "service:visitor-access",
+   "type": "service",
+   "name": "visitor-access service",
+   "summary": "Gateway plugin service 'visitor-access-expiry' owning the grant store and hourly sweep, stopped on plugin hot replacement.",
+   "tags": [
+    "visitor-access",
+    "service",
+    "gateway"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "module:gateway",
+   "type": "module",
+   "name": "Gateway module",
+   "summary": "src/gateway backend hosting identity, roles, sessions, presence, and public session routes.",
+   "tags": [
+    "gateway",
+    "backend"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:visitor-access",
+   "type": "module",
+   "name": "Visitor Access module",
+   "summary": "extensions/visitor-access plugin package.",
+   "tags": [
+    "visitor-access",
+    "module"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "flow:visitor-joins-authenticates-owns-session",
+   "type": "flow",
+   "name": "Visitor join -> authenticate -> role -> session flow",
+   "summary": "End-to-end: ingress -> trusted-proxy handshake -> profile -> role -> access policy -> admission -> operate/own session.",
+   "tags": [
+    "flow",
+    "multi-user",
+    "admission"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "step:ingress-access",
+   "type": "step",
+   "name": "Ingress: Cloudflare Access / Tailscale",
+   "summary": "Authenticated ingress fronts the loopback Gateway; Access app/policy admits people.",
+   "tags": [
+    "flow",
+    "admission"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:trusted-proxy-handshake",
+   "type": "step",
+   "name": "Trusted-proxy WS handshake",
+   "summary": "Proxy headers (userHeader + requiredHeaders) identify the principal; Access assertion header present.",
+   "tags": [
+    "flow",
+    "auth"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "step:profile-resolution",
+   "type": "step",
+   "name": "Profile resolution",
+   "summary": "Resolve/create a durable Gateway profile; enrich verified GitHub identity via Access/OIDC.",
+   "tags": [
+    "flow",
+    "identity"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "step:role-resolution",
+   "type": "step",
+   "name": "Role resolution",
+   "summary": "Effective role from assignment -> githubLogin mapping -> default.",
+   "tags": [
+    "flow",
+    "roles"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "step:visitor-authorize",
+   "type": "step",
+   "name": "Visitor grant authorize",
+   "summary": "If the role names visitor-access, require an active unexpired grant before admission.",
+   "tags": [
+    "flow",
+    "visitor-access"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "step:admission",
+   "type": "step",
+   "name": "Admission & scope ceiling",
+   "summary": "Compute hello.auth.scopes (declared -> identityGrants -> role ceiling); admit or deny.",
+   "tags": [
+    "flow",
+    "authz"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "step:session-operation",
+   "type": "step",
+   "name": "Session operation",
+   "summary": "Create/steer a session; record creator and participants.",
+   "tags": [
+    "flow",
+    "sessions"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "step:owner-assignment",
+   "type": "step",
+   "name": "Owner assignment",
+   "summary": "Assign owner via sessions.assignOwner (operator.write, visibility-authorized).",
+   "tags": [
+    "flow",
+    "ownership"
+   ],
+   "complexity": "moderate"
+  }
+ ],
+ "edges": [
+  {
+   "source": "file:src/state/creator-namespace-migration.ts",
+   "target": "function:src/state/creator-namespace-migration.ts:migrateLegacySessionCreator",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/config/sessions/session-entry-provenance.ts",
+   "target": "function:src/config/sessions/session-entry-provenance.ts:sessionPersonalProfileId",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/config/sessions/session-entry-provenance.ts",
+   "target": "function:src/config/sessions/session-entry-provenance.ts:sessionCreatorProfileId",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/config/sessions/session-entry-provenance.ts",
+   "target": "function:src/config/sessions/session-entry-provenance.ts:inheritSpawnSessionOwner",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/operator-role-policy.ts",
+   "target": "function:src/gateway/operator-role-policy.ts:resolveOperatorRoleSelection",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/operator-role-policy.ts",
+   "target": "function:src/gateway/operator-role-policy.ts:resolveOperatorRolePolicyForProfile",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/operator-role-policy.ts",
+   "target": "function:src/gateway/operator-role-policy.ts:resolveCreatorSandbox",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/gateway-owner-profile.ts",
+   "target": "function:src/gateway/gateway-owner-profile.ts:shouldUseGatewayOwnerProfile",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/visitor-access/src/visitors.ts",
+   "target": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/visitor-access/src/cloudflare.ts",
+   "target": "class:extensions/visitor-access/src/cloudflare.ts:VisitorPolicyClient",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/visitor-access/src/roles.ts",
+   "target": "function:extensions/visitor-access/src/roles.ts:isRestrictedVisitorRole",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/visitor-access/src/roles.ts",
+   "target": "function:extensions/visitor-access/src/roles.ts:resolveVisitorRole",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/visitor-access/src/access.ts",
+   "target": "function:extensions/visitor-access/src/access.ts:createVisitorAccessReader",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/visitor-access/src/tools.ts",
+   "target": "function:extensions/visitor-access/src/tools.ts:createVisitorTools",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/control-ui-public-session-token.ts",
+   "target": "function:src/gateway/control-ui-public-session-token.ts:resolvePublicSessionShareToken",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/control-ui-public-session-token.ts",
+   "target": "function:src/gateway/control-ui-public-session-token.ts:createPublicSessionShareTokenCodec",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/control-ui-public-session.ts",
+   "target": "function:src/gateway/control-ui-public-session.ts:isControlUiPublicSessionPath",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server/client-presence.ts",
+   "target": "function:src/gateway/server/client-presence.ts:snapshotClientPresence",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server/client-presence.ts",
+   "target": "function:src/gateway/server/client-presence.ts:refreshClientPresence",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/server-methods/sessions-mutations.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/session-sharing-authorization.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/operator-role-policy.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/gateway-owner-profile.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/control-ui-public-session.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/control-ui-public-session-token.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/server/client-presence.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:gateway",
+   "target": "file:src/gateway/methods/core-descriptors.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/index.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/src/visitors.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/src/cloudflare.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/src/roles.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/src/access.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/src/config.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "file:extensions/visitor-access/src/tools.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "service:visitor-access",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:visitor-access",
+   "target": "config:extensions/visitor-access/openclaw.plugin.json",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "concept:session-creator-attribution",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "concept:session-owner-assignment",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "concept:session-participants",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "concept:per-person-model-accounts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "concept:public-session-links",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "concept:presence",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/user-model.md",
+   "target": "concept:gateway-profile-identity",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/user-model.md",
+   "target": "concept:channel-sender-identity",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/user-model.md",
+   "target": "concept:cloudflare-access-oidc",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/team-server.md",
+   "target": "concept:trusted-proxy-auth",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/team-server.md",
+   "target": "concept:named-operator-roles",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/team-server.md",
+   "target": "concept:cloudflare-access-oidc",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/operator-scopes.md",
+   "target": "concept:operator-scopes",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/operator-scopes.md",
+   "target": "concept:named-operator-roles",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/operator-scopes.md",
+   "target": "concept:identity-scope-grants",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/operator-scopes.md",
+   "target": "concept:gateway-access-policy-plugin",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/presence.md",
+   "target": "concept:presence",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/web/urls.md",
+   "target": "concept:public-session-links",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/web/urls.md",
+   "target": "concept:public-session-share-token",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/start/teams.md",
+   "target": "concept:one-trust-boundary",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/start/teams.md",
+   "target": "concept:named-operator-roles",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/reference/database-schemas/agent-schema-history.md",
+   "target": "concept:creator-namespace-migration",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/reference/database-schemas/agent-schema-history.md",
+   "target": "concept:participant-identity-migration",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/config/zod-schema.gateway.ts",
+   "target": "concept:named-operator-roles",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/config/zod-schema.gateway.ts",
+   "target": "concept:trusted-proxy-auth",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/config/zod-schema.gateway.ts",
+   "target": "concept:cloudflare-access-oidc",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/visitor-access/src/config.ts",
+   "target": "concept:visitor-access-plugin",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/visitor-access/src/config.ts",
+   "target": "concept:visitor-grant-ttl",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "config:extensions/visitor-access/openclaw.plugin.json",
+   "target": "concept:visitor-access-plugin",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/plugins/gateway-access-policy.types.ts",
+   "target": "concept:gateway-access-policy-plugin",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/state/user-profiles.types.ts",
+   "target": "concept:gateway-profile-identity",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/gateway-protocol/src/schema/session-participant.ts",
+   "target": "concept:session-participants",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "schema:packages/gateway-protocol/src/schema/session-participant.ts",
+   "target": "concept:session-participants",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "table:src/state/user-profiles.types.ts:user_profiles",
+   "target": "concept:gateway-profile-identity",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "table:src/state/user-profiles.types.ts:user_profile_emails",
+   "target": "concept:gateway-profile-identity",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/config/sessions/session-entry-provenance.ts",
+   "target": "concept:session-creator-attribution",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/config/sessions/session-entry-provenance.ts",
+   "target": "concept:session-owner-assignment",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/operator-role-policy.ts:resolveOperatorRoleSelection",
+   "target": "concept:named-operator-roles",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/operator-role-policy.ts:resolveOperatorRolePolicyForProfile",
+   "target": "concept:named-operator-roles",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/operator-role-policy.ts:resolveCreatorSandbox",
+   "target": "concept:restricted-guest-policy",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/gateway/gateway-owner-profile.ts:shouldUseGatewayOwnerProfile",
+   "target": "concept:gateway-profile-identity",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/config/sessions/session-entry-provenance.ts:sessionPersonalProfileId",
+   "target": "concept:session-owner-assignment",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/config/sessions/session-entry-provenance.ts:sessionCreatorProfileId",
+   "target": "concept:session-creator-attribution",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/config/sessions/session-entry-provenance.ts:inheritSpawnSessionOwner",
+   "target": "concept:session-owner-assignment",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/state/creator-namespace-migration.ts:migrateLegacySessionCreator",
+   "target": "concept:creator-namespace-migration",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "concept:visitor-access-plugin",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "concept:mutation-queue",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "concept:visitor-grant-ttl",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/visitor-access/src/cloudflare.ts:VisitorPolicyClient",
+   "target": "concept:cloudflare-access-policy",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:extensions/visitor-access/src/roles.ts:isRestrictedVisitorRole",
+   "target": "concept:restricted-guest-policy",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:extensions/visitor-access/src/roles.ts:resolveVisitorRole",
+   "target": "concept:restricted-guest-policy",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:extensions/visitor-access/src/access.ts:createVisitorAccessReader",
+   "target": "concept:gateway-profile-identity",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/visitor-access/src/tools.ts:createVisitorTools",
+   "target": "concept:visitor-access-plugin",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/control-ui-public-session-token.ts:createPublicSessionShareTokenCodec",
+   "target": "concept:public-session-share-token",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/control-ui-public-session-token.ts:resolvePublicSessionShareToken",
+   "target": "concept:public-session-share-token",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/control-ui-public-session.ts:isControlUiPublicSessionPath",
+   "target": "concept:public-session-links",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/gateway/server/client-presence.ts:snapshotClientPresence",
+   "target": "concept:presence",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/gateway/server/client-presence.ts:refreshClientPresence",
+   "target": "concept:presence",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "class:extensions/visitor-access/src/cloudflare.ts:VisitorPolicyClient",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "function:extensions/visitor-access/src/roles.ts:resolveVisitorRole",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "function:extensions/visitor-access/src/access.ts:createVisitorAccessReader",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/visitor-access/index.ts",
+   "target": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/visitor-access/index.ts",
+   "target": "function:extensions/visitor-access/src/access.ts:createVisitorAccessReader",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/visitor-access/index.ts",
+   "target": "function:extensions/visitor-access/src/tools.ts:createVisitorTools",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/visitor-access/index.ts",
+   "target": "concept:gateway-access-policy-plugin",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/visitor-access/index.ts",
+   "target": "concept:mutation-queue",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/visitor-access/index.ts",
+   "target": "service:visitor-access",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "service:visitor-access",
+   "target": "concept:visitor-grant-ttl",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server-methods/sessions-mutations.ts",
+   "target": "endpoint:src/gateway/methods/core-descriptors.ts:sessions.assignOwner",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "endpoint:src/gateway/methods/core-descriptors.ts:sessions.assignOwner",
+   "target": "concept:session-owner-assignment",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/methods/core-descriptors.ts",
+   "target": "endpoint:src/gateway/methods/core-descriptors.ts:sessions.assignOwner",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server-methods/sessions-mutations.ts",
+   "target": "concept:session-owner-assignment",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/gateway/session-sharing-authorization.ts",
+   "target": "concept:session-owner-assignment",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/gateway/operator-role-policy.ts:resolveOperatorRolePolicyForProfile",
+   "target": "concept:operator-scopes",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-public-session.ts",
+   "target": "endpoint:src/gateway/control-ui-public-session.ts:/share/session",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "endpoint:src/gateway/control-ui-public-session.ts:/share/session",
+   "target": "concept:public-session-links",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "endpoint:src/gateway/control-ui-public-session.ts:/share/session",
+   "target": "function:src/gateway/control-ui-public-session-token.ts:resolvePublicSessionShareToken",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-public-session.ts",
+   "target": "concept:public-session-share-token",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:ingress-access",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:trusted-proxy-handshake",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:profile-resolution",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:role-resolution",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:visitor-authorize",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:admission",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:session-operation",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:visitor-joins-authenticates-owns-session",
+   "target": "step:owner-assignment",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:ingress-access",
+   "target": "step:trusted-proxy-handshake",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:trusted-proxy-handshake",
+   "target": "concept:trusted-proxy-auth",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:trusted-proxy-handshake",
+   "target": "step:profile-resolution",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:profile-resolution",
+   "target": "concept:gateway-profile-identity",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:profile-resolution",
+   "target": "step:role-resolution",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:role-resolution",
+   "target": "concept:named-operator-roles",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:role-resolution",
+   "target": "step:visitor-authorize",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:visitor-authorize",
+   "target": "concept:restricted-guest-policy",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:visitor-authorize",
+   "target": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "step:visitor-authorize",
+   "target": "step:admission",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:admission",
+   "target": "concept:operator-scopes",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:session-operation",
+   "target": "concept:session-participants",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:owner-assignment",
+   "target": "concept:session-owner-assignment",
+   "type": "exemplifies",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:owner-assignment",
+   "target": "file:src/gateway/server-methods/sessions-mutations.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "concept:visitor-access-plugin",
+   "target": "concept:trusted-proxy-auth",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:visitor-access-plugin",
+   "target": "concept:cloudflare-access-policy",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:visitor-access-plugin",
+   "target": "concept:restricted-guest-policy",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:cloudflare-access-oidc",
+   "target": "concept:gateway-profile-identity",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:restricted-guest-policy",
+   "target": "concept:named-operator-roles",
+   "type": "cross_domain",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:session-creator-attribution",
+   "target": "concept:creator-namespace-migration",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:session-participants",
+   "target": "concept:participant-identity-migration",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:public-session-share-token",
+   "target": "concept:public-session-links",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:named-operator-roles",
+   "target": "concept:operator-scopes",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:identity-scope-grants",
+   "target": "concept:operator-scopes",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:gateway-access-policy-plugin",
+   "target": "concept:visitor-access-plugin",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:channel-sender-identity",
+   "target": "concept:gateway-profile-identity",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:agent-actor-identity",
+   "target": "concept:session-creator-attribution",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:per-person-model-accounts",
+   "target": "concept:gateway-profile-identity",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:presence",
+   "target": "concept:gateway-profile-identity",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:one-trust-boundary",
+   "target": "concept:named-operator-roles",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:one-trust-boundary",
+   "target": "concept:session-owner-assignment",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/gateway/operator-scopes.md",
+   "target": "file:src/gateway/operator-role-policy.ts",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/multi-user.md",
+   "target": "file:src/gateway/server-methods/sessions-mutations.ts",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/reference/database-schemas/agent-schema-history.md",
+   "target": "file:src/state/creator-namespace-migration.ts",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/presence.md",
+   "target": "file:src/gateway/server/client-presence.ts",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/web/urls.md",
+   "target": "file:src/gateway/control-ui-public-session.ts",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:docs/concepts/user-model.md",
+   "target": "file:src/config/zod-schema.gateway.ts",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/visitor-access/src/visitors.ts",
+   "target": "file:extensions/visitor-access/src/cloudflare.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/visitor-access/src/tools.ts",
+   "target": "service:visitor-access",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/visitor-access/src/access.ts",
+   "target": "file:src/plugins/gateway-access-policy.types.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:extensions/visitor-access/src/visitors.ts:VisitorAccessService",
+   "target": "file:src/plugins/gateway-access-policy.types.ts",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/gateway/control-ui-public-session-token.ts",
+   "target": "concept:trusted-proxy-auth",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "table:src/state/user-profiles.types.ts:user_profiles",
+   "target": "file:src/state/user-profiles.types.ts",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "table:src/state/user-profiles.types.ts:user_profile_emails",
+   "target": "file:src/state/user-profiles.types.ts",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  }
+ ]
+}

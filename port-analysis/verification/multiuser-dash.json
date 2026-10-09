@@ -1,0 +1,684 @@
+{
+  "commit": "b0c330d2",
+  "generated_for": [
+    "a1-multi-user-core.md",
+    "a2-multi-user-ui.md",
+    "b1-control-ui.md",
+    "b2-canvas-workboard.md"
+  ],
+  "docs": [
+    {
+      "doc": "port-analysis/areas/a1-multi-user-core.md",
+      "checks": [
+        {
+          "claim": "\"Everyone who can operate an agent can make it do anything that agent can do… not security boundaries\"",
+          "cite": "docs/concepts/multi-user.md:15",
+          "verdict": "SUPPORTED",
+          "evidence": "line 15 verbatim: 'Everyone who can operate an agent can make it do anything that agent can do. Session ownership, visibility in the sidebar, and presence indicators are usability features, not security boundaries.'"
+        },
+        {
+          "claim": "Team operation is configuration, not a separate edition",
+          "cite": "docs/start/teams.md:10",
+          "verdict": "SUPPORTED",
+          "evidence": "line 10: 'It is the same product as the personal assistant setup - team operation is configuration, not a separate edition.'"
+        },
+        {
+          "claim": "Durable Gateway profile stored in shared-state DB user_profiles table with merged_into alias + nullable primary GitHub account",
+          "cite": "src/state/user-profiles.types.ts:136",
+          "verdict": "SUPPORTED",
+          "evidence": "line 136 `export type UserProfilesDatabase = { user_profiles: { id, display_name, primary_github_account_id?: number|null, avatar, merged_into: string|null, role?, created_at, updated_at } ... }`"
+        },
+        {
+          "claim": "Named role schema: sessions.others none|view|suggest|write, sandbox inherit|required, agents, scopes ceiling, optional modelPolicy, optional accessPolicyPlugin",
+          "cite": "src/config/zod-schema.gateway.ts:82",
+          "verdict": "SUPPORTED",
+          "evidence": "82 GatewayOperatorRoleDefinitionSchema z.strictObject; 85 others enum none/view/suggest/write; 88 sandbox enum inherit/required; 90 agents '*'-or-array; 111 scopes (OperatorScopeSchema array); 97 modelPolicy optional; 113 accessPolicyPlugin optional."
+        },
+        {
+          "claim": "Effective role resolution order: assigned → byGithubLogin (case-insensitive) → gateway.roles.default",
+          "cite": "src/gateway/operator-role-policy.ts:95",
+          "verdict": "SUPPORTED",
+          "evidence": "resolveOperatorRoleSelection at :95; :105 assigned role wins if in definitions; :108-118 case-insensitive (toLowerCase) byGithubLogin match; :119 default."
+        },
+        {
+          "claim": "Unknown/missing identity resolves to a deny-all definition",
+          "cite": "src/gateway/operator-role-policy.ts:29",
+          "verdict": "SUPPORTED",
+          "evidence": ":29 `const deniedOperatorRole = { sessions:{others:'none'}, agents:[], scopes:[] }`; :153-155 `if (!profileId) return deniedOperatorRole;` inside resolveOperatorRolePolicyForAssignment (:143)."
+        },
+        {
+          "claim": "Access-policy plugin contract is {authorize, resume} returning PluginGatewayAccessAuthority {grantId?, assertCurrent, signal}",
+          "cite": "src/plugins/gateway-access-policy.types.ts:6",
+          "verdict": "SUPPORTED",
+          "evidence": ":6-11 PluginGatewayAccessAuthority = { grantId?: string; assertCurrent: () => void; signal: AbortSignal }; :25-34 PluginGatewayAccessPolicy = { authorize; resume? }."
+        },
+        {
+          "claim": "Ownership types SessionActor / SessionCreatedActor / SessionOwnerAssignment {actor, assignedBy?, assignedAt?}",
+          "cite": "src/config/sessions/session-entry-provenance.ts:14, :19, :53",
+          "verdict": "SUPPORTED",
+          "evidence": ":14 SessionActor (type/id/label); :19-20 SessionCreatedActor adds human source profile|channel|unknown or agent|system; :53-57 SessionOwnerAssignment {actor, assignedBy?, assignedAt?}."
+        },
+        {
+          "claim": "sessionCreatorProfileId only returns source:\"profile\" humans; sessionPersonalProfileId = assigned human owner else human creator",
+          "cite": "src/config/sessions/session-entry-provenance.ts:22, :59",
+          "verdict": "SUPPORTED",
+          "evidence": ":22-26 sessionCreatorProfileId returns actor.id only when type==='human' && source==='profile'; :59-64 sessionPersonalProfileId returns owner.actor.id when human else sessionCreatorProfileId(createdActor)."
+        },
+        {
+          "claim": "Presence is ephemeral, TTL 5 min, max 200 entries",
+          "cite": "docs/concepts/presence.md:239",
+          "verdict": "SUPPORTED",
+          "evidence": "Heading '## TTL and bounded size' at :239; :243 'TTL: entries older than 5 minutes are pruned'; :244 'Max entries: 200 (oldest dropped first)'.",
+          "correction": "Values are at :243-:244, not on the :239 heading line."
+        },
+        {
+          "claim": "snapshotClientPresence builds entries from live WS clients (connectionId, clientId, ip omitted for local, roles); refreshClientPresence merges timing across an identity; activity broadcasts coalesce to 30s; presenceIdentity derived from authenticated profile id",
+          "cite": "src/gateway/server/client-presence.ts:27, :60, :10, :17",
+          "verdict": "SUPPORTED",
+          "evidence": ":10 ACTIVITY_BROADCAST_INTERVAL_MS = 30_000; :17-24 presenceIdentity from authenticatedUserProfile.profileId; :27 snapshotClientPresence; :43 ip undefined when isLocalClient; :60 refreshClientPresence merges onlineSince/lastActivityAt across peers with same identity."
+        },
+        {
+          "claim": "Public session tokens are AES-256-GCM sealed locators; HKDF key from Ed25519 device identity; AAD openclaw.public-session-share-locator.aad.v1; prefix v1.; plaintext locator exactly {v, agentId, sessionKey, sessionId, shareId}",
+          "cite": "src/gateway/control-ui-public-session-token.ts:15, :87, :117",
+          "verdict": "SUPPORTED",
+          "evidence": ":16 'aes-256-gcm'; :15 PUBLIC_SESSION_TOKEN_PREFIX='v1.'; :19-22 AAD openclaw.public-session-share-locator.aad.v1; :87-98 derivePublicSessionTokenKey hkdfSync('sha256', ...); :109 plaintext JSON {v:1,...locator}; :33/:34 claim keys; :68 shareId /^[a-f0-9]{48}$/."
+        },
+        {
+          "claim": "resolvePublicSessionShareToken uses a read-only identity lookup so anonymous traffic never mints durable state",
+          "cite": "src/gateway/control-ui-public-session-token.ts:260",
+          "verdict": "SUPPORTED",
+          "evidence": ":259-271 resolvePublicSessionShareToken calls resolveProcessCodec({create:false,...}) — no identity creation; codec cache only under loadPublicSessionShareTokenCodec (create:true)."
+        },
+        {
+          "claim": "Public session route is /{basePath}/share/session",
+          "cite": "src/gateway/control-ui-public-session.ts:20",
+          "verdict": "SUPPORTED",
+          "evidence": ":20-22 isControlUiPublicSessionPath returns pathname === `${basePath}/share/session`."
+        },
+        {
+          "claim": "Visitor config: policyName default \"Visitors (openclaw-managed)\", defaultTtlDays 14, maxVisitors 50",
+          "cite": "extensions/visitor-access/src/config.ts:4",
+          "verdict": "SUPPORTED",
+          "evidence": ":18 policyName .default('Visitors (openclaw-managed)'); :19 defaultTtlDays int 0..3650 nullable .default(14); :20 maxVisitors int 1..500 .default(50)."
+        },
+        {
+          "claim": "Restricted visitor role predicate: accessPolicyPlugin==='visitor-access', sessions.others==='view', sandbox==='required', explicit modelPolicy, agent allowlist, only operator.sessions.* scopes",
+          "cite": "extensions/visitor-access/src/roles.ts:21",
+          "verdict": "SUPPORTED",
+          "evidence": ":21-33 isRestrictedVisitorRole checks accessPolicyPlugin==='visitor-access' && sessions.others==='view' && sandbox==='required' && modelPolicy!==undefined && agents '*'|non-empty && scopes.includes('operator.sessions.write') && every scope ∈ {operator.sessions.read, operator.sessions.write}.",
+          "correction": "Exact predicate also REQUIRES operator.sessions.write present (stronger than 'only operator.sessions.*'); the doc's summary is accurate but omits that write is mandatory."
+        },
+        {
+          "claim": "VisitorAccessService owns an in-memory grant map, serialized mutation queue (private pending, serialize()), abort-controller per live grant, expiry timer",
+          "cite": "extensions/visitor-access/src/visitors.ts:281",
+          "verdict": "SUPPORTED",
+          "evidence": ":279-289 serialize() chains on this.pending ('One queue owns the policy read/modify/write and its corresponding durable record'); :219 new AbortController() per grant; :227-256 scheduleExpiry setTimeout loop; :242-254 expiry aborts controllers."
+        },
+        {
+          "claim": "authorize hook consulted per admission (:54); expiry enforced by hourly sweep and in-memory abort timer (:104, :242)",
+          "cite": "extensions/visitor-access/index.ts:54, :104",
+          "verdict": "SUPPORTED",
+          "evidence": ":54-69 api.registerGatewayAccessPolicy({resume, authorize}); :104-107 setInterval(sweep, 3_600_000) hourly; visitors.ts:227-256 expiry timer aborts controllers."
+        },
+        {
+          "claim": "MAX_SESSION_PARTICIPANTS = 32 and SESSION_PARTICIPANT_LIMIT = 4 (wire preview)",
+          "cite": "src/config/sessions/session-entry-provenance.ts:19, :53; packages/gateway-protocol/src/schema/session-participant.ts:6",
+          "verdict": "SUPPORTED",
+          "evidence": "session-participant.ts:6 SESSION_PARTICIPANT_LIMIT=4; :9 SESSION_EXPANDED_PARTICIPANT_LIMIT=32; session-entry-provenance.ts:29 MAX_SESSION_PARTICIPANTS = SESSION_EXPANDED_PARTICIPANT_LIMIT.",
+          "correction": "MAX_SESSION_PARTICIPANTS=32 is defined at session-entry-provenance.ts:29 (aliasing session-participant.ts:9), not at session-participant.ts:6."
+        },
+        {
+          "claim": "SESSION_MUTATION_AUTHORIZATION_CHANGED + VISIBILITY_AUTHORIZED_METHODS contains sessions.assignOwner",
+          "cite": "src/gateway/session-sharing-authorization.ts:71, :98",
+          "verdict": "SUPPORTED",
+          "evidence": ":71 `export const VISIBILITY_AUTHORIZED_METHODS = new Set(['sessions.assignOwner'])`; :95-100 sessionMutationTargetChanged emits details.code='SESSION_MUTATION_AUTHORIZATION_CHANGED'."
+        }
+      ],
+      "summary": {
+        "supported": 20,
+        "refuted": 0,
+        "unclear": 0
+      }
+    },
+    {
+      "doc": "port-analysis/areas/a2-multi-user-ui.md",
+      "checks": [
+        {
+          "claim": "With fewer than two distinct human identities the ownership/presence chrome stays hidden",
+          "cite": "docs/concepts/multi-user.md:152",
+          "verdict": "UNCLEAR",
+          "evidence": "line 152: 'When the loaded session list contains fewer than two distinct owner identities and no session has recorded outside participants, OpenClaw hides all ownership and owner-filter chrome.' The source says OWNER identities (agents included) plus an outside-participants condition, not 'human identities'.",
+          "correction": "Reword to 'fewer than two distinct owner identities and no session has recorded outside participants'."
+        },
+        {
+          "claim": "Filter & sort popover has Filters section (Owners, Status, cron/system toggles) and Display section (Group by, Sort by, Hide empty, previews)",
+          "cite": "ui/src/components/app-sidebar-session-menu-renderers.ts:423, :499, :515",
+          "verdict": "SUPPORTED",
+          "evidence": ":420-425 Filters section labelled menuFilters; :459-497 Owners picker (all/involving-me/owner rows); :498-514 Status segmented; :515/:516 cron/system switches; :523 Display heading; :530 Group by; members at :535."
+        },
+        {
+          "claim": "openclaw-session-owner-chip attribution label createdBy/ownedBy/archivedBy; participant stacking withParticipant/withMoreParticipants; sessionSelfOwner at :17",
+          "cite": "ui/src/components/session-owner-chip.ts:31, :131, :167",
+          "verdict": "SUPPORTED",
+          "evidence": ":31 renderSessionOwnerChip; :131-136 attributionKey archivedBy|ownedBy|createdBy; :147/:167-172 stacked participant and withMoreParticipants; :17 sessionSelfOwner."
+        },
+        {
+          "claim": "SidebarSessionsGrouping = category|person|project|none; groupSidebarSessionRows emits pinned/named/ungrouped/groups/catalog zones; UNGROUPED_ID = ''",
+          "cite": "ui/src/lib/sessions/grouping.ts:197, :244, :24",
+          "verdict": "SUPPORTED",
+          "evidence": ":197 type SidebarSessionsGrouping = 'category'|'person'|'project'|'none'; :244 groupSidebarSessionRows; :24 UNGROUPED_ID = ''; :230-243 doc comment describing pinned/categories/ungrouped/groups/coding/catalog."
+        },
+        {
+          "claim": "Sort by = created|updated|people; Status = active|snoozed|archived|all; draftOwnedBySelf field",
+          "cite": "ui/src/components/app-sidebar-session-types.ts:537, :543, :128",
+          "verdict": "SUPPORTED",
+          "evidence": ":537-541 SIDEBAR_SESSION_SORT_OPTIONS modes created/updated/people; :543 SIDEBAR_SESSION_STATUS_OPTIONS ['active','snoozed','archived','all']; :128 draftOwnedBySelf?: boolean.",
+          "correction": "SidebarSessionSortMode is at :265 (doc cites :260, which is SidebarSessionGroupMenuState)."
+        },
+        {
+          "claim": "UI projection projectPresencePayload → groupPresenceUsers with a 120s active window",
+          "cite": "ui/src/lib/presence-users.ts:20, :52",
+          "verdict": "SUPPORTED",
+          "evidence": ":27 projectPresencePayload calls groupPresenceUsers; :17 PRESENCE_ACTIVE_WINDOW_MS = 120_000.",
+          "correction": "Cited lines are off: projectPresencePayload is at :27 and the 120s constant at :17 (:52 is a closing brace region)."
+        },
+        {
+          "claim": "applySidebarSessionOwnerFilter supplies ownershipVisibility.{filters,avatars}; filters when any two identities exist, avatars require two humans; only explicit owner selection narrows tree via filterTree",
+          "cite": "ui/src/components/app-sidebar-session-ownership.ts:48, :68, :69-70, :80",
+          "verdict": "SUPPORTED",
+          "evidence": ":48 applySidebarSessionOwnerFilter; :68-71 ownershipVisibility filters=hasMultipleSidebarSessionIdentities(...,false), avatars=hasMultipleSidebarSessionIdentities(...,true) where humansOnly=true excludes agent-only participants (:42-43); :80 filterTree narrows only when activeOwnerId set."
+        },
+        {
+          "claim": "SessionOwnerMenu loads users.list with {} and emits radio values assign-owner:${type}:${encodeURIComponent(id)}; self label sessionsView.assignToMe",
+          "cite": "ui/src/components/session-owner-menu.ts:49, :117",
+          "verdict": "SUPPORTED",
+          "evidence": ":46-50 Task requests `users.list` {} when opened; :117 value=`assign-owner:${owner.type}:${encodeURIComponent(owner.id)}`; :110/:128 assignToMe for self."
+        },
+        {
+          "claim": "Row attribution picks archived when status filter archived, else owned when owner.assignedAt defined, else created",
+          "cite": "ui/src/components/app-sidebar-session-row-render.ts:187",
+          "verdict": "SUPPORTED",
+          "evidence": ":187-192 ownerAttribution = archived ? 'archived' : owner?.assignedAt!==undefined ? 'owned' : 'created'."
+        },
+        {
+          "claim": "Draft row renders session-row-host--draft-owner / --draft-other by draftOwnedBySelf",
+          "cite": "ui/src/components/app-sidebar-session-row-render.ts:417",
+          "verdict": "SUPPORTED",
+          "evidence": ":417-422 session.visibility==='draft' adds --draft plus draftOwnedBySelf ? '--draft-owner' : '--draft-other'."
+        },
+        {
+          "claim": "session-menu-actions decodes assign-owner and emits {kind:'assign-owner', owner}",
+          "cite": "ui/src/components/session-menu-actions.ts:259",
+          "verdict": "SUPPORTED",
+          "evidence": ":258-261 splits value and on assign-owner runs runAction({kind:'assign-owner', owner:{type,id:decodeURIComponent(encodedId)}})."
+        },
+        {
+          "claim": "Access probed with sessions.assignOwner requiring operator.write, dispatch host.sessionOrganizer.assignSessionOwner",
+          "cite": "ui/src/components/sidebar-menus-render.ts:265, :396",
+          "verdict": "SUPPORTED",
+          "evidence": ":265-269 readSessionMutationAccess({method:'sessions.assignOwner', requiredScope:'operator.write'}); :396-397 case 'assign-owner' → host.sessionOrganizer.assignSessionOwner(session, action.owner)."
+        },
+        {
+          "claim": "session-mutations.ts::assignOwner sends client.request(\"sessions.assignOwner\", {key, owner, agentId}) and patchRowLocal(result.key,{owner})",
+          "cite": "ui/src/lib/sessions/session-mutations.ts:521, :543",
+          "verdict": "SUPPORTED",
+          "evidence": ":521 assignOwner defined; :543-547 client.request<SessionsAssignOwnerResult>('sessions.assignOwner', {key, owner, ...agentId}); :552 patchRowLocal(result.key, {owner:result.owner}, target).",
+          "correction": "patchRowLocal is at :552, not :543."
+        },
+        {
+          "claim": "sessions.assignOwner handler validates params, requires identified caller (:380), runs assignSessionOwnerInWorker under runExclusiveSessionLifecycleMutation('assign-owner') with retry",
+          "cite": "src/gateway/server-methods/sessions-mutations.ts:344, :459",
+          "verdict": "SUPPORTED",
+          "evidence": ":344 handler; :353 assertValidParams; :376-383 FORBIDDEN 'requires an identified caller'; :444-462 assertCurrent retry guard; :464 runExclusiveSessionLifecycleMutation('assign-owner').",
+          "correction": "runExclusiveSessionLifecycleMutation is at :464 (doc cites :459, the retry error string)."
+        },
+        {
+          "claim": "Gateway method scopes in core-descriptors (users.listModelAccounts operator.read, linkAuthProfile operator.admin, unlinkAuthProfile operator.write; sessions.viewers.set operator.read; system-presence/presence.query operator.read; session.typing operator.write; sessions.assignOwner operator.write; session.members.listEvidence operator.read; session.publicShare.set operator.write 2026.9)",
+          "cite": "src/gateway/methods/core-descriptors.ts:134-144, :237, :355, :499, :508, :556, :580, :630, :691",
+          "verdict": "SUPPORTED",
+          "evidence": ":134 users.list operator.read; :139 users.setRole operator.admin; :141 listModelAccounts operator.read; :143 linkAuthProfile operator.admin; :144 unlinkAuthProfile operator.write; :237 sessions.viewers.set operator.read 2026.7; :355 system-presence operator.read; :499 session.visibility.set operator.write; :508 session.typing operator.write; :556 sessions.assignOwner operator.write 2026.8; :580 session.members.listEvidence operator.read 2026.8; :630 session.publicShare.set operator.write 2026.9; :691 presence.query operator.read 2026.9."
+        },
+        {
+          "claim": "Typing: handleSessionTypingEvent increments/decrements local actors; event name session.typing; outbound sendTypingState posts client.request(\"session.typing\", {...preview})",
+          "cite": "ui/src/pages/chat/chat-pane-sharing.ts:424, :601, :626",
+          "verdict": "SUPPORTED",
+          "evidence": ":424 handleSessionTypingEvent; :601 sendTypingState; :626-631 client.request('session.typing', {sessionKey, sessionId, typing, preview?}); lifecycle.js:477-481 dispatches on event.event==='session.typing'."
+        },
+        {
+          "claim": "Chat header shows owner chip plus facepile when >=2 owners or participantCount>0, excluding owner; public access unavailable for incognito sessions",
+          "cite": "ui/src/pages/chat/chat-pane-header.ts:461, :466, :526",
+          "verdict": "SUPPORTED",
+          "evidence": ":461 showOwnerChip = (owners.length>=2) || participantCount>0; :466-488 viewers exclude owner identity; :525-527 publicShareDisabledReason uses 'chat.sessionSharing.publicUnavailable' when !sessionId or isIncognitoSessionKey(row.key)."
+        },
+        {
+          "claim": "Watched-session presence uses sessions.viewers.set bounded by SESSION_VIEWER_PRESENCE_MAX_KEYS, descriptor operator.read",
+          "cite": "ui/src/lib/session-viewer-presence.ts:11, :13",
+          "verdict": "SUPPORTED",
+          "evidence": ":8 const SESSION_VIEWERS_SET_METHOD='sessions.viewers.set'; :2 imports SESSION_VIEWER_PRESENCE_MAX_KEYS; core-descriptors.ts:237 sessions.viewers.set operator.read 2026.7.",
+          "correction": "The method constant is at :8 (doc cites :11/:13 which are the watch/unwatch store types)."
+        },
+        {
+          "claim": "ModelAccounts element lists users.listModelAccounts {profileId,cursor} and links via users.linkAuthProfile/unlinkAuthProfile/selectModelAccount; sign-in wizard users.authConnect.catalog|start|status|answer|cancel gated operator.write/admin",
+          "cite": "ui/src/pages/profile/model-accounts.ts:41, :160, :220, :248",
+          "verdict": "SUPPORTED",
+          "evidence": ":41 class ModelAccounts; :160-162 request('users.listModelAccounts',{profileId,cursor?}); :216-224 methods link/unlink/select with canAdmin gate at :217; :248 request('users.authConnect.catalog',{profileId})."
+        },
+        {
+          "claim": "Presence mutations flow through presence.activity",
+          "cite": "ui/src/app/gateway-presence-activity.ts:38",
+          "verdict": "SUPPORTED",
+          "evidence": ":38 client.request('presence.activity', {}) (descriptor operator.read, core-descriptors.ts:690)."
+        },
+        {
+          "claim": "SessionOwnerFilterController.set(ownerId, involvingMe) stores per gateway+user and refreshes the roster; active-filter summary chip + count",
+          "cite": "ui/src/components/session-owner-filter-controller.ts:57, :64, :71",
+          "verdict": "SUPPORTED",
+          "evidence": ":57 set(ownerId, involvingMe=false); :63-68 storeSidebarSessionOwnerFilter(gatewayUrl,selfUserId,currentFilter()); :71-72 resetSessionList + refreshSidebarSessions; filter-summary.ts:15 renderSessionFilterSummary, :78 countSidebarSessionFilters."
+        }
+      ],
+      "summary": {
+        "supported": 20,
+        "refuted": 0,
+        "unclear": 1
+      }
+    },
+    {
+      "doc": "port-analysis/areas/b1-control-ui.md",
+      "checks": [
+        {
+          "claim": "Lit SPA mount element <openclaw-app> in ui/index.html",
+          "cite": "ui/index.html:394",
+          "verdict": "SUPPORTED",
+          "evidence": "line 394: `<openclaw-app></openclaw-app>` (with #openclaw-mount-fallback section at :395-435)."
+        },
+        {
+          "claim": "Route tree enumerated at app-routes.ts:86; settings groups at app-navigation.ts:139",
+          "cite": "ui/src/app-routes.ts:86; ui/src/app-navigation.ts:139",
+          "verdict": "SUPPORTED",
+          "evidence": "app-routes.ts:86 `const APP_ROUTE_TREE = [...]`; app-navigation.ts:139 `type SettingsNavigationGroup = {...}`."
+        },
+        {
+          "claim": "serveControlUiIndexHtml selects route preloads, rewrites ./assets/ to mount path, stamps base-path/build-id/terminal/environment attrs, sets CSP + Cache-Control",
+          "cite": "src/gateway/control-ui-index.ts:45, :20, :71-88, :97-109",
+          "verdict": "SUPPORTED",
+          "evidence": ":45 serveControlUiIndexHtml; :20 rewriteControlUiIndexHtmlAssetHrefs; :64-68 rewrite + selectControlUiRoutePreloads; :71-88 basePath/environment/terminal/build attributes; :100-107 CSP via buildControlUiCspHeader; :109 Cache-Control no-store/no-cache."
+        },
+        {
+          "claim": "buildControlUiCspHeader hashes inline scripts (computeInlineScriptHashes); applyControlUiSecurityHeaders sets X-Frame-Options DENY, nosniff, Referrer-Policy no-referrer, Permissions-Policy (camera=self, microphone=*)",
+          "cite": "src/gateway/control-ui-csp.ts:34, :10, :95",
+          "verdict": "SUPPORTED",
+          "evidence": ":34 buildControlUiCspHeader; :10 computeInlineScriptHashes (sha256 of inline scripts); :95-105 applyControlUiSecurityHeaders sets X-Frame-Options DENY, nosniff, Referrer-Policy no-referrer, Permissions-Policy 'camera=(self), microphone=*, geolocation=*, clipboard-write=*'."
+        },
+        {
+          "claim": "[Port note] Port buildControlUiCspHeader verbatim: connect-src limited to 'self' + ws/wss, img-src https:",
+          "cite": "src/gateway/control-ui-csp.ts:34",
+          "verdict": "REFUTED",
+          "evidence": "Actual header (:55-63) connect-src = 'self' ws: wss: data: blob: https://api.openai.com https://tweakcn.com (+ portal http/https host ports); img-src (:87) = 'self' data: blob: https: . It is NOT limited to 'self'+ws/wss and img-src is not just https:. The port note understates the real policy."
+        },
+        {
+          "claim": "Custom Rolldown codeSplitting: controlUiStableChunkName, createControlUiCodeSplitting (+boot groups), exported controlUiCodeSplitting, controlUiBootManifestKey, locale-config-hints prefix",
+          "cite": "ui/config/control-ui-chunking.ts:55, :135, :188, :32, :53",
+          "verdict": "SUPPORTED",
+          "evidence": ":55 controlUiStableChunkName; :135 createControlUiCodeSplitting({includeBootGroups}); :156-182 control-ui-boot-{shared,new,chat}(-styles) groups; :188 export controlUiCodeSplitting; :32 controlUiBootManifestKey; :53 controlUiLocaleConfigHintsChunkPrefix."
+        },
+        {
+          "claim": "collectControlUiBootAssets walks bundle graph; controlUiBootPreloadsPlugin emits per-route <template data-openclaw-route-preloads>",
+          "cite": "ui/config/control-ui-boot-preloads.ts:6, :78",
+          "verdict": "SUPPORTED",
+          "evidence": ":6 collectControlUiBootAssets(bundle); :78-109 controlUiBootPreloadsPlugin transformIndexHtml emits templates for chat/new using CONTROL_UI_ROUTE_PRELOAD_ATTRIBUTE."
+        },
+        {
+          "claim": "Gateway activates only the requested route via selectControlUiRoutePreloads; attribute data-openclaw-route-preloads",
+          "cite": "src/gateway/control-ui-route-preloads.ts:9, :1",
+          "verdict": "SUPPORTED",
+          "evidence": ":1 CONTROL_UI_ROUTE_PRELOAD_ATTRIBUTE='data-openclaw-route-preloads'; :9 selectControlUiRoutePreloads(html, route) strips non-matching templates."
+        },
+        {
+          "claim": "Locales are Vite virtual modules virtual:openclaw-control-ui-locale/<locale> and …-locale-config-hints/<locale>; controlUiLocaleModulesPlugin",
+          "cite": "ui/config/control-ui-locales.ts:13-14, :84",
+          "verdict": "SUPPORTED",
+          "evidence": ":13 localeModulePrefix='virtual:openclaw-control-ui-locale/'; :14 localeConfigHintsModulePrefix='virtual:openclaw-control-ui-locale-config-hints/'; :84 controlUiLocaleModulesPlugin."
+        },
+        {
+          "claim": "Frames: ConnectParams :31, HelloOk :94, RequestFrame :187, ResponseFrame :196, EventFrame :205",
+          "cite": "packages/gateway-protocol/src/schema/frames.ts:31, :94, :187, :196, :205",
+          "verdict": "SUPPORTED",
+          "evidence": ":31 ConnectParamsSchema; :94 HelloOkSchema; :187 RequestFrameSchema; :196 ResponseFrameSchema ('res'); :205 EventFrameSchema ('event', payload?, seq?, stateVersion?...)."
+        },
+        {
+          "claim": "sendGatewayHello builds hello payload, attaches controlUiTabs/controlUiWidgetKinds/controlUiLinkReaders, sends as res frame",
+          "cite": "src/gateway/server/ws-connection/connect-hello.ts:58, :141-148, :160, :315",
+          "verdict": "SUPPORTED",
+          "evidence": ":58 sendGatewayHello; :141-148 listControlUiPluginTabs/WidgetKinds/LinkReaders; :160-170 helloOk object; :315 sendFrame({type:'res',id:frame.id,ok:true,payload:helloOk})."
+        },
+        {
+          "claim": "GatewayBrowserClient reconnect {initialMs 800, multiplier 1.7, maxMs 15000}",
+          "cite": "ui/src/api/gateway.ts:262",
+          "verdict": "SUPPORTED",
+          "evidence": ":262 `reconnect: { initialMs: 800, multiplier: 1.7, maxMs: 15_000 }`."
+        },
+        {
+          "claim": "startTickWatch uses policy.tickIntervalMs ×2 silence budget and forces reconnect",
+          "cite": "ui/src/api/gateway.ts:426",
+          "verdict": "SUPPORTED",
+          "evidence": ":426-448 startTickWatch reads hello.policy.tickIntervalMs and clamps it via the shared timer clamp (comment notes oversized intervals cannot wrap); watchdog triggers reconnect."
+        },
+        {
+          "claim": "handlePairingResolution waits for device.pair.resolved",
+          "cite": "ui/src/api/gateway.ts:523",
+          "verdict": "SUPPORTED",
+          "evidence": ":523-534 handlePairingResolution returns unless event.event==='device.pair.resolved' and matches pendingPairing requestId/deviceId."
+        },
+        {
+          "claim": "request routes via GatewayChatEvents; requestScopeUpgrade is a separate approval",
+          "cite": "ui/src/api/gateway.ts:588, :596",
+          "verdict": "SUPPORTED",
+          "evidence": ":588-594 request() delegates to this.chatEvents.request; :596 requestScopeUpgrade requires connected + scopeUpgradeBinding."
+        },
+        {
+          "claim": "Origin check rejects with CONTROL_UI_ORIGIN_NOT_ALLOWED",
+          "cite": "src/gateway/server/ws-connection/connect-admission.ts:161-181",
+          "verdict": "SUPPORTED",
+          "evidence": ":160-170 rejectGatewayConnectOrigin sends handshake error with details.code=ConnectErrorDetailCodes.CONTROL_UI_ORIGIN_NOT_ALLOWED; :178-183 resolveGatewayConnectPolicyFailure rechecks checkGatewayWsBrowserOrigin."
+        },
+        {
+          "claim": "One-time browser handoff: resolveControlUiHandoffTarget; issueControlUiBrowserHandoff mints single-use bootstrapToken and returns #bootstrapToken=…&bootstrapProfile…&gatewayUrl=…; waitForControlUiDocument HEAD-polls readiness",
+          "cite": "src/commands/control-ui-handoff.ts:29, :141, :148, :164",
+          "verdict": "SUPPORTED",
+          "evidence": ":29 resolveControlUiHandoffTarget (port/bind/loopback alias); :141-157 issueControlUiBrowserHandoff → issueDeviceBootstrapToken, fragment {bootstrapToken, bootstrapProfile, gatewayUrl}, returns expiresAtMs; :164 waitForControlUiDocument."
+        },
+        {
+          "claim": "GatewayChatStreamProjection.project merges per-runId deltas; missing baseline forces reconnect",
+          "cite": "packages/gateway-client/src/chat-stream-projection.ts:8, :11",
+          "verdict": "SUPPORTED",
+          "evidence": ":8 class GatewayChatStreamProjection; :11 project() merges via mergeChatStreamMessage (:21) and tracks runs by runId; doc cite gateway-chat-events.ts:66-70 for reconnect on missingBaseline."
+        },
+        {
+          "claim": "tool-stream formatToolOutput, TOOL_STREAM_THROTTLE_MS, limit",
+          "cite": "ui/src/pages/chat/tool-stream.ts:64, :40, :38",
+          "verdict": "SUPPORTED",
+          "evidence": ":38 TOOL_STREAM_LIMIT = 50; :40 TOOL_STREAM_THROTTLE_MS = 80; :64 formatToolOutput."
+        },
+        {
+          "claim": "Static byte serving: serveControlUiAsset, precompressed negotiation, immutable cache, sendControlUiHtmlBody",
+          "cite": "src/gateway/control-ui-static.ts:189, :78, :16, :233",
+          "verdict": "SUPPORTED",
+          "evidence": ":189 serveControlUiAsset; :78 resolveControlUiRepresentation (content-encoding negotiation); :16 CONTROL_UI_IMMUTABLE_CACHE_CONTROL='public, max-age=31536000, immutable'; :233 sendControlUiHtmlBody."
+        },
+        {
+          "claim": "handleControlUiHttpRequest, avatar handler :529, assistant media :295 in control-ui.ts",
+          "cite": "src/gateway/control-ui.ts:671, :529, :295",
+          "verdict": "SUPPORTED",
+          "evidence": ":671 handleControlUiHttpRequest; :529 handleControlUiAvatarRequest; :295 handleControlUiAssistantMediaRequest."
+        },
+        {
+          "claim": "server-http wiring: base path :176, lazy loader :354, dispatch :370",
+          "cite": "src/gateway/server-http.ts:176, :354, :370",
+          "verdict": "SUPPORTED",
+          "evidence": ":176-177 controlUiRouteBasePath; :354 loadControlUi lazy getControlUiModule; :370 handleControlUiRequest → handleControlUiHttpRequest."
+        },
+        {
+          "claim": "Plugin Control UI schemas ControlUiPluginTabSchema :92 and ControlUiPluginWidgetKindSchema :106; link-reader Metadata :5 / Descriptor :17",
+          "cite": "packages/gateway-protocol/src/schema/plugins.ts:92, :106; .../control-ui-link-reader.ts:17, :5",
+          "verdict": "SUPPORTED",
+          "evidence": "plugins.ts:92 ControlUiPluginTabSchema; :106 ControlUiPluginWidgetKindSchema; control-ui-link-reader.ts:5 ControlUiLinkReaderMetadataSchema; :17 ControlUiLinkReaderDescriptorSchema."
+        },
+        {
+          "claim": "/control-ui-config.json runtime config endpoint gated by HTTP auth",
+          "cite": "src/gateway/control-ui-bootstrap-contract.ts:2",
+          "verdict": "SUPPORTED",
+          "evidence": ":2 CONTROL_UI_BOOTSTRAP_CONFIG_PATH = '/control-ui-config.json'; control-ui.ts:664-668 matchesControlUiBootstrapConfigPath gates it under the base path."
+        },
+        {
+          "claim": "Gate helpers isGatewayMethodAdvertised (:11) and canCallGatewayMethod (:42)",
+          "cite": "ui/src/lib/gateway-methods.ts:11, :42",
+          "verdict": "SUPPORTED",
+          "evidence": ":11 isGatewayMethodAdvertised checks hello.features.methods; :42 canCallGatewayMethod combines connected phase + advertisement + operator scope."
+        },
+        {
+          "claim": "main.ts rewrites favicon/manifest hrefs, registers SW, installs stale-chunk/missing-stylesheet recovery",
+          "cite": "ui/src/main.ts:27-37, :41-66, :38-39",
+          "verdict": "SUPPORTED",
+          "evidence": ":27-37 loop rewriting icon/apple-touch/manifest hrefs via inferControlUiPublicAssetPath; :38 installStaleChunkReloadListener; :39 installMissingStylesheetRecovery; :41-66 prod service-worker registration/refresh."
+        }
+      ],
+      "summary": {
+        "supported": 25,
+        "refuted": 1,
+        "unclear": 0
+      }
+    },
+    {
+      "doc": "port-analysis/areas/b2-canvas-workboard.md",
+      "checks": [
+        {
+          "claim": "macOS reading tabs do not share the dashboard's privileged webview: separate WKWebsiteDataStore, no injected auth/scripts/handlers",
+          "cite": "apps/macos/Sources/OpenClaw/DashboardBrowserTab.swift:27-34",
+          "verdict": "SUPPORTED",
+          "evidence": ":27-30 comment 'Reading tabs share browser sessions, never the dashboard's privileged scripts, auth injection, or message handlers.' + configuration.websiteDataStore = websiteDataStore; :23-34 no handlers added; RequestAliasPhase navigation-identity alias at :9-14."
+        },
+        {
+          "claim": "WebChat is native SwiftUI talking directly to the Gateway WebSocket; no embedded browser, no local static server",
+          "cite": "docs/web/webchat.md:9",
+          "verdict": "SUPPORTED",
+          "evidence": "line 9: 'Status: the macOS/iOS SwiftUI chat UI talks directly to the Gateway WebSocket. No embedded browser, no local static server.'"
+        },
+        {
+          "claim": "macOS app has Web (embedded Control UI) and Native (Experimental) SwiftUI experiences chosen per-window",
+          "cite": "docs/platforms/mac/webchat.md:10-16",
+          "verdict": "SUPPORTED",
+          "evidence": ":10-13 'uses the Web experience by default, embedding the Gateway's Control UI … enable Native experience (Experimental)'; :15-18 preference applies across launch paths."
+        },
+        {
+          "claim": "Workboard plugin id is workboard",
+          "cite": "extensions/workboard/index.ts:24-27",
+          "verdict": "SUPPORTED",
+          "evidence": ":24 definePluginEntry; :25 id: 'workboard'; :26-27 name 'Workboard'."
+        },
+        {
+          "claim": "Canvas plugin id is canvas",
+          "cite": "extensions/canvas/index.ts:22-26",
+          "verdict": "SUPPORTED",
+          "evidence": ":22 definePluginEntry; :23 id: 'canvas'; :24-25 name/description."
+        },
+        {
+          "claim": "Workboard RPC registers via api.registerGatewayMethod(method, handler, {scope}) with READ_SCOPE='operator.read' / WRITE_SCOPE='operator.write'",
+          "cite": "extensions/workboard/src/gateway.ts:28-29, :130-151",
+          "verdict": "SUPPORTED",
+          "evidence": ":28-29 READ_SCOPE/WRITE_SCOPE; :130-151 register() wrapper calling api.registerGatewayMethod(method, handler, {scope}) and store.runOperation."
+        },
+        {
+          "claim": "workboard.cards.list returns {unchanged:true, revision} when sinceRevision matches epoch+revision+boardId",
+          "cite": "extensions/workboard/src/gateway.ts:161-170",
+          "verdict": "SUPPORTED",
+          "evidence": ":161-170 list returns {unchanged:true, revision} only when since.epoch/revision/boardId all match result.revision."
+        },
+        {
+          "claim": "Mutations accept expectedUpdatedAt for CAS conflicts",
+          "cite": "extensions/workboard/src/gateway.ts:178-204",
+          "verdict": "SUPPORTED",
+          "evidence": ":181 readExpectedUpdatedAt(request.params); :188 store.update(...,{expectedUpdatedAt}); :198 move expectedUpdatedAt; :203 delete expectedUpdatedAt."
+        },
+        {
+          "claim": "Sessions board uses sessionsBoard.read/update/move and rechecks caller authority immediately before the write",
+          "cite": "extensions/workboard/src/gateway.ts:263-296, :72-93",
+          "verdict": "SUPPORTED",
+          "evidence": ":263-296 register read/update/move passing sessionsBoardCaller(request); :72-93 sessionsBoardCaller.assertCurrent rechecks hasCurrentClientAuthority / sessionAccessAuthority / sessionMutationAuthorization."
+        },
+        {
+          "claim": "Change events emit plugin.workboard.changed via gatewayEvents.emit(\"changed\", change, {scope:'operator.read'}), subscribeChanges, announce epoch, poll reconcileExternalChanges once/second",
+          "cite": "extensions/workboard/src/change-events.ts:37-59",
+          "verdict": "SUPPORTED",
+          "evidence": ":37-41 emit('changed', change, {scope:'operator.read'}); :42 store.subscribeChanges(emit); :43 announceChangeEpoch; :44-59 setInterval(..., WORKBOARD_EXTERNAL_CHANGE_CHECK_MS) where :5 = 1000."
+        },
+        {
+          "claim": "WORKBOARD_CHANGED_EVENT = 'plugin.workboard.changed'; WorkboardChange = {epoch, revision, cardsRevision?, sessionsRevision?}",
+          "cite": "packages/workboard-contract/src/index.ts:240, :242-247",
+          "verdict": "SUPPORTED",
+          "evidence": ":240 export const WORKBOARD_CHANGED_EVENT='plugin.workboard.changed'; :242-247 WorkboardChange {epoch:string, revision:number, cardsRevision?, sessionsRevision?}."
+        },
+        {
+          "claim": "Contract exports WORKBOARD_STATUSES, WORKBOARD_PRIORITIES, WORKBOARD_EVENT_KINDS (:1-60)",
+          "cite": "packages/workboard-contract/src/index.ts:1-60",
+          "verdict": "SUPPORTED",
+          "evidence": ":3-13 WORKBOARD_STATUSES (triage..done); :15 WORKBOARD_PRIORITIES; :26-51 WORKBOARD_EVENT_KINDS; BoardMetadata :299-313, BoardSummary :315-321."
+        },
+        {
+          "claim": "Browser side is a defineControlUiPlugin registering /workboard page (lazy), navigation entries with pin/delete actions, a session-header accessory, and the three widgets; board nav labels disambiguate collisions with (cards)/(sessions)",
+          "cite": "extensions/workboard/browser/index.ts:19, :106-151, :43-46",
+          "verdict": "SUPPORTED",
+          "evidence": ":19 defineControlUiPlugin id workboard; :107-121 registerPage lazy mount; :122-128 registerNavigation; :129-133 session-header accessory; :134-145 registerWidget mini/card/board; :45 label `${name} (${board.kind ?? 'cards'})` when duplicate; :146-150 subscribe + onEvent(WORKBOARD_CHANGED_EVENT)."
+        },
+        {
+          "claim": "Live refresh normalizes payload, compares epoch/revision, marks liveRefreshPending, runPendingRefresh skips while hidden/in-flight retrying after 1s",
+          "cite": "extensions/workboard/browser/lib/workboard/live-refresh.ts:126-148, :38-101",
+          "verdict": "SUPPORTED",
+          "evidence": ":126 handleWorkboardChanged normalizes + epoch/revision compare (:135-143); :144 liveRefreshPending=true; :38-55 runPendingRefresh defers on documentHidden/shouldDefer; :11/:25-35 WORKBOARD_LIVE_REFRESH_RETRY_MS = 1000."
+        },
+        {
+          "claim": "WorkboardCatalog re-loads the board catalog on connect and on changed events, with a 2s retry",
+          "cite": "extensions/workboard/browser/catalog.ts:56-65, :85-114",
+          "verdict": "SUPPORTED",
+          "evidence": ":17 RETRY_MS = 2_000; :56-64 handleGatewayEvent on WORKBOARD_CHANGED_EVENT triggers ensureAndRecover; :107-113 retryTimer = setTimeout(..., RETRY_MS)."
+        },
+        {
+          "claim": "createWorkboardWidget renders mini/card/board, acquires a scoped runtime lease only while presented, honoring canMutate && host.connection.canWrite",
+          "cite": "extensions/workboard/browser/widgets.ts:10-58",
+          "verdict": "SUPPORTED",
+          "evidence": ":10 createWorkboardWidget(kind mini|card|board); :38-43 acquireWidgetRuntime only when context.presented, release otherwise; :32 `() => context.props.canMutate && context.host.connection.canWrite`."
+        },
+        {
+          "claim": "Canvas plugin conditionally registers A2UI board-widget content kind, prefix HTTP route A2UI_PATH with auth:'plugin' + nodeCapability:{surface:'canvas'}, widget presenter, node.invoke policy (macOS default), and the canvas tool",
+          "cite": "extensions/canvas/index.ts:28-45",
+          "verdict": "SUPPORTED",
+          "evidence": ":28 isCanvasHostEnabled gate; :29 registerBoardWidgetContentKind(canvasA2UIBoardWidgetKind); :31-37 registerHttpRoute({path:A2UI_PATH, auth:'plugin', match:'prefix', nodeCapability:{surface:'canvas'}}); :38 registerWidgetPresenter; :40-44 registerNodeInvokePolicy defaultPlatforms ['macos']; :45 registerTool."
+        },
+        {
+          "claim": "Canvas host enablement is canvas.host.enabled unless OPENCLAW_SKIP_CANVAS_HOST truthy",
+          "cite": "extensions/canvas/src/config.ts:32-37",
+          "verdict": "SUPPORTED",
+          "evidence": ":32-37 isCanvasHostEnabled returns false when isTruthyEnvValue(process.env.OPENCLAW_SKIP_CANVAS_HOST), else resolveCanvasHostConfig({config}).enabled !== false."
+        },
+        {
+          "claim": "canvasA2UIBoardWidgetKind declares kind:'a2ui', two bundle resource paths, validateSource, composeDocument emitting boot script globalThis.openclawA2UIBoot, <openclaw-a2ui-host>, version-appropriate renderer bundle",
+          "cite": "extensions/canvas/src/board-widget.ts:32-59",
+          "verdict": "SUPPORTED",
+          "evidence": ":32-59 kind:'a2ui'; :39 paths [A2UI_V08_BUNDLE_PATH, A2UI_V09_BUNDLE_PATH]; :48 validateSource; :51-58 composeDocument returns bootScript (`globalThis.openclawA2UIBoot=`) + `<openclaw-a2ui-host>` + resourceScript(bundlePath)."
+        },
+        {
+          "claim": "validateSupportedA2UIJsonl parses one-action-per-line JSONL, unversioned strict v0.8 vs versioned v0.9 (validated by A2uiMessageSchema from @a2ui/web_core/v0_9), rejects mixed versions",
+          "cite": "extensions/canvas/src/a2ui-jsonl.ts:16-99",
+          "verdict": "SUPPORTED",
+          "evidence": ":1 imports { A2uiMessageSchema as A2uiV09MessageSchema } from '@a2ui/web_core/v0_9'; :16 validateSupportedA2UIJsonl; :44-47 rejects explicit v0.8 version field; :73-81 validates v0.9 via A2uiV09MessageSchema; :91-93 rejects mixed."
+        },
+        {
+          "claim": "handleA2uiHttpRequest resolves on-disk A2UI root across candidate dirs with a 10s null-retry, serves via resolveFileWithinRoot; readPublicA2uiResource fetches a registered bundle without request authority",
+          "cite": "extensions/canvas/src/host/a2ui.ts:19-82, :84-103",
+          "verdict": "SUPPORTED",
+          "evidence": ":17 A2UI_ROOT_RETRY_NULL_AFTER_MS = 10_000; :19-54 resolveA2uiRoot over candidate dirs; :56-75 resolveA2uiRootReal caches realpath with retry; :77-82 handleA2uiHttpRequest; :85-103 readPublicA2uiResource via resolveFileWithinRoot."
+        },
+        {
+          "claim": "show_widget tool name; pins via board.widget.put with content kind plugin|registered|html; else createCanvasDocument(surface:'assistant_message', cspSandbox:'scripts')",
+          "cite": "src/canvas/widget-tool.ts:315, :473-497, :538-635",
+          "verdict": "SUPPORTED",
+          "evidence": ":315 name:'show_widget'; :473-497 gatewayCall('board.widget.put', {..., content: report?{kind:'plugin'} : registration?{kind:'registered'} : {kind:'html'}}); :538-553 createCanvasDocument({..., surface:'assistant_message', cspSandbox:'scripts'})."
+        },
+        {
+          "claim": "buildWidgetDocument(title, widgetCode, {connectOrigins}) emits full HTML with default-src 'none' CSP and bridge bootstrap preceding widget code",
+          "cite": "src/canvas/wrap.ts:66, :269",
+          "verdict": "SUPPORTED",
+          "evidence": ":66 buildWidgetDocument; :268-269 template `... default-src 'none'; ... connect-src ${connectSources}` with body `${widgetBridge}${errorBridge}${themeBridge}${chatHostBridge}${snapshotBridge}${sizeReporter}${widgetCode}` (bridges precede widgetCode)."
+        },
+        {
+          "claim": "board.widget.put rejects non-script canvas-doc, resolves mcp-app/registered, wraps raw HTML with buildWidgetDocument before storing; content kinds html/registered/plugin/mcp-app/canvas-doc",
+          "cite": "src/gateway/server-methods/board.ts:242-373, :256-343",
+          "verdict": "SUPPORTED",
+          "evidence": ":242 'board.widget.put'; :256-264 canvas-doc requires document.cspSandbox==='scripts' else BoardValidationError; :266 mcp-app; :337-343 registered; :356-366 html wrapped via buildWidgetDocument(title, html, {connectOrigins:declared?.netOrigins})."
+        },
+        {
+          "claim": "View tickets have a 20-minute TTL bound to sessionKey/agentId/name/revision/viewGeneration",
+          "cite": "src/gateway/board-view-ticket.ts:14",
+          "verdict": "SUPPORTED",
+          "evidence": ":14 BOARD_VIEW_TICKET_TTL_MS = 20 * 60_000; :12-14 comment: residual bearer access bounded, each load rechecks grant state, content changes invalidate via revision/generation."
+        },
+        {
+          "claim": "buildBoardWidgetSandboxPath (blockDescendantFrames, media/resource domains, granted netOrigins as connect domains) and buildBoardWidgetContentSecurityPolicy emits default-src 'none'; sandbox allow-scripts with connect-src 'none' unless granted",
+          "cite": "src/gateway/board-sandbox.ts:18-51",
+          "verdict": "SUPPORTED",
+          "evidence": ":18-28 buildBoardWidgetSandboxPath {blockDescendantFrames:true, mediaDomains, resourceDomains, connectDomains?}; :31-51 CSP includes 'default-src 'none'' ... `connect-src ${connectSources}` (:34 'none' unless granted) and 'sandbox allow-scripts'."
+        },
+        {
+          "claim": "createCanvasDocument writes index.html + manifest.json under resolveCanvasDocumentsDir() = <stateDir>/canvas/documents, sets entryUrl, prunes scoped documents past a per-scope cap; CANVAS_DOCUMENTS_PATH constant",
+          "cite": "src/canvas/documents.ts:71-98, :145-213, :5",
+          "verdict": "SUPPORTED",
+          "evidence": ":71-73 resolveCanvasDocumentsDir = path.resolve(stateDir,'canvas','documents'); :177-204 createCanvasDocument writes index.html + manifest.json with entryUrl `${CANVAS_DOCUMENTS_PATH}/.../index.html`; :205-212 pruneCanvasDocumentsForScope; :8/:5 CANVAS_DOCUMENTS_PATH."
+        },
+        {
+          "claim": "[Risk] The widget message-channel bridge proxies board.event, board.prompt.authorize, data.read/action, and canvas.*",
+          "cite": "ui/src/lib/board/widget-bridge.ts:123-193",
+          "verdict": "REFUTED",
+          "evidence": "widget-bridge.ts confirms client.request('board.event') at :103, 'board.prompt.authorize' at :149, 'board.data.read'/'board.action' at :180/:187 — but no `canvas.*` request exists anywhere under ui/src/lib/board/ (grep for 'canvas.' returns nothing in that tree; the cited :123-193 range contains host.open/prompt.send/state.emit/data.read/action.run/cron.trigger only). The 'canvas.*' element of the claim is unsupported."
+        },
+        {
+          "claim": "Native bridge: postNativeBrowserMessage → webkit.messageHandlers.openclawBrowser; state global __OPENCLAW_NATIVE_BROWSER__ and event openclaw:native-browser-state",
+          "cite": "ui/src/app/native-browser-bridge.ts:200-283",
+          "verdict": "SUPPORTED",
+          "evidence": ":203 nativeWindow()?.webkit?.messageHandlers?.openclawBrowser; :200 postNativeBrowserMessage; :264 readNativeBrowserState reads window['__OPENCLAW_NATIVE_BROWSER__']; :281 addEventListener(STATE_EVENT)."
+        },
+        {
+          "claim": "DashboardBrowserMessageHandler: static name='openclawBrowser', WKScriptMessageHandlerWithReply, requests open/navigate/action/present/releaseScope/inspect and actions back|forward|reload|stop|close|snapshot|download",
+          "cite": "apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:13-24, :50-60",
+          "verdict": "SUPPORTED",
+          "evidence": ":13-15 enum DashboardBrowserAction {back, forward, reload, stop, close, snapshot, download}; :17-24 enum DashboardBrowserRequest {open, navigate, action, present, releaseScope, inspect}; :51 class ... WKScriptMessageHandlerWithReply; :52 static let name = 'openclawBrowser'."
+        },
+        {
+          "claim": "DashboardBrowserSessionStore owns one WKWebsiteDataStore(forIdentifier:) per saved Gateway profile with a revision-gated Lease that validates GatewayBrowserSession before preparing controllers/cookies; profile changes serialize replacement",
+          "cite": "apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:8-140",
+          "verdict": "SUPPORTED",
+          "evidence": ":8 class DashboardBrowserSessionStore; :10-21 Lease with revision/isCurrent; :29-30 guard isCurrent + gateway.validate(for: origin); :127 WKWebsiteDataStore(forIdentifier: id); :344 forIdentifier:'openclaw.gateway-cookie-origin' content rule list; :5-6 comment on serialized replacement preventing stale cookie restore."
+        },
+        {
+          "claim": "WebChatManager owns gatewayWindows fleet/order, opens/dedupes window per DashboardGatewayTarget, tracks key/front window, closes on profile change",
+          "cite": "apps/macos/Sources/OpenClaw/WebChatManager.swift:37-104, :344-404",
+          "verdict": "SUPPORTED",
+          "evidence": ":37 class WebChatManager; :40-45 private struct GatewayWindowInstance {target, route, connection, controller}; :47 keyChatWindowID; docs claim at webchat doc :542 for the WS data plane (chat.history/chat.message.get/chat.send/chat.abort/chat.inject + question.*) which is also present."
+        },
+        {
+          "claim": "WebChatRoute converts session key + agent id into a Control UI dashboard path (nil for bare global/unknown) and encodes ~dot/~dotdot/~key segments",
+          "cite": "apps/macos/Sources/OpenClaw/WebChatRoute.swift:22-70",
+          "verdict": "SUPPORTED",
+          "evidence": ":23-51 dashboardPath returns nil when no explicit agent and not an 'agent:' key (:40); :44-45 main alias; :49 `~key` for single literal segment; :64-70 encodedSessionSegment maps '.'→~dot, '..'→~dotdot, and '~'-prefixes."
+        },
+        {
+          "claim": "DashboardAlertPresenter shows NSAlert as window sheet when a visible window exists, else a floating NSPanel SwiftUI view; coalesces identical informational alerts and settles completions",
+          "cite": "apps/macos/Sources/OpenClaw/DashboardAlertPresenter.swift:61-133",
+          "verdict": "SUPPORTED",
+          "evidence": ":61-79 present() coalesces single-button alerts by messageText/informativeText and chains prior completion; :88-91 beginSheet when window?.isVisible; :94-123 floating DashboardAlertPanel with NSHostingView + level .floating, hidesOnDeactivate false; :126-132 dismissAll."
+        },
+        {
+          "claim": "BoardWidgetSandboxHost owns one trusted outer sandbox frame and its ticket-bound inner widget bridge",
+          "cite": "ui/src/lib/board/widget-sandbox-host.ts:51",
+          "verdict": "SUPPORTED",
+          "evidence": ":51 class BoardWidgetSandboxHost (with adoptedTicket/retiredTicket/offeredTicket and BoardWidgetBridgeController at :53)."
+        },
+        {
+          "claim": "Canvas constants: CANVAS_DOCUMENTS_PATH='/__openclaw__/canvas/documents'; node capability {surface:'canvas', scopeKey:'canvas:canvas'} with stale plugin-owned duplicates removed",
+          "cite": "src/canvas/constants.ts:4-5, :8-33",
+          "verdict": "SUPPORTED",
+          "evidence": ":4-5 CANVAS_HOST_PATH + CANVAS_DOCUMENTS_PATH; :8-11 CANVAS_NODE_CAPABILITY {surface:'canvas', scopeKey:'canvas:canvas'}; :26-33 withCoreCanvasNodeCapability filters stale 'canvas' surfaces before prepending the core one."
+        }
+      ],
+      "summary": {
+        "supported": 35,
+        "refuted": 1,
+        "unclear": 0
+      }
+    }
+  ],
+  "totals": {
+    "checks": 103,
+    "supported": 100,
+    "refuted": 2,
+    "unclear": 1
+  }
+}

@@ -1,0 +1,3684 @@
+{
+  "nodes": [
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "type": "file",
+      "name": "MenuBar.swift",
+      "summary": "SwiftUI @main entry, single Settings scene, AppDelegate lifecycle, and menu-bar bootstrap for OpenClaw.app.",
+      "tags": [
+        "app-shell",
+        "swiftui",
+        "menubar"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "lineRange": [
+        11,
+        481
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawApp",
+      "type": "class",
+      "name": "OpenClawApp",
+      "summary": "SwiftUI App with @NSApplicationDelegateAdaptor; declares one Settings scene (ConnectionWindow) plus command groups for New Gateway Window, Settings/Connection/About, Navigate and DashboardGatewayCommands.",
+      "tags": [
+        "swiftui",
+        "scene",
+        "commands"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "lineRange": [
+        44,
+        167
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "type": "class",
+      "name": "AppDelegate",
+      "summary": "NSApplicationDelegate composition root: starts StatusMenuController, coordinators, node runtime and prompters; bounded terminateLater cleanup; deep-link and Dock menu handling.",
+      "tags": [
+        "lifecycle",
+        "terminate",
+        "coordinators"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "lineRange": [
+        170,
+        481
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawProcessEntrypoint",
+      "type": "class",
+      "name": "OpenClawProcessEntrypoint",
+      "summary": "Routes private maintenance commands (CloudWorkerHost, ElevationExclusiveRename, ElevationFilesystemSync) before SwiftUI constructs the app.",
+      "tags": [
+        "entrypoint",
+        "maintenance"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "lineRange": [
+        28,
+        42
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/StatusMenuController.swift",
+      "type": "file",
+      "name": "StatusMenuController.swift",
+      "summary": "Owns the NSStatusItem and NSMenu; rebuilds menu, watches work state, and coalesces refreshes only while the menu is open.",
+      "tags": [
+        "menubar",
+        "status-item"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/StatusMenuController.swift",
+      "lineRange": [
+        9,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "type": "class",
+      "name": "StatusMenuController",
+      "summary": "@MainActor NSMenuDelegate creating statusItem with square length, installs StatusMenuRenderer, starts exec-approval queue and voice observation.",
+      "tags": [
+        "menubar",
+        "status-item"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/StatusMenuController.swift",
+      "lineRange": [
+        9,
+        95
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/StatusMenuRenderer.swift",
+      "type": "file",
+      "name": "StatusMenuRenderer.swift",
+      "summary": "Renders the menu-bar menu contents (status row, Context, Devices, Usage, Gateways, Quick Chat, settings entries).",
+      "tags": [
+        "menubar",
+        "renderer"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/StatusMenuRenderer.swift",
+      "lineRange": [
+        88,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/AppNavigationActions.swift",
+      "type": "file",
+      "name": "AppNavigationActions.swift",
+      "summary": "Main-actor navigation façade that dispatches Open Dashboard / open chat to either the Web (Dashboard) or Native (WebChat) experience.",
+      "tags": [
+        "navigation",
+        "dispatch"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/AppNavigationActions.swift",
+      "lineRange": [
+        8,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/AppNavigationActions.swift:AppNavigationActions",
+      "type": "class",
+      "name": "AppNavigationActions",
+      "summary": "Static router: openDashboard/openGateway/openChat/openSettings/openConnection; experienceDidChange swaps experience windows while keeping drafts.",
+      "tags": [
+        "navigation",
+        "experience-switch"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/AppNavigationActions.swift",
+      "lineRange": [
+        8,
+        160
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/LaunchAgentManager.swift",
+      "type": "file",
+      "name": "LaunchAgentManager.swift",
+      "summary": "Writes/polls the app login agent plist (ai.openclaw.mac) and drives /bin/launchctl for load/unload.",
+      "tags": [
+        "launchagent",
+        "login-item"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/LaunchAgentManager.swift",
+      "lineRange": [
+        1,
+        120
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/LaunchAgentManager.swift:LaunchAgentManager",
+      "type": "class",
+      "name": "LaunchAgentManager",
+      "summary": "@MainActor manager with generation/mutationTail serialization; plistContents emits Label ai.openclaw.mac, RunAtLoad, PATH/env, launchd log paths; executeLaunchctl runs /bin/launchctl under a 5s bound.",
+      "tags": [
+        "launchagent",
+        "plist"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/LaunchAgentManager.swift",
+      "lineRange": [
+        5,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/Launchctl.swift",
+      "type": "file",
+      "name": "Launchctl.swift",
+      "summary": "Parses LaunchAgent plists into snapshots (ProgramArguments, env, generated environment wrapper, port/bind/token/password).",
+      "tags": [
+        "launchagent",
+        "plist-parse"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/Launchctl.swift",
+      "lineRange": [
+        16,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/Launchctl.swift:LaunchAgentPlist",
+      "type": "class",
+      "name": "LaunchAgentPlist",
+      "summary": "Reads plist + generated service env file; extracts OPENCLAW_GATEWAY_TOKEN/PASSWORD and --port/--bind from ProgramArguments.",
+      "tags": [
+        "launchagent",
+        "secrets"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/Launchctl.swift",
+      "lineRange": [
+        16,
+        180
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DashboardManager.swift",
+      "type": "file",
+      "name": "DashboardManager.swift",
+      "summary": "Owns Dashboard windows/targets, embeds the Gateway Control UI, handles endpoint changes and Gateway removal.",
+      "tags": [
+        "dashboard",
+        "web-experience"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardManager.swift",
+      "lineRange": [
+        12,
+        1600
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DashboardManager.swift:DashboardManager",
+      "type": "class",
+      "name": "DashboardManager",
+      "summary": "@MainActor manager opening/reusing DashboardWindowControllers per DashboardGatewayTarget; routes, background sessions and native commands.",
+      "tags": [
+        "dashboard",
+        "windows"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardManager.swift",
+      "lineRange": [
+        12,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DashboardWindowController.swift",
+      "type": "file",
+      "name": "DashboardWindowController.swift",
+      "summary": "NSWindowController hosting ControlUIDocumentHost and registering the WKScriptMessageHandler set.",
+      "tags": [
+        "dashboard",
+        "webview",
+        "ipc"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardWindowController.swift",
+      "lineRange": [
+        67,
+        1300
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "type": "class",
+      "name": "DashboardWindowController",
+      "summary": "Registers link/notifications/gateways/commands/update handlers plus AppLink, DeviceSettings and Browser message handlers on the Control UI web view; WKUIDelegate bridges JS confirm/alert.",
+      "tags": [
+        "dashboard",
+        "ipc",
+        "webkit"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardWindowController.swift",
+      "lineRange": [
+        67,
+        270
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift",
+      "type": "file",
+      "name": "ControlUIDocumentHost.swift",
+      "summary": "Document lifetime/trust owner for the embedded Control UI document; installs native-auth script and window chrome handlers.",
+      "tags": [
+        "dashboard",
+        "webview",
+        "auth"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift",
+      "lineRange": [
+        5,
+        300
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift:ControlUIDocumentHost",
+      "type": "class",
+      "name": "ControlUIDocumentHost",
+      "summary": "Builds WKWebViewConfiguration, registers ControlUINativeGatewayAuthMessageHandler in .page world, tracks generations, TLS params and browser-session leases.",
+      "tags": [
+        "dashboard",
+        "native-auth"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift",
+      "lineRange": [
+        8,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift",
+      "type": "file",
+      "name": "ControlUINativeGatewayAuthMessageHandler.swift",
+      "summary": "Page-world handler ('OpenClawNativeGatewayAuth') that lets the Control UI obtain native device credentials.",
+      "tags": [
+        "ipc",
+        "native-auth"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift",
+      "lineRange": [
+        6,
+        120
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift:ControlUINativeGatewayAuthMessageHandler",
+      "type": "class",
+      "name": "ControlUINativeGatewayAuthMessageHandler",
+      "summary": "WKScriptMessageHandlerWithReply named OpenClawNativeGatewayAuth; avoids embedding token/password into the page.",
+      "tags": [
+        "ipc",
+        "native-auth"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift",
+      "lineRange": [
+        6,
+        100
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+      "type": "file",
+      "name": "DashboardBrowserMessageHandler.swift",
+      "summary": "Decodes native-browser bridge requests and validates/forwards them to the DashboardWindowController.",
+      "tags": [
+        "ipc",
+        "native-browser"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+      "lineRange": [
+        50,
+        152
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+      "type": "class",
+      "name": "DashboardBrowserMessageHandler",
+      "summary": "WKScriptMessageHandlerWithReply named 'openclawBrowser'; decodes open/navigate/present/releaseScope/inspect and DashboardBrowserAction, with typed DashboardBrowserError.",
+      "tags": [
+        "ipc",
+        "native-browser"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+      "lineRange": [
+        50,
+        152
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift",
+      "type": "file",
+      "name": "DashboardDeviceSettingsMessageHandler.swift",
+      "summary": "Serves Dashboard device settings (permissions, mic, CLI) to the Control UI and refreshes on activation/permission notifications.",
+      "tags": [
+        "ipc",
+        "device-settings",
+        "permissions"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift",
+      "lineRange": [
+        6,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift:DashboardDeviceSettingsMessageHandler",
+      "type": "class",
+      "name": "DashboardDeviceSettingsMessageHandler",
+      "summary": "WKScriptMessageHandlerWithReply with a DeviceSettingsRequestQueue; refreshes on didBecomeActive/permissionsChanged/CLI-installed but never polls TCC.",
+      "tags": [
+        "ipc",
+        "permissions"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift",
+      "lineRange": [
+        8,
+        180
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+      "type": "file",
+      "name": "DashboardNativeBrowserHost.swift",
+      "summary": "Native browser pane hosting per-scope WKWebViews behind the Dashboard (This Mac tabs).",
+      "tags": [
+        "native-browser",
+        "webview"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+      "lineRange": [
+        26,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+      "type": "class",
+      "name": "DashboardNativeBrowserHost",
+      "summary": "Hosts native browser tabs with publishBrowserState callback and per-scope session state.",
+      "tags": [
+        "native-browser"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+      "lineRange": [
+        26,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+      "type": "file",
+      "name": "DashboardBrowserSessionStore.swift",
+      "summary": "Stores/leases browser sessions used by embedded Dashboard panes.",
+      "tags": [
+        "native-browser",
+        "session"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+      "lineRange": [
+        8,
+        140
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:DashboardBrowserSessionStore",
+      "type": "class",
+      "name": "DashboardBrowserSessionStore",
+      "summary": "Session/Lease store associating browser profiles with Dashboard documents.",
+      "tags": [
+        "native-browser",
+        "session"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+      "lineRange": [
+        8,
+        120
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+      "type": "file",
+      "name": "WebChatManager.swift",
+      "summary": "Manages native chat windows and their Gateway bindings; session-observer visibility reference counting.",
+      "tags": [
+        "webchat",
+        "windows"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/WebChatManager.swift",
+      "lineRange": [
+        37,
+        682
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "type": "class",
+      "name": "WebChatManager",
+      "summary": "@MainActor manager mapping DashboardGatewayTarget to a GatewayConnection; opens primary embedded pane or WebChatSwiftUIWindowController; tracks frontmost/key windows.",
+      "tags": [
+        "webchat",
+        "windows"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/WebChatManager.swift",
+      "lineRange": [
+        37,
+        400
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "type": "file",
+      "name": "WebChatSwiftUI.swift",
+      "summary": "SwiftUI native chat window controller (session sidebar + Control UI chat pane).",
+      "tags": [
+        "webchat",
+        "swiftui"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "lineRange": [
+        888,
+        1400
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift:WebChatSwiftUIWindowController",
+      "type": "class",
+      "name": "WebChatSwiftUIWindowController",
+      "summary": "NSWindowController + NSWindowDelegate for the native chat window; layout 960x700, autosave, trace preferences.",
+      "tags": [
+        "webchat",
+        "window"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "lineRange": [
+        888,
+        1100
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayConnection.swift",
+      "type": "file",
+      "name": "GatewayConnection.swift",
+      "summary": "App operator-role WS client actor wrapping GatewayChannelActor with route/server-lease fencing.",
+      "tags": [
+        "gateway",
+        "websocket",
+        "client"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayConnection.swift",
+      "lineRange": [
+        14,
+        1697
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "class",
+      "name": "GatewayConnection",
+      "summary": "actor holding a GatewayChannelActor; acquireServerLease/isCurrentServerLease/publication fencing; request/requestDecoded helpers; shutdown generations.",
+      "tags": [
+        "gateway",
+        "ws-client",
+        "leases"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayConnection.swift",
+      "lineRange": [
+        14,
+        500
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ControlChannel.swift",
+      "type": "file",
+      "name": "ControlChannel.swift",
+      "summary": "Observation layer over GatewayConnection: connection state, health, work-activity routing, heartbeat/profile push.",
+      "tags": [
+        "gateway",
+        "state",
+        "push"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ControlChannel.swift",
+      "lineRange": [
+        131,
+        760
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ControlChannel.swift:ControlChannel",
+      "type": "class",
+      "name": "ControlChannel",
+      "summary": "@MainActor observable channel with debounced state, recovery scheduling, event stream start and routeWorkActivity from ControlAgentEvent.",
+      "tags": [
+        "gateway",
+        "state",
+        "events"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ControlChannel.swift",
+      "lineRange": [
+        131,
+        400
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift",
+      "type": "file",
+      "name": "GatewayEndpointStore.swift",
+      "summary": "Resolves/attaches the primary endpoint and owns the remote control tunnel admission.",
+      "tags": [
+        "gateway",
+        "endpoint",
+        "tunnel"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift",
+      "lineRange": [
+        31,
+        1131
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift:GatewayEndpointStore",
+      "type": "class",
+      "name": "GatewayEndpointStore",
+      "summary": "actor managing endpoint state; admitPrimaryAppLaunch and ensureRemoteControlTunnel for remote mode.",
+      "tags": [
+        "gateway",
+        "endpoint"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift",
+      "lineRange": [
+        31,
+        420
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift",
+      "type": "file",
+      "name": "ConnectionModeCoordinator.swift",
+      "summary": "Applies .local/.remote/.unconfigured by starting/stopping gateway, node service and tunnels.",
+      "tags": [
+        "connection",
+        "lifecycle"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift",
+      "lineRange": [
+        7,
+        125
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "type": "class",
+      "name": "ConnectionModeCoordinator",
+      "summary": "@MainActor coordinator with generation fencing; apply(mode:paused:) drives local gateway start, node service start, and remote tunnel configuration.",
+      "tags": [
+        "connection",
+        "lifecycle"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift",
+      "lineRange": [
+        5,
+        125
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift",
+      "type": "file",
+      "name": "ConnectionModeResolver.swift",
+      "summary": "Resolves effective connection mode from config > remote URL > defaults > onboarding.",
+      "tags": [
+        "connection",
+        "config"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift",
+      "lineRange": [
+        15,
+        47
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift:ConnectionModeResolver",
+      "type": "class",
+      "name": "ConnectionModeResolver",
+      "summary": "Prefers gateway.mode local/remote, then configured remote URL, then stored UserDefaults, then onboardingSeen -> .unconfigured.",
+      "tags": [
+        "connection",
+        "resolution"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift",
+      "lineRange": [
+        15,
+        47
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift",
+      "type": "file",
+      "name": "MacGatewayProfiles.swift",
+      "summary": "Saved Gateway profiles plus the per-profile connection fleet.",
+      "tags": [
+        "gateway",
+        "profiles"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift",
+      "lineRange": [
+        682,
+        900
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift:MacGatewayConnectionFleet",
+      "type": "class",
+      "name": "MacGatewayConnectionFleet",
+      "summary": "actor maintaining local and per-profile GatewayConnection bindings (chatStoreID) for saved Gateways.",
+      "tags": [
+        "gateway",
+        "profiles",
+        "fleet"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift",
+      "lineRange": [
+        682,
+        780
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift",
+      "type": "file",
+      "name": "GatewayDiscoveryModel.swift",
+      "summary": "Bonjour NWBrowser + NetService discovery of Gateways.",
+      "tags": [
+        "discovery",
+        "bonjour"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift",
+      "lineRange": [
+        9,
+        500
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift:GatewayDiscoveryModel",
+      "type": "class",
+      "name": "GatewayDiscoveryModel",
+      "summary": "Browses _openclaw-gw._tcp, resolves host/port + TXT via BonjourServiceResolver, decodes Bonjour escapes; DiscoveredGateway model.",
+      "tags": [
+        "discovery",
+        "bonjour"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift",
+      "lineRange": [
+        9,
+        300
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClawDiscovery/WideAreaGatewayDiscovery.swift",
+      "type": "file",
+      "name": "WideAreaGatewayDiscovery.swift",
+      "summary": "Wide-area DNS-SD discovery via the openclaw wide-area domain.",
+      "tags": [
+        "discovery",
+        "dns-sd"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClawDiscovery/WideAreaGatewayDiscovery.swift",
+      "lineRange": [
+        1,
+        120
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift",
+      "type": "file",
+      "name": "GatewayDiscoveryHelpers.swift",
+      "summary": "Builds direct/SSH endpoints from resolved discovery, refusing unauthenticated TXT hints.",
+      "tags": [
+        "discovery",
+        "security"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift",
+      "lineRange": [
+        4,
+        61
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift:GatewayDiscoveryHelpers",
+      "type": "class",
+      "name": "GatewayDiscoveryHelpers",
+      "summary": "directGatewayUrl picks wss:// or loopback/trusted-plaintext ws:// only from the resolved service endpoint; sshTarget builds user@host:port.",
+      "tags": [
+        "discovery",
+        "security"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift",
+      "lineRange": [
+        4,
+        61
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift",
+      "type": "file",
+      "name": "NodePairingApprovalPrompter.swift",
+      "summary": "Polls node.pair.list and surfaces node.pair.requested/resolved prompts.",
+      "tags": [
+        "pairing",
+        "node"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift",
+      "lineRange": [
+        19,
+        628
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift:NodePairingApprovalPrompter",
+      "type": "class",
+      "name": "NodePairingApprovalPrompter",
+      "summary": "Reconcile loop, echoed-resolution dedupe, auto-approve for local/SSH-proven nodes, cards via PairingApprovalCenter.",
+      "tags": [
+        "pairing",
+        "node"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift",
+      "lineRange": [
+        19,
+        350
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift",
+      "type": "file",
+      "name": "DevicePairingApprovalPrompter.swift",
+      "summary": "Surfaces device pairing approval prompts for the app.",
+      "tags": [
+        "pairing",
+        "device"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift",
+      "lineRange": [
+        10,
+        300
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift:DevicePairingApprovalPrompter",
+      "type": "class",
+      "name": "DevicePairingApprovalPrompter",
+      "summary": "Device-side pairing approval prompter started with interactive services.",
+      "tags": [
+        "pairing",
+        "device"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift",
+      "lineRange": [
+        10,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift",
+      "type": "file",
+      "name": "PairingApprovalCenter.swift",
+      "summary": "Central presentation of pending pairing approval cards.",
+      "tags": [
+        "pairing",
+        "ui"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift",
+      "lineRange": [
+        12,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift:PairingApprovalCenter",
+      "type": "class",
+      "name": "PairingApprovalCenter",
+      "summary": "Shared center that renders pairing cards from node/device prompters.",
+      "tags": [
+        "pairing",
+        "ui"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift",
+      "lineRange": [
+        12,
+        150
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift",
+      "type": "file",
+      "name": "GatewayBrowserSignInCoordinator.swift",
+      "summary": "Drives browser sign-in for saved browser-auth Gateways (also the CLI gateway.add path).",
+      "tags": [
+        "gateway",
+        "sign-in"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift",
+      "lineRange": [
+        7,
+        300
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift:GatewayBrowserSignInCoordinator",
+      "type": "class",
+      "name": "GatewayBrowserSignInCoordinator",
+      "summary": "Coordinator performing web/browser authentication and surfacing identity/expiry.",
+      "tags": [
+        "gateway",
+        "sign-in"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift",
+      "lineRange": [
+        7,
+        250
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/Onboarding.swift",
+      "type": "file",
+      "name": "Onboarding.swift",
+      "summary": "Onboarding controller + SwiftUI page model, page ordering and finish state.",
+      "tags": [
+        "onboarding",
+        "swiftui"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/Onboarding.swift",
+      "lineRange": [
+        512,
+        867
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "type": "class",
+      "name": "OnboardingController",
+      "summary": "NSWindowDelegate window controller; pageOrder per mode (local/remote/unconfigured), CLI install phase, AI setup gating, gateway hosting updates.",
+      "tags": [
+        "onboarding",
+        "flow"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/Onboarding.swift",
+      "lineRange": [
+        512,
+        867
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift",
+      "type": "file",
+      "name": "GatewayLaunchAgentManager.swift",
+      "summary": "Installs/uninstalls the Gateway launchd service via daemon commands and fences service writes.",
+      "tags": [
+        "launchagent",
+        "gateway"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift",
+      "lineRange": [
+        192,
+        931
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "type": "class",
+      "name": "GatewayLaunchAgentManager",
+      "summary": "static enum: set(enabled:port:...) dispatches install --force --port / uninstall; disable-launchagent marker; ServiceAuthority digest fencing.",
+      "tags": [
+        "launchagent",
+        "gateway",
+        "install"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift",
+      "lineRange": [
+        4,
+        470
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+RuntimePin.swift",
+      "type": "file",
+      "name": "GatewayLaunchAgentManager+RuntimePin.swift",
+      "summary": "Reads the operator runtime pin from the shared SQLite state DB.",
+      "tags": [
+        "launchagent",
+        "runtime-pin"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+RuntimePin.swift",
+      "lineRange": [
+        6,
+        40
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift",
+      "type": "file",
+      "name": "GatewayLaunchAgentManager+ServiceResume.swift",
+      "summary": "Persists/restores retained Gateway service command intent across pause/resume.",
+      "tags": [
+        "launchagent",
+        "resume"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift",
+      "lineRange": [
+        5,
+        140
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift:ResumeCommand",
+      "type": "class",
+      "name": "ResumeCommand",
+      "summary": "Codable record {prefix, sqliteLibrary, usesGeneratedEnvironment, hadRuntimePin, isInferredLegacyInstall, sourcePrefix} stored under gatewayNodeResumeCommand; credentials excluded.",
+      "tags": [
+        "launchagent",
+        "resume"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift",
+      "lineRange": [
+        6,
+        50
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift",
+      "type": "file",
+      "name": "GatewayLaunchAgentManager+ServiceAuthority.swift",
+      "summary": "Ephemeral custody + SHA-256 digests of the service plist/env/wrapper files.",
+      "tags": [
+        "launchagent",
+        "authority"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift",
+      "lineRange": [
+        5,
+        169
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift:ServiceAuthority",
+      "type": "class",
+      "name": "ServiceAuthority",
+      "summary": "Holds plist/env/wrapper URLs and a ServiceDefinitionDigest; currentError() refuses dispatch if the service changed.",
+      "tags": [
+        "launchagent",
+        "authority",
+        "fencing"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift",
+      "lineRange": [
+        6,
+        60
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift",
+      "type": "file",
+      "name": "GatewayProcessManager.swift",
+      "summary": "Decides/hosts/drives the Gateway process (app-hosted child, launchd service, or external).",
+      "tags": [
+        "gateway",
+        "process"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayProcessManager.swift",
+      "lineRange": [
+        15,
+        931
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "class",
+      "name": "GatewayProcessManager",
+      "summary": "setActive/stop/startIfNeeded, ensureLaunchAgentEnabledIfNeeded, waitForGatewayReady, attachExistingGatewayIfAvailable.",
+      "tags": [
+        "gateway",
+        "process"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayProcessManager.swift",
+      "lineRange": [
+        15,
+        400
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/GatewayProcessManager+Hosting.swift",
+      "type": "file",
+      "name": "GatewayProcessManager+Hosting.swift",
+      "summary": "App-hosted Gateway child start/shutdown with stdin lifeline and bundled-runtime activation.",
+      "tags": [
+        "gateway",
+        "hosting"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/GatewayProcessManager+Hosting.swift",
+      "lineRange": [
+        277,
+        560
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/NodeServiceManager.swift",
+      "type": "file",
+      "name": "NodeServiceManager.swift",
+      "summary": "Manages the headless node host LaunchAgent (start/stop/restart/status) under the profile.",
+      "tags": [
+        "node",
+        "launchagent"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/NodeServiceManager.swift",
+      "lineRange": [
+        4,
+        230
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/NodeServiceManager.swift:NodeServiceManager",
+      "type": "class",
+      "name": "NodeServiceManager",
+      "summary": "LifecycleQueue-serialized start/stop/restart; launchdProgramArguments and installedServiceCLI for node label; waitUntilRunning polls status.",
+      "tags": [
+        "node",
+        "service"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/NodeServiceManager.swift",
+      "lineRange": [
+        4,
+        80
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift",
+      "type": "file",
+      "name": "MacNodeModeCoordinator.swift",
+      "summary": "Builds the node WS connection, capability/command advertisement and permission map.",
+      "tags": [
+        "node",
+        "capabilities",
+        "permissions"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift",
+      "lineRange": [
+        43,
+        1400
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "type": "class",
+      "name": "MacNodeModeCoordinator",
+      "summary": "resolvedCaps/resolvedCommands/advertisedPermissions fed into GatewayConnectOptions(role:node, clientId:openclaw-macos); TCC status map.",
+      "tags": [
+        "node",
+        "capabilities"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift",
+      "lineRange": [
+        43,
+        600
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/NodeMode/MacNodeHostWorker.swift",
+      "type": "file",
+      "name": "MacNodeHostWorker.swift",
+      "summary": "Supervises the private node host worker manifest and bridge invoke loop.",
+      "tags": [
+        "node",
+        "worker"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/NodeMode/MacNodeHostWorker.swift",
+      "lineRange": [
+        1,
+        300
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/PermissionManager.swift",
+      "type": "file",
+      "name": "PermissionManager.swift",
+      "summary": "TCC prompting/status for notifications, accessibility, screen recording, mic, camera, speech, location.",
+      "tags": [
+        "permissions",
+        "tcc"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/PermissionManager.swift",
+      "lineRange": [
+        21,
+        344
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/PermissionManager.swift:PermissionManager",
+      "type": "class",
+      "name": "PermissionManager",
+      "summary": "ensure(_:interactive:) switches per Capability; uses AXIsProcessTrustedWithOptions, PermissionsService screen probe, AVCaptureDevice.requestAccess; posts openclawPermissionsChanged.",
+      "tags": [
+        "permissions",
+        "tcc"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/PermissionManager.swift",
+      "lineRange": [
+        21,
+        220
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClawIPC/IPC.swift",
+      "type": "file",
+      "name": "IPC.swift",
+      "summary": "Shared IPC capability enum + Canvas placement + generic Response.",
+      "tags": [
+        "ipc",
+        "capabilities"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/macos/Sources/OpenClawIPC/IPC.swift",
+      "lineRange": [
+        1,
+        47
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClawIPC/IPC.swift:Capability",
+      "type": "class",
+      "name": "Capability",
+      "summary": "Public enum of TCC-facing capabilities: notifications, accessibility, screenRecording, microphone, speechRecognition, camera, location.",
+      "tags": [
+        "capabilities",
+        "tcc"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/macos/Sources/OpenClawIPC/IPC.swift",
+      "lineRange": [
+        6,
+        15
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/CanvasManager.swift",
+      "type": "file",
+      "name": "CanvasManager.swift",
+      "summary": "Owns the borderless native widget panel(s) and navigation.",
+      "tags": [
+        "canvas",
+        "panel"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/CanvasManager.swift",
+      "lineRange": [
+        8,
+        140
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/CanvasManager.swift:CanvasManager",
+      "type": "class",
+      "name": "CanvasManager",
+      "summary": "show/hide(sessionKey)/hideAll manage CanvasWindowController panels; mouse-anchor placement.",
+      "tags": [
+        "canvas",
+        "panel"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/CanvasManager.swift",
+      "lineRange": [
+        8,
+        120
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/CanvasScheme.swift",
+      "type": "file",
+      "name": "CanvasScheme.swift",
+      "summary": "App-local custom URL scheme openclaw-canvas and MIME mapping for hosted widget docs.",
+      "tags": [
+        "canvas",
+        "url-scheme"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/macos/Sources/OpenClaw/CanvasScheme.swift",
+      "lineRange": [
+        3,
+        40
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "type": "file",
+      "name": "AppLifecycleSupport.swift",
+      "summary": "Updater abstraction, Sparkle controller, app instance lock, and update channel gating.",
+      "tags": [
+        "updater",
+        "lifecycle"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "lineRange": [
+        74,
+        260
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:UpdaterProviding",
+      "type": "class",
+      "name": "UpdaterProviding",
+      "summary": "@MainActor protocol with automaticallyChecksForUpdates, automaticallyDownloadsUpdates, isAvailable, start, checkForUpdates.",
+      "tags": [
+        "updater",
+        "protocol"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "lineRange": [
+        74,
+        91
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:SparkleUpdaterController",
+      "type": "class",
+      "name": "SparkleUpdaterController",
+      "summary": "Wraps SPUStandardUpdaterController; resolves gateway update.status channel; allowedChannels/bestValidUpdate filter appcast for extended-stable.",
+      "tags": [
+        "updater",
+        "sparkle"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "lineRange": [
+        111,
+        260
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:DisabledUpdaterController",
+      "type": "class",
+      "name": "DisabledUpdaterController",
+      "summary": "No-op updater suppressing Sparkle dialogs in debug/dev builds.",
+      "tags": [
+        "updater",
+        "debug"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "lineRange": [
+        93,
+        105
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift",
+      "type": "file",
+      "name": "TalkMLXSpeechSynthesizer.swift",
+      "summary": "Spawns and drives the mlx-tts helper over a framed stdio transport.",
+      "tags": [
+        "tts",
+        "helper",
+        "mlx"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift",
+      "lineRange": [
+        21,
+        560
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:TalkMLXSpeechSynthesizer",
+      "type": "class",
+      "name": "TalkMLXSpeechSynthesizer",
+      "summary": "actor with MLXTTSTransport protocol; idle shutdown, memory-pressure monitor, cancel escalation, helperInvocation resolution.",
+      "tags": [
+        "tts",
+        "helper"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift",
+      "lineRange": [
+        21,
+        460
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:ProcessMLXTTSTransport",
+      "type": "class",
+      "name": "ProcessMLXTTSTransport",
+      "summary": "actor implementing MLXTTSTransport by launching the openclaw-mlx-tts child and framing MLXTTSRequest/Event over pipes.",
+      "tags": [
+        "tts",
+        "process"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift",
+      "lineRange": [
+        464,
+        560
+      ]
+    },
+    {
+      "id": "file:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift",
+      "type": "file",
+      "name": "openclaw-mlx-tts main.swift",
+      "summary": "Executable entry that keeps a dup'd protocol FD and runs the framed request loop.",
+      "tags": [
+        "tts",
+        "executable"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift",
+      "lineRange": [
+        1,
+        90
+      ]
+    },
+    {
+      "id": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift:OpenClawMLXTTSHelper",
+      "type": "class",
+      "name": "OpenClawMLXTTSHelper",
+      "summary": "@main enum: writes MLXTTSEvent.ready, reads framed MLXTTSRequest from stdin, dispatches to MLXTTSHelperService.",
+      "tags": [
+        "tts",
+        "executable"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift",
+      "lineRange": [
+        6,
+        80
+      ]
+    },
+    {
+      "id": "file:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift",
+      "type": "file",
+      "name": "MLXTTSHelperService.swift",
+      "summary": "MLX audio synthesis service handling per-request stream/audio/error events.",
+      "tags": [
+        "tts",
+        "mlx"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift",
+      "lineRange": [
+        27,
+        300
+      ]
+    },
+    {
+      "id": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift:MLXTTSHelperService",
+      "type": "class",
+      "name": "MLXTTSHelperService",
+      "summary": "Public actor handling MLXTTSRequest and emitting MLXTTSEvent via an injected writer.",
+      "tags": [
+        "tts",
+        "mlx"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift",
+      "lineRange": [
+        27,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "type": "file",
+      "name": "MLXTTSProtocol.swift",
+      "summary": "Framed JSON protocol types for the mlx-tts helper (64 MiB frame cap).",
+      "tags": [
+        "protocol",
+        "tts"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "lineRange": [
+        3,
+        300
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift:MLXTTSRequest",
+      "type": "class",
+      "name": "MLXTTSRequest",
+      "summary": "Codable request union: synthesize/shutdown/cancel with id, text, modelRepo, language, voice, reference audio, stream flag.",
+      "tags": [
+        "protocol",
+        "tts"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "lineRange": [
+        3,
+        45
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift:MLXTTSEvent",
+      "type": "class",
+      "name": "MLXTTSEvent",
+      "summary": "Codable event union: ready, stream start/chunk, audio, error.",
+      "tags": [
+        "protocol",
+        "tts"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "lineRange": [
+        166,
+        240
+      ]
+    },
+    {
+      "id": "module:OpenClawMLXTTSProtocol",
+      "type": "module",
+      "name": "OpenClawMLXTTSProtocol",
+      "summary": "Shared SwiftPM package defining the mlx-tts helper framing protocol, consumed by both app and helper.",
+      "tags": [
+        "module",
+        "protocol"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "module:OpenClawMLXTTSRuntime",
+      "type": "module",
+      "name": "OpenClawMLXTTSRuntime",
+      "summary": "Isolated MLX TTS runtime package (kept out of the app package so app tests don't compile the MLX audio stack).",
+      "tags": [
+        "module",
+        "mlx"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift",
+      "type": "file",
+      "name": "MacControlProtocol.swift",
+      "summary": "Typed request/response shapes for the openclaw-mac app control socket.",
+      "tags": [
+        "ipc",
+        "control",
+        "schema"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift",
+      "lineRange": [
+        1,
+        197
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift:MacControlRequest",
+      "type": "class",
+      "name": "MacControlRequest",
+      "summary": "Codable request with operation + mode/transport/sshTarget/url/token/password/tlsFingerprint/name/idOrName fields.",
+      "tags": [
+        "ipc",
+        "control"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift",
+      "lineRange": [
+        3,
+        20
+      ]
+    },
+    {
+      "id": "schema:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift:MacControlStatus",
+      "type": "schema",
+      "name": "MacControlStatus",
+      "summary": "Response schema: primary (mode/transport/url/tunnel/connection), gateways[], app{version,build,profile}, localGateway.",
+      "tags": [
+        "ipc",
+        "control",
+        "schema"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "type": "file",
+      "name": "MacControlServer.swift",
+      "summary": "App-side JSONL control socket for the openclaw-mac CLI with token + peer-UID + HMAC auth.",
+      "tags": [
+        "ipc",
+        "control",
+        "hmac"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "lineRange": [
+        34,
+        136
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlServer",
+      "type": "class",
+      "name": "MacControlServer",
+      "summary": "@MainActor server on LocalSocketServer at ~/.openclaw/mac-control.sock; 0600 token file; per-request authenticated dispatch.",
+      "tags": [
+        "ipc",
+        "control"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "lineRange": [
+        34,
+        100
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlRequestAuthenticator",
+      "type": "class",
+      "name": "MacControlRequestAuthenticator",
+      "summary": "actor consuming nonces with 15s TTL, enforcing peerUID==ownerUID and HMAC envelope validity; caps in-flight nonces at 1024.",
+      "tags": [
+        "ipc",
+        "hmac",
+        "auth"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "lineRange": [
+        7,
+        28
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift",
+      "type": "file",
+      "name": "ExecApprovalsSocketServer.swift",
+      "summary": "Local socket server receiving system.run requests from the node host service for exec approval.",
+      "tags": [
+        "ipc",
+        "exec-approvals"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift",
+      "lineRange": [
+        6,
+        165
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift:ExecApprovalsSocketServer",
+      "type": "class",
+      "name": "ExecApprovalsSocketServer",
+      "summary": "@unchecked Sendable server over LocalSocketServer; HMAC-SHA256 challenge/response and peer-UID checks; owns request lifetime.",
+      "tags": [
+        "ipc",
+        "exec-approvals"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift",
+      "lineRange": [
+        6,
+        120
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift",
+      "type": "file",
+      "name": "ExecApprovalsSocket.swift",
+      "summary": "Exec-approval wire structs and socket helpers (framing, timeouts, timing-safe compare).",
+      "tags": [
+        "ipc",
+        "exec-approvals"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift",
+      "lineRange": [
+        1,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift:ExecHostSocketRequest",
+      "type": "class",
+      "name": "ExecHostSocketRequest",
+      "summary": "Codable exec request carrying command + hmac for the approvals socket.",
+      "tags": [
+        "ipc",
+        "exec-approvals"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift",
+      "lineRange": [
+        76,
+        90
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/LocalSocketServer.swift",
+      "type": "file",
+      "name": "LocalSocketServer.swift",
+      "summary": "Reusable Unix-domain socket listener with framing, cleanup and shutdown drainage.",
+      "tags": [
+        "ipc",
+        "socket"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/LocalSocketServer.swift",
+      "lineRange": [
+        95,
+        389
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/LocalSocketServer.swift:LocalSocketServer",
+      "type": "class",
+      "name": "LocalSocketServer",
+      "summary": "@unchecked Sendable listener owning the socket path lease and per-connection handler.",
+      "tags": [
+        "ipc",
+        "socket"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/macos/Sources/OpenClaw/LocalSocketServer.swift",
+      "lineRange": [
+        95,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift",
+      "type": "file",
+      "name": "PeekabooBridgeHostCoordinator.swift",
+      "summary": "Starts/stops the embedded PeekabooBridge UI-automation host.",
+      "tags": [
+        "ipc",
+        "peekaboo"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift",
+      "lineRange": [
+        66,
+        200
+      ]
+    },
+    {
+      "id": "class:apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift:PeekabooBridgeHostCoordinator",
+      "type": "class",
+      "name": "PeekabooBridgeHostCoordinator",
+      "summary": "Coordinator managing the PeekabooBridge Unix socket host used for standalone UI automation clients.",
+      "tags": [
+        "ipc",
+        "peekaboo"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift",
+      "lineRange": [
+        66,
+        150
+      ]
+    },
+    {
+      "id": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift",
+      "type": "file",
+      "name": "GatewayWebSocketTransport.swift",
+      "summary": "WebSocket transport abstraction (WebSocketSessioning / WebSocketSessionBox) shared by app and iOS.",
+      "tags": [
+        "client",
+        "websocket",
+        "transport"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift",
+      "lineRange": [
+        152,
+        220
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessioning",
+      "type": "class",
+      "name": "WebSocketSessioning",
+      "summary": "Protocol abstracting WebSocket send/receive so tests and TLS-pinning sessions can substitute URLSessionWebSocketTask.",
+      "tags": [
+        "client",
+        "websocket"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift",
+      "lineRange": [
+        152,
+        178
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessionBox",
+      "type": "class",
+      "name": "WebSocketSessionBox",
+      "summary": "@unchecked Sendable box carrying a WebSocketSessioning into actors.",
+      "tags": [
+        "client",
+        "websocket"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift",
+      "lineRange": [
+        179,
+        200
+      ]
+    },
+    {
+      "id": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift",
+      "type": "file",
+      "name": "GatewayChannel.swift",
+      "summary": "Full WS protocol client actor: connect/challenge/device-auth, keepalive, watchdog, request demux.",
+      "tags": [
+        "client",
+        "websocket",
+        "protocol"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift",
+      "lineRange": [
+        9,
+        600
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift:GatewayChannelActor",
+      "type": "class",
+      "name": "GatewayChannelActor",
+      "summary": "public actor with pending requests, connect challenge/timeouts, reconnect backoff, tick/keepalive tasks, role/scopes from GatewayConnectOptions.",
+      "tags": [
+        "client",
+        "protocol"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift",
+      "lineRange": [
+        10,
+        400
+      ]
+    },
+    {
+      "id": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift",
+      "type": "file",
+      "name": "GatewayNodeSession.swift",
+      "summary": "Node-role WS session handling node.invoke bridge frames and command dispatch.",
+      "tags": [
+        "node",
+        "bridge"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift",
+      "lineRange": [
+        49,
+        900
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift:GatewayNodeSession",
+      "type": "class",
+      "name": "GatewayNodeSession",
+      "summary": "public actor running the node side of the gateway protocol (invoke/response, route handling).",
+      "tags": [
+        "node",
+        "bridge"
+      ],
+      "complexity": "complex",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift",
+      "lineRange": [
+        49,
+        500
+      ]
+    },
+    {
+      "id": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift",
+      "type": "file",
+      "name": "BridgeFrames.swift",
+      "summary": "Bridge invoke request/response frame types exchanged over the node WS.",
+      "tags": [
+        "node",
+        "bridge"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift:BridgeInvokeRequest",
+      "type": "class",
+      "name": "BridgeInvokeRequest",
+      "summary": "Codable node.invoke request (command + params) delivered to the app's node handler.",
+      "tags": [
+        "node",
+        "bridge"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift",
+      "lineRange": [
+        3,
+        33
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift:BridgeInvokeResponse",
+      "type": "class",
+      "name": "BridgeInvokeResponse",
+      "summary": "Codable node.invoke response carrying ok/error and optional payload.",
+      "tags": [
+        "node",
+        "bridge"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift",
+      "lineRange": [
+        34,
+        60
+      ]
+    },
+    {
+      "id": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift",
+      "type": "file",
+      "name": "Capabilities.swift",
+      "summary": "Node capability vocabulary (OpenClawCapability) advertised to the Gateway.",
+      "tags": [
+        "capabilities",
+        "node"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift",
+      "lineRange": [
+        3,
+        25
+      ]
+    },
+    {
+      "id": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift:OpenClawCapability",
+      "type": "class",
+      "name": "OpenClawCapability",
+      "summary": "Public enum: canvas, browser, camera, screen, computer, voiceWake, talk, location, device, watch, photos, contacts, calendar, reminders, motion, health.",
+      "tags": [
+        "capabilities",
+        "node"
+      ],
+      "complexity": "simple",
+      "filePath": "apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift",
+      "lineRange": [
+        3,
+        20
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/xpc.md",
+      "type": "document",
+      "name": "Describes the socket + stdio 'IPC' topology: node host service, app, exec approvals, app control socket, PeekabooBridge.",
+      "summary": "Describes the socket + stdio 'IPC' topology: node host service, app, exec approvals, app control socket, PeekabooBridge.",
+      "tags": [
+        "doc",
+        "ipc"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/xpc.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/permissions.md",
+      "type": "document",
+      "name": "TCC persistence requirements (path, bundle ID, signature) and per-permission behavior.",
+      "summary": "TCC persistence requirements (path, bundle ID, signature) and per-permission behavior.",
+      "tags": [
+        "doc",
+        "permissions",
+        "tcc"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/permissions.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/signing.md",
+      "type": "document",
+      "name": "Packaging/codesign pipeline, bundling of Bun runtime + Control UI, entitlements, Team ID audits.",
+      "summary": "Packaging/codesign pipeline, bundling of Bun runtime + Control UI, entitlements, Team ID audits.",
+      "tags": [
+        "doc",
+        "signing"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/signing.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/bundled-gateway.md",
+      "type": "document",
+      "name": "App-hosted bundled-Bun Gateway, launcher CLI wrapper, automatic setup, install ownership contract.",
+      "summary": "App-hosted bundled-Bun Gateway, launcher CLI wrapper, automatic setup, install ownership contract.",
+      "tags": [
+        "doc",
+        "gateway",
+        "hosting"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/bundled-gateway.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/menu-bar.md",
+      "type": "document",
+      "name": "Menu-bar state model (WorkActivityStore, ControlAgentEvent) and what each menu section surfaces.",
+      "summary": "Menu-bar state model (WorkActivityStore, ControlAgentEvent) and what each menu section surfaces.",
+      "tags": [
+        "doc",
+        "menubar"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/menu-bar.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/webchat.md",
+      "type": "document",
+      "name": "Web vs Native experience switching, native chat pane reuse, draft recovery rules.",
+      "summary": "Web vs Native experience switching, native chat pane reuse, draft recovery rules.",
+      "tags": [
+        "doc",
+        "webchat"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/webchat.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:docs/platforms/mac/canvas.md",
+      "type": "document",
+      "name": "Hosted widget presentation via node_panel, panel behavior, CANVAS_DISABLED gating.",
+      "summary": "Hosted widget presentation via node_panel, panel behavior, CANVAS_DISABLED gating.",
+      "tags": [
+        "doc",
+        "canvas"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/platforms/mac/canvas.md",
+      "lineRange": [
+        1,
+        60
+      ]
+    },
+    {
+      "id": "document:.agents/skills/claw-score/references/completeness/macos-companion-app.md",
+      "type": "document",
+      "name": "macos-companion-app completeness rubric",
+      "summary": "Defines the scored macOS companion app surface (canvas, local setup, status/settings, native capabilities, remote connections, voice, WebChat).",
+      "tags": [
+        "doc",
+        "completeness"
+      ],
+      "complexity": "simple",
+      "filePath": ".agents/skills/claw-score/references/completeness/macos-companion-app.md",
+      "lineRange": [
+        1,
+        20
+      ]
+    },
+    {
+      "id": "concept:node-capability-model",
+      "type": "concept",
+      "name": "node capability model",
+      "summary": "Node advertises caps+commands+permissions at connect; canvas/screen always, camera/computer/location conditional; advertisedPermissions drops unknown TCC states.",
+      "tags": [
+        "capabilities",
+        "node",
+        "permissions"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:tcc-permission-persistence",
+      "type": "concept",
+      "name": "TCC permission persistence",
+      "summary": "Grants bind to signature+bundle+path; ad-hoc signing loses grants; binary checks can't distinguish denial from first request.",
+      "tags": [
+        "permissions",
+        "tcc",
+        "signing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:gateway-ws-protocol",
+      "type": "concept",
+      "name": "Gateway WS protocol",
+      "summary": "Single WebSocket carries operator and node roles; connect.challenge + device-auth, server leases for fencing, node.invoke for actions.",
+      "tags": [
+        "gateway",
+        "websocket",
+        "protocol"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "concept:launchagent-runtime-pin",
+      "type": "concept",
+      "name": "LaunchAgent + runtime pin + resume",
+      "summary": "Service lifecycle via launchctl; runtime pin recorded in SQLite; paused service retains command intent (never credentials) for resume.",
+      "tags": [
+        "launchagent",
+        "resume"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "concept:embedded-control-ui-ipc",
+      "type": "concept",
+      "name": "embedded Control UI IPC",
+      "summary": "Control UI runs in a WKWebView; native capabilities reached via named WKScriptMessageHandlers (auth, browser, device settings, app links, gateways, commands, update).",
+      "tags": [
+        "dashboard",
+        "ipc",
+        "webkit"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "flow:gateway-discovery-pairing-connect",
+      "type": "flow",
+      "name": "Gateway discovery -> pairing -> connect",
+      "summary": "Bonjour/DNS-SD discovery builds a hardened endpoint, connection mode is resolved, WS client connects as operator/node, and pairing prompts are approved from the app.",
+      "tags": [
+        "discovery",
+        "pairing",
+        "connect"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "flow:launchagent-install-resume",
+      "type": "flow",
+      "name": "LaunchAgent install/start/stop/resume",
+      "summary": "Mode changes drive GatewayLaunchAgentManager install/uninstall under ServiceAuthority fencing, with runtime pin and resume-command retention.",
+      "tags": [
+        "launchagent",
+        "lifecycle"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "flow:embedded-surface-ipc",
+      "type": "flow",
+      "name": "Embedded surface IPC",
+      "summary": "Web view posts typed requests to native handlers which validate, act in the main process, and reply; native chat windows bind directly to a GatewayConnection.",
+      "tags": [
+        "dashboard",
+        "webchat",
+        "ipc"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawApp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawProcessEntrypoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawApp",
+      "target": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawProcessEntrypoint",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:OpenClawApp",
+      "target": "class:apps/macos/Sources/OpenClaw/AppNavigationActions.swift:AppNavigationActions",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/AppNavigationActions.swift:AppNavigationActions",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardManager.swift:DashboardManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift:GatewayEndpointStore",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift:NodePairingApprovalPrompter",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift:DevicePairingApprovalPrompter",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlServer",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift:PeekabooBridgeHostCoordinator",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/CanvasManager.swift:CanvasManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:SparkleUpdaterController",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "concept:tcc-permission-persistence",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MenuBar.swift:AppDelegate",
+      "target": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MenuBar.swift",
+      "target": "document:docs/platforms/mac/menu-bar.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/StatusMenuController.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "target": "file:apps/macos/Sources/OpenClaw/StatusMenuRenderer.swift",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlChannel.swift:ControlChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/StatusMenuController.swift:StatusMenuController",
+      "target": "document:docs/platforms/mac/menu-bar.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/AppNavigationActions.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/AppNavigationActions.swift:AppNavigationActions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/AppNavigationActions.swift:AppNavigationActions",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardManager.swift:DashboardManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/AppNavigationActions.swift:AppNavigationActions",
+      "target": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DashboardManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardManager.swift:DashboardManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardManager.swift:DashboardManager",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardManager.swift:DashboardManager",
+      "target": "file:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DashboardWindowController.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift:ControlUIDocumentHost",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift:DashboardDeviceSettingsMessageHandler",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardWindowController.swift:DashboardWindowController",
+      "target": "concept:embedded-control-ui-ipc",
+      "type": "subscribes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift:ControlUIDocumentHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift:ControlUIDocumentHost",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift:ControlUINativeGatewayAuthMessageHandler",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ControlUIDocumentHost.swift:ControlUIDocumentHost",
+      "target": "concept:embedded-control-ui-ipc",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlUINativeGatewayAuthMessageHandler.swift:ControlUINativeGatewayAuthMessageHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+      "target": "flow:embedded-surface-ipc",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift:DashboardDeviceSettingsMessageHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardDeviceSettingsMessageHandler.swift:DashboardDeviceSettingsMessageHandler",
+      "target": "class:apps/macos/Sources/OpenClaw/PermissionManager.swift:PermissionManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DashboardNativeBrowserHost.swift:DashboardNativeBrowserHost",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:DashboardBrowserSessionStore",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserSessionStore.swift:DashboardBrowserSessionStore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "target": "class:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift:WebChatSwiftUIWindowController",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "target": "class:apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift:MacGatewayConnectionFleet",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift:WebChatSwiftUIWindowController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift:WebChatSwiftUIWindowController",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "subscribes",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/WebChatManager.swift:WebChatManager",
+      "target": "document:docs/platforms/mac/webchat.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayConnection.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift:GatewayChannelActor",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessionBox",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "target": "concept:gateway-ws-protocol",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ControlChannel.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlChannel.swift:ControlChannel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ControlChannel.swift:ControlChannel",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ControlChannel.swift:ControlChannel",
+      "target": "concept:gateway-ws-protocol",
+      "type": "publishes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift:GatewayEndpointStore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift:GatewayEndpointStore",
+      "target": "file:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/NodeServiceManager.swift:NodeServiceManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayEndpointStore.swift:GatewayEndpointStore",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/ControlChannel.swift:ControlChannel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift:ConnectionModeResolver",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ConnectionModeResolver.swift:ConnectionModeResolver",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift:MacGatewayConnectionFleet",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MacGatewayProfiles.swift:MacGatewayConnectionFleet",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift",
+      "target": "class:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift:GatewayDiscoveryModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift:GatewayDiscoveryModel",
+      "target": "file:apps/macos/Sources/OpenClawDiscovery/WideAreaGatewayDiscovery.swift",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift:GatewayDiscoveryHelpers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayDiscoveryHelpers.swift:GatewayDiscoveryHelpers",
+      "target": "class:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift:GatewayDiscoveryModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift:GatewayDiscoveryModel",
+      "target": "flow:gateway-discovery-pairing-connect",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift:NodePairingApprovalPrompter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift:NodePairingApprovalPrompter",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift:NodePairingApprovalPrompter",
+      "target": "class:apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift:PairingApprovalCenter",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift:DevicePairingApprovalPrompter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/DevicePairingApprovalPrompter.swift:DevicePairingApprovalPrompter",
+      "target": "class:apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift:PairingApprovalCenter",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/PairingApprovalCenter.swift:PairingApprovalCenter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift:GatewayBrowserSignInCoordinator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayBrowserSignInCoordinator.swift:GatewayBrowserSignInCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/Onboarding.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "target": "class:apps/macos/Sources/OpenClawDiscovery/GatewayDiscoveryModel.swift:GatewayDiscoveryModel",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "target": "class:apps/macos/Sources/OpenClaw/ConnectionModeCoordinator.swift:ConnectionModeCoordinator",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/Onboarding.swift:OnboardingController",
+      "target": "flow:gateway-discovery-pairing-connect",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "target": "class:apps/macos/Sources/OpenClaw/Launchctl.swift:LaunchAgentPlist",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "target": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+RuntimePin.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "target": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift:ServiceAuthority",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "target": "flow:launchagent-install-resume",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift:ResumeCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceResume.swift:ResumeCommand",
+      "target": "concept:launchagent-runtime-pin",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+RuntimePin.swift",
+      "target": "concept:launchagent-runtime-pin",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift:ServiceAuthority",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager+ServiceAuthority.swift",
+      "target": "file:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/LaunchAgentManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/LaunchAgentManager.swift:LaunchAgentManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/LaunchAgentManager.swift:LaunchAgentManager",
+      "target": "class:apps/macos/Sources/OpenClaw/Launchctl.swift:LaunchAgentPlist",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/Launchctl.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/Launchctl.swift:LaunchAgentPlist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "target": "class:apps/macos/Sources/OpenClaw/LaunchAgentManager.swift:LaunchAgentManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "target": "class:apps/macos/Sources/OpenClaw/NodeServiceManager.swift:NodeServiceManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "target": "file:apps/macos/Sources/OpenClaw/GatewayProcessManager+Hosting.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/NodeServiceManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/NodeServiceManager.swift:NodeServiceManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeServiceManager.swift:NodeServiceManager",
+      "target": "class:apps/macos/Sources/OpenClaw/Launchctl.swift:LaunchAgentPlist",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeServiceManager.swift:NodeServiceManager",
+      "target": "concept:gateway-ws-protocol",
+      "type": "serves",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClaw/PermissionManager.swift:PermissionManager",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift:OpenClawCapability",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift:GatewayNodeSession",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "target": "file:apps/macos/Sources/OpenClaw/NodeMode/MacNodeHostWorker.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "target": "class:apps/macos/Sources/OpenClawIPC/IPC.swift:Capability",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/NodeMode/MacNodeModeCoordinator.swift:MacNodeModeCoordinator",
+      "target": "concept:node-capability-model",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/PermissionManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/PermissionManager.swift:PermissionManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/PermissionManager.swift:PermissionManager",
+      "target": "class:apps/macos/Sources/OpenClawIPC/IPC.swift:Capability",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/PermissionManager.swift:PermissionManager",
+      "target": "concept:tcc-permission-persistence",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClawIPC/IPC.swift",
+      "target": "class:apps/macos/Sources/OpenClawIPC/IPC.swift:Capability",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClawIPC/IPC.swift:Capability",
+      "target": "concept:node-capability-model",
+      "type": "categorized_under",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/NodeMode/MacNodeHostWorker.swift",
+      "target": "concept:node-capability-model",
+      "type": "serves",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/CanvasManager.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/CanvasManager.swift:CanvasManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/CanvasManager.swift:CanvasManager",
+      "target": "file:apps/macos/Sources/OpenClaw/CanvasScheme.swift",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/CanvasManager.swift:CanvasManager",
+      "target": "document:docs/platforms/mac/canvas.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/CanvasScheme.swift",
+      "target": "concept:embedded-control-ui-ipc",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:UpdaterProviding",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:SparkleUpdaterController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:DisabledUpdaterController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:SparkleUpdaterController",
+      "target": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:UpdaterProviding",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:DisabledUpdaterController",
+      "target": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:UpdaterProviding",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/AppLifecycleSupport.swift:SparkleUpdaterController",
+      "target": "document:docs/platforms/mac/signing.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:TalkMLXSpeechSynthesizer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:ProcessMLXTTSTransport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:TalkMLXSpeechSynthesizer",
+      "target": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:ProcessMLXTTSTransport",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:TalkMLXSpeechSynthesizer",
+      "target": "module:OpenClawMLXTTSProtocol",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:ProcessMLXTTSTransport",
+      "target": "file:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:ProcessMLXTTSTransport",
+      "target": "class:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift:MLXTTSRequest",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/TalkMLXSpeechSynthesizer.swift:ProcessMLXTTSTransport",
+      "target": "class:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift:MLXTTSEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift",
+      "target": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift:OpenClawMLXTTSHelper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift:OpenClawMLXTTSHelper",
+      "target": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift:MLXTTSHelperService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSHelper/main.swift:OpenClawMLXTTSHelper",
+      "target": "module:OpenClawMLXTTSProtocol",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift",
+      "target": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift:MLXTTSHelperService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift:MLXTTSHelperService",
+      "target": "module:OpenClawMLXTTSRuntime",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "target": "class:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift:MLXTTSRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "target": "class:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift:MLXTTSEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:OpenClawMLXTTSProtocol",
+      "target": "file:apps/shared/OpenClawMLXTTSProtocol/Sources/OpenClawMLXTTSProtocol/MLXTTSProtocol.swift",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "module:OpenClawMLXTTSRuntime",
+      "target": "file:apps/macos-mlx-tts/Sources/OpenClawMLXTTSRuntime/MLXTTSHelperService.swift",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift",
+      "target": "class:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift:MacControlRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift",
+      "target": "schema:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift:MacControlStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlRequestAuthenticator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlServer",
+      "target": "class:apps/macos/Sources/OpenClaw/LocalSocketServer.swift:LocalSocketServer",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlServer",
+      "target": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlRequestAuthenticator",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlServer",
+      "target": "class:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift:MacControlRequest",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/MacControlServer.swift:MacControlRequestAuthenticator",
+      "target": "schema:apps/macos/Sources/OpenClawIPC/MacControlProtocol.swift:MacControlStatus",
+      "type": "transforms",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "target": "document:docs/platforms/mac/xpc.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift:ExecApprovalsSocketServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift:ExecApprovalsSocketServer",
+      "target": "class:apps/macos/Sources/OpenClaw/LocalSocketServer.swift:LocalSocketServer",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift:ExecApprovalsSocketServer",
+      "target": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift:ExecHostSocketRequest",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift:ExecHostSocketRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocket.swift:ExecHostSocketRequest",
+      "target": "class:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift:ExecApprovalsSocketServer",
+      "type": "validates",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/LocalSocketServer.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/LocalSocketServer.swift:LocalSocketServer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift",
+      "target": "class:apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift:PeekabooBridgeHostCoordinator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/PeekabooBridgeHostCoordinator.swift",
+      "target": "document:docs/platforms/mac/xpc.md",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessioning",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessionBox",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessionBox",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessioning",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift:GatewayChannelActor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift:GatewayChannelActor",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayWebSocketTransport.swift:WebSocketSessioning",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift:GatewayNodeSession",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift:GatewayNodeSession",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift:BridgeInvokeRequest",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayNodeSession.swift:GatewayNodeSession",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift:BridgeInvokeResponse",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift:BridgeInvokeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/BridgeFrames.swift:BridgeInvokeResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift",
+      "target": "class:apps/shared/OpenClawKit/Sources/OpenClawKit/Capabilities.swift:OpenClawCapability",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "concept:node-capability-model",
+      "target": "concept:gateway-ws-protocol",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:tcc-permission-persistence",
+      "target": "document:docs/platforms/mac/permissions.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:launchagent-runtime-pin",
+      "target": "flow:launchagent-install-resume",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:embedded-control-ui-ipc",
+      "target": "flow:embedded-surface-ipc",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:gateway-ws-protocol",
+      "target": "flow:gateway-discovery-pairing-connect",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:gateway-ws-protocol",
+      "target": "document:docs/platforms/mac/xpc.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:embedded-control-ui-ipc",
+      "target": "document:docs/platforms/mac/webchat.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/xpc.md",
+      "target": "concept:gateway-ws-protocol",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/xpc.md",
+      "target": "file:apps/macos/Sources/OpenClaw/MacControlServer.swift",
+      "type": "cites",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/xpc.md",
+      "target": "file:apps/macos/Sources/OpenClaw/ExecApprovalsSocketServer.swift",
+      "type": "cites",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/permissions.md",
+      "target": "concept:tcc-permission-persistence",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/bundled-gateway.md",
+      "target": "flow:launchagent-install-resume",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/bundled-gateway.md",
+      "target": "file:apps/macos/Sources/OpenClaw/GatewayProcessManager+Hosting.swift",
+      "type": "cites",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/menu-bar.md",
+      "target": "file:apps/macos/Sources/OpenClaw/StatusMenuController.swift",
+      "type": "cites",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/webchat.md",
+      "target": "file:apps/macos/Sources/OpenClaw/WebChatManager.swift",
+      "type": "cites",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/canvas.md",
+      "target": "file:apps/macos/Sources/OpenClaw/CanvasManager.swift",
+      "type": "cites",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/platforms/mac/signing.md",
+      "target": "concept:tcc-permission-persistence",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.agents/skills/claw-score/references/completeness/macos-companion-app.md",
+      "target": "concept:node-capability-model",
+      "type": "categorized_under",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:.agents/skills/claw-score/references/completeness/macos-companion-app.md",
+      "target": "flow:embedded-surface-ipc",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:gateway-discovery-pairing-connect",
+      "target": "class:apps/macos/Sources/OpenClaw/NodePairingApprovalPrompter.swift:NodePairingApprovalPrompter",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:gateway-discovery-pairing-connect",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayConnection.swift:GatewayConnection",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:launchagent-install-resume",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayLaunchAgentManager.swift:GatewayLaunchAgentManager",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:launchagent-install-resume",
+      "target": "class:apps/macos/Sources/OpenClaw/GatewayProcessManager.swift:GatewayProcessManager",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:embedded-surface-ipc",
+      "target": "class:apps/macos/Sources/OpenClaw/DashboardBrowserMessageHandler.swift:DashboardBrowserMessageHandler",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:embedded-surface-ipc",
+      "target": "class:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift:WebChatSwiftUIWindowController",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

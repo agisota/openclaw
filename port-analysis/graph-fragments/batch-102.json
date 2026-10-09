@@ -1,0 +1,2364 @@
+{
+  "nodes": [
+    {
+      "id": "file:ui/src/components/app-sidebar-session-ownership.ts",
+      "type": "file",
+      "name": "app-sidebar-session-ownership.ts",
+      "summary": "Projects the sidebar session tree to the active owner filter and computes ownership visibility (filters vs avatars) by scanning owners and participants for >=2 distinct identities.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-ownership.ts"
+    },
+    {
+      "id": "file:ui/src/components/app-sidebar-session-filter-summary.ts",
+      "type": "file",
+      "name": "app-sidebar-session-filter-summary.ts",
+      "summary": "Renders the sidebar filter toolbar button and active-filter summary chip; counts only Owners and Status as real filters.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-filter-summary.ts"
+    },
+    {
+      "id": "file:ui/src/components/app-sidebar-session-menu-renderers.ts",
+      "type": "file",
+      "name": "app-sidebar-session-menu-renderers.ts",
+      "summary": "Builds the Filter & sort popover: Owners picker, Status segmented control, cron/system switches, and the Display group/sort/empty-group controls.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-menu-renderers.ts"
+    },
+    {
+      "id": "file:ui/src/components/app-sidebar-session-types.ts",
+      "type": "file",
+      "name": "app-sidebar-session-types.ts",
+      "summary": "Sidebar session state types: status filter options, sort modes, grouping, owner filter, and row fields such as draftOwnedBySelf.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-types.ts"
+    },
+    {
+      "id": "file:ui/src/components/session-owner-chip.ts",
+      "type": "file",
+      "name": "session-owner-chip.ts",
+      "summary": "Session-owner avatar chip Lit element with created/owned/archived attribution, deterministic hue, and participant pair-stack.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-chip.ts"
+    },
+    {
+      "id": "file:ui/src/components/session-owner-menu.ts",
+      "type": "file",
+      "name": "session-owner-menu.ts",
+      "summary": "Assign-owner submenu controller that loads the Gateway directory via users.list and emits assign-owner radio items.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-menu.ts"
+    },
+    {
+      "id": "file:ui/src/components/session-menu-actions.ts",
+      "type": "file",
+      "name": "session-menu-actions.ts",
+      "summary": "Session menu action dispatch, decoding assign-owner:type:id item values into {kind:'assign-owner',owner}.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-menu-actions.ts"
+    },
+    {
+      "id": "file:ui/src/components/sidebar-menus-render.ts",
+      "type": "file",
+      "name": "sidebar-menus-render.ts",
+      "summary": "Renders the session context menu, probing sessions.assignOwner operator.write access and dispatching assignSessionOwner.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/sidebar-menus-render.ts"
+    },
+    {
+      "id": "file:ui/src/components/session-organizer-controller.ts",
+      "type": "file",
+      "name": "session-organizer-controller.ts",
+      "summary": "Sidebar organizer controller: patches sessions and forwards assignSessionOwner to the lazily loaded operations runtime.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-organizer-controller.ts"
+    },
+    {
+      "id": "file:ui/src/components/session-organizer-operations.runtime.ts",
+      "type": "file",
+      "name": "session-organizer-operations.runtime.ts",
+      "summary": "Lazy runtime implementing session mutations; assignSessionOwner re-checks access then calls sessions.assignOwner.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-organizer-operations.runtime.ts"
+    },
+    {
+      "id": "file:ui/src/lib/sessions/session-mutations.ts",
+      "type": "file",
+      "name": "session-mutations.ts",
+      "summary": "Session capability mutations; assignOwner issues the sessions.assignOwner request and patches the local row.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/sessions/session-mutations.ts"
+    },
+    {
+      "id": "file:ui/src/lib/sessions/grouping.ts",
+      "type": "file",
+      "name": "grouping.ts",
+      "summary": "Sidebar grouping primitives: SESSION_GROUP_MODES, SidebarSessionsGrouping, groupSidebarSessionRows, section ordering.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/sessions/grouping.ts"
+    },
+    {
+      "id": "file:ui/src/components/session-owner-filter-controller.ts",
+      "type": "file",
+      "name": "session-owner-filter-controller.ts",
+      "summary": "Persists the per-gateway+user owner/Involving-me filter and refreshes the sidebar roster when it changes.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-filter-controller.ts"
+    },
+    {
+      "id": "file:ui/src/components/app-sidebar-session-row-render.ts",
+      "type": "file",
+      "name": "app-sidebar-session-row-render.ts",
+      "summary": "Sidebar row renderer: owner attribution (created/owned/archived), draft indicators, and leading owner avatar suppression rules.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-row-render.ts"
+    },
+    {
+      "id": "file:ui/src/components/viewer-facepile.ts",
+      "type": "file",
+      "name": "viewer-facepile.ts",
+      "summary": "viewer-facepile / viewer-avatar Lit elements projecting live presence viewers with overflow counts.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/viewer-facepile.ts"
+    },
+    {
+      "id": "file:ui/src/lib/presence-users.ts",
+      "type": "file",
+      "name": "presence-users.ts",
+      "summary": "Projects the presence payload into grouped PresenceViewers and computes active/idle labels (120s window).",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/presence-users.ts"
+    },
+    {
+      "id": "file:ui/src/lib/session-viewer-presence.ts",
+      "type": "file",
+      "name": "session-viewer-presence.ts",
+      "summary": "Per-gateway watched-session viewer presence store sending sessions.viewers.set.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/session-viewer-presence.ts"
+    },
+    {
+      "id": "file:ui/src/app/gateway-store.ts",
+      "type": "file",
+      "name": "gateway-store.ts",
+      "summary": "Gateway store handling WS events including 'presence' and 'sessions.changed' profile-identity.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/app/gateway-store.ts"
+    },
+    {
+      "id": "file:ui/src/app/gateway-presence-activity.ts",
+      "type": "file",
+      "name": "gateway-presence-activity.ts",
+      "summary": "Requests presence.activity for per-person activity timing.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/app/gateway-presence-activity.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/chat-pane-sharing.ts",
+      "type": "file",
+      "name": "chat-pane-sharing.ts",
+      "summary": "Chat pane sharing/typing mixin: handleSessionTypingEvent and sendTypingState posting session.typing.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "type": "file",
+      "name": "chat-pane-sharing-actions.ts",
+      "summary": "Chat pane sharing actions: evidence load, public share set, copy link, visibility/member mutations.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing-actions.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "type": "file",
+      "name": "chat-pane-header.ts",
+      "summary": "Builds chat header props: owner chip gating, participant facepile, sharing menu state.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-header.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/chat-pane-lifecycle.ts",
+      "type": "file",
+      "name": "chat-pane-lifecycle.ts",
+      "summary": "Chat pane subscription loop routing session.typing, session.message, session.reaction, session.suggestion events.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-lifecycle.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/components/chat-session-sharing.ts",
+      "type": "file",
+      "name": "chat-session-sharing.ts",
+      "summary": "Sharing menu renderer: visibility items, public access enable/disable/copy, owner row, members search.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-session-sharing.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/components/chat-typing-indicator.ts",
+      "type": "file",
+      "name": "chat-typing-indicator.ts",
+      "summary": "Renders collaborator typing bubbles and overflow among active typists.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-typing-indicator.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/components/chat-pane-header.ts",
+      "type": "file",
+      "name": "chat-pane-header.ts",
+      "summary": "Chat header component rendering the owner chip plus participant facepile.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-pane-header.ts"
+    },
+    {
+      "id": "file:ui/src/pages/chat/components/chat-transcript-identity.ts",
+      "type": "file",
+      "name": "chat-transcript-identity.ts",
+      "summary": "Resolves transcript sender identity and participant memos including expanded history.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-transcript-identity.ts"
+    },
+    {
+      "id": "file:ui/src/pages/profile/model-accounts.ts",
+      "type": "file",
+      "name": "model-accounts.ts",
+      "summary": "ModelAccounts Lit element: users.listModelAccounts inventory, auth links, and authConnect wizard.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/profile/model-accounts.ts"
+    },
+    {
+      "id": "file:ui/src/pages/profile/model-accounts-section.ts",
+      "type": "file",
+      "name": "model-accounts-section.ts",
+      "summary": "Presentational section for connected model accounts.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/profile/model-accounts-section.ts"
+    },
+    {
+      "id": "file:ui/src/pages/profile/profile-page.ts",
+      "type": "file",
+      "name": "profile-page.ts",
+      "summary": "Profile page hosting the identity section and connected model accounts.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/profile/profile-page.ts"
+    },
+    {
+      "id": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "file",
+      "name": "core-descriptors.ts",
+      "summary": "Gateway method registry with scope and since-version for every RPC.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/methods/core-descriptors.ts"
+    },
+    {
+      "id": "file:src/gateway/server-methods/sessions-mutations.ts",
+      "type": "file",
+      "name": "sessions-mutations.ts",
+      "summary": "Gateway session mutation handlers including sessions.assignOwner with identified-caller and visibility checks.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/server-methods/sessions-mutations.ts"
+    },
+    {
+      "id": "file:src/gateway/model-account-connect.ts",
+      "type": "file",
+      "name": "model-account-connect.ts",
+      "summary": "Gateway model-account connect/link implementation backed by user-model-accounts state.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/gateway/model-account-connect.ts"
+    },
+    {
+      "id": "file:src/state/user-model-accounts.ts",
+      "type": "file",
+      "name": "user-model-accounts.ts",
+      "summary": "Identity-scoped SQLite state records for personal model accounts and auth links.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/state/user-model-accounts.ts"
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/MacGatewaySidebarPresence.swift",
+      "type": "file",
+      "name": "MacGatewaySidebarPresence.swift",
+      "summary": "macOS sidebar presence: consumes 'presence' event and recovers via system-presence.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/MacGatewaySidebarPresence.swift"
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "type": "file",
+      "name": "WebChatSwiftUI.swift",
+      "summary": "Native macOS chat window shell hosting native or embedded Control UI conversation.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift"
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/NativeConversationView.swift",
+      "type": "file",
+      "name": "NativeConversationView.swift",
+      "summary": "Embeds the Control UI web conversation via ControlUIDocumentHost.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/NativeConversationView.swift"
+    },
+    {
+      "id": "file:apps/macos/Sources/OpenClaw/PresenceReporter.swift",
+      "type": "file",
+      "name": "PresenceReporter.swift",
+      "summary": "Periodic macOS system-event presence beacons tagged system-presence-clear-last-input.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "apps/macos/Sources/OpenClaw/PresenceReporter.swift"
+    },
+    {
+      "id": "file:ui/src/pages/chat/chat-typing-presence.ts",
+      "type": "file",
+      "name": "chat-typing-presence.ts",
+      "summary": "Typing actor helpers reading sender identity from a session message payload.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-typing-presence.ts"
+    },
+    {
+      "id": "file:ui/src/lib/sessions/session-capability.ts",
+      "type": "file",
+      "name": "session-capability.ts",
+      "summary": "Session capability surface exposing assignOwner and other session mutations.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/sessions/session-capability.ts"
+    },
+    {
+      "id": "file:ui/src/i18n/locales/en.ts",
+      "type": "file",
+      "name": "en.ts",
+      "summary": "English i18n keys including sessionsView.createdBy/ownedBy/archivedBy and sharing labels.",
+      "tags": [
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/i18n/locales/en.ts"
+    },
+    {
+      "id": "function:ui/src/components/app-sidebar-session-ownership.ts:applySidebarSessionOwnerFilter",
+      "type": "function",
+      "name": "applySidebarSessionOwnerFilter",
+      "summary": "Returns filtered rows, ownerOptions, and ownershipVisibility.{filters,avatars}.",
+      "tags": [
+        "owner-filter"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-ownership.ts",
+      "lineRange": [
+        48,
+        101
+      ]
+    },
+    {
+      "id": "function:ui/src/components/session-owner-chip.ts:sessionSelfOwner",
+      "type": "function",
+      "name": "sessionSelfOwner",
+      "summary": "Builds the self SessionOwnerOption from the authenticated user.",
+      "tags": [
+        "owner-chip"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-chip.ts",
+      "lineRange": [
+        17,
+        29
+      ]
+    },
+    {
+      "id": "function:ui/src/components/session-owner-chip.ts:renderSessionOwnerChip",
+      "type": "function",
+      "name": "renderSessionOwnerChip",
+      "summary": "Renders openclaw-session-owner-chip with attribution and participants.",
+      "tags": [
+        "owner-chip"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-chip.ts",
+      "lineRange": [
+        31,
+        49
+      ]
+    },
+    {
+      "id": "function:ui/src/components/session-owner-chip.ts:sessionOwnerInitials",
+      "type": "function",
+      "name": "sessionOwnerInitials",
+      "summary": "Grapheme-safe initials for an owner label.",
+      "tags": [
+        "owner-chip"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-chip.ts",
+      "lineRange": [
+        51,
+        65
+      ]
+    },
+    {
+      "id": "function:ui/src/components/session-owner-chip.ts:renderSessionOwnerAvatar",
+      "type": "function",
+      "name": "renderSessionOwnerAvatar",
+      "summary": "Renders an owner avatar distinguishing agent vs profile identity.",
+      "tags": [
+        "owner-chip"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-chip.ts",
+      "lineRange": [
+        76,
+        105
+      ]
+    },
+    {
+      "id": "class:ui/src/components/session-owner-chip.ts:SessionOwnerChip",
+      "type": "class",
+      "name": "SessionOwnerChip",
+      "summary": "Light-DOM element choosing created/owned/archived attribution and stacking participants.",
+      "tags": [
+        "owner-chip"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-chip.ts",
+      "lineRange": [
+        113,
+        190
+      ]
+    },
+    {
+      "id": "class:ui/src/components/session-owner-menu.ts:SessionOwnerMenu",
+      "type": "class",
+      "name": "SessionOwnerMenu",
+      "summary": "Loads users.list and renders assignable owners including 'Assign to me'.",
+      "tags": [
+        "owner-menu"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-menu.ts",
+      "lineRange": [
+        30,
+        156
+      ]
+    },
+    {
+      "id": "function:ui/src/components/session-organizer-operations.runtime.ts:assignSessionOwner",
+      "type": "function",
+      "name": "assignSessionOwner",
+      "summary": "Checks operator.write then calls sessions.assignOwner via the capability.",
+      "tags": [
+        "owner-assign"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-organizer-operations.runtime.ts",
+      "lineRange": [
+        516,
+        541
+      ]
+    },
+    {
+      "id": "function:ui/src/lib/sessions/session-mutations.ts:assignOwner",
+      "type": "function",
+      "name": "assignOwner",
+      "summary": "Sends the sessions.assignOwner request and patches the local row owner.",
+      "tags": [
+        "owner-assign"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/sessions/session-mutations.ts",
+      "lineRange": [
+        521,
+        559
+      ]
+    },
+    {
+      "id": "function:ui/src/lib/sessions/grouping.ts:groupSidebarSessionRows",
+      "type": "function",
+      "name": "groupSidebarSessionRows",
+      "summary": "Partitions non-pinned rows into pinned/category/ungrouped/groups/work/catalog sections.",
+      "tags": [
+        "grouping"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/sessions/grouping.ts",
+      "lineRange": [
+        244,
+        345
+      ]
+    },
+    {
+      "id": "function:ui/src/lib/sessions/grouping.ts:normalizeSidebarSessionsGrouping",
+      "type": "function",
+      "name": "normalizeSidebarSessionsGrouping",
+      "summary": "Normalizes grouping to category|person|project|none.",
+      "tags": [
+        "grouping"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/sessions/grouping.ts",
+      "lineRange": [
+        199,
+        201
+      ]
+    },
+    {
+      "id": "function:ui/src/components/app-sidebar-session-filter-summary.ts:countSidebarSessionFilters",
+      "type": "function",
+      "name": "countSidebarSessionFilters",
+      "summary": "Counts only owner and status filters for the toolbar dot.",
+      "tags": [
+        "sidebar-filter"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-filter-summary.ts",
+      "lineRange": [
+        78,
+        83
+      ]
+    },
+    {
+      "id": "function:ui/src/components/app-sidebar-session-filter-summary.ts:renderSessionListToolbar",
+      "type": "function",
+      "name": "renderSessionListToolbar",
+      "summary": "Renders the Threads toolbar with filter summary and new-session link.",
+      "tags": [
+        "sidebar-filter"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/app-sidebar-session-filter-summary.ts",
+      "lineRange": [
+        108,
+        130
+      ]
+    },
+    {
+      "id": "class:ui/src/components/session-owner-filter-controller.ts:SessionOwnerFilterController",
+      "type": "class",
+      "name": "SessionOwnerFilterController",
+      "summary": "Stores and restores the owner/Involving-me filter and refreshes the roster.",
+      "tags": [
+        "owner-filter"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-owner-filter-controller.ts",
+      "lineRange": [
+        14,
+        114
+      ]
+    },
+    {
+      "id": "function:ui/src/lib/presence-users.ts:projectPresenceViewers",
+      "type": "function",
+      "name": "projectPresenceViewers",
+      "summary": "Filters/grouped presence users excluding self, hidden identities, and unwatched sessions.",
+      "tags": [
+        "presence"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/presence-users.ts",
+      "lineRange": [
+        104,
+        120
+      ]
+    },
+    {
+      "id": "function:ui/src/lib/presence-users.ts:presenceViewerActivity",
+      "type": "function",
+      "name": "presenceViewerActivity",
+      "summary": "Classifies a viewer as active/idle/unknown using the 120s window.",
+      "tags": [
+        "presence"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/lib/presence-users.ts",
+      "lineRange": [
+        52,
+        58
+      ]
+    },
+    {
+      "id": "class:ui/src/components/viewer-facepile.ts:ViewerFacepile",
+      "type": "class",
+      "name": "ViewerFacepile",
+      "summary": "Renders up to maxVisible presence avatars plus a +N overflow.",
+      "tags": [
+        "presence"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/viewer-facepile.ts",
+      "lineRange": [
+        131,
+        216
+      ]
+    },
+    {
+      "id": "class:ui/src/components/viewer-facepile.ts:ViewerAvatar",
+      "type": "class",
+      "name": "ViewerAvatar",
+      "summary": "Single presence viewer avatar that opts into viewer-id marking.",
+      "tags": [
+        "presence"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/viewer-facepile.ts",
+      "lineRange": [
+        46,
+        110
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-sharing.ts:handleSessionTypingEvent",
+      "type": "function",
+      "name": "handleSessionTypingEvent",
+      "summary": "Applies a session.typing event to local typing actors with draft lifecycle.",
+      "tags": [
+        "typing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing.ts",
+      "lineRange": [
+        424,
+        515
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-sharing.ts:sendTypingState",
+      "type": "function",
+      "name": "sendTypingState",
+      "summary": "Posts session.typing with an optional bounded draft preview.",
+      "tags": [
+        "typing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing.ts",
+      "lineRange": [
+        601,
+        645
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:setSessionPublicShare",
+      "type": "function",
+      "name": "setSessionPublicShare",
+      "summary": "Confirms then sends session.publicShare.set with expectedSessionId.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "lineRange": [
+        171,
+        248
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:loadSessionSharing",
+      "type": "function",
+      "name": "loadSessionSharing",
+      "summary": "Loads session.members.listEvidence into connection-scoped cache.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "lineRange": [
+        95,
+        149
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:copySessionPublicLink",
+      "type": "function",
+      "name": "copySessionPublicLink",
+      "summary": "Builds a Control UI session path and copies it to the clipboard.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "lineRange": [
+        250,
+        291
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:mutateSessionSharing",
+      "type": "function",
+      "name": "mutateSessionSharing",
+      "summary": "Dispatches session.visibility.set / session.members.add / remove.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "lineRange": [
+        308,
+        376
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/components/chat-session-sharing.ts:renderChatSessionSharing",
+      "type": "function",
+      "name": "renderChatSessionSharing",
+      "summary": "Renders the visibility/public/owner/members sharing menu.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-session-sharing.ts",
+      "lineRange": [
+        149,
+        404
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/components/chat-session-sharing.ts:canManageChatSessionSharing",
+      "type": "function",
+      "name": "canManageChatSessionSharing",
+      "summary": "Allows the sharing menu only for sharingRole admin or owner.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-session-sharing.ts",
+      "lineRange": [
+        127,
+        131
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/components/chat-session-sharing.ts:selectChatSessionSharingItem",
+      "type": "function",
+      "name": "selectChatSessionSharingItem",
+      "summary": "Interprets public:/visibility:/member: item values.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-session-sharing.ts",
+      "lineRange": [
+        85,
+        125
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/components/chat-typing-indicator.ts:renderChatTypingIndicator",
+      "type": "function",
+      "name": "renderChatTypingIndicator",
+      "summary": "Renders typing preview bubbles and an overflow summary.",
+      "tags": [
+        "typing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-typing-indicator.ts",
+      "lineRange": [
+        45,
+        175
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-typing-presence.ts:typingActorIdForSessionMessage",
+      "type": "function",
+      "name": "typingActorIdForSessionMessage",
+      "summary": "Extracts the authenticated profile id from a user-role session message.",
+      "tags": [
+        "typing"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-typing-presence.ts",
+      "lineRange": [
+        24,
+        40
+      ]
+    },
+    {
+      "id": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "type": "class",
+      "name": "ModelAccounts",
+      "summary": "Lists personal model accounts and drives the authConnect sign-in wizard.",
+      "tags": [
+        "model-accounts"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/profile/model-accounts.ts",
+      "lineRange": [
+        41,
+        494
+      ]
+    },
+    {
+      "id": "function:ui/src/pages/chat/chat-pane-header.ts:renderChatPaneHeader",
+      "type": "function",
+      "name": "renderChatPaneHeader",
+      "summary": "Header model: owner chip gating, participant facepile, sharing state.",
+      "tags": [
+        "chat-header"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/chat-pane-header.ts",
+      "lineRange": [
+        430,
+        563
+      ]
+    },
+    {
+      "id": "class:ui/src/components/session-organizer-controller.ts:SessionOrganizerController",
+      "type": "class",
+      "name": "SessionOrganizerController",
+      "summary": "Sidebar organizer controller routing mutations and assignSessionOwner.",
+      "tags": [
+        "sidebar-organizer"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/components/session-organizer-controller.ts",
+      "lineRange": [
+        42,
+        699
+      ]
+    },
+    {
+      "id": "concept:sidebar-owner-filter",
+      "type": "concept",
+      "name": "Sidebar owner filter",
+      "summary": "Projects the sidebar session tree to All owners / Involving me / a specific owner; visibility gate requires >=2 identities (avatars require 2 humans).",
+      "tags": [
+        "owner-filter",
+        "sidebar"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:sidebar-grouping",
+      "type": "concept",
+      "name": "Sidebar grouping",
+      "summary": "Group by category/person/project/none plus pinned, ungrouped, groups, work, and catalog sections; Sort by created/updated/people.",
+      "tags": [
+        "grouping",
+        "sidebar"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:owner-attribution",
+      "type": "concept",
+      "name": "Owner attribution layers",
+      "summary": "Creator (immutable createdActor), assignable owner (assignedAt), and participants; avatar tooltip switches Created by -> Owned by.",
+      "tags": [
+        "ownership"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:presence-roster",
+      "type": "concept",
+      "name": "Presence roster",
+      "summary": "Best-effort roster of connected clients merged from self entry, WS connect, system-event beacons, and node connects; TTL 5m, max 200.",
+      "tags": [
+        "presence"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:typing-indicator",
+      "type": "concept",
+      "name": "Typing indicator",
+      "summary": "Ephemeral collaborator typing driven by session.typing events; draft previews never persisted.",
+      "tags": [
+        "typing",
+        "presence"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:session-sharing",
+      "type": "concept",
+      "name": "Session sharing",
+      "summary": "Visibility (shared/read-only/suggest/draft), members, public link; gated by sharingRole admin/owner and operator.write.",
+      "tags": [
+        "sharing"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:public-link",
+      "type": "concept",
+      "name": "Public read-only link",
+      "summary": "session.publicShare.set enables world-readable access for an exact sessionId; copy rebuilds the Control UI session path.",
+      "tags": [
+        "sharing",
+        "public-link"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:model-accounts",
+      "type": "concept",
+      "name": "Per-person model accounts",
+      "summary": "Identity-scoped personal provider credentials linked to a Gateway profile; distinct from agent/system credentials.",
+      "tags": [
+        "model-accounts",
+        "identity"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:sidebar-visibility-gate",
+      "type": "concept",
+      "name": "Ownership visibility gate",
+      "summary": "All owner/presence chrome hides below 2 distinct human identities so single-user gateways look unchanged.",
+      "tags": [
+        "ownership",
+        "gating"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "concept:webchat-embed",
+      "type": "concept",
+      "name": "macOS WebChat embedding",
+      "summary": "Native macOS chat hosts the Control UI web document, so multi-user surfaces are the web ones.",
+      "tags": [
+        "macos",
+        "webchat"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "endpoint:gateway:sessions.assignOwner",
+      "type": "endpoint",
+      "name": "sessions.assignOwner",
+      "summary": "Gateway RPC sessions.assignOwner (scope operator.write). Assigns a session owner; requires identified caller and visibility.",
+      "tags": [
+        "owner-assign",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.list",
+      "type": "endpoint",
+      "name": "users.list",
+      "summary": "Gateway RPC users.list (scope operator.read). Directory of profiles for the assign-owner picker.",
+      "tags": [
+        "directory",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:session.members.listEvidence",
+      "type": "endpoint",
+      "name": "session.members.listEvidence",
+      "summary": "Gateway RPC session.members.listEvidence (scope operator.read). Membership + identities evidence for the sharing menu.",
+      "tags": [
+        "sharing",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:session.publicShare.set",
+      "type": "endpoint",
+      "name": "session.publicShare.set",
+      "summary": "Gateway RPC session.publicShare.set (scope operator.write). Enables/disables the public read-only link.",
+      "tags": [
+        "sharing",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:session.visibility.set",
+      "type": "endpoint",
+      "name": "session.visibility.set",
+      "summary": "Gateway RPC session.visibility.set (scope operator.write). Sets session visibility.",
+      "tags": [
+        "sharing",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:session.members.add",
+      "type": "endpoint",
+      "name": "session.members.add",
+      "summary": "Gateway RPC session.members.add (scope operator.write). Adds a session member.",
+      "tags": [
+        "sharing",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:session.members.remove",
+      "type": "endpoint",
+      "name": "session.members.remove",
+      "summary": "Gateway RPC session.members.remove (scope operator.write). Removes a session member.",
+      "tags": [
+        "sharing",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:session.typing",
+      "type": "endpoint",
+      "name": "session.typing",
+      "summary": "Gateway RPC session.typing (scope operator.write). Publishes collaborator typing and optional draft preview.",
+      "tags": [
+        "typing",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:sessions.viewers.set",
+      "type": "endpoint",
+      "name": "sessions.viewers.set",
+      "summary": "Gateway RPC sessions.viewers.set (scope operator.read). Declares watched session keys for viewer presence.",
+      "tags": [
+        "presence",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:system-presence",
+      "type": "endpoint",
+      "name": "system-presence",
+      "summary": "Gateway RPC system-presence (scope operator.read). Reads the presence roster snapshot.",
+      "tags": [
+        "presence",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:presence.query",
+      "type": "endpoint",
+      "name": "presence.query",
+      "summary": "Gateway RPC presence.query (scope operator.read). RPC read model for people/devices presence.",
+      "tags": [
+        "presence",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:presence.activity",
+      "type": "endpoint",
+      "name": "presence.activity",
+      "summary": "Gateway RPC presence.activity (scope operator.read). Observed activity timing for people cards.",
+      "tags": [
+        "presence",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.listModelAccounts",
+      "type": "endpoint",
+      "name": "users.listModelAccounts",
+      "summary": "Gateway RPC users.listModelAccounts (scope operator.read). Lists a profile's personal model accounts and links.",
+      "tags": [
+        "model-accounts",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.linkAuthProfile",
+      "type": "endpoint",
+      "name": "users.linkAuthProfile",
+      "summary": "Gateway RPC users.linkAuthProfile (scope operator.admin). Links an existing auth profile to a person.",
+      "tags": [
+        "model-accounts",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.unlinkAuthProfile",
+      "type": "endpoint",
+      "name": "users.unlinkAuthProfile",
+      "summary": "Gateway RPC users.unlinkAuthProfile (scope operator.write). Unlinks a personal auth profile.",
+      "tags": [
+        "model-accounts",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.selectModelAccount",
+      "type": "endpoint",
+      "name": "users.selectModelAccount",
+      "summary": "Gateway RPC users.selectModelAccount (scope operator.write). Selects the default personal account.",
+      "tags": [
+        "model-accounts",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.authConnect.start",
+      "type": "endpoint",
+      "name": "users.authConnect.start",
+      "summary": "Gateway RPC users.authConnect.start (scope operator.write). Starts a provider sign-in flow.",
+      "tags": [
+        "model-accounts",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:gateway:users.authConnect.status",
+      "type": "endpoint",
+      "name": "users.authConnect.status",
+      "summary": "Gateway RPC users.authConnect.status (scope operator.write). Polls a pending sign-in flow.",
+      "tags": [
+        "model-accounts",
+        "gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/web/control-ui/sessions-and-sidebar.md",
+      "type": "document",
+      "name": "Sessions and sidebar",
+      "summary": "Control UI doc describing sidebar zones, filter/sort panel, share flow, and Systems workspace.",
+      "tags": [
+        "docs",
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/web/control-ui/sessions-and-sidebar.md"
+    },
+    {
+      "id": "document:docs/concepts/presence.md",
+      "type": "document",
+      "name": "Presence",
+      "summary": "Presence producers, fields, TTL, and consumer surfaces (Devices page, macOS Instances).",
+      "tags": [
+        "docs",
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/concepts/presence.md"
+    },
+    {
+      "id": "document:docs/concepts/multi-user.md",
+      "type": "document",
+      "name": "Multi-user",
+      "summary": "Ownership layers, owner assignment contract, Involving me semantics, avatars, typing, and per-person model accounts.",
+      "tags": [
+        "docs",
+        "multi-user"
+      ],
+      "complexity": "moderate",
+      "filePath": "docs/concepts/multi-user.md"
+    },
+    {
+      "id": "function:ui/src/pages/chat/components/chat-pane-header.ts:renderChatPaneHeader",
+      "type": "function",
+      "name": "renderChatPaneHeader",
+      "summary": "Renders chat-pane header DOM: owner chip and participant facepile markup.",
+      "tags": [
+        "chat-header"
+      ],
+      "complexity": "moderate",
+      "filePath": "ui/src/pages/chat/components/chat-pane-header.ts",
+      "lineRange": [
+        349,
+        410
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:ui/src/components/app-sidebar-session-ownership.ts",
+      "target": "function:ui/src/components/app-sidebar-session-ownership.ts:applySidebarSessionOwnerFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-chip.ts",
+      "target": "function:ui/src/components/session-owner-chip.ts:sessionSelfOwner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-chip.ts",
+      "target": "function:ui/src/components/session-owner-chip.ts:renderSessionOwnerChip",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-chip.ts",
+      "target": "function:ui/src/components/session-owner-chip.ts:sessionOwnerInitials",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-chip.ts",
+      "target": "function:ui/src/components/session-owner-chip.ts:renderSessionOwnerAvatar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-chip.ts",
+      "target": "class:ui/src/components/session-owner-chip.ts:SessionOwnerChip",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-menu.ts",
+      "target": "class:ui/src/components/session-owner-menu.ts:SessionOwnerMenu",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-organizer-operations.runtime.ts",
+      "target": "function:ui/src/components/session-organizer-operations.runtime.ts:assignSessionOwner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/lib/sessions/session-mutations.ts",
+      "target": "function:ui/src/lib/sessions/session-mutations.ts:assignOwner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/lib/sessions/grouping.ts",
+      "target": "function:ui/src/lib/sessions/grouping.ts:groupSidebarSessionRows",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/lib/sessions/grouping.ts",
+      "target": "function:ui/src/lib/sessions/grouping.ts:normalizeSidebarSessionsGrouping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-filter-summary.ts",
+      "target": "function:ui/src/components/app-sidebar-session-filter-summary.ts:countSidebarSessionFilters",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-filter-summary.ts",
+      "target": "function:ui/src/components/app-sidebar-session-filter-summary.ts:renderSessionListToolbar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-owner-filter-controller.ts",
+      "target": "class:ui/src/components/session-owner-filter-controller.ts:SessionOwnerFilterController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/lib/presence-users.ts",
+      "target": "function:ui/src/lib/presence-users.ts:projectPresenceViewers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/lib/presence-users.ts",
+      "target": "function:ui/src/lib/presence-users.ts:presenceViewerActivity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/viewer-facepile.ts",
+      "target": "class:ui/src/components/viewer-facepile.ts:ViewerFacepile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/viewer-facepile.ts",
+      "target": "class:ui/src/components/viewer-facepile.ts:ViewerAvatar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-sharing.ts:handleSessionTypingEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-sharing.ts:sendTypingState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:setSessionPublicShare",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:loadSessionSharing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:copySessionPublicLink",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:mutateSessionSharing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-session-sharing.ts",
+      "target": "function:ui/src/pages/chat/components/chat-session-sharing.ts:renderChatSessionSharing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-session-sharing.ts",
+      "target": "function:ui/src/pages/chat/components/chat-session-sharing.ts:canManageChatSessionSharing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-session-sharing.ts",
+      "target": "function:ui/src/pages/chat/components/chat-session-sharing.ts:selectChatSessionSharingItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-typing-indicator.ts",
+      "target": "function:ui/src/pages/chat/components/chat-typing-indicator.ts:renderChatTypingIndicator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-typing-presence.ts",
+      "target": "function:ui/src/pages/chat/chat-typing-presence.ts:typingActorIdForSessionMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/profile/model-accounts.ts",
+      "target": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "target": "function:ui/src/pages/chat/chat-pane-header.ts:renderChatPaneHeader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/session-organizer-controller.ts",
+      "target": "class:ui/src/components/session-organizer-controller.ts:SessionOrganizerController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-ownership.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/session-owner-menu.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/session-menu-actions.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/sidebar-menus-render.ts",
+      "target": "file:ui/src/components/session-organizer-controller.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/session-organizer-controller.ts",
+      "target": "file:ui/src/components/session-organizer-operations.runtime.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/session-organizer-operations.runtime.ts",
+      "target": "file:ui/src/lib/sessions/session-mutations.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/session-organizer-operations.runtime.ts",
+      "target": "file:ui/src/lib/sessions/session-capability.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-menu-renderers.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-menu-renderers.ts",
+      "target": "file:ui/src/lib/sessions/grouping.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-menu-renderers.ts",
+      "target": "file:ui/src/components/app-sidebar-session-filter-summary.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-ownership.ts",
+      "target": "file:ui/src/lib/sessions/grouping.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-ownership.ts",
+      "target": "file:ui/src/components/app-sidebar-session-types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/session-owner-filter-controller.ts",
+      "target": "file:ui/src/components/app-sidebar-session-types.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-filter-summary.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-row-render.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-pane-header.ts",
+      "target": "file:ui/src/components/viewer-facepile.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-pane-header.ts",
+      "target": "file:ui/src/components/session-owner-chip.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "target": "file:ui/src/pages/chat/components/chat-pane-header.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "target": "file:ui/src/pages/chat/components/chat-session-sharing.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "target": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "target": "file:ui/src/lib/presence-users.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-sharing-actions.ts",
+      "target": "file:ui/src/pages/chat/components/chat-session-sharing.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-lifecycle.ts",
+      "target": "file:ui/src/pages/chat/chat-pane-sharing.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-typing-presence.ts",
+      "target": "file:ui/src/pages/chat/components/chat-typing-indicator.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/components/viewer-facepile.ts",
+      "target": "file:ui/src/lib/presence-users.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/lib/session-viewer-presence.ts",
+      "target": "file:ui/src/app/gateway-store.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/app/gateway-presence-activity.ts",
+      "target": "file:ui/src/app/gateway-store.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/profile/profile-page.ts",
+      "target": "file:ui/src/pages/profile/model-accounts.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ui/src/pages/profile/model-accounts.ts",
+      "target": "file:ui/src/pages/profile/model-accounts-section.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/gateway/server-methods/sessions-mutations.ts",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/gateway/model-account-connect.ts",
+      "target": "file:src/state/user-model-accounts.ts",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "target": "file:apps/macos/Sources/OpenClaw/NativeConversationView.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "target": "file:apps/macos/Sources/OpenClaw/MacGatewaySidebarPresence.swift",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "class:ui/src/components/session-owner-menu.ts:SessionOwnerMenu",
+      "target": "endpoint:gateway:users.list",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/components/session-organizer-operations.runtime.ts:assignSessionOwner",
+      "target": "endpoint:gateway:sessions.assignOwner",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/lib/sessions/session-mutations.ts:assignOwner",
+      "target": "endpoint:gateway:sessions.assignOwner",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:loadSessionSharing",
+      "target": "endpoint:gateway:session.members.listEvidence",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:setSessionPublicShare",
+      "target": "endpoint:gateway:session.publicShare.set",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:mutateSessionSharing",
+      "target": "endpoint:gateway:session.visibility.set",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:mutateSessionSharing",
+      "target": "endpoint:gateway:session.members.add",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-sharing-actions.ts:mutateSessionSharing",
+      "target": "endpoint:gateway:session.members.remove",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-sharing.ts:sendTypingState",
+      "target": "endpoint:gateway:session.typing",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "endpoint:gateway:users.listModelAccounts",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "endpoint:gateway:users.linkAuthProfile",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "endpoint:gateway:users.unlinkAuthProfile",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "endpoint:gateway:users.selectModelAccount",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "endpoint:gateway:users.authConnect.start",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "endpoint:gateway:users.authConnect.status",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ui/src/components/app-sidebar-session-ownership.ts:applySidebarSessionOwnerFilter",
+      "target": "concept:sidebar-owner-filter",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:ui/src/lib/sessions/grouping.ts:groupSidebarSessionRows",
+      "target": "concept:sidebar-grouping",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:ui/src/components/session-owner-chip.ts:SessionOwnerChip",
+      "target": "concept:owner-attribution",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:ui/src/pages/chat/components/chat-typing-indicator.ts:renderChatTypingIndicator",
+      "target": "concept:typing-indicator",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:ui/src/pages/chat/components/chat-session-sharing.ts:renderChatSessionSharing",
+      "target": "concept:session-sharing",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:ui/src/pages/profile/model-accounts.ts:ModelAccounts",
+      "target": "concept:model-accounts",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:ui/src/pages/chat/components/chat-pane-header.ts:renderChatPaneHeader",
+      "target": "concept:owner-attribution",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "function:ui/src/pages/chat/chat-pane-header.ts:renderChatPaneHeader",
+      "target": "concept:session-sharing",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "class:ui/src/components/session-owner-menu.ts:SessionOwnerMenu",
+      "target": "concept:owner-attribution",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:sessions.assignOwner",
+      "target": "file:src/gateway/server-methods/sessions-mutations.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.list",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:session.members.listEvidence",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:session.publicShare.set",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:session.visibility.set",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:session.members.add",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:session.members.remove",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:session.typing",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:sessions.viewers.set",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:system-presence",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:presence.query",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:presence.activity",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.listModelAccounts",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.linkAuthProfile",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.unlinkAuthProfile",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.selectModelAccount",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.authConnect.start",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.authConnect.status",
+      "target": "file:src/gateway/methods/core-descriptors.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.listModelAccounts",
+      "target": "file:src/gateway/model-account-connect.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "endpoint:gateway:users.authConnect.start",
+      "target": "file:src/gateway/model-account-connect.ts",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/model-account-connect.ts",
+      "target": "endpoint:gateway:users.linkAuthProfile",
+      "type": "serves",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/gateway/methods/core-descriptors.ts",
+      "target": "endpoint:gateway:sessions.assignOwner",
+      "type": "provisions",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-lifecycle.ts",
+      "target": "endpoint:gateway:session.typing",
+      "type": "subscribes",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/app/gateway-store.ts",
+      "target": "concept:presence-roster",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/lib/session-viewer-presence.ts",
+      "target": "endpoint:gateway:sessions.viewers.set",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ui/src/app/gateway-presence-activity.ts",
+      "target": "endpoint:gateway:presence.activity",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MacGatewaySidebarPresence.swift",
+      "target": "endpoint:gateway:system-presence",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/MacGatewaySidebarPresence.swift",
+      "target": "concept:presence-roster",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/WebChatSwiftUI.swift",
+      "target": "concept:webchat-embed",
+      "type": "exemplifies",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/NativeConversationView.swift",
+      "target": "concept:webchat-embed",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:apps/macos/Sources/OpenClaw/PresenceReporter.swift",
+      "target": "concept:presence-roster",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-types.ts",
+      "target": "concept:sidebar-grouping",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-typing-presence.ts",
+      "target": "concept:typing-indicator",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/lib/sessions/session-capability.ts",
+      "target": "endpoint:gateway:sessions.assignOwner",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ui/src/i18n/locales/en.ts",
+      "target": "concept:owner-attribution",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/components/app-sidebar-session-filter-summary.ts",
+      "target": "concept:sidebar-owner-filter",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/components/viewer-facepile.ts",
+      "target": "concept:presence-roster",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/lib/presence-users.ts",
+      "target": "concept:presence-roster",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/chat/chat-pane-header.ts",
+      "target": "concept:owner-attribution",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/profile/model-accounts-section.ts",
+      "target": "concept:model-accounts",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/profile/profile-page.ts",
+      "target": "concept:model-accounts",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:src/state/user-model-accounts.ts",
+      "target": "concept:model-accounts",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:docs/web/control-ui/sessions-and-sidebar.md",
+      "target": "concept:sidebar-owner-filter",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/web/control-ui/sessions-and-sidebar.md",
+      "target": "concept:sidebar-grouping",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/web/control-ui/sessions-and-sidebar.md",
+      "target": "concept:session-sharing",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/web/control-ui/sessions-and-sidebar.md",
+      "target": "concept:public-link",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/presence.md",
+      "target": "concept:presence-roster",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/presence.md",
+      "target": "concept:typing-indicator",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/multi-user.md",
+      "target": "concept:owner-attribution",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/multi-user.md",
+      "target": "concept:sidebar-owner-filter",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/multi-user.md",
+      "target": "concept:model-accounts",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/multi-user.md",
+      "target": "concept:session-sharing",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/concepts/multi-user.md",
+      "target": "concept:typing-indicator",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:owner-attribution",
+      "target": "concept:sidebar-owner-filter",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "concept:sidebar-owner-filter",
+      "target": "concept:sidebar-visibility-gate",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "concept:public-link",
+      "target": "concept:session-sharing",
+      "type": "instance_of",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:typing-indicator",
+      "target": "concept:presence-roster",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:webchat-embed",
+      "target": "concept:session-sharing",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:model-accounts",
+      "target": "concept:owner-attribution",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:owner-attribution",
+      "target": "concept:session-sharing",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "concept:sidebar-grouping",
+      "target": "concept:sidebar-owner-filter",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-pane-header.ts",
+      "target": "function:ui/src/pages/chat/components/chat-pane-header.ts:renderChatPaneHeader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-transcript-identity.ts",
+      "target": "concept:owner-attribution",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:ui/src/pages/chat/components/chat-transcript-identity.ts",
+      "target": "file:ui/src/pages/chat/chat-typing-presence.ts",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

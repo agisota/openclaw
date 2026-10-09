@@ -1,0 +1,718 @@
+{
+  "source": "port-analysis/verification/mac-gateway-rox.json",
+  "verified_against": {
+    "openclaw": "b0c330d27df4a528f65185cc3e509284d1b218d9",
+    "rox_one": "/Users/t/Projects/rox-one"
+  },
+  "date": "2026-10-09",
+  "docs": [
+    {
+      "doc": "port-analysis/areas/e1-macos-lifecycle.md",
+      "checks": [
+        {
+          "claim": "LaunchAgent label default `ai.openclaw.gateway`, profile form `ai.openclaw.<profile>`, overridable by OPENCLAW_LAUNCHD_LABEL and validated against [A-Za-z0-9._-]+",
+          "cite": "src/daemon/constants.ts:51-57; src/daemon/launchd-label.ts:5-18",
+          "verdict": "SUPPORTED",
+          "evidence": "constants.ts:56 `return `ai.openclaw.${normalized}`;` and :54 returns GATEWAY_LAUNCH_AGENT_LABEL; launchd-label.ts:14 reads env.OPENCLAW_LAUNCHD_LABEL, :7 tests /^[A-Za-z0-9._-]+$/ and throws 'Invalid launchd label'."
+        },
+        {
+          "claim": "Per-user plist location is ~/Library/LaunchAgents/<label>.plist",
+          "cite": "src/daemon/launchd-service-files.ts:42-48",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-service-files.ts:42 `export function resolveLaunchAgentPlistPathForLabel(` builds the LaunchAgents path for the label (used by resolveLaunchAgentPlistPath :187-190)."
+        },
+        {
+          "claim": "LAUNCH_AGENT_POLICY = RunAtLoad:true, KeepAlive:true, ExitTimeOut, ProcessType:Interactive, ThrottleInterval:10, Umask:0o077, StandardInPath:/dev/null",
+          "cite": "src/daemon/launchd-plist.ts:20-28",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-plist.ts:21-27 exactly RunAtLoad:true, KeepAlive:true, ExitTimeOut:LAUNCH_AGENT_EXIT_TIMEOUT_SECONDS, ProcessType:'Interactive', ThrottleInterval:10, Umask:0o077, StandardInPath:'/dev/null'."
+        },
+        {
+          "claim": "buildLaunchAgentPlist emits Label/policy/ProgramArguments/StandardOutPath/StandardErrorPath/env dict",
+          "cite": "src/daemon/launchd-plist.ts:326-363",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-plist.ts:336-341 signature; :353-362 serializes LAUNCH_AGENT_POLICY into <key>/<xml> entries including boolean `<true/>`."
+        },
+        {
+          "claim": "StandardOutPath and StandardErrorPath both point at one file because darwin diagnostics reads only stdout",
+          "cite": "src/daemon/launchd-service-files.ts:442-445",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-service-files.ts:442-444 comment 'Both handles target one file: launchd cannot merge streams, and darwin diagnostics reads only stdout' with `stderrPath: stdoutPath,`."
+        },
+        {
+          "claim": "Env file is owner-only 0600 and wrapper 0700, wrapper is `#!/bin/sh`, validates header and exits 78 on tamper, ProgramArguments = ['/bin/sh', wrapper, envFile, …cmd]",
+          "cite": "src/daemon/launchd-service-files.ts:86-184",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-service-files.ts:37 `LAUNCH_AGENT_ENV_FILE_MODE = 0o600;` :38 `..._WRAPPER_MODE = 0o700;`; :90-91 echo + `exit 78`; :98 `[ \"$env_header\" = '${LAUNCH_AGENT_ENV_FILE_HEADER}' ] || invalid_env`; :184 `return [LAUNCH_AGENT_ENV_WRAPPER_SHELL, wrapperPath, envFilePath, ...programArguments];`."
+        },
+        {
+          "claim": "An explicit empty NODE_OPTIONS may be written to block inherited supervisor preload/heap flags",
+          "cite": "src/daemon/launchd-plist.ts:200-204",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-plist.ts:200 comment 'An explicit empty NODE_OPTIONS blocks inherited supervisor preload/heap flags.'; :201-202 filter keeps `key === 'NODE_OPTIONS'` even when value trims to empty."
+        },
+        {
+          "claim": "resolveLaunchAgentGuiDomain = gui/<uid>; bootstrapLaunchAgentOrThrow targets gui/<uid>; unsupported GUI domain (SSH/headless) yields 'requires a logged-in macOS GUI session'",
+          "cite": "src/daemon/launchd-runtime.ts:300-305, :307-320, :322",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-runtime.ts:304 `return `gui/${process.getuid()}`;`; :314 message 'LaunchAgent ... requires a logged-in macOS GUI session for this user'; :322 `export async function bootstrapLaunchAgentOrThrow(`."
+        },
+        {
+          "claim": "assertExternalLaunchAgentMutation refuses install/uninstall from inside the service",
+          "cite": "src/daemon/launchd-install.ts:87-103",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-install.ts:87 signature `assertExternalLaunchAgentMutation(env, action:'install'|'uninstall')`; :97-100 throws `Refusing to ${action} LaunchAgent ... from inside ${label}; run this command from an external shell.`"
+        },
+        {
+          "claim": "assertNoSystemLaunchDaemonOwnership refuses a label owned by /Library/LaunchDaemons; invoked at launchd-service-files.ts:370-372",
+          "cite": "src/daemon/launchd-system.ts:22; src/daemon/launchd-service-files.ts:370-372",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-system.ts:22 `const SYSTEM_LAUNCH_DAEMON_DIR = \"/Library/LaunchDaemons\";`; launchd-service-files.ts:370 `beforeRename: () => assertNoSystemLaunchDaemonOwnership(params.label),` and :372 re-asserts after publish."
+        },
+        {
+          "claim": "Launchd uninstall boots out the agent then moves the plist to ~/.Trash",
+          "cite": "src/daemon/launchd-install.ts:32-79",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-install.ts:36 assertExternalLaunchAgentMutation; :42 `execLaunchctl([\"bootout\", domain, plistPath])`; :59 `trashDir = path.posix.join(home, \".Trash\")`; :63 `fs.rename(plistPath, dest)`; :64 'Moved LaunchAgent to Trash'."
+        },
+        {
+          "claim": "gateway service commands registered via addGatewayServiceCommands with stop --disable persisting KeepAlive/RunAtLoad suppression",
+          "cite": "src/cli/daemon-cli/register-service-commands.ts:77, :152-162",
+          "verdict": "SUPPORTED",
+          "evidence": "register-service-commands.ts:77 `export function addGatewayServiceCommands(parent, opts?)`; :153 `.command(\"stop\")`; :158-160 `--disable` description 'Persistently suppress KeepAlive/RunAtLoad so the gateway does not respawn until next start (launchd only)'."
+        },
+        {
+          "claim": "Legacy cleanup recognizes legacy systemd names like clawdbot-gateway and removes only recognized units; node label ai.openclaw.node excluded from the foreign-job scan",
+          "cite": "src/daemon/constants.ts:35; src/commands/doctor-gateway-legacy-services.ts:23-30; src/daemon/launchd-foreign-jobs.ts:51-61",
+          "verdict": "SUPPORTED",
+          "evidence": "constants.ts:35 `LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES = [\"clawdbot-gateway\"]`; doctor-gateway-legacy-services.ts:25-27 pushes failures when the linux unit name is not in that list; launchd-foreign-jobs.ts:53-59 candidate regex ^ai\\.openclaw\\..+$ excluding resolveNodeLaunchAgentLabel()."
+        },
+        {
+          "claim": "Update channels are stable|extended-stable|beta|dev; channelToNpmTag maps stable→latest, others to their own dist-tag",
+          "cite": "src/infra/update-channels.ts:7-50",
+          "verdict": "SUPPORTED",
+          "evidence": "update-channels.ts:7 `UPDATE_CHANNELS = [\"stable\",\"extended-stable\",\"beta\",\"dev\"]`; :46-49 returns channel for extended-stable/beta/dev else 'latest'."
+        },
+        {
+          "claim": "checkOnStart scheduler bails when cfg.update.checkOnStart===false or OPENCLAW_NO_AUTO_UPDATE, only auto-applies when not externally supervised",
+          "cite": "src/infra/update-startup.ts:268-288",
+          "verdict": "SUPPORTED",
+          "evidence": "update-startup.ts:277 `isTruthyEnvValue(process.env.OPENCLAW_NO_AUTO_UPDATE)`; :278 `if (cfg.update?.checkOnStart === false || autoDisabledByEnv) { ... return; }`; :288 `isGatewayExternallySupervised()`."
+        },
+        {
+          "claim": "Detached launchd restart handoff waits for the caller PID before touching launchd, then bootout+bootstrap / kickstart fallback",
+          "cite": "src/daemon/launchd-restart-handoff.ts:29-215",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-restart-handoff.ts:34-35 comment 'The detached shell waits for the caller before touching launchd'; :42-45 `if [ -n \"$wait_pid\" ] ... while kill -0 \"$wait_pid\" ... sleep 0.1`."
+        },
+        {
+          "claim": "State dir is $OPENCLAW_STATE_DIR else ~/.openclaw with profile suffix; config openclaw.json",
+          "cite": "src/daemon/paths.ts:37-48; src/config/paths.ts:35",
+          "verdict": "SUPPORTED",
+          "evidence": "paths.ts:38-41 OPENCLAW_STATE_DIR override with ~ expansion; :44-47 `path.join(home, `.openclaw${suffix}`)`; config/paths.ts:35 `const CONFIG_FILENAME = \"openclaw.json\";`."
+        },
+        {
+          "claim": "Supervisor (launchd) stdout/stderr logs go to ~/Library/Logs/openclaw/gateway[-profile].log",
+          "cite": "src/daemon/restart-logs.ts:37-49",
+          "verdict": "SUPPORTED",
+          "evidence": "restart-logs.ts:40 `path.posix.join(home, \"Library\", \"Logs\", \"openclaw\")`; :42-43 prefix `gateway${resolveGatewayProfileSuffix(env.OPENCLAW_PROFILE)}`; :46 stdout `<prefix>.log`."
+        },
+        {
+          "claim": "State-dir CLI/audit logs are logs/gateway.log and gateway-restart.log",
+          "cite": "src/daemon/restart-logs.ts:26-53",
+          "verdict": "SUPPORTED",
+          "evidence": "restart-logs.ts:32 stdoutPath `<prefix>.log`; stderrPath is `<prefix>.err.log` (:33) — the doc named the stderr file loosely; restart log is a separate GATEWAY_RESTART_LOG_FILENAME at :51-52. Content holds; range should extend to :53.",
+          "correction": "stderr file is `gateway.err.log`, not a second `gateway-restart.log`; restart log constant is at restart-logs.ts:51-53."
+        },
+        {
+          "claim": "Onboard install-daemon tri-state flags (--install-daemon/--no-install-daemon/--skip-daemon, skip wins) plus --daemon-runtime, and installDaemon rides on OnboardOptions forcing classic wizard",
+          "cite": "src/cli/program/register.onboard.ts:14-23, :161-164; src/commands/onboard-types.ts:95; src/commands/onboard.ts:408-418",
+          "verdict": "SUPPORTED",
+          "evidence": "register.onboard.ts:16-17 'Explicit --skip-daemon wins' returns false; :161-164 declare the three flags + `--daemon-runtime <runtime>`; onboard-types.ts:95 `installDaemon?: boolean;`; onboard.ts:412 `if (opts.installDaemon !== undefined || ...) return true`."
+        },
+        {
+          "claim": "setup.finalize decides install: explicit flag, else Linux-without-systemd=false, else quickstart=true, else prompt",
+          "cite": "src/wizard/setup.finalize.ts:252-266",
+          "verdict": "SUPPORTED",
+          "evidence": "setup.finalize.ts:255-265 exactly that branch chain (explicitInstallDaemon, linuxWithoutUserSystemd→false, flow==='quickstart'→true, else prompter.confirm)."
+        },
+        {
+          "claim": "ensureDashboardGatewayReady calls runDaemonInstall when no service, else runDaemonStart",
+          "cite": "src/commands/gateway-readiness.ts:118-141",
+          "verdict": "SUPPORTED",
+          "evidence": "gateway-readiness.ts:135-140 `if (shouldInstall) { runDaemonInstall(...) } else { runDaemonStart(...) }` with shouldInstall from !gatewayServiceIsInstalled (:118)."
+        },
+        {
+          "claim": "LAUNCH_AGENT_ENV_WRAPPER_SHELL = '/bin/sh' and env-file header text",
+          "cite": "src/daemon/launchd-plist.ts:29; src/daemon/launchd-service-files.ts:40",
+          "verdict": "SUPPORTED",
+          "evidence": "launchd-plist.ts:29 `export const LAUNCH_AGENT_ENV_WRAPPER_SHELL = \"/bin/sh\";`; launchd-service-files.ts:40 defines LAUNCH_AGENT_ENV_FILE_HEADER used at :98 and :80 for validation/generation."
+        }
+      ],
+      "summary": {
+        "supported": 23,
+        "refuted": 0,
+        "unclear": 0
+      }
+    },
+    {
+      "doc": "port-analysis/areas/e2-macos-app.md",
+      "checks": [
+        {
+          "claim": "Entry point is `@main enum OpenClawProcessMain` which routes maintenance commands through OpenClawProcessEntrypoint.run then calls OpenClawApp.main()",
+          "cite": "apps/macos/Sources/OpenClaw/MenuBar.swift:18, :30",
+          "verdict": "SUPPORTED",
+          "evidence": "MenuBar.swift:10-11 `@main enum OpenClawProcessMain {`; :13 `OpenClawProcessEntrypoint.run(arguments:...)`; :21 `OpenClawApp.main()`; :28 `enum OpenClawProcessEntrypoint`; :30 CloudWorkerHost, :33 ElevationExclusiveRename.",
+          "correction": "`@main` enum is at MenuBar.swift:10-11 (cited :18 is inside the crash-handler closure); OpenClawApp.main() is :21."
+        },
+        {
+          "claim": "`struct OpenClawApp: App` installs @NSApplicationDelegateAdaptor and declares exactly one Settings scene + .commands groups",
+          "cite": "MenuBar.swift:44, :70, :95, :99",
+          "verdict": "SUPPORTED",
+          "evidence": "MenuBar.swift:44 `struct OpenClawApp: App {`; :46 `@NSApplicationDelegateAdaptor(AppDelegate.self)`; :95 `return Settings {`; :99 `.commands {`."
+        },
+        {
+          "claim": "App keeps running with no windows (applicationShouldTerminateAfterLastWindowClosed → false)",
+          "cite": "MenuBar.swift:284",
+          "verdict": "SUPPORTED",
+          "evidence": "MenuBar.swift:284-286 `func applicationShouldTerminateAfterLastWindowClosed(...) -> Bool { false }`."
+        },
+        {
+          "claim": "applicationDidFinishLaunching is composition root: admits primary launch, starts connectivity/dock/status, applies ConnectionModeCoordinator, boots node runtime, starts interactive services",
+          "cite": "MenuBar.swift:314, :324, :342, :355, :356-368",
+          "verdict": "SUPPORTED",
+          "evidence": "MenuBar.swift:314 GatewayEndpointStore.admitPrimaryAppLaunch(); :316 GatewayConnectivityCoordinator.shared.start(); :324 StatusMenuController(state:,updater:); :342 ConnectionModeCoordinator.shared.apply(...); :355 MacNodeModeCoordinator.shared.start()."
+        },
+        {
+          "claim": "applicationWillTerminate stops those services and closes Dashboard/WebChat; applicationShouldTerminate does bounded async cleanup",
+          "cite": "MenuBar.swift:401, :426, :439",
+          "verdict": "SUPPORTED",
+          "evidence": "MenuBar.swift:401 `func applicationWillTerminate` stops NodePairingApprovalPrompter/MacControlServer/MacNodeModeCoordinator then :416-417 DashboardManager/WebChatManager.close(); :426 `applicationShouldTerminate` -> .terminateLater; :439 terminationCleanupTask."
+        },
+        {
+          "claim": "Status item: StatusMenuController owns NSStatusItem created with NSStatusBar.system.statusItem(withLength: .squareLength)",
+          "cite": "StatusMenuController.swift:9, :60",
+          "verdict": "SUPPORTED",
+          "evidence": "StatusMenuController.swift:58 `NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)`; :59-60 stores item and installButton(in:). (cited :9 is the `updater` property, not the status item).",
+          "correction": "NSStatusItem creation is at StatusMenuController.swift:58, not :9/:60."
+        },
+        {
+          "claim": "AppNavigationActions.openDashboard routes to WebChatManager when nativeExperienceEnabled else DashboardManager; switching logic is experienceDidChange",
+          "cite": "AppNavigationActions.swift:8, :20",
+          "verdict": "SUPPORTED",
+          "evidence": "AppNavigationActions.swift:15-18 `if AppStateStore.shared.nativeExperienceEnabled { self.openGateway(...) } else { DashboardManager.shared.presentDashboard(...) }`; :22 `static func experienceDidChange(nativeEnabled: Bool)`."
+        },
+        {
+          "claim": "Discovery is Bonjour + wide-area DNS-SD in OpenClawDiscovery; GatewayDiscoveryModel runs an NWBrowser and uses NetService resolution for host/port+TXT; WideAreaGatewayDiscovery queries _openclaw-gw._tcp",
+          "cite": "GatewayDiscoveryModel.swift:81, :476; WideAreaGatewayDiscovery.swift:55, :64",
+          "verdict": "SUPPORTED",
+          "evidence": "WideAreaGatewayDiscovery.swift:55 digs `_openclaw-gw._tcp.` PTR; :64 builds suffix '._openclaw-gw._tcp.'. GatewayDiscoveryModel.swift:79 `private let browserSession = GatewayDiscoveryBrowserSession()` and :248 pattern-matches NWBrowser.Result; :476 uses BonjourServiceResolver.",
+          "correction": "`GatewayDiscoveryModel.swift:81` is resultsByDomain state; the browse session is :79 and NWBrowser.Result handling :245-248."
+        },
+        {
+          "claim": "GatewayDiscoveryHelpers.directUrl ignores unauthenticated TXT hints and builds wss:// or loopback/trusted-plaintext ws:// from the resolved SRV+A/AAAA endpoint",
+          "cite": "GatewayDiscoveryHelpers.swift:26, :39",
+          "verdict": "SUPPORTED",
+          "evidence": "GatewayDiscoveryHelpers.swift:31-32 comment 'do not route using unauthenticated TXT hints (tailnetDns/lanHost/gatewayPort). Prefer the resolved service endpoint (SRV + A/AAAA).'; :38-44 scheme wss / (isLoopbackHost || isTrustedPlaintextRemoteHost) ws else nil.",
+          "correction": "file lives in `apps/macos/Sources/OpenClaw/`, not the OpenClawDiscovery module."
+        },
+        {
+          "claim": "ConnectionModeResolver.resolve prefers gateway.mode config, then remote URL, then UserDefaults, then onboarding → .unconfigured; ConnectionModeCoordinator.apply starts/stops local gateway, node LaunchAgent, remote tunnel per mode",
+          "cite": "ConnectionModeResolver.swift:15; ConnectionModeCoordinator.swift:30, :63, :92",
+          "verdict": "SUPPORTED",
+          "evidence": "ConnectionModeResolver.swift:20-30 reads gateway[`mode`] first, returning .configMode; ConnectionModeCoordinator.swift:30 `func apply(mode:, paused:)`; :62 ControlChannel.shared.disconnect(); :79 NodeServiceManager.start(); :84 ensureRemoteControlTunnel()."
+        },
+        {
+          "claim": "actor GatewayChannelActor is the wire client in OpenClawKit doing connect/connect.challenge/device-auth, keepalive, watchdog, tick, backoff, request/response demux",
+          "cite": "apps/shared/OpenClawKit/Sources/OpenClawKit/GatewayChannel.swift:9, :38, :56",
+          "verdict": "SUPPORTED",
+          "evidence": "GatewayChannel.swift:10 `public actor GatewayChannelActor {`; :40 backoffMs; :62 connectChallengeTimeoutSeconds; :65 keepaliveIntervalSeconds; :66-68 watchdogTask/tickTask/keepaliveTask; :24 pending map for request demux. (`:9` is a typealias line — declaration is :10).",
+          "correction": "actor declaration is GatewayChannel.swift:10 (not :9)."
+        },
+        {
+          "claim": "Transport abstracted by WebSocketSessioning / WebSocketSessionBox, defaulting to URLSessionWebSocketTask",
+          "cite": "GatewayWebSocketTransport.swift:152, :179",
+          "verdict": "SUPPORTED",
+          "evidence": "GatewayWebSocketTransport.swift:152 `public protocol WebSocketSessioning`; :166 `extension URLSession: WebSocketSessioning` using :172 `self.webSocketTask(with: request)`; :179 `public struct WebSocketSessionBox`."
+        },
+        {
+          "claim": "Node side is a separate WS client: actor GatewayNodeSession handles node.invoke bridge requests answered with BridgeInvokeRequest/BridgeInvokeResponse",
+          "cite": "GatewayNodeSession.swift:49; BridgeFrames.swift:3, :34",
+          "verdict": "SUPPORTED",
+          "evidence": "GatewayNodeSession.swift:49 `public actor GatewayNodeSession {`; BridgeFrames.swift:3 `public struct BridgeInvokeRequest` (type default 'invoke' at :14); :34 `public struct BridgeInvokeResponse`."
+        },
+        {
+          "claim": "App connects role node with clientId 'openclaw-macos', clientMode 'node'; advertisedPermissions drops .unknown and emits {capability: granted}",
+          "cite": "NodeMode/MacNodeModeCoordinator.swift:559, :568, :1208",
+          "verdict": "SUPPORTED",
+          "evidence": "MacNodeModeCoordinator.swift:559 `role: \"node\",`, :569 `clientId: \"openclaw-macos\",`, :570 `clientMode: \"node\",`; :1208-1215 advertisedPermissions skips status==.unknown and returns `(capability.rawValue, status == .granted)`."
+        },
+        {
+          "claim": "resolvedCaps always adds canvas+screen, conditionally camera, computer (only Computer Control enabled AND provider Peekaboo), location, remote-only Codex/Claude catalogs; resolvedCommands adds canvas.present/hide/navigate",
+          "cite": "NodeMode/MacNodeModeCoordinator.swift:1219, :1229, :1235, :1238, :1250",
+          "verdict": "SUPPORTED",
+          "evidence": "MacNodeModeCoordinator.swift:1229-1230 canvas+screen; :1232 camera; :1235 `if computerControlEnabled, computerControlProvider == .peekaboo`; :1238 location; :1241-1245 remote-only catalogs; :1255-1257 canvas.present/hide/navigate."
+        },
+        {
+          "claim": "IPC Capability enum = notifications, accessibility, screenRecording, microphone, speechRecognition, camera, location; node OpenClawCapability includes canvas/camera/screen/computer/location…",
+          "cite": "apps/macos/Sources/OpenClawIPC/IPC.swift:6; OpenClawKit/Capabilities.swift:3",
+          "verdict": "SUPPORTED",
+          "evidence": "IPC.swift:6-13 exactly those 7 cases; Capabilities.swift:3-19 enumerates canvas,browser,camera,screen,computer,voiceWake,talk,location,device,watch,photos,contacts,calendar,reminders,motion,health."
+        },
+        {
+          "claim": "PermissionManager.ensure switches per capability and prompts when interactive AND the launch plan allows activation; accessibility via AXIsProcessTrustedWithOptions(['AXTrustedCheckOptionPrompt': true]); screen recording via PermissionsService; camera/mic via AVCaptureDevice.requestAccess",
+          "cite": "PermissionManager.swift:61, :62, :112, :121, :128",
+          "verdict": "SUPPORTED",
+          "evidence": "PermissionManager.swift:61 `ensure(_ caps:, interactive:)`; :62-65 gated on AppLaunchRuntimePlan.current.allowsActivation; :114 `let opts: NSDictionary = [\"AXTrustedCheckOptionPrompt\": true]`; :123 requestScreenRecordingPermission(); :139 `AVCaptureDevice.requestAccess(for: mediaType)`."
+        },
+        {
+          "claim": "DeviceSettingsPermissions maps CapabilityAuthorizationStatus.notGranted → .notDetermined because macOS binary checks cannot distinguish denial from first-request",
+          "cite": "DeviceSettingsPermissions.swift:30",
+          "verdict": "SUPPORTED",
+          "evidence": "DeviceSettingsPermissions.swift:28-30 comment 'Binary macOS checks cannot distinguish a denial from an unrequested grant' with `case .notGranted: self = .notDetermined`."
+        },
+        {
+          "claim": "Node host service NodeServiceManager.start/stop/restart manages the ai.openclaw.<profile>.node LaunchAgent",
+          "cite": "NodeServiceManager.swift:4, :12, :16",
+          "verdict": "REFUTED",
+          "evidence": "NodeServiceManager.swift:8-9 appends `Library/LaunchAgents/\\(nodeLaunchdLabel).plist`; Constants.swift:10 `let nodeLaunchdLabel = \"ai.openclaw.node\"` — a fixed constant with no profile interpolation (contrast gatewayLaunchdLabel at :5-7, which uses AppProfile.current).",
+          "correction": "The node host LaunchAgent label is the fixed `ai.openclaw.node`; there is no `ai.openclaw.<profile>.node` form."
+        },
+        {
+          "claim": "GatewayLaunchAgentManager.set(enabled:port:...) refuses when remote/disable-launchagent marker, captures ServiceAuthority, dispatches daemon command; enable runs install --force --port <p> (+--allow-unconfigured, runtime pin), disable runs uninstall",
+          "cite": "GatewayLaunchAgentManager.swift:192, :109, :316, :285",
+          "verdict": "SUPPORTED",
+          "evidence": "GatewayLaunchAgentManager.swift:109 isLaunchAgentWriteDisabled() checks the disable marker; :192 `static func set(enabled:, port:, allowUnconfigured:, ...)`; :316 installArguments(...); :285 runs ['uninstall']."
+        },
+        {
+          "claim": "Runtime pin key = 'daemon-runtime-pin:' + SHA256([\"gateway\",\"darwin\",label,configPath])",
+          "cite": "GatewayLaunchAgentManager+RuntimePin.swift:6, :9",
+          "verdict": "SUPPORTED",
+          "evidence": "RuntimePin.swift:6 runtimePinKey; :8 `const scope = [\"gateway\", \"darwin\", profile.gatewayLaunchAgentLabel, configPath]`; :11 `return \"daemon-runtime-pin:\" + hash;`."
+        },
+        {
+          "claim": "Resume retains service command intent under resumeCommandKey = 'gatewayNodeResumeCommand'; retainedServiceIntent re-validates executable is node/bun inside the state dir; credentials are not in the record",
+          "cite": "GatewayLaunchAgentManager+ServiceResume.swift:5, :7, :28, :44, :16",
+          "verdict": "SUPPORTED",
+          "evidence": "ServiceResume.swift:4 `static let resumeCommandKey = \"gatewayNodeResumeCommand\"`; :16 comment 'Credentials remain in core's private service environment file, which uninstall retains.'; :44 `[\"node\", \"bun\"].contains(...)`; :45 isWithinState check.",
+          "correction": "resumeCommandKey is declared at ServiceResume.swift:4, not :5."
+        },
+        {
+          "claim": "ServiceAuthority holds SHA-256 ServiceDefinitionDigests of plist+env+wrapper; currentError() refuses to dispatch if any changed",
+          "cite": "GatewayLaunchAgentManager+ServiceAuthority.swift:7, :15, :36",
+          "verdict": "SUPPORTED",
+          "evidence": "ServiceAuthority.swift:10 `private(set) var definition: ServiceDefinitionDigest`; :14-18 currentError() compares a fresh digest and returns 'The Gateway service changed before dispatch; retry.'; :36 SHA256.hash over service file bytes."
+        },
+        {
+          "claim": "LaunchAgentManager writes ~/Library/LaunchAgents/ai.openclaw.mac.plist with ProgramArguments [<bundle>/Contents/MacOS/OpenClaw], RunAtLoad true, PATH+config/state env and launchd stdout/stderr paths",
+          "cite": "LaunchAgentManager.swift:6, :148, :157, :160",
+          "verdict": "SUPPORTED",
+          "evidence": "LaunchAgentManager.swift:11 `Library/LaunchAgents/ai.openclaw.mac.plist`; :157 `\"Label\": \"ai.openclaw.mac\"`; :158 ProgramArguments [bundle/Contents/MacOS/OpenClaw]; :160 RunAtLoad true; :162-163 stdout/stderr LogLocator.launchdLogPath."
+        },
+        {
+          "claim": "SparkleUpdaterController wraps SPUStandardUpdaterController behind UpdaterProviding; allowedSparkleChannels returns ['beta'] for beta/dev, ['extended-stable'] for extended-stable else []; bestValidUpdate filters items so extended-stable never leaves its train; PostAppUpdateReceiptStore.record writes a receipt on install",
+          "cite": "AppLifecycleSupport.swift:74, :93, :111, :212, :233, :254",
+          "verdict": "SUPPORTED",
+          "evidence": "AppLifecycleSupport.swift:74 protocol UpdaterProviding; :93 DisabledUpdaterController; :111 SparkleUpdaterController wrapping SPUStandardUpdaterController (:112); :212-220 allowedSparkleChannels mapping; :233-253 bestValidUpdate; :256-259 willInstallUpdate -> PostAppUpdateReceiptStore.record."
+        },
+        {
+          "claim": "MacControlServer runs a LocalSocketServer at ~/.openclaw[.<profile>]/mac-control.sock with a 0600 token file; each JSONL request is a MacControlEnvelope authenticated by peer-UID (getpeereid) + nonce + ms timestamp + HMAC-SHA256 and a 15s TTL",
+          "cite": "MacControlServer.swift:34, :10, :59, :100",
+          "verdict": "SUPPORTED",
+          "evidence": "MacControlServer.swift:47-49 LocalSocketServer with MacControlCredentials.socketFilename; :59 createIfMissing(tokenURL); :100 `getpeereid(fd, &uid, &gid) == 0, uid == geteuid()`; :10 authenticate(); :28 nonce expiry `ts/1000 + 15`."
+        },
+        {
+          "claim": "MLX TTS helper protocol is length-framed JSON over stdio with MLXTTSFrameCodec.maximumPayloadSize = 64 MiB",
+          "cite": "apps/shared/OpenClawMLXTTSProtocol/.../MLXTTSProtocol.swift:3, :166, :246",
+          "verdict": "SUPPORTED",
+          "evidence": "MLXTTSProtocol.swift:3 `public enum MLXTTSRequest: Codable, Equatable, Sendable`; :166 `public enum MLXTTSEvent`; :246 `public static let maximumPayloadSize = 64 * 1024 * 1024` inside MLXTTSFrameCodec; helper main.swift:29 `let protocolFD = dup(STDOUT_FILENO)`; apps/macos-mlx-tts/Package.swift declares the separate package."
+        }
+      ],
+      "summary": {
+        "supported": 26,
+        "refuted": 1,
+        "unclear": 0
+      }
+    },
+    {
+      "doc": "port-analysis/areas/f-substrate-gateway.md",
+      "checks": [
+        {
+          "claim": "Entry point lazily imports the full server then acquires an exclusive gateway state lock (listenerMode 'foreground'); startup resolves SQLite state path and asserts owner access",
+          "cite": "src/gateway/server.ts:24, :33-36, :44-46",
+          "verdict": "SUPPORTED",
+          "evidence": "server.ts:24 `export async function startGatewayServer(`; :33-36 `const { acquireGatewayLock } = await import(\"../infra/gateway-lock.js\"); ... await acquireGatewayLock({ port, listenerMode: \"foreground\" })`; :44-45 resolveOpenClawStateSqlitePath() + assertDatabaseAccess."
+        },
+        {
+          "claim": "Defaults: port 18789 in both server.ts and server-kernel.ts, and DEFAULT_GATEWAY_PORT=18789",
+          "cite": "src/gateway/server.ts:25; src/gateway/server-kernel.ts:113; src/config/paths.ts:297",
+          "verdict": "SUPPORTED",
+          "evidence": "server.ts:25 `port = 18789,`; server-kernel.ts:113 `port = 18789,`; config/paths.ts:297 `export const DEFAULT_GATEWAY_PORT = 18789;`."
+        },
+        {
+          "claim": "Bind host resolution: loopback→127.0.0.1; auto/tailnet prefer loopback and fall back to 0.0.0.0; Tailscale serve/funnel hard-requires loopback",
+          "cite": "src/gateway/net.ts:247-254, :264-266, :293-297",
+          "verdict": "SUPPORTED",
+          "evidence": "net.ts:253-254 loopback returns '127.0.0.1'; :265-266 tailnet/auto fallback returns canBind('127.0.0.1')?'127.0.0.1':'0.0.0.0'; :293-297 defaultGatewayBindMode returns 'loopback' when tailscaleMode!=off."
+        },
+        {
+          "claim": "Startup refuses non-loopback bind without shared secret or trusted-proxy auth, and refuses Tailscale serve/funnel on non-loopback bind",
+          "cite": "src/gateway/server-runtime-config.ts:101-108",
+          "verdict": "SUPPORTED",
+          "evidence": "server-runtime-config.ts:101-104 throws 'tailscale serve/funnel requires gateway bind=loopback (127.0.0.1)'; :106-109 throws 'refusing to bind gateway to <host>:<port> without auth'."
+        },
+        {
+          "claim": "HTTP listen is a single httpServer.listen(port, bindHost) with EADDRINUSE retry",
+          "cite": "src/gateway/server/http-listen.ts:52",
+          "verdict": "SUPPORTED",
+          "evidence": "http-listen.ts:52 `httpServer.listen(port, bindHost);` inside try/catch with once('error') handler for retry."
+        },
+        {
+          "claim": "Auth result methods are token|password|trusted-proxy|none plus device-token/bootstrap-token; ambiguous token+password without gateway.auth.mode is rejected",
+          "cite": "src/gateway/auth.ts:39-44; src/gateway/auth-mode-policy.ts:10",
+          "verdict": "SUPPORTED",
+          "evidence": "auth.ts:38-44 union includes 'none','token','password','tailscale','device-token','bootstrap-token','trusted-proxy'; auth-mode-policy.ts:8 error 'token and gateway.auth.password are both configured, but gateway.auth.mode is unset'."
+        },
+        {
+          "claim": "trusted-proxy satisfies auth from request headers; mode 'none' disables shared-secret auth; SecretRef for gateway.auth.password is forbidden at startup because the secrets provider has not initialised",
+          "cite": "src/gateway/auth.ts:350, :441, :472, :157",
+          "verdict": "SUPPORTED",
+          "evidence": "auth.ts:350 `if (auth.mode === \"trusted-proxy\")`; :441 trusted-proxy attribution required for user identity; :472 `if (auth.mode === \"none\")`; :157 throws the bootstrap-secret ordering error."
+        },
+        {
+          "claim": "WS upgrade routing attaches to the HTTP server and branches by path: worker ingress, plugin node-capability routes, desktop observe/audio, node desktop/portal attach, then core Gateway control; passes preauth budget and wss.handleUpgrade",
+          "cite": "src/gateway/server-http-upgrades.ts:154, :194, :227, :291, :365, :388, :405, :121, :136",
+          "verdict": "SUPPORTED",
+          "evidence": "server-http-upgrades.ts:154 attachGatewayUpgradeHandler; :194 httpServer.on('upgrade'); :227 worker route; :291 nodeCapability; :365 '/desktop/observe'|'/desktop/audio'; :388 NODE_DESKTOP/PORTAL_ATTACH_PATH; :405 handleBudgetedGatewayWebSocketUpgrade; :121 preauthConnectionBudget.acquire; :136 wss.handleUpgrade."
+        },
+        {
+          "claim": "attachGatewayWsConnectionHandler hooks the wss 'connection' event",
+          "cite": "src/gateway/server/ws-connection.ts:36, :38",
+          "verdict": "SUPPORTED",
+          "evidence": "ws-connection.ts:36 export attachGatewayWsConnectionHandler; :38 `params.wss.on(\"connection\", (socket, upgradeReq) => {`."
+        },
+        {
+          "claim": "First frame must be connect; the Gateway sends a pre-connect connect.challenge event with nonce + ts",
+          "cite": "src/gateway/server/connection.ts:327-334; docs/gateway/protocol/handshake.md:16",
+          "verdict": "SUPPORTED",
+          "evidence": "connection.ts:328-332 sends `{type:\"event\", event:\"connect.challenge\", payload:{nonce, ts}}`; handshake.md:16 'Gateway sends a pre-connect challenge'."
+        },
+        {
+          "claim": "Frame shapes: req {type,id,method,params,traceparent?,expectedProfileId?}, res {type,id,ok,payload|error}, event {type,event,payload,seq?,stateVersion?,recipientProfileId?}; GatewayFrameSchema is a discriminated union",
+          "cite": "packages/gateway-protocol/src/schema/frames.ts:187, :196, :205, :217; docs/gateway/protocol/transport.md:58-60",
+          "verdict": "SUPPORTED",
+          "evidence": "frames.ts:187-194 RequestFrameSchema; :196-202 ResponseFrameSchema; :205-212 EventFrameSchema; :217-220 `Type.Union([...], { discriminator: \"type\" })`."
+        },
+        {
+          "claim": "hello-ok returns protocol, server, features, snapshot, auth, policy (maxPayload/maxBufferedBytes/tickIntervalMs/attachments)",
+          "cite": "packages/gateway-protocol/src/schema/frames.ts:94; docs/gateway/protocol/handshake.md:74-90",
+          "verdict": "SUPPORTED",
+          "evidence": "frames.ts:94-96 HelloOkSchema with `type: Literal('hello-ok')` and protocol; handshake.md:75-88 shows server/features/snapshot/auth/policy with maxPayload 26214400, maxBufferedBytes 52428800, tickIntervalMs 15000, attachments."
+        },
+        {
+          "claim": "PROTOCOL_VERSION=4, MIN_CLIENT_PROTOCOL_VERSION=4, MIN_NODE_PROTOCOL_VERSION=3, MIN_PROBE_PROTOCOL_VERSION=3; node N-1 window withholds plugin node capabilities until upgrade",
+          "cite": "packages/gateway-protocol/src/version.ts:2-8; docs/gateway/protocol/versioning.md:23-28",
+          "verdict": "SUPPORTED",
+          "evidence": "version.ts:2-8 exactly those four constants; versioning.md:23-28 N-1 node protocol v3 and plugin capability withholding."
+        },
+        {
+          "claim": "Limits: MAX_PAYLOAD_BYTES = 25 MiB, MAX_BUFFERED_BYTES = 50 MiB, MAX_PREAUTH_PAYLOAD_BYTES = 64 KiB, TICK_INTERVAL_MS = 30_000, DEDUPE_TTL_MS = 5 min",
+          "cite": "src/gateway/server-constants.ts:3-16",
+          "verdict": "SUPPORTED",
+          "evidence": "server-constants.ts:3 25*1024*1024, :4 50*1024*1024, :5 64*1024, :14 TICK_INTERVAL_MS=30_000, :16 DEDUPE_TTL_MS=5*60_000.",
+          "correction": "doc cited :2-14; DEDUPE_TTL_MS is on :16."
+        },
+        {
+          "claim": "Method dispatch in createGatewayAuthenticatedRequestDispatcher logs req, checks scope/authority and calls the registry handler",
+          "cite": "src/gateway/server/ws-connection/authenticated-request-dispatch.ts:63, :109",
+          "verdict": "SUPPORTED",
+          "evidence": "authenticated-request-dispatch.ts:63 export createGatewayAuthenticatedRequestDispatcher; :109 `const dispatch = async (` with typed client/authority handling incl. isGatewayAuthPolicyCurrent invalidation."
+        },
+        {
+          "claim": "Method registry normalizes descriptors, rejects duplicate names, exposes getHandler/listMethods/listAdvertisedMethods/getScope; plugin-owned methods pass namespace policy so plugins cannot weaken protected core prefixes",
+          "cite": "src/gateway/methods/registry.ts:22-36, :73-95; docs/gateway/protocol/handshake.md:352",
+          "verdict": "SUPPORTED",
+          "evidence": "registry.ts:27-34 comment 'Plugin-owned methods pass through the plugin namespace policy so plugins cannot weaken protected core-looking method names'; :82-84 throws 'gateway method already registered'; :89-95 getHandler/listMethods/listAdvertisedMethods/getScope."
+        },
+        {
+          "claim": "SecretRefSchema is a discriminated union on source = env | file | exec, and SecretInputSchema accepts a plain string or a SecretRef",
+          "cite": "src/config/zod-schema.secret-input.ts:22-57",
+          "verdict": "REFUTED",
+          "evidence": "zod-schema.secret-input.ts:22-54 `z.discriminatedUnion(\"source\", [...])` contains FOUR branches: createSecretRefSchema('env'), ('file'), ('exec') AND ('store') at :45-53. :57 SecretInputSchema = z.union([z.string(), SecretRefSchema]).",
+          "correction": "SecretRef sources are `env | file | exec | store` — the doc omits `store`."
+        },
+        {
+          "claim": "Config parsed with json5.parse, includes resolved, env substitution applied, validated with plugins; missing config materializes runtime defaults",
+          "cite": "src/config/io.load.ts:110-119, :84-108",
+          "verdict": "SUPPORTED",
+          "evidence": "io.load.ts:114 `const parsed = deps.json5.parse(raw);`; :115-119 resolveConfigForRead(resolveConfigIncludesForRead(...)); :110-113 sync/async read."
+        },
+        {
+          "claim": "Hot reload: startGatewayConfigReloader watches the authored config hash and applies a reload plan; invalid reloads are skipped",
+          "cite": "src/gateway/config-reload.ts:92-108; docs/gateway/configuration.md:74",
+          "verdict": "SUPPORTED",
+          "evidence": "config-reload.ts:92 export startGatewayConfigReloader; :102-108 tracks currentRawHash/lastObservedRawHash/authored config fingerprint."
+        },
+        {
+          "claim": "Session keys canonicalized as agent:<agentId>:<...>, main session agent:<agentId>:main, DEFAULT_AGENT_ID='main', buildAgentSessionKey resolves store key",
+          "cite": "src/routing/session-key.ts:46-47; src/routing/resolve-route.ts:99",
+          "verdict": "SUPPORTED",
+          "evidence": "session-key.ts:46 `export const DEFAULT_AGENT_ID = LEGACY_IMPLICIT_AGENT_ID;` (LEGACY_IMPLICIT_AGENT_ID='main' :44); :47 re-exports buildAgentMainSessionKey; resolve-route.ts:99 `export function buildAgentSessionKey(params:`."
+        },
+        {
+          "claim": "Session store is a per-agent sessions.json beside per-session transcript files (resolveDefaultSessionStorePath)",
+          "cite": "src/config/sessions/paths.ts:57-58",
+          "verdict": "SUPPORTED",
+          "evidence": "paths.ts:57-58 `resolveDefaultSessionStorePath(agentId)` returns `path.join(resolveSessionTranscriptsDirForAgent(agentId), \"sessions.json\")` (transcript dir agents/<id>/sessions at :54)."
+        },
+        {
+          "claim": "Runs serialize through per-session and global lanes; orchestrator binds enqueueGlobal/enqueueSession and queues the embedded run",
+          "cite": "src/agents/embedded-agent-runner/run-orchestrator.ts:106, :194, :713",
+          "verdict": "SUPPORTED",
+          "evidence": "run-orchestrator.ts:106 `export function runEmbeddedAgent(`; :194 `const { enqueueGlobal, enqueueSession, noteLaneTaskProgress, throwIfAborted } = laneController;`; :713 `return enqueueSession(() =>`."
+        },
+        {
+          "claim": "Gateway RPC agent returns immediately and agent.wait waits for terminal outcome; agentHandlers map agent->agentRunHandler and 'agent.wait'->agentWaitHandler",
+          "cite": "src/gateway/server-methods/agent.ts:19, :63-65",
+          "verdict": "SUPPORTED",
+          "evidence": "agent.ts:19 `const agentWaitHandler: GatewayRequestHandlers[\"agent.wait\"]`; :63-65 `export const agentHandlers = { agent: agentRunHandler, \"agent.wait\": agentWaitHandler }`."
+        },
+        {
+          "claim": "Shared state DB is SQLite at <stateDir>/state/openclaw.sqlite with a quarantine DB beside it",
+          "cite": "src/state/openclaw-state-db.paths.ts:34-46",
+          "verdict": "SUPPORTED",
+          "evidence": "openclaw-state-db.paths.ts:34-35 `path.join(resolveStateDir(env), \"state\", \"openclaw.sqlite\")`; :45-46 resolveQuarantineStorePath -> openclaw-quarantine.sqlite."
+        },
+        {
+          "claim": "GatewayScheduler is the single host-timer owner; beginClose() closes admission and cancels wakes, stop() joins callbacks",
+          "cite": "src/infra/gateway-scheduler.ts:67, :204, :216",
+          "verdict": "SUPPORTED",
+          "evidence": "gateway-scheduler.ts:67 class GatewayScheduler; :204-214 beginClose aborts controller/cancels timers/jobs; :216-219 `async stop() { this.beginClose(); await Promise.all(this.pending); }`."
+        },
+        {
+          "claim": "NodeRegistry tracks nodesById and pendingInvokes",
+          "cite": "src/gateway/node-registry.ts:175, :179",
+          "verdict": "SUPPORTED",
+          "evidence": "node-registry.ts:175 `export class NodeRegistry`; :176 `private nodesById = new Map<string, PairingBoundNodeSession>();`; :179 `private pendingInvokes = new Map<string, PendingInvoke>();`."
+        },
+        {
+          "claim": "Gateway events include connect.challenge, agent, chat, models.snapshot, session.*, presence, tick, talk.*, shutdown, gateway.suspension; update/device events in events.ts",
+          "cite": "src/gateway/server-methods-list.ts:34; src/gateway/events.ts:8-16",
+          "verdict": "SUPPORTED",
+          "evidence": "server-methods-list.ts:34-60 GATEWAY_EVENTS includes connect.challenge/agent/chat/models.snapshot/session.*/presence/tick/talk.mode|event|voice.change/shutdown/gateway.suspension; events.ts:8 device.pair.changed, :12 update.available, :15 update.run.changed."
+        },
+        {
+          "claim": "Operator scopes include read|write|admin|approvals|questions|pairing|talk|talk.secrets plus sessions.read|write",
+          "cite": "src/gateway/operator-scopes.ts:1-10",
+          "verdict": "SUPPORTED",
+          "evidence": "operator-scopes.ts:1-10 declare ADMIN/READ/WRITE/SESSION_READ/SESSION_WRITE/APPROVALS/QUESTIONS/PAIRING/TALK/TALK_SECRETS scopes."
+        },
+        {
+          "claim": "Client package: GatewayClient facade over GatewayProtocolClient with default 30s request timeout and reconnect policy",
+          "cite": "packages/gateway-client/src/client.ts:241; packages/gateway-client/src/protocol-client.ts:45",
+          "verdict": "SUPPORTED",
+          "evidence": "client.ts:241 `export class GatewayClient`; protocol-client.ts:45 `export class GatewayProtocolClient<TPlan>` documented (:42-43) as owning socket/handshake/reconnect/frame state machine."
+        }
+      ],
+      "summary": {
+        "supported": 28,
+        "refuted": 1,
+        "unclear": 0
+      }
+    },
+    {
+      "doc": "port-analysis/areas/g-rox-target-surface.md",
+      "checks": [
+        {
+          "claim": "Preload builds renderer API from a single method→channel map CHANNEL_MAP mapping ElectronAPI method names to RPC_CHANNELS entries, and buildClientApi turns each entry into invoke/listener; dotted keys become nested namespaces",
+          "cite": "apps/electron/src/transport/channel-map.ts:19; apps/electron/src/transport/build-api.ts:26, :64-79",
+          "verdict": "SUPPORTED",
+          "evidence": "channel-map.ts:19 `export const CHANNEL_MAP = {` with invoke(RPC_CHANNELS.workspaceWork.READ) etc.; build-api.ts:26 `export function buildClientApi(`; :36-42 listener/invoke wrappers; :65-70 dot split into nested namespaces; :76-79 attach."
+        },
+        {
+          "claim": "Errors are re-shaped not thrown as Error because contextBridge copies Errors by message only and drops code/data; pinned by tests/lark-suite-extension/bridge-errors.test.ts",
+          "cite": "apps/electron/src/transport/build-api.ts:44-58",
+          "verdict": "SUPPORTED",
+          "evidence": "build-api.ts:44-51 comment 'Electron's contextBridge rebuilds native Errors from `message` alone ... `code`/`data` ... Do NOT replace ... tests/lark-suite-extension/bridge-errors.test.ts pins this shape.'; :52-57 throws a plain object {code,message,data}."
+        },
+        {
+          "claim": "Preload wires transports and exposes a merged proxy; workspace id/port resolved via sendSync('__get-ws-port'); buildClientApi(client, CHANNEL_MAP, …)",
+          "cite": "apps/electron/src/preload/bootstrap.ts:20, :128, :241",
+          "verdict": "SUPPORTED",
+          "evidence": "bootstrap.ts:20 `import { contextBridge, ipcRenderer, shell, webUtils } from 'electron'`; :128 `const wsPort: number = ipcRenderer.sendSync('__get-ws-port')`; :241 `const api = buildClientApi(client, CHANNEL_MAP, (ch) => client.isChannelAvailable(ch))`."
+        },
+        {
+          "claim": "Channel names are the contract: RPC_CHANNELS (packages/shared/src/protocol/channels.ts:6) and typed push events map [RPC_CHANNELS.sessions.EVENT]: [event: SessionEvent]",
+          "cite": "packages/shared/src/protocol/channels.ts:6; packages/shared/src/protocol/events.ts:56",
+          "verdict": "SUPPORTED",
+          "evidence": "channels.ts:6 `export const RPC_CHANNELS = {`; events.ts:56 `[RPC_CHANNELS.sessions.EVENT]: [event: SessionEvent]`."
+        },
+        {
+          "claim": "Routing is exhaustive and CI-enforced: LOCAL_ONLY_CHANNELS vs REMOTE_ELIGIBLE_CHANNELS; RoutedClient picks local vs workspace client per channel",
+          "cite": "packages/shared/src/protocol/routing.ts:17, :498; apps/electron/src/transport/routed-client.ts:104-111",
+          "verdict": "SUPPORTED",
+          "evidence": "routing.ts:2-8 comment 'Every RPC channel must belong to exactly one of two sets ... An exhaustiveness test ensures new channels fail CI until classified.'; :17 LOCAL_ONLY_CHANNELS; :498 REMOTE_ELIGIBLE_CHANNELS; routed-client.ts:110-111 `const isLocal = isLocalOnly(channel); const target = isLocal ? this.localClient : this.workspaceClient`."
+        },
+        {
+          "claim": "lint:ipc-sends rule in package.json, part of lint; script forbids raw webContents|sender|window.send( in main/preload outside a small allowlist, scans with ripgrep and fails with 'Route new IPC through the typed transport/event sink'",
+          "cite": "package.json:67, :81; scripts/check-raw-sends.sh:7, :13-32, :47, :52-53",
+          "verdict": "SUPPORTED",
+          "evidence": "package.json:67 `\"lint:ipc-sends\": \"bash scripts/check-raw-sends.sh\"`; :81 lint chains it; check-raw-sends.sh:7 pattern `(webContents|sender|window)\\.send\\(`; :19-29 allowlist cases; :47 the error text; :52-53 `rg -n --glob '*.ts' ... apps/electron/src/main apps/electron/src/preload`."
+        },
+        {
+          "claim": "packages/server/src/index.ts is the standalone headless server entry owned by Bun (#! sequencer); env contract includes CRAFT_SERVER_TOKEN, CRAFT_RPC_PORT (default 9100), TLS and CRAFT_WEBUI_DIR; boots via bootstrapServer; registers RPC handlers with registerCoreRpcHandlers",
+          "cite": "packages/server/src/index.ts:1, :3-29, :36, :50",
+          "verdict": "SUPPORTED",
+          "evidence": "index.ts:1 `#!/usr/bin/env bun`; :9 CRAFT_SERVER_TOKEN; :11 `CRAFT_RPC_PORT — bind port (default: 9100)`; :12-14 TLS; :20 CRAFT_WEBUI_DIR; :36 `import { bootstrapServer, ... }`; :50 registerCoreRpcHandlers."
+        },
+        {
+          "claim": "Transport: WsRpcServer re-exported through apps/electron/src/transport/server.ts; WsRpcServer implements RpcServer and attaches a WebSocketServer to HTTPS or plain HTTP with upgrade/cookie validation",
+          "cite": "apps/electron/src/transport/server.ts:1; packages/server-core/src/transport/server.ts:197, :198, :617, :633, :855",
+          "verdict": "SUPPORTED",
+          "evidence": "server.ts:1 `export { WsRpcServer, ... } from '@rox/server-core/transport'`; transport/server.ts:197 `export class WsRpcServer implements RpcServer`; :198 wss field; :617 HTTPS -> new WebSocketServer; :633 HTTP; :855 validateSessionCookie path."
+        },
+        {
+          "claim": "Client side is WsRpcClient implements RpcClient with auto-reconnect + exponential backoff and a synthetic __transport:reconnected event",
+          "cite": "packages/server-core/src/transport/client.ts:124, :39-45, :100, :300",
+          "verdict": "SUPPORTED",
+          "evidence": "client.ts:6 comment 'automatic reconnection with exponential backoff'; :124 `export class WsRpcClient implements RpcClient`; :135 reconnectAttempt; :183 maxReconnectDelay default 30_000; :300-301 emitReconnected() pushes '__transport:reconnected'.",
+          "correction": "`:39-45` are TransportConnectionStatus type aliases and `:100` the autoReconnect option; the backoff implementation lives at client.ts:135-184 and :310-343."
+        },
+        {
+          "claim": "Interface contract: RpcServer/RpcClient/RequestContext/RpcHandlerOptions; handlers opt into access: 'localElectron' | 'nativeOrLocalElectron' | 'authenticatedWorkspace'",
+          "cite": "packages/server-core/src/transport/types.ts:66, :85, :28, :46, :47",
+          "verdict": "SUPPORTED",
+          "evidence": "types.ts:28 interface RequestContext; :40 HandlerFn; :46 interface RpcHandlerOptions; :47 `readonly access?: 'localElectron' | 'nativeOrLocalElectron' | 'authenticatedWorkspace'`; :66 interface RpcServer; :85 interface RpcClient."
+        },
+        {
+          "claim": "Both hosts share wiring: headless-start.ts constructs the WsRpcServer and declares a native event channel set",
+          "cite": "packages/server-core/src/bootstrap/headless-start.ts:502, :507-516",
+          "verdict": "SUPPORTED",
+          "evidence": "headless-start.ts:502 `const wsServer = new WsRpcServer({`; :507-512 nativeEventChannels set; :513-516 nativeClientEventChannels."
+        },
+        {
+          "claim": "WebUI served by the same server: createWebuiHandler/nodeHttpAdapter expose /login, POST /api/auth, GET /api/config, GET /api/config/workspaces in webui/http-server.ts; browser client in apps/webui/src",
+          "cite": "packages/server-core/src/webui/index.ts:1-2; packages/server-core/src/webui/http-server.ts:244, :268, :379, :390; apps/webui/src/rox2-webui-surface.ts:12",
+          "verdict": "SUPPORTED",
+          "evidence": "webui/index.ts:1 exports createWebuiHandler; :2 nodeHttpAdapter; http-server.ts:244 '/login'; :268 '/api/auth' POST; :379 '/api/config' GET; :390 '/api/config/workspaces' GET; rox2-webui-surface.ts:12 `export const WEBUI_SURFACE_ID = 'webui'`."
+        },
+        {
+          "claim": "OMP spawned as a child speaking NDJSON over stdio in --mode rpc; OmpAgent extends BaseAgent, ready-timeout OMP_READY_TIMEOUT_MS=90_000, context prompt OMP_ROX_CONTEXT_PROMPT, launch spec buildOmpLaunchSpec",
+          "cite": "docs/omp-rpc-notes.md:40; packages/shared/src/agent/omp-agent.ts:386, :144, :167, :243",
+          "verdict": "SUPPORTED",
+          "evidence": "omp-rpc-notes.md:40 'Spawn: `omp --mode rpc`'; omp-agent.ts:386 `export class OmpAgent extends BaseAgent`; :144 `export const OMP_READY_TIMEOUT_MS = 90_000;`; :167 OMP_ROX_CONTEXT_PROMPT; :243 `export function buildOmpLaunchSpec(`."
+        },
+        {
+          "claim": "host MUST answer every extension_ui_request or the prompt pipeline stalls; OmpAgent sends type 'extension_ui_response'",
+          "cite": "docs/omp-rpc-notes.md:42; packages/shared/src/agent/omp-agent.ts:1645",
+          "verdict": "SUPPORTED",
+          "evidence": "omp-rpc-notes.md:42 'CRITICAL (the turn-stall blocker): the host MUST answer every `extension_ui_request`.'; omp-agent.ts:1643-1645 respondExtensionUi sends `{ type: 'extension_ui_response', id, approved, value }`."
+        },
+        {
+          "claim": "ROX session tools published into OMP via set_host_tools; shared builder buildSessionToolDefs; canonical defs (call_llm, spawn_session, browser_tool, mcp__session__*) in session-tools-core tool-defs; same tool set exposed to Codex over MCP by session-mcp-server (stdio, __CALLBACK__ stderr protocol)",
+          "cite": "packages/shared/src/agent/omp-agent.ts:1711, :1745; packages/shared/src/agent/session-tool-defs.ts:61; packages/session-tools-core/src/tool-defs.ts:878-883; packages/session-mcp-server/src/index.ts:5, :12",
+          "verdict": "SUPPORTED",
+          "evidence": "omp-agent.ts:1711 'Host Tools Bridge (set_host_tools / host_tool_call RPC)'; :1745 `await this.sendCommand('set_host_tools', { tools })`; session-tool-defs.ts:61 buildSessionToolDefs; tool-defs.ts:878 call_llm, :879 spawn_session, :883 browser_tool; session-mcp-server/index.ts:5 'stdio transport', :12 '__CALLBACK__' prefix."
+        },
+        {
+          "claim": "Branching anchors: OmpAgent enqueues omp_turn_anchor, persisted to <session>/meta/omp-turn-anchors.json",
+          "cite": "packages/shared/src/agent/omp-agent.ts:2285; docs/omp-rpc-notes.md:95; AGENTS.md:29",
+          "verdict": "SUPPORTED",
+          "evidence": "omp-agent.ts:2285 `this.eventQueue.enqueue({ type: 'omp_turn_anchor', turnId, entryId });`; omp-rpc-notes.md:95 and AGENTS.md:29 both name sidecar `meta/omp-turn-anchors.json`."
+        },
+        {
+          "claim": "Per-session event attach point: SessionManager publishes every session event to the RPC event sink with {to:'workspace', workspaceId}; in-process lifecycle events flow through SessionEventBus; a new feature should subscribe to SessionEventBus or add a case to the sessions.EVENT projector, not open a second socket",
+          "cite": "packages/server-core/src/sessions/SessionManager.ts:10788; packages/server-core/src/sessions/SessionEventBus.ts:159, :136, :214",
+          "verdict": "SUPPORTED",
+          "evidence": "SessionManager.ts:10788 `this.eventSink(RPC_CHANNELS.sessions.EVENT, { to: 'workspace', workspaceId }, event)`; SessionEventBus.ts:159 class SessionEventBus; :136 SessionLifecycleEventMap; :214 NOOP_SESSION_EVENT_BUS."
+        },
+        {
+          "claim": "Meetings server-side domain has journal, repository, schema migrations, proposals, executor, capture/finalize/manual intents, outbox, retention, sharing, verification; exports at index.ts:1-33; MeetingRepository at repository.ts:4; EvidenceLevel/GateStatus/MeetingOpStatus at types.ts:6-20",
+          "cite": "packages/server-core/src/meetings/index.ts:1-33; repository.ts:4; types.ts:6-20",
+          "verdict": "REFUTED",
+          "evidence": "wc -l packages/server-core/src/meetings/index.ts = 25 lines; index.ts ends at :25 (stageMeetingAgentResources). The dir does contain journal.ts/repository.ts/migrations.ts/proposals.ts/executor.ts/capture.ts/finalize.ts/manual.ts/outbox.ts/retention.ts/sharing.ts/verification.ts. repository.ts:4 = `export class MeetingRepository {`; types.ts:6 EvidenceLevel, :8 GateStatus, :10-18 MeetingOpStatus all correct.",
+          "correction": "index.ts is 25 lines, not 33: exports range `index.ts:1-25` (and index.ts:24-32 cited elsewhere overruns the file)."
+        },
+        {
+          "claim": "Meetings local: MEETINGS_LOCAL_IPC, LocalMeeting, LocalTranscript, MeetingsLocalApi in apps/electron/src/shared/meetings-local.ts; Electron main capture under apps/electron/src/main/meetings (MEETING_CAPTURE_IPC + registerMeetingCaptureIpc at ipc.ts:21/:50, LocalMeetingStore at local-store.ts:111)",
+          "cite": "apps/electron/src/shared/meetings-local.ts:12, :159, :205, :247; apps/electron/src/main/meetings/ipc.ts:21, :50; local-store.ts:111",
+          "verdict": "SUPPORTED",
+          "evidence": "meetings-local.ts:12 MEETINGS_LOCAL_IPC; :159 interface LocalMeeting; :205 interface LocalTranscript; :247 interface MeetingsLocalApi; ipc.ts:21 MEETING_CAPTURE_IPC; :50 registerMeetingCaptureIpc(); local-store.ts:111 `export class LocalMeetingStore {`."
+        },
+        {
+          "claim": "Meeting agents: MeetingJobDispatcher + routeMeetingEvent with MEETING_CONCURRENT_JOBS=2, planning planMeetingActions; bot-like 'join a room' path is a native-shell intent (joinNativeRoom)",
+          "cite": "packages/shared/src/meeting-agents/router.ts:149, :178, :23; planning.ts:116; packages/server-core/src/meetings/conation/native-shells.ts:159",
+          "verdict": "SUPPORTED",
+          "evidence": "router.ts:23 `export const MEETING_CONCURRENT_JOBS = 2`; :149 export routeMeetingEvent; :178 `export class MeetingJobDispatcher`; planning.ts:116 `export function planMeetingActions(`; native-shells.ts:159 `export function joinNativeRoom(input: {` (re-exported at meetings/index.ts:23)."
+        },
+        {
+          "claim": "Skills discovery scans ~/.omp/agent/skills, ~/.agents/skills, <workspaceRoot>/.omp/skills (omp-discovery.ts:23-29), listOmpSkills (:125), 60s TTL cache (:50,:54); storage global/app-managed/project roots (:42-47), loadAllSkills (:302); bundling linkBundledSkillsForOmp; SKILLS_LOCK_FILE/readSkillsLock",
+          "cite": "packages/shared/src/skills/omp-discovery.ts:23-29, :125, :50, :54; storage.ts:42-47, :302; bundled.ts:118; bundled-core.ts:63, :163",
+          "verdict": "SUPPORTED",
+          "evidence": "omp-discovery.ts:23 OMP_GLOBAL_SKILLS_DIR ~/.omp/agent/skills; :26 OMP_SHARED_SKILLS_DIR ~/.agents/skills; :29 OMP_WORKSPACE_SKILLS_DIR '.omp/skills'; :50 OMP_CACHE_TTL=60_000; :54 invalidateOmpSkillsCache; :125 listOmpSkills; storage.ts:42 GLOBAL_AGENT_SKILLS_DIR, :44 APP_MANAGED_SKILLS_DIR, :47 PROJECT_AGENT_SKILLS_DIR, :302 loadAllSkills; bundled.ts:118 linkBundledSkillsForOmp; bundled-core.ts:63 SKILLS_LOCK_FILE='SKILLS.lock', :163 readSkillsLock."
+        },
+        {
+          "claim": "Pinned catalog SKILLS.lock version:2 packs[] with slug/origin/commit/license/licenseFile/skills parsed by readSkillsLock; the 330-entry request manifest is REQUESTED-SKILLS.json (skillCount 330, packCount 34)",
+          "cite": "apps/electron/resources/skills/SKILLS.lock; REQUESTED-SKILLS.json; bundled-core.ts:66",
+          "verdict": "SUPPORTED",
+          "evidence": "SKILLS.lock:3 `\"version\": 2`; :6-9 packs entries carry slug/origin/commit/license/licenseFile/skills; parsed JSON has 35 packs. REQUESTED-SKILLS.json parses to skillCount=330, packCount=34; bundled-core.ts:66 interface SkillsLockPack."
+        },
+        {
+          "claim": "Identity store: IdentityStore/getIdentityStore and Profile/WorkspaceMembership/ServiceConnection in packages/core/src/platform/identity/, with credential refs attach-credential-ref/broker/provider-contract/revalidation",
+          "cite": "packages/core/src/platform/identity/index.ts:24, :1-12",
+          "verdict": "SUPPORTED",
+          "evidence": "identity/index.ts:2-7 export type Profile/WorkspaceMembership/ServiceConnection; :24 `export { attachCredentialRef } from './attach-credential-ref.ts';`; :28-30 `export { IdentityStore, getIdentityStore, resetIdentityStoreCache, ... }`.",
+          "correction": "IdentityStore/getIdentityStore are re-exported at index.ts:28-30, not :24 (line 24 is attachCredentialRef)."
+        },
+        {
+          "claim": "Credential fabric: InProcessCredentialBroker with lease/grant types in fabric/broker.ts; CredentialManager in credentials/manager.ts:35 with singleton getCredentialManager",
+          "cite": "packages/shared/src/credentials/fabric/broker.ts:73, :12-36; manager.ts:35, :981",
+          "verdict": "SUPPORTED",
+          "evidence": "broker.ts:12 interface AccessGrant; :24 AcquireLeaseInput; :36 CredentialLease; :73 `export class InProcessCredentialBroker {`; manager.ts:35 `export class CredentialManager {`; :981 `export function getCredentialManager(): CredentialManager {`."
+        },
+        {
+          "claim": "Native (non-Electron) principals governed by NativeAuthority with NativePrincipal, authenticate, authorize, permissionFence",
+          "cite": "packages/server-core/src/authority/native-authority.ts:104, :12, :327, :449, :567",
+          "verdict": "SUPPORTED",
+          "evidence": "native-authority.ts:12 interface NativePrincipal; :104 `export class NativeAuthority {`; :327 authenticate(credential); :449 authorize(principal, workspaceId, action, nativeRoot?); :567 permissionFence(...)."
+        },
+        {
+          "claim": "Auto-update uses electron-updater; feed is GitHub rox-one/rox-one or generic override; autoDownload=true, allowPrerelease=true, allowDowngrade=false; download-progress + ready events broadcast; macOS ad-hoc detection and isUpdateFeedSuppressed gate installation",
+          "cite": "apps/electron/src/main/auto-update.ts:17, :5, :309, :311, :289, :293, :294, :270, :280, :89, :111",
+          "verdict": "SUPPORTED",
+          "evidence": "auto-update.ts:17 `import { autoUpdater } from 'electron-updater'`; :5 'rox-one/rox-one GitHub releases'; :309 setFeedURL github; :311 generic; :289 autoDownload=true; :293 allowPrerelease=true; :294 allowDowngrade=false; :270 broadcastUpdateInfo; :280 broadcastDownloadProgress; :89 detectMacAdHocSigned; :111 isUpdateFeedSuppressed."
+        },
+        {
+          "claim": "Packaging electron-builder.yml: publish provider github; macOS dmg+zip; dmg artifact Rox-${arch}.dmg; Windows nsis; Linux AppImage; scripts dist:mac/dist:win in apps/electron/package.json",
+          "cite": "apps/electron/electron-builder.yml:91, :125-130, :182-183, :203-204, :277-278; apps/electron/package.json:32-34",
+          "verdict": "SUPPORTED",
+          "evidence": "electron-builder.yml:92 `provider: github`; :125-130 dmg+zip arms; :183 `artifactName: \"Rox-${arch}.dmg\"`; :203-204 nsis; :277-278 AppImage; apps/electron/package.json:32-34 dist:mac/dist:mac:x64/dist:win.",
+          "correction": "`provider: github` is at electron-builder.yml:92 (cited :91 is the `publish:` key)."
+        },
+        {
+          "claim": "Default UI language Russian DEFAULT_LANGUAGE_CODE='ru'; setupI18n binds fallbackLng [ru,en] and bundles resources inline; 12 locales incl. ar/de/en/es/fr/hu/ja/ko/pl/ru/zh-Hans/zh-Hant",
+          "cite": "packages/shared/src/i18n/languages.ts:6; setupI18n.ts:30, :42, :45-48; AGENTS.md:8",
+          "verdict": "SUPPORTED",
+          "evidence": "languages.ts:6 `export const DEFAULT_LANGUAGE_CODE: LanguageCode = \"ru\";`; setupI18n.ts:42 resources: buildResources(); :45 `fallbackLng: [DEFAULT_LANGUAGE_CODE, \"en\"]`; :48 initAsync:false 'synchronously init — resources are bundled inline'; locales/*.json = ar,de,en,es,fr,hu,ja,ko,pl,ru,zh-Hans,zh-Hant (12); AGENTS.md:8 same list."
+        },
+        {
+          "claim": "ROX already ships an OpenClaw host-control surface (install/provision/start/stop + security audit) at openclaw-host-control.ts:346, server-core openclaw/runtime-manager.ts, shared openclaw/types.ts:73; createControlUiWindowOptions at :255",
+          "cite": "apps/electron/src/main/openclaw-host-control.ts:346, :255; packages/server-core/src/openclaw/runtime-manager.ts; packages/shared/src/openclaw/types.ts:73",
+          "verdict": "SUPPORTED",
+          "evidence": "openclaw-host-control.ts:346 `export function registerOpenClawHostControlIpc(deps: ...): void`; :255 `export function createControlUiWindowOptions(...)`; runtime-manager.ts present; types.ts:73 `export interface OpenClawRuntimeStatus`."
+        }
+      ],
+      "summary": {
+        "supported": 28,
+        "refuted": 1,
+        "unclear": 0
+      }
+    }
+  ],
+  "totals": {
+    "checks": 108,
+    "supported": 105,
+    "refuted": 3,
+    "unclear": 0
+  }
+}

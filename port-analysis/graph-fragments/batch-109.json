@@ -1,0 +1,3023 @@
+{
+ "nodes": [
+  {
+   "id": "file:scripts/install.sh",
+   "type": "file",
+   "name": "install.sh",
+   "summary": "Bash installer for macOS/Linux: re-execs under /bin/bash, detects OS, provisions a supported Node (brew node 26 on macOS, LTS 24 on Linux, user-space runtime on unsafe-SQLite RPM), runs `npm install -g openclaw`, persists PATH into shell rc files, and chains into `openclaw onboard`.",
+   "tags": [
+    "installer",
+    "node-provisioning",
+    "path",
+    "npm",
+    "onboarding"
+   ],
+   "complexity": "complex",
+   "filePath": "scripts/install.sh",
+   "lineRange": [
+    1,
+    3618
+   ]
+  },
+  {
+   "id": "file:src/cli/daemon-cli/install.ts",
+   "type": "file",
+   "name": "daemon-cli/install.ts",
+   "summary": "Implements `openclaw gateway install`: merges safe invocation env, resolves/validates the runtime pin, blocks no-auth non-loopback installs, defaults gateway.mode=local, resolves a token, and installs the managed service via service.install.",
+   "tags": [
+    "gateway",
+    "service-install",
+    "runtime-pin",
+    "auth"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/install.ts",
+   "lineRange": [
+    1,
+    671
+   ]
+  },
+  {
+   "id": "file:src/cli/daemon-cli/lifecycle.ts",
+   "type": "file",
+   "name": "daemon-cli/lifecycle.ts",
+   "summary": "Gateway service lifecycle runners (runDaemonStart/Stop/Restart) including unmanaged-listener fallbacks, launchd recovery, service-definition repair, and restart health checks.",
+   "tags": [
+    "gateway",
+    "lifecycle",
+    "health"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/lifecycle.ts",
+   "lineRange": [
+    1,
+    653
+   ]
+  },
+  {
+   "id": "file:src/cli/daemon-cli/register-service-commands.ts",
+   "type": "file",
+   "name": "register-service-commands.ts",
+   "summary": "Commander registration for gateway/daemon subcommands status/install/uninstall/start/stop/restart with shared flags (--json, --force, --port, --runtime, --wrapper, stop --disable).",
+   "tags": [
+    "cli",
+    "gateway",
+    "commands"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/register-service-commands.ts",
+   "lineRange": [
+    77,
+    199
+   ]
+  },
+  {
+   "id": "file:src/cli/daemon-cli/start-repair.ts",
+   "type": "file",
+   "name": "start-repair.ts",
+   "summary": "Rebuilds a stale managed Gateway service definition before start/restart; refuses repair when the invoking shell's state dir/config/port differ from the installed service and when an operator drop-in overrides the command.",
+   "tags": [
+    "gateway",
+    "service-repair",
+    "authority"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/start-repair.ts",
+   "lineRange": [
+    79,
+    284
+   ]
+  },
+  {
+   "id": "file:src/cli/daemon-cli/launchd-recovery.ts",
+   "type": "file",
+   "name": "launchd-recovery.ts",
+   "summary": "Re-bootstraps an installed-but-unloaded Gateway LaunchAgent after a daemon start/restart command.",
+   "tags": [
+    "launchd",
+    "recovery",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/launchd-recovery.ts",
+   "lineRange": [
+    1,
+    60
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-plist.ts",
+   "type": "file",
+   "name": "launchd-plist.ts",
+   "summary": "Builds launchd LaunchAgent plist XML and the LAUNCH_AGENT_POLICY (RunAtLoad/KeepAlive/ExitTimeOut/ProcessType/ThrottleInterval/Umask/StandardInPath); reads env-wrapper ProgramArguments layouts and renders EnvironmentVariables.",
+   "tags": [
+    "launchd",
+    "plist",
+    "keepalive",
+    "policy"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-plist.ts",
+   "lineRange": [
+    1,
+    364
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-install.ts",
+   "type": "file",
+   "name": "launchd-install.ts",
+   "summary": "Transactional LaunchAgent install/stage/uninstall: captures original plist/env/wrapper bytes, refuses mutation from inside the service or over a system LaunchDaemon, bootstraps, and rolls back on failure; uninstall moves the plist to ~/.Trash.",
+   "tags": [
+    "launchd",
+    "install",
+    "rollback",
+    "uninstall"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-install.ts",
+   "lineRange": [
+    1,
+    258
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-runtime.ts",
+   "type": "file",
+   "name": "launchd-runtime.ts",
+   "summary": "Observes and activates LaunchAgents: parses `launchctl print`, probes loaded/running state, resolves the gui/<uid> domain, and bootstraps/enables/kickstarts with pending-teardown retry and GUI-session diagnostics.",
+   "tags": [
+    "launchd",
+    "runtime",
+    "bootstrap",
+    "gui-domain"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-runtime.ts",
+   "lineRange": [
+    1,
+    612
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-service-files.ts",
+   "type": "file",
+   "name": "launchd-service-files.ts",
+   "summary": "Publishes the LaunchAgent plist plus the owner-only (0600) generated env file and (0700) /bin/sh env wrapper under <state>/service-env; provides transactional capture/restore of plist+env+wrapper.",
+   "tags": [
+    "launchd",
+    "env-wrapper",
+    "plist",
+    "transaction"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-service-files.ts",
+   "lineRange": [
+    1,
+    521
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-restart-handoff.ts",
+   "type": "file",
+   "name": "launchd-restart-handoff.ts",
+   "summary": "Detached macOS restart handoff: spawns a detached /bin/sh that waits for the caller PID, re-checks system-daemon ownership, then bootout+bootstrap (reload) or kickstart -k/bootstrap (kickstart) to safely respawn the Gateway.",
+   "tags": [
+    "launchd",
+    "restart",
+    "safe-respawn",
+    "handoff"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-restart-handoff.ts",
+   "lineRange": [
+    1,
+    223
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-stop.ts",
+   "type": "file",
+   "name": "launchd-stop.ts",
+   "summary": "Stops a LaunchAgent via launchctl bootout, waits out the exit-timeout/port-release budget, and verifies the job is no longer running.",
+   "tags": [
+    "launchd",
+    "stop",
+    "teardown"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-stop.ts",
+   "lineRange": [
+    1,
+    360
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-system.ts",
+   "type": "file",
+   "name": "launchd-system.ts",
+   "summary": "Refuses LaunchAgent mutation when the same label is owned by a system LaunchDaemon in /Library/LaunchDaemons; provides a package-independent shell ownership probe for detached helpers.",
+   "tags": [
+    "launchd",
+    "system-daemon",
+    "ownership",
+    "refusal"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-system.ts",
+   "lineRange": [
+    1,
+    335
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-label.ts",
+   "type": "file",
+   "name": "launchd-label.ts",
+   "summary": "Resolves and validates the effective launchd label (OPENCLAW_LAUNCHD_LABEL override or profile-derived ai.openclaw.gateway).",
+   "tags": [
+    "launchd",
+    "label",
+    "profile"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/launchd-label.ts",
+   "lineRange": [
+    1,
+    18
+   ]
+  },
+  {
+   "id": "file:src/daemon/launchd-foreign-jobs.ts",
+   "type": "file",
+   "name": "launchd-foreign-jobs.ts",
+   "summary": "Scans ai.openclaw.* launchd jobs that are not the current gateway/node ownership, classifying KeepAlive and literal straight-line `openclaw gateway restart|start|stop` invocations as safeToRemove.",
+   "tags": [
+    "launchd",
+    "foreign-jobs",
+    "detection"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-foreign-jobs.ts",
+   "lineRange": [
+    1,
+    409
+   ]
+  },
+  {
+   "id": "file:src/daemon/constants.ts",
+   "type": "file",
+   "name": "constants.ts",
+   "summary": "Cross-platform daemon service names and labels: ai.openclaw.gateway/ai.openclaw.node, profile suffixes, selector env keys, and legacy systemd service names.",
+   "tags": [
+    "labels",
+    "profiles",
+    "constants"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/constants.ts",
+   "lineRange": [
+    1,
+    187
+   ]
+  },
+  {
+   "id": "file:src/daemon/paths.ts",
+   "type": "file",
+   "name": "paths.ts",
+   "summary": "Resolves the daemon home and Gateway state dir ($OPENCLAW_STATE_DIR else ~/.openclaw with profile suffix) and the Windows task script path.",
+   "tags": [
+    "state-dir",
+    "paths",
+    "profile"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/paths.ts",
+   "lineRange": [
+    1,
+    62
+   ]
+  },
+  {
+   "id": "file:src/daemon/restart-logs.ts",
+   "type": "file",
+   "name": "restart-logs.ts",
+   "summary": "Resolves Gateway log paths (state-dir logs/gateway.log) and launchd supervisor log paths (~/Library/Logs/openclaw/gateway[-profile].log); appends best-effort lifecycle audit lines.",
+   "tags": [
+    "logs",
+    "paths",
+    "lifecycle-audit"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/restart-logs.ts",
+   "lineRange": [
+    1,
+    111
+   ]
+  },
+  {
+   "id": "file:src/commands/doctor-foreign-launchd-jobs.ts",
+   "type": "file",
+   "name": "doctor-foreign-launchd-jobs.ts",
+   "summary": "Doctor note+repair for foreign ai.openclaw.* launchd jobs on macOS; removal only with --fix, default install identity, and allowed service repair.",
+   "tags": [
+    "doctor",
+    "launchd",
+    "foreign-jobs",
+    "repair"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-foreign-launchd-jobs.ts",
+   "lineRange": [
+    1,
+    84
+   ]
+  },
+  {
+   "id": "file:src/commands/doctor-gateway-daemon-flow.ts",
+   "type": "file",
+   "name": "doctor-gateway-daemon-flow.ts",
+   "summary": "Doctor flow that diagnoses the local Gateway service: port conflicts, service inspection failures, install owner, and supervision restart when policy allows.",
+   "tags": [
+    "doctor",
+    "gateway",
+    "port-conflict",
+    "supervision"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/doctor-gateway-daemon-flow.ts",
+   "lineRange": [
+    1,
+    572
+   ]
+  },
+  {
+   "id": "file:src/commands/doctor-gateway-services.ts",
+   "type": "file",
+   "name": "doctor-gateway-services.ts",
+   "summary": "Doctor service checks: recorded runtime/heap inspection, system Node availability (SUPPORTED_NODE_VERSIONS), definition drift, and install-owner reporting.",
+   "tags": [
+    "doctor",
+    "gateway",
+    "runtime",
+    "drift"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/doctor-gateway-services.ts",
+   "lineRange": [
+    1,
+    600
+   ]
+  },
+  {
+   "id": "file:src/commands/doctor-gateway-legacy-services.ts",
+   "type": "file",
+   "name": "doctor-gateway-legacy-services.ts",
+   "summary": "Classifies and cleans legacy Gateway user services (darwin user services, known legacy systemd unit names such as clawdbot-gateway), removing only recognized units.",
+   "tags": [
+    "doctor",
+    "legacy",
+    "systemd",
+    "cleanup"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-gateway-legacy-services.ts",
+   "lineRange": [
+    1,
+    70
+   ]
+  },
+  {
+   "id": "file:src/commands/uninstall.ts",
+   "type": "file",
+   "name": "uninstall.ts",
+   "summary": "`openclaw uninstall`: scopes service|state|workspace|app (--all/--dry-run/--yes); stops the gateway before removing state, preserves workspaces for state-only, and removes the macOS app.",
+   "tags": [
+    "uninstall",
+    "cleanup",
+    "scopes"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/uninstall.ts",
+   "lineRange": [
+    1,
+    213
+   ]
+  },
+  {
+   "id": "file:src/commands/gateway-readiness.ts",
+   "type": "file",
+   "name": "gateway-readiness.ts",
+   "summary": "Ensures the dashboard Gateway is ready: gathers daemon status, decides install-vs-start, calls runDaemonInstall/runDaemonStart, then polls for a healthy listener.",
+   "tags": [
+    "gateway",
+    "readiness",
+    "dashboard"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/gateway-readiness.ts",
+   "lineRange": [
+    1,
+    162
+   ]
+  },
+  {
+   "id": "file:src/commands/onboard.ts",
+   "type": "file",
+   "name": "onboard.ts",
+   "summary": "`openclaw onboard`/setup entry: normalizes legacy auth flags, validates project options, and routes between guided, classic interactive, and non-interactive setup flows.",
+   "tags": [
+    "onboarding",
+    "wizard",
+    "routing"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/onboard.ts",
+   "lineRange": [
+    1,
+    635
+   ]
+  },
+  {
+   "id": "file:src/commands/onboard-non-interactive.ts",
+   "type": "file",
+   "name": "onboard-non-interactive.ts",
+   "summary": "Non-interactive onboarding driver: leases core:onboarding state, rejects prompts, and runs local/remote/migration-import setup exclusively.",
+   "tags": [
+    "onboarding",
+    "non-interactive",
+    "lease"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/onboard-non-interactive.ts",
+   "lineRange": [
+    1,
+    157
+   ]
+  },
+  {
+   "id": "file:src/commands/onboard-types.ts",
+   "type": "file",
+   "name": "onboard-types.ts",
+   "summary": "OnboardOptions type surface including installDaemon/daemonRuntime flags consumed by the wizard finalize step.",
+   "tags": [
+    "onboarding",
+    "types",
+    "flags"
+   ],
+   "complexity": "simple",
+   "filePath": "src/commands/onboard-types.ts",
+   "lineRange": [
+    1,
+    113
+   ]
+  },
+  {
+   "id": "file:src/cli/program/register.onboard.ts",
+   "type": "file",
+   "name": "register.onboard.ts",
+   "summary": "Commander registration for onboard/setup: auth/gateway/remote/runtime options, --install-daemon/--no-install-daemon/--skip-daemon precedence, and OnboardOptions resolution.",
+   "tags": [
+    "cli",
+    "onboarding",
+    "flags"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/program/register.onboard.ts",
+   "lineRange": [
+    1,
+    416
+   ]
+  },
+  {
+   "id": "file:src/wizard/setup.finalize.ts",
+   "type": "file",
+   "name": "setup.finalize.ts",
+   "summary": "Wizard finalize: ensureGatewayServiceForOnboarding decides whether to install the Gateway service (explicit flag, Linux systemd availability, quickstart default, prompt) and installs/resumes it.",
+   "tags": [
+    "wizard",
+    "onboarding",
+    "service-install"
+   ],
+   "complexity": "complex",
+   "filePath": "src/wizard/setup.finalize.ts",
+   "lineRange": [
+    194,
+    448
+   ]
+  },
+  {
+   "id": "file:src/infra/update-channels.ts",
+   "type": "file",
+   "name": "update-channels.ts",
+   "summary": "Update channel model: stable/extended-stable/beta/dev, npm dist-tag mapping, effective channel resolution from config/git/installed version, and beta/stable version selection.",
+   "tags": [
+    "update",
+    "channels",
+    "policy"
+   ],
+   "complexity": "complex",
+   "filePath": "src/infra/update-channels.ts",
+   "lineRange": [
+    1,
+    206
+   ]
+  },
+  {
+   "id": "file:src/infra/update-startup.ts",
+   "type": "file",
+   "name": "update-startup.ts",
+   "summary": "Startup update scheduler: honors update.checkOnStart/auto.enabled and OPENCLAW_NO_AUTO_UPDATE, resolves the effective channel, and only auto-applies on stable/beta/dev when not externally supervised.",
+   "tags": [
+    "update",
+    "startup",
+    "check-on-start"
+   ],
+   "complexity": "complex",
+   "filePath": "src/infra/update-startup.ts",
+   "lineRange": [
+    1,
+    724
+   ]
+  },
+  {
+   "id": "file:src/cli/update-cli/update-command-launch-agent-recovery.ts",
+   "type": "file",
+   "name": "update-command-launch-agent-recovery.ts",
+   "summary": "After an update, recovers an installed-but-not-loaded Gateway LaunchAgent by triggering bootstrap/kickstart recovery.",
+   "tags": [
+    "update",
+    "launchd",
+    "recovery"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/update-cli/update-command-launch-agent-recovery.ts",
+   "lineRange": [
+    1,
+    58
+   ]
+  },
+  {
+   "id": "file:src/config/paths.ts",
+   "type": "file",
+   "name": "config/paths.ts",
+   "summary": "Config path resolution: config filename openclaw.json, default ~/.openclaw/openclaw.json (or $OPENCLAW_STATE_DIR), state-dir and temp paths.",
+   "tags": [
+    "config",
+    "paths",
+    "state-dir"
+   ],
+   "complexity": "complex",
+   "filePath": "src/config/paths.ts",
+   "lineRange": [
+    1,
+    394
+   ]
+  },
+  {
+   "id": "file:src/commands/onboard-guided.ts",
+   "type": "file",
+   "name": "onboard-guided.ts",
+   "summary": "Guided onboarding flow that chooses quickstart/advanced, gates inference, and forwards installDaemon=false for quickstart or skipped-inference runs.",
+   "tags": [
+    "onboarding",
+    "guided"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/onboard-guided.ts",
+   "lineRange": [
+    500,
+    545
+   ]
+  },
+  {
+   "id": "file:src/cli/daemon-cli/response.ts",
+   "type": "file",
+   "name": "daemon-cli/response.ts",
+   "summary": "Shared daemon action context and installDaemonServiceAndEmit helper used by gateway install/onboard to emit service snapshots and success.",
+   "tags": [
+    "gateway",
+    "response",
+    "service-install"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/response.ts",
+   "lineRange": [
+    1,
+    200
+   ]
+  },
+  {
+   "id": "file:src/daemon/service-update-authority.ts",
+   "type": "file",
+   "name": "service-update-authority.ts",
+   "summary": "Fences service mutations during an update: assertGatewayServiceUpdateCurrent / isUpdateOwnedGatewayServiceCommand / withGatewayServiceInstallationRecovery.",
+   "tags": [
+    "authority",
+    "custody",
+    "update"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/service-update-authority.ts",
+   "lineRange": [
+    1,
+    120
+   ]
+  },
+  {
+   "id": "file:src/infra/ports-format.ts",
+   "type": "file",
+   "name": "ports-format.ts",
+   "summary": "Formats port diagnostics and decides whether listeners are expected Gateway listeners (used to distinguish a healthy Gateway from a port conflict).",
+   "tags": [
+    "ports",
+    "diagnostics",
+    "format"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/infra/ports-format.ts",
+   "lineRange": [
+    1,
+    120
+   ]
+  },
+  {
+   "id": "function:scripts/install.sh:install_node",
+   "type": "function",
+   "name": "install_node",
+   "summary": "Installs a supported Node: brew install node on macOS (default major 26), distro packages/build tools on Linux, or a user-space runtime via install-cli.sh for unsafe-SQLite RPM hosts.",
+   "tags": [
+    "installer",
+    "node-provisioning"
+   ],
+   "complexity": "complex",
+   "filePath": "scripts/install.sh",
+   "lineRange": [
+    2114,
+    2126
+   ]
+  },
+  {
+   "id": "function:scripts/install.sh:check_node",
+   "type": "function",
+   "name": "check_node",
+   "summary": "Reuses a supported Node when present, otherwise reports that Node will be installed; validates version and SQLite capability.",
+   "tags": [
+    "installer",
+    "node-version"
+   ],
+   "complexity": "moderate",
+   "filePath": "scripts/install.sh",
+   "lineRange": [
+    2012,
+    2031
+   ]
+  },
+  {
+   "id": "function:scripts/install.sh:persist_shell_path_prepend",
+   "type": "function",
+   "name": "persist_shell_path_prepend",
+   "summary": "Persists an idempotent `export PATH=...` line into the detected shell rc files (.zshrc/.zprofile/.bashrc/.bash_profile/fish conf.d) with symlink and ownership guards.",
+   "tags": [
+    "installer",
+    "path",
+    "shell-rc"
+   ],
+   "complexity": "complex",
+   "filePath": "scripts/install.sh",
+   "lineRange": [
+    1616,
+    1678
+   ]
+  },
+  {
+   "id": "function:scripts/install.sh:run_npm_global_install",
+   "type": "function",
+   "name": "run_npm_global_install",
+   "summary": "Builds an explicit `npm install -g` argv (strips before/min-release-age config), runs it with spinner, and verifies lifecycle scripts completed.",
+   "tags": [
+    "installer",
+    "npm"
+   ],
+   "complexity": "complex",
+   "filePath": "scripts/install.sh",
+   "lineRange": [
+    948,
+    988
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-plist.ts:buildLaunchAgentPlist",
+   "type": "function",
+   "name": "buildLaunchAgentPlist",
+   "summary": "Renders the LaunchAgent plist XML from label, ProgramArguments, WorkingDirectory, StandardOut/ErrorPath, EnvironmentVariables, and LAUNCH_AGENT_POLICY.",
+   "tags": [
+    "launchd",
+    "plist",
+    "keepalive"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-plist.ts",
+   "lineRange": [
+    326,
+    363
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "type": "function",
+   "name": "installLaunchAgent",
+   "summary": "Transactionally installs/captures the LaunchAgent, re-checks system-daemon ownership, bootstraps it, and restores the previous definition on failure.",
+   "tags": [
+    "launchd",
+    "install",
+    "rollback"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-install.ts",
+   "lineRange": [
+    153,
+    258
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-install.ts:uninstallLaunchAgent",
+   "type": "function",
+   "name": "uninstallLaunchAgent",
+   "summary": "Boots out the LaunchAgent and moves its plist to ~/.Trash; refuses mutation from inside the service.",
+   "tags": [
+    "launchd",
+    "uninstall"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/launchd-install.ts",
+   "lineRange": [
+    32,
+    79
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-runtime.ts:bootstrapLaunchAgentOrThrow",
+   "type": "function",
+   "name": "bootstrapLaunchAgentOrThrow",
+   "summary": "Enables and bootstraps gui/<uid>/<label>, retrying EIO pending-teardown within the ExitTimeOut budget and reporting GUI-session errors for headless/SSH contexts.",
+   "tags": [
+    "launchd",
+    "bootstrap",
+    "authority"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-runtime.ts",
+   "lineRange": [
+    322,
+    431
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-runtime.ts:resolveLaunchAgentGuiDomain",
+   "type": "function",
+   "name": "resolveLaunchAgentGuiDomain",
+   "summary": "Returns gui/<uid> (or gui/501 fallback) for LaunchAgent activation.",
+   "tags": [
+    "launchd",
+    "gui-domain"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/launchd-runtime.ts",
+   "lineRange": [
+    300,
+    305
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-runtime.ts:probeLaunchAgentState",
+   "type": "function",
+   "name": "probeLaunchAgentState",
+   "summary": "Runs `launchctl print <target>` and classifies running/stopped/not-loaded/unknown so callers apply one absence-vs-failure policy.",
+   "tags": [
+    "launchd",
+    "probe"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/launchd-runtime.ts",
+   "lineRange": [
+    586,
+    612
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-runtime.ts:parseLaunchctlJob",
+   "type": "function",
+   "name": "parseLaunchctlJob",
+   "summary": "Parses the selected job's state/pid/last exit/arguments/environment from launchctl print output.",
+   "tags": [
+    "launchd",
+    "parse"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-runtime.ts",
+   "lineRange": [
+    66,
+    110
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-label.ts:resolveLaunchAgentLabel",
+   "type": "function",
+   "name": "resolveLaunchAgentLabel",
+   "summary": "Validates and returns OPENCLAW_LAUNCHD_LABEL or the profile-derived ai.openclaw.gateway label.",
+   "tags": [
+    "launchd",
+    "label"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/launchd-label.ts",
+   "lineRange": [
+    13,
+    18
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-service-files.ts:writeLaunchAgentPlist",
+   "type": "function",
+   "name": "writeLaunchAgentPlist",
+   "summary": "Prepares the env file+wrapper, builds the plist, and publishes it (plus preserved operator policy) transactionally.",
+   "tags": [
+    "launchd",
+    "publish",
+    "env-wrapper"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-service-files.ts",
+   "lineRange": [
+    395,
+    456
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-service-files.ts:buildLaunchAgentEnvironmentWrapper",
+   "type": "function",
+   "name": "buildLaunchAgentEnvironmentWrapper",
+   "summary": "Returns the /bin/sh wrapper that validates the env-file header and execs the Gateway command with that environment.",
+   "tags": [
+    "launchd",
+    "env-wrapper",
+    "security"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/launchd-service-files.ts",
+   "lineRange": [
+    86,
+    102
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-service-files.ts:resolveLaunchAgentPlistPath",
+   "type": "function",
+   "name": "resolveLaunchAgentPlistPath",
+   "summary": "Returns ~/Library/LaunchAgents/<label>.plist for the user.",
+   "tags": [
+    "launchd",
+    "plist-path"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/launchd-service-files.ts",
+   "lineRange": [
+    187,
+    190
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-restart-handoff.ts:scheduleDetachedLaunchdRestartHandoff",
+   "type": "function",
+   "name": "scheduleDetachedLaunchdRestartHandoff",
+   "summary": "Spawns a detached /bin/sh that waits for the caller PID, guards system-daemon ownership, then reloads or kickstarts the LaunchAgent.",
+   "tags": [
+    "launchd",
+    "restart",
+    "safe-respawn"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-restart-handoff.ts",
+   "lineRange": [
+    210,
+    223
+   ]
+  },
+  {
+   "id": "function:src/daemon/launchd-foreign-jobs.ts:findForeignLaunchdJobs",
+   "type": "function",
+   "name": "findForeignLaunchdJobs",
+   "summary": "Enumerates ai.openclaw.* jobs not owned by the current gateway/node profile and classifies KeepAlive/lifecycle invocations.",
+   "tags": [
+    "launchd",
+    "foreign-jobs"
+   ],
+   "complexity": "complex",
+   "filePath": "src/daemon/launchd-foreign-jobs.ts",
+   "lineRange": [
+    1,
+    409
+   ]
+  },
+  {
+   "id": "function:src/daemon/constants.ts:resolveGatewayLaunchAgentLabel",
+   "type": "function",
+   "name": "resolveGatewayLaunchAgentLabel",
+   "summary": "Returns ai.openclaw.gateway for the default profile or ai.openclaw.<profile> for a named profile.",
+   "tags": [
+    "launchd",
+    "label",
+    "profile"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/constants.ts",
+   "lineRange": [
+    51,
+    57
+   ]
+  },
+  {
+   "id": "function:src/daemon/paths.ts:resolveGatewayStateDir",
+   "type": "function",
+   "name": "resolveGatewayStateDir",
+   "summary": "Resolves $OPENCLAW_STATE_DIR or ~/.openclaw with the -<profile> suffix; the historical default state path.",
+   "tags": [
+    "state-dir",
+    "paths"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/paths.ts",
+   "lineRange": [
+    37,
+    48
+   ]
+  },
+  {
+   "id": "function:src/daemon/restart-logs.ts:resolveGatewayLogPaths",
+   "type": "function",
+   "name": "resolveGatewayLogPaths",
+   "summary": "Resolves <state>/logs/gateway.log and gateway.err.log for CLI-side logging.",
+   "tags": [
+    "logs",
+    "paths"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/restart-logs.ts",
+   "lineRange": [
+    26,
+    35
+   ]
+  },
+  {
+   "id": "function:src/daemon/restart-logs.ts:resolveGatewaySupervisorLogPaths",
+   "type": "function",
+   "name": "resolveGatewaySupervisorLogPaths",
+   "summary": "Resolves ~/Library/Logs/openclaw/gateway[-profile].log used as launchd stdout/stderr.",
+   "tags": [
+    "logs",
+    "launchd"
+   ],
+   "complexity": "simple",
+   "filePath": "src/daemon/restart-logs.ts",
+   "lineRange": [
+    38,
+    49
+   ]
+  },
+  {
+   "id": "function:src/commands/doctor-foreign-launchd-jobs.ts:noteMacForeignLaunchdJobs",
+   "type": "function",
+   "name": "noteMacForeignLaunchdJobs",
+   "summary": "Reports foreign ai.openclaw.* launchd jobs to Doctor and removes confirmed stray lifecycle jobs only with repair enabled and default install identity.",
+   "tags": [
+    "doctor",
+    "launchd",
+    "repair"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-foreign-launchd-jobs.ts",
+   "lineRange": [
+    22,
+    84
+   ]
+  },
+  {
+   "id": "function:src/commands/doctor-gateway-daemon-flow.ts:noteGatewayPortDiagnostics",
+   "type": "function",
+   "name": "noteGatewayPortDiagnostics",
+   "summary": "Reports a Gateway port as conflicting when it is busy but not held by expected Gateway listeners.",
+   "tags": [
+    "doctor",
+    "port-conflict"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-gateway-daemon-flow.ts",
+   "lineRange": [
+    187,
+    204
+   ]
+  },
+  {
+   "id": "function:src/commands/doctor-gateway-legacy-services.ts:classifyLegacyServices",
+   "type": "function",
+   "name": "classifyLegacyServices",
+   "summary": "Splits detected legacy services into darwin/linux user services and failures, matching known legacy systemd unit names.",
+   "tags": [
+    "doctor",
+    "legacy",
+    "classify"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-gateway-legacy-services.ts",
+   "lineRange": [
+    6,
+    37
+   ]
+  },
+  {
+   "id": "function:src/commands/uninstall.ts:uninstallCommand",
+   "type": "function",
+   "name": "uninstallCommand",
+   "summary": "Executes scoped uninstall (service/state/workspace/app): stops the gateway, removes state and optional workspaces/app, honoring --dry-run/--yes.",
+   "tags": [
+    "uninstall",
+    "cleanup"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/uninstall.ts",
+   "lineRange": [
+    41,
+    213
+   ]
+  },
+  {
+   "id": "function:src/commands/gateway-readiness.ts:ensureDashboardGatewayReady",
+   "type": "function",
+   "name": "ensureDashboardGatewayReady",
+   "summary": "Gathers daemon status and, when the gateway is stopped and recoverable, installs or starts the managed service then polls for readiness.",
+   "tags": [
+    "gateway",
+    "readiness"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/gateway-readiness.ts",
+   "lineRange": [
+    95,
+    162
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "type": "function",
+   "name": "runDaemonInstall",
+   "summary": "Installs/refreshes the managed Gateway service with env merging, runtime pin resolution, auth/bind guards, and token resolution.",
+   "tags": [
+    "gateway",
+    "service-install",
+    "authority"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/install.ts",
+   "lineRange": [
+    180,
+    583
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/install.ts:mergeInstallInvocationEnv",
+   "type": "function",
+   "name": "mergeInstallInvocationEnv",
+   "summary": "Merges safe existing service environment into the install invocation, preserving NODE_EXTRA_CA_CERTS and dropping TLS-disable/proxy/loader overrides.",
+   "tags": [
+    "gateway",
+    "env",
+    "security"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/install.ts",
+   "lineRange": [
+    117,
+    177
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "type": "function",
+   "name": "runDaemonStart",
+   "summary": "Starts the managed Gateway service, recovers an unloaded LaunchAgent, repairs a stale definition, and verifies start readiness.",
+   "tags": [
+    "gateway",
+    "start",
+    "repair"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/lifecycle.ts",
+   "lineRange": [
+    262,
+    304
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStop",
+   "type": "function",
+   "name": "runDaemonStop",
+   "summary": "Stops the managed Gateway service or a verified unmanaged listener; requires --force non-interactively and supports --disable (launchd).",
+   "tags": [
+    "gateway",
+    "stop",
+    "keepalive"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/lifecycle.ts",
+   "lineRange": [
+    307,
+    357
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonRestart",
+   "type": "function",
+   "name": "runDaemonRestart",
+   "summary": "Restarts the managed service or a verified unmanaged listener and proves listener health before reporting success.",
+   "tags": [
+    "gateway",
+    "restart",
+    "health"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/lifecycle.ts",
+   "lineRange": [
+    360,
+    560
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "type": "function",
+   "name": "addGatewayServiceCommands",
+   "summary": "Attaches status/install/uninstall/start/stop/restart subcommands and shared flags to the gateway (and legacy daemon) CLI.",
+   "tags": [
+    "cli",
+    "gateway",
+    "commands"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/register-service-commands.ts",
+   "lineRange": [
+    77,
+    199
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/start-repair.ts:repairLoadedGatewayServiceForStart",
+   "type": "function",
+   "name": "repairLoadedGatewayServiceForStart",
+   "summary": "Rebuilds a stale managed service definition for start/restart, refusing when the ambient state/config/port or an operator override diverges from the installed service.",
+   "tags": [
+    "gateway",
+    "service-repair",
+    "authority"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/daemon-cli/start-repair.ts",
+   "lineRange": [
+    141,
+    284
+   ]
+  },
+  {
+   "id": "function:src/wizard/setup.finalize.ts:ensureGatewayServiceForOnboarding",
+   "type": "function",
+   "name": "ensureGatewayServiceForOnboarding",
+   "summary": "Decides whether to install the Gateway service during onboarding and installs/resumes it, or skips for external supervision / no user systemd.",
+   "tags": [
+    "wizard",
+    "onboarding",
+    "service-install"
+   ],
+   "complexity": "complex",
+   "filePath": "src/wizard/setup.finalize.ts",
+   "lineRange": [
+    200,
+    448
+   ]
+  },
+  {
+   "id": "function:src/infra/update-channels.ts:resolveEffectiveUpdateChannel",
+   "type": "function",
+   "name": "resolveEffectiveUpdateChannel",
+   "summary": "Resolves the effective update channel and its source (config/git-tag/git-branch/installed-version/default).",
+   "tags": [
+    "update",
+    "channels",
+    "policy"
+   ],
+   "complexity": "complex",
+   "filePath": "src/infra/update-channels.ts",
+   "lineRange": [
+    131,
+    175
+   ]
+  },
+  {
+   "id": "function:src/infra/update-channels.ts:channelToNpmTag",
+   "type": "function",
+   "name": "channelToNpmTag",
+   "summary": "Maps an update channel to its npm dist-tag (stable->latest, others to their own tag).",
+   "tags": [
+    "update",
+    "channels",
+    "npm"
+   ],
+   "complexity": "simple",
+   "filePath": "src/infra/update-channels.ts",
+   "lineRange": [
+    46,
+    50
+   ]
+  },
+  {
+   "id": "function:src/cli/update-cli/update-command-launch-agent-recovery.ts:recoverInstalledLaunchAgentAfterUpdate",
+   "type": "function",
+   "name": "recoverInstalledLaunchAgentAfterUpdate",
+   "summary": "Detects an installed-but-not-loaded LaunchAgent after an update and triggers bootstrap/kickstart recovery, reporting the outcome.",
+   "tags": [
+    "update",
+    "launchd",
+    "recovery"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/update-cli/update-command-launch-agent-recovery.ts",
+   "lineRange": [
+    13,
+    58
+   ]
+  },
+  {
+   "id": "function:src/commands/onboard.ts:setupWizardCommand",
+   "type": "function",
+   "name": "setupWizardCommand",
+   "summary": "Normalizes onboard options and dispatches guided/classic/non-interactive setup.",
+   "tags": [
+    "onboarding",
+    "dispatch"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/onboard.ts",
+   "lineRange": [
+    421,
+    500
+   ]
+  },
+  {
+   "id": "concept:launchagent",
+   "type": "concept",
+   "name": "launchagent",
+   "summary": "Per-user macOS launchd service (plist in ~/Library/LaunchAgents) that owns the Gateway process, bootstrapped into the gui/<uid> domain.",
+   "tags": [
+    "launchd",
+    "macos",
+    "service"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:keepalive",
+   "type": "concept",
+   "name": "keepalive",
+   "summary": "launchd KeepAlive+RunAtLoad policy (with 10s ThrottleInterval) that respawns the Gateway after crashes and at login.",
+   "tags": [
+    "launchd",
+    "respawn",
+    "policy"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:install-daemon",
+   "type": "concept",
+   "name": "install-daemon",
+   "summary": "Onboarding option deciding whether to install the managed Gateway service (--install-daemon / --no-install-daemon / --skip-daemon).",
+   "tags": [
+    "onboarding",
+    "service-install"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:update-channel",
+   "type": "concept",
+   "name": "update-channel",
+   "summary": "Release stream (stable/extended-stable/beta/dev) selecting npm dist-tags and auto-update eligibility.",
+   "tags": [
+    "update",
+    "channels"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:check-on-start",
+   "type": "concept",
+   "name": "check-on-start",
+   "summary": "Gateway startup update check gated by update.checkOnStart / update.auto.enabled / OPENCLAW_NO_AUTO_UPDATE.",
+   "tags": [
+    "update",
+    "startup"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:safe-respawn",
+   "type": "concept",
+   "name": "safe-respawn",
+   "summary": "Restart pattern that detaches a helper, waits for the current process to exit, then re-activates the service to avoid self-kill and duplicate respawns.",
+   "tags": [
+    "restart",
+    "launchd",
+    "reliability"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:service-authority",
+   "type": "concept",
+   "name": "service-authority",
+   "summary": "Ownership/custody rules that fence service mutations: refuse from inside the service, over system daemons, or during an update.",
+   "tags": [
+    "authority",
+    "custody"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:state-dir",
+   "type": "concept",
+   "name": "state-dir",
+   "summary": "Operator state root ~/.openclaw (or $OPENCLAW_STATE_DIR), holding config, logs, and service-env, profile-suffixed for named profiles.",
+   "tags": [
+    "state",
+    "paths"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:foreign-launchd-jobs",
+   "type": "concept",
+   "name": "foreign-launchd-jobs",
+   "summary": "Stray ai.openclaw.* launchd jobs (often KeepAlive) that can restart the Gateway unexpectedly; detected by status/doctor.",
+   "tags": [
+    "launchd",
+    "diagnostics"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:port-conflict",
+   "type": "concept",
+   "name": "port-conflict",
+   "summary": "A Gateway port busy with unexpected listeners; distinguished from a healthy Gateway via probe evidence.",
+   "tags": [
+    "diagnostics",
+    "ports"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:node-runtime-mismatch",
+   "type": "concept",
+   "name": "node-runtime-mismatch",
+   "summary": "Recorded service Node being missing/unsupported relative to SUPPORTED_NODE_VERSIONS and SQLite capability checks.",
+   "tags": [
+    "runtime",
+    "node",
+    "diagnostics"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:onboarding-wizard",
+   "type": "concept",
+   "name": "onboarding-wizard",
+   "summary": "Guided/classic/non-interactive onboarding that writes config and optionally installs the daemon.",
+   "tags": [
+    "onboarding",
+    "wizard"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:path-persistence",
+   "type": "concept",
+   "name": "path-persistence",
+   "summary": "Installer rewriting shell rc files so the npm global bin (or ~/.local/bin) is on PATH for future shells.",
+   "tags": [
+    "install",
+    "path"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:uninstall-scopes",
+   "type": "concept",
+   "name": "uninstall-scopes",
+   "summary": "service/state/workspace/app scopes for openclaw uninstall, with service teardown before local-data removal.",
+   "tags": [
+    "uninstall",
+    "scopes"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:daemon-runtime-pin",
+   "type": "concept",
+   "name": "daemon-runtime-pin",
+   "summary": "Recorded absolute Node/Bun executable pinned for the managed service, preserved across reinstall/update/repair.",
+   "tags": [
+    "runtime",
+    "pin",
+    "service"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:env-wrapper",
+   "type": "concept",
+   "name": "env-wrapper",
+   "summary": "Generated /bin/sh wrapper + 0600 env file that injects service environment outside inline plist XML.",
+   "tags": [
+    "launchd",
+    "env",
+    "security"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "config:~/.openclaw/openclaw.json",
+   "type": "config",
+   "name": "openclaw.json",
+   "summary": "Primary config file (default ~/.openclaw/openclaw.json, or $OPENCLAW_STATE_DIR/openclaw.json).",
+   "tags": [
+    "config",
+    "state-dir"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "config:~/Library/LaunchAgents/ai.openclaw.gateway.plist",
+   "type": "config",
+   "name": "Gateway LaunchAgent plist",
+   "summary": "Per-user launchd definition for the Gateway (RunAtLoad/KeepAlive/env wrapper).",
+   "tags": [
+    "launchd",
+    "plist"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "config:~/.openclaw/service-env/ai.openclaw.gateway.env",
+   "type": "config",
+   "name": "Generated service env file",
+   "summary": "Owner-only (0600) generated environment file loaded by the LaunchAgent env wrapper.",
+   "tags": [
+    "launchd",
+    "env",
+    "secrets"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "service:gateway",
+   "type": "service",
+   "name": "OpenClaw Gateway",
+   "summary": "Always-on agent host process managed by launchd/systemd/Task Scheduler, exposing RPC/health and the Control UI.",
+   "tags": [
+    "gateway",
+    "runtime"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "service:ai.openclaw.gateway",
+   "type": "service",
+   "name": "ai.openclaw.gateway",
+   "summary": "Default launchd label (ai.openclaw.<profile> for named profiles) identifying the managed Gateway job.",
+   "tags": [
+    "launchd",
+    "label"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "flow:macos-lifecycle",
+   "type": "flow",
+   "name": "macos-lifecycle",
+   "summary": "Umbrella flow: install -> onboard -> LaunchAgent install -> running gateway -> update/uninstall.",
+   "tags": [
+    "lifecycle",
+    "flow"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:install",
+   "type": "step",
+   "name": "install",
+   "summary": "curl install.sh: provision Node, npm install -g openclaw, persist PATH.",
+   "tags": [
+    "install",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:onboard",
+   "type": "step",
+   "name": "onboard",
+   "summary": "openclaw onboard writes ~/.openclaw/openclaw.json and optionally requests daemon install.",
+   "tags": [
+    "onboarding",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:launchagent-install",
+   "type": "step",
+   "name": "launchagent-install",
+   "summary": "runDaemonInstall builds and bootstraps the ai.openclaw.gateway LaunchAgent.",
+   "tags": [
+    "launchd",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:running-gateway",
+   "type": "step",
+   "name": "running-gateway",
+   "summary": "Gateway serving under launchd with KeepAlive and health probes.",
+   "tags": [
+    "gateway",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:update",
+   "type": "step",
+   "name": "update",
+   "summary": "openclaw update selects a channel, applies the package, and safely respawns the service.",
+   "tags": [
+    "update",
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "document:docs/cli/gateway/service.md",
+   "type": "document",
+   "name": "Gateway service docs",
+   "summary": "Operator reference for service lifecycle, runtime pinning, wrappers, heap sizing, and auth.",
+   "tags": [
+    "docs",
+    "gateway",
+    "service"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/cli/gateway/service.md"
+  },
+  {
+   "id": "document:docs/platforms/mac/bundled-gateway.md",
+   "type": "document",
+   "name": "macOS gateway host docs",
+   "summary": "Operator reference for macOS bundled runtime, LaunchAgent label/paths, hosting, foreign jobs, and logs.",
+   "tags": [
+    "docs",
+    "macos",
+    "launchd"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/platforms/mac/bundled-gateway.md"
+  },
+  {
+   "id": "document:docs/install/node.md",
+   "type": "document",
+   "name": "Node.js docs",
+   "summary": "Node version requirements, install options, PATH troubleshooting, startup recovery.",
+   "tags": [
+    "docs",
+    "node",
+    "install"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/install/node.md"
+  },
+  {
+   "id": "document:docs/install/development-channels.md",
+   "type": "document",
+   "name": "Release channels docs",
+   "summary": "Stable/extended-stable/beta/dev semantics and switching via openclaw update --channel.",
+   "tags": [
+    "docs",
+    "update",
+    "channels"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/install/development-channels.md"
+  },
+  {
+   "id": "function:src/cli/daemon-cli/response.ts:installDaemonServiceAndEmit",
+   "type": "function",
+   "name": "installDaemonServiceAndEmit",
+   "summary": "Installs a daemon service and emits the JSON/text result, invoking install and onVerified callbacks.",
+   "tags": [
+    "daemon",
+    "response"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/response.ts",
+   "lineRange": [
+    146,
+    230
+   ]
+  },
+  {
+   "id": "function:src/daemon/service-update-authority.ts:assertGatewayServiceUpdateCurrent",
+   "type": "function",
+   "name": "assertGatewayServiceUpdateCurrent",
+   "summary": "Throws when the service definition changed under a running update, fencing install/repair writes.",
+   "tags": [
+    "authority",
+    "update",
+    "custody"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/service-update-authority.ts",
+   "lineRange": [
+    1,
+    120
+   ]
+  },
+  {
+   "id": "function:src/cli/daemon-cli/launchd-recovery.ts:recoverInstalledLaunchAgent",
+   "type": "function",
+   "name": "recoverInstalledLaunchAgent",
+   "summary": "Re-bootstraps an installed but unloaded LaunchAgent and reports the recovery message.",
+   "tags": [
+    "launchd",
+    "recovery"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/launchd-recovery.ts",
+   "lineRange": [
+    1,
+    60
+   ]
+  },
+  {
+   "id": "function:src/infra/ports-format.ts:formatPortDiagnostics",
+   "type": "function",
+   "name": "formatPortDiagnostics",
+   "summary": "Formats port diagnostics lines and identifies expected Gateway listeners to separate health from conflict.",
+   "tags": [
+    "ports",
+    "diagnostics"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/infra/ports-format.ts",
+   "lineRange": [
+    1,
+    120
+   ]
+  },
+  {
+   "id": "file:src/commands/doctor-foreign-launchd-jobs.test.ts",
+   "type": "file",
+   "name": "doctor-foreign-launchd-jobs.test.ts",
+   "summary": "Tests Doctor foreign-launchd-job reporting/repair.",
+   "tags": [
+    "tests"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-foreign-launchd-jobs.test.ts"
+  },
+  {
+   "id": "file:src/infra/update-channels.test.ts",
+   "type": "file",
+   "name": "update-channels.test.ts",
+   "summary": "Tests update channel resolution and npm tag mapping.",
+   "tags": [
+    "tests"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/infra/update-channels.test.ts"
+  },
+  {
+   "id": "file:src/daemon/launchd-plist.test-support.ts",
+   "type": "file",
+   "name": "launchd-plist.test-support.ts",
+   "summary": "Test support fixtures for LaunchAgent plist building/reading.",
+   "tags": [
+    "tests"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/daemon/launchd-plist.test-support.ts"
+  },
+  {
+   "id": "file:src/cli/daemon-cli/install.test.ts",
+   "type": "file",
+   "name": "install.test.ts",
+   "summary": "Tests gateway install env merge, pin, and guards.",
+   "tags": [
+    "tests"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/install.test.ts"
+  },
+  {
+   "id": "file:src/cli/daemon-cli/lifecycle.test.ts",
+   "type": "file",
+   "name": "lifecycle.test.ts",
+   "summary": "Tests gateway start/stop/restart runners.",
+   "tags": [
+    "tests"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/daemon-cli/lifecycle.test.ts"
+  },
+  {
+   "id": "file:src/commands/doctor-gateway-services.test.ts",
+   "type": "file",
+   "name": "doctor-gateway-services.test.ts",
+   "summary": "Tests doctor gateway service diagnostics.",
+   "tags": [
+    "tests"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/doctor-gateway-services.test.ts"
+  }
+ ],
+ "edges": [
+  {
+   "source": "file:scripts/install.sh",
+   "target": "function:scripts/install.sh:install_node",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:scripts/install.sh",
+   "target": "function:scripts/install.sh:check_node",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:scripts/install.sh",
+   "target": "function:scripts/install.sh:persist_shell_path_prepend",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:scripts/install.sh",
+   "target": "function:scripts/install.sh:run_npm_global_install",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-plist.ts",
+   "target": "function:src/daemon/launchd-plist.ts:buildLaunchAgentPlist",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-install.ts",
+   "target": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-install.ts",
+   "target": "function:src/daemon/launchd-install.ts:uninstallLaunchAgent",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-runtime.ts",
+   "target": "function:src/daemon/launchd-runtime.ts:bootstrapLaunchAgentOrThrow",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-runtime.ts",
+   "target": "function:src/daemon/launchd-runtime.ts:resolveLaunchAgentGuiDomain",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-runtime.ts",
+   "target": "function:src/daemon/launchd-runtime.ts:probeLaunchAgentState",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-runtime.ts",
+   "target": "function:src/daemon/launchd-runtime.ts:parseLaunchctlJob",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-label.ts",
+   "target": "function:src/daemon/launchd-label.ts:resolveLaunchAgentLabel",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-service-files.ts",
+   "target": "function:src/daemon/launchd-service-files.ts:writeLaunchAgentPlist",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-service-files.ts",
+   "target": "function:src/daemon/launchd-service-files.ts:buildLaunchAgentEnvironmentWrapper",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-service-files.ts",
+   "target": "function:src/daemon/launchd-service-files.ts:resolveLaunchAgentPlistPath",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-restart-handoff.ts",
+   "target": "function:src/daemon/launchd-restart-handoff.ts:scheduleDetachedLaunchdRestartHandoff",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/launchd-foreign-jobs.ts",
+   "target": "function:src/daemon/launchd-foreign-jobs.ts:findForeignLaunchdJobs",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/constants.ts",
+   "target": "function:src/daemon/constants.ts:resolveGatewayLaunchAgentLabel",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/paths.ts",
+   "target": "function:src/daemon/paths.ts:resolveGatewayStateDir",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/restart-logs.ts",
+   "target": "function:src/daemon/restart-logs.ts:resolveGatewayLogPaths",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/restart-logs.ts",
+   "target": "function:src/daemon/restart-logs.ts:resolveGatewaySupervisorLogPaths",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/commands/doctor-foreign-launchd-jobs.ts",
+   "target": "function:src/commands/doctor-foreign-launchd-jobs.ts:noteMacForeignLaunchdJobs",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/commands/doctor-gateway-daemon-flow.ts",
+   "target": "function:src/commands/doctor-gateway-daemon-flow.ts:noteGatewayPortDiagnostics",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/commands/doctor-gateway-legacy-services.ts",
+   "target": "function:src/commands/doctor-gateway-legacy-services.ts:classifyLegacyServices",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/commands/uninstall.ts",
+   "target": "function:src/commands/uninstall.ts:uninstallCommand",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/commands/gateway-readiness.ts",
+   "target": "function:src/commands/gateway-readiness.ts:ensureDashboardGatewayReady",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/commands/onboard.ts",
+   "target": "function:src/commands/onboard.ts:setupWizardCommand",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/install.ts",
+   "target": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/install.ts",
+   "target": "function:src/cli/daemon-cli/install.ts:mergeInstallInvocationEnv",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/lifecycle.ts",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/lifecycle.ts",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStop",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/lifecycle.ts",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonRestart",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/register-service-commands.ts",
+   "target": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/start-repair.ts",
+   "target": "function:src/cli/daemon-cli/start-repair.ts:repairLoadedGatewayServiceForStart",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/wizard/setup.finalize.ts",
+   "target": "function:src/wizard/setup.finalize.ts:ensureGatewayServiceForOnboarding",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/infra/update-channels.ts",
+   "target": "function:src/infra/update-channels.ts:resolveEffectiveUpdateChannel",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/infra/update-channels.ts",
+   "target": "function:src/infra/update-channels.ts:channelToNpmTag",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/update-cli/update-command-launch-agent-recovery.ts",
+   "target": "function:src/cli/update-cli/update-command-launch-agent-recovery.ts:recoverInstalledLaunchAgentAfterUpdate",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "function:scripts/install.sh:check_node",
+   "target": "function:scripts/install.sh:install_node",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:scripts/install.sh:install_node",
+   "target": "concept:node-runtime-mismatch",
+   "type": "validates",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:scripts/install.sh:persist_shell_path_prepend",
+   "target": "concept:path-persistence",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:scripts/install.sh:run_npm_global_install",
+   "target": "service:gateway",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:scripts/install.sh",
+   "target": "file:src/commands/onboard.ts",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "final stage execs `openclaw onboard`"
+  },
+  {
+   "source": "file:scripts/install.sh",
+   "target": "concept:onboarding-wizard",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/commands/onboard.ts:setupWizardCommand",
+   "target": "concept:onboarding-wizard",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/cli/program/register.onboard.ts",
+   "target": "concept:install-daemon",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/cli/program/register.onboard.ts",
+   "target": "function:src/commands/onboard.ts:setupWizardCommand",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/commands/onboard-types.ts",
+   "target": "concept:install-daemon",
+   "type": "categorized_under",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/commands/onboard-guided.ts",
+   "target": "concept:install-daemon",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "quickstart/skipped-inference set installDaemon=false"
+  },
+  {
+   "source": "function:src/wizard/setup.finalize.ts:ensureGatewayServiceForOnboarding",
+   "target": "concept:install-daemon",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/wizard/setup.finalize.ts:ensureGatewayServiceForOnboarding",
+   "target": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "service.install() dispatches to launchd"
+  },
+  {
+   "source": "function:src/wizard/setup.finalize.ts:ensureGatewayServiceForOnboarding",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/commands/gateway-readiness.ts:ensureDashboardGatewayReady",
+   "target": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/commands/gateway-readiness.ts:ensureDashboardGatewayReady",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/commands/gateway-readiness.ts:ensureDashboardGatewayReady",
+   "target": "service:gateway",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "function:src/cli/daemon-cli/install.ts:mergeInstallInvocationEnv",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "config:~/.openclaw/openclaw.json",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "defaults gateway.mode=local"
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "config:~/Library/LaunchAgents/ai.openclaw.gateway.plist",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "concept:service-authority",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "concept:daemon-runtime-pin",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "target": "function:src/cli/daemon-cli/response.ts:installDaemonServiceAndEmit",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/cli/daemon-cli/install.ts:mergeInstallInvocationEnv",
+   "target": "concept:service-authority",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "target": "function:src/daemon/launchd-service-files.ts:writeLaunchAgentPlist",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "target": "function:src/daemon/launchd-runtime.ts:bootstrapLaunchAgentOrThrow",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "target": "function:src/daemon/launchd-runtime.ts:probeLaunchAgentState",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "target": "concept:service-authority",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/daemon/launchd-install.ts",
+   "target": "function:src/daemon/service-update-authority.ts:assertGatewayServiceUpdateCurrent",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/daemon/launchd-install.ts:uninstallLaunchAgent",
+   "target": "config:~/Library/LaunchAgents/ai.openclaw.gateway.plist",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "moves plist to ~/.Trash after bootout"
+  },
+  {
+   "source": "function:src/daemon/launchd-service-files.ts:writeLaunchAgentPlist",
+   "target": "function:src/daemon/launchd-plist.ts:buildLaunchAgentPlist",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-service-files.ts:writeLaunchAgentPlist",
+   "target": "function:src/daemon/launchd-service-files.ts:buildLaunchAgentEnvironmentWrapper",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-service-files.ts:writeLaunchAgentPlist",
+   "target": "config:~/.openclaw/service-env/ai.openclaw.gateway.env",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/daemon/launchd-service-files.ts:resolveLaunchAgentPlistPath",
+   "target": "config:~/Library/LaunchAgents/ai.openclaw.gateway.plist",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/daemon/launchd-service-files.ts:buildLaunchAgentEnvironmentWrapper",
+   "target": "concept:env-wrapper",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/daemon/launchd-plist.ts:buildLaunchAgentPlist",
+   "target": "config:~/Library/LaunchAgents/ai.openclaw.gateway.plist",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/daemon/launchd-plist.ts:buildLaunchAgentPlist",
+   "target": "concept:keepalive",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/daemon/launchd-plist.ts:buildLaunchAgentPlist",
+   "target": "concept:launchagent",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/daemon/launchd-runtime.ts:bootstrapLaunchAgentOrThrow",
+   "target": "concept:launchagent",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/daemon/launchd-runtime.ts:bootstrapLaunchAgentOrThrow",
+   "target": "function:src/daemon/launchd-runtime.ts:resolveLaunchAgentGuiDomain",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-runtime.ts:probeLaunchAgentState",
+   "target": "function:src/daemon/launchd-runtime.ts:parseLaunchctlJob",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-runtime.ts:resolveLaunchAgentGuiDomain",
+   "target": "concept:launchagent",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/daemon/launchd-label.ts:resolveLaunchAgentLabel",
+   "target": "function:src/daemon/constants.ts:resolveGatewayLaunchAgentLabel",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/constants.ts:resolveGatewayLaunchAgentLabel",
+   "target": "service:ai.openclaw.gateway",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "label identity ai.openclaw.gateway / ai.openclaw.<profile>"
+  },
+  {
+   "source": "function:src/daemon/launchd-label.ts:resolveLaunchAgentLabel",
+   "target": "service:ai.openclaw.gateway",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "target": "function:src/cli/daemon-cli/install.ts:runDaemonInstall",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStop",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "target": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonRestart",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/register-service-commands.ts:addGatewayServiceCommands",
+   "target": "service:gateway",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "target": "function:src/cli/daemon-cli/start-repair.ts:repairLoadedGatewayServiceForStart",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStart",
+   "target": "function:src/cli/daemon-cli/launchd-recovery.ts:recoverInstalledLaunchAgent",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStop",
+   "target": "concept:keepalive",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "--disable persists suppression of KeepAlive/RunAtLoad"
+  },
+  {
+   "source": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStop",
+   "target": "config:~/Library/LaunchAgents/ai.openclaw.gateway.plist",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonStop",
+   "target": "service:gateway",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/lifecycle.ts:runDaemonRestart",
+   "target": "function:src/daemon/launchd-restart-handoff.ts:scheduleDetachedLaunchdRestartHandoff",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/cli/daemon-cli/start-repair.ts:repairLoadedGatewayServiceForStart",
+   "target": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/daemon-cli/start-repair.ts:repairLoadedGatewayServiceForStart",
+   "target": "concept:service-authority",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/daemon/launchd-restart-handoff.ts:scheduleDetachedLaunchdRestartHandoff",
+   "target": "concept:safe-respawn",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/daemon/launchd-restart-handoff.ts:scheduleDetachedLaunchdRestartHandoff",
+   "target": "function:src/daemon/launchd-label.ts:resolveLaunchAgentLabel",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/cli/update-cli/update-command-launch-agent-recovery.ts:recoverInstalledLaunchAgentAfterUpdate",
+   "target": "function:src/daemon/launchd-runtime.ts:bootstrapLaunchAgentOrThrow",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/cli/update-cli/update-command-launch-agent-recovery.ts:recoverInstalledLaunchAgentAfterUpdate",
+   "target": "concept:safe-respawn",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/commands/doctor-foreign-launchd-jobs.ts:noteMacForeignLaunchdJobs",
+   "target": "function:src/daemon/launchd-foreign-jobs.ts:findForeignLaunchdJobs",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/launchd-foreign-jobs.ts:findForeignLaunchdJobs",
+   "target": "concept:foreign-launchd-jobs",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/commands/doctor-gateway-daemon-flow.ts:noteGatewayPortDiagnostics",
+   "target": "concept:port-conflict",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/commands/doctor-gateway-daemon-flow.ts:noteGatewayPortDiagnostics",
+   "target": "function:src/infra/ports-format.ts:formatPortDiagnostics",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/commands/doctor-gateway-services.ts",
+   "target": "concept:node-runtime-mismatch",
+   "type": "validates",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/commands/doctor-gateway-legacy-services.ts:classifyLegacyServices",
+   "target": "concept:launchagent",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/commands/doctor-foreign-launchd-jobs.ts",
+   "target": "function:src/daemon/launchd-foreign-jobs.ts:findForeignLaunchdJobs",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "function:src/commands/uninstall.ts:uninstallCommand",
+   "target": "concept:uninstall-scopes",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/commands/uninstall.ts:uninstallCommand",
+   "target": "function:src/daemon/launchd-install.ts:uninstallLaunchAgent",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/commands/uninstall.ts:uninstallCommand",
+   "target": "concept:state-dir",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/daemon/paths.ts:resolveGatewayStateDir",
+   "target": "concept:state-dir",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/daemon/paths.ts:resolveGatewayStateDir",
+   "target": "config:~/.openclaw/openclaw.json",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/daemon/restart-logs.ts:resolveGatewayLogPaths",
+   "target": "concept:state-dir",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/daemon/restart-logs.ts:resolveGatewaySupervisorLogPaths",
+   "target": "concept:state-dir",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/config/paths.ts",
+   "target": "config:~/.openclaw/openclaw.json",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/infra/update-channels.ts:resolveEffectiveUpdateChannel",
+   "target": "concept:update-channel",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:src/infra/update-channels.ts:channelToNpmTag",
+   "target": "concept:update-channel",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/infra/update-startup.ts",
+   "target": "concept:check-on-start",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/infra/update-startup.ts",
+   "target": "function:src/infra/update-channels.ts:resolveEffectiveUpdateChannel",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/infra/update-startup.ts",
+   "target": "concept:update-channel",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/cli/update-cli/update-command-launch-agent-recovery.ts",
+   "target": "concept:update-channel",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:ai.openclaw.gateway",
+   "target": "service:gateway",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:gateway",
+   "target": "concept:launchagent",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:gateway",
+   "target": "concept:keepalive",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:launchagent",
+   "target": "concept:keepalive",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:safe-respawn",
+   "target": "concept:keepalive",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:service-authority",
+   "target": "concept:daemon-runtime-pin",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:foreign-launchd-jobs",
+   "target": "concept:keepalive",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:onboarding-wizard",
+   "target": "concept:install-daemon",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:env-wrapper",
+   "target": "concept:launchagent",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:uninstall-scopes",
+   "target": "concept:state-dir",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:path-persistence",
+   "target": "concept:onboarding-wizard",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:macos-lifecycle",
+   "target": "step:install",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "flow:macos-lifecycle",
+   "target": "step:onboard",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "flow:macos-lifecycle",
+   "target": "step:launchagent-install",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "flow:macos-lifecycle",
+   "target": "step:running-gateway",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "flow:macos-lifecycle",
+   "target": "step:update",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "step:install",
+   "target": "step:onboard",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:onboard",
+   "target": "step:launchagent-install",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:launchagent-install",
+   "target": "step:running-gateway",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:running-gateway",
+   "target": "step:update",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:install",
+   "target": "file:scripts/install.sh",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:onboard",
+   "target": "file:src/commands/onboard.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:launchagent-install",
+   "target": "function:src/daemon/launchd-install.ts:installLaunchAgent",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:running-gateway",
+   "target": "service:gateway",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:update",
+   "target": "file:src/infra/update-startup.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/cli/gateway/service.md",
+   "target": "service:gateway",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/cli/gateway/service.md",
+   "target": "function:src/daemon/launchd-restart-handoff.ts:scheduleDetachedLaunchdRestartHandoff",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/bundled-gateway.md",
+   "target": "service:ai.openclaw.gateway",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/bundled-gateway.md",
+   "target": "function:src/daemon/launchd-service-files.ts:resolveLaunchAgentPlistPath",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/bundled-gateway.md",
+   "target": "concept:foreign-launchd-jobs",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/platforms/mac/bundled-gateway.md",
+   "target": "concept:state-dir",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/install/node.md",
+   "target": "concept:node-runtime-mismatch",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/install/node.md",
+   "target": "function:scripts/install.sh:install_node",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/install/development-channels.md",
+   "target": "concept:update-channel",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/install/development-channels.md",
+   "target": "function:src/infra/update-channels.ts:resolveEffectiveUpdateChannel",
+   "type": "cites",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/cli/daemon-cli/install.ts",
+   "target": "file:src/daemon/launchd-install.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/cli/daemon-cli/lifecycle.ts",
+   "target": "file:src/daemon/launchd-runtime.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/cli/daemon-cli/lifecycle.ts",
+   "target": "file:src/daemon/launchd-stop.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/daemon/launchd-install.ts",
+   "target": "file:src/daemon/launchd-system.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/daemon/launchd-service-files.ts",
+   "target": "file:src/daemon/launchd-system.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/daemon/launchd-service-files.ts",
+   "target": "file:src/daemon/restart-logs.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/wizard/setup.finalize.ts",
+   "target": "file:src/cli/daemon-cli/install.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/commands/gateway-readiness.ts",
+   "target": "file:src/cli/daemon-cli/install.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/cli/daemon-cli/register-service-commands.ts",
+   "target": "file:src/cli/daemon-cli/lifecycle.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/commands/doctor-foreign-launchd-jobs.ts",
+   "target": "file:src/commands/doctor-foreign-launchd-jobs.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/infra/update-channels.ts",
+   "target": "file:src/infra/update-channels.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/daemon/launchd-install.ts",
+   "target": "file:src/daemon/launchd-plist.test-support.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/cli/daemon-cli/install.ts",
+   "target": "file:src/cli/daemon-cli/install.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/cli/daemon-cli/lifecycle.ts",
+   "target": "file:src/cli/daemon-cli/lifecycle.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/wizard/setup.finalize.ts",
+   "target": "file:src/commands/doctor-gateway-services.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/cli/daemon-cli/response.ts",
+   "target": "function:src/cli/daemon-cli/response.ts:installDaemonServiceAndEmit",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/daemon/service-update-authority.ts",
+   "target": "function:src/daemon/service-update-authority.ts:assertGatewayServiceUpdateCurrent",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/launchd-recovery.ts",
+   "target": "function:src/cli/daemon-cli/launchd-recovery.ts:recoverInstalledLaunchAgent",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/infra/ports-format.ts",
+   "target": "function:src/infra/ports-format.ts:formatPortDiagnostics",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/cli/daemon-cli/launchd-recovery.ts",
+   "target": "concept:launchagent",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/commands/onboard-non-interactive.ts",
+   "target": "concept:onboarding-wizard",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/daemon/service-update-authority.ts",
+   "target": "concept:service-authority",
+   "type": "implements",
+   "direction": "backward",
+   "weight": 0.9
+  }
+ ]
+}

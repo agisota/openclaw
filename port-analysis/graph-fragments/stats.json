@@ -1,0 +1,39 @@
+{
+ "nodes": 1412,
+ "edges": 2920,
+ "layers": 13,
+ "tour": 13,
+ "by_type": {
+  "file": 570,
+  "function": 309,
+  "class": 120,
+  "concept": 202,
+  "config": 8,
+  "table": 10,
+  "schema": 11,
+  "endpoint": 46,
+  "service": 13,
+  "module": 26,
+  "flow": 8,
+  "step": 27,
+  "document": 51,
+  "pipeline": 5,
+  "resource": 4,
+  "domain": 2
+ },
+ "by_layer": {
+  "multi-user": 86,
+  "dashboards": 240,
+  "memory": 114,
+  "skills": 122,
+  "voice": 104,
+  "meetings": 101,
+  "macos": 142,
+  "lifecycle": 117,
+  "mobile": 17,
+  "channels": 6,
+  "docs": 19,
+  "rox": 90,
+  "gateway": 254
+ }
+}

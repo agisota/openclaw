@@ -1,0 +1,3324 @@
+{
+ "nodes": [
+  {
+   "id": "concept:talk-event-stream",
+   "type": "concept",
+   "name": "Talk event stream",
+   "summary": "Canonical TALK_EVENT_TYPES vocabulary (session/turn/capture/transcript/output/tool) shared by realtime, STT/TTS and telephony planes; turn- and capture-scoped events require turnId/captureId.",
+   "tags": [
+    "talk",
+    "events",
+    "observability"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:realtime-voice-bridge",
+   "type": "concept",
+   "name": "Realtime voice bridge",
+   "summary": "Provider-agnostic RealtimeVoiceBridge contract (connect/sendAudio/submitToolResult/handleBargeIn/close) with an outputAudioMode of response or continuous.",
+   "tags": [
+    "realtime",
+    "provider",
+    "transport"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:barge-in",
+   "type": "concept",
+   "name": "Barge-in / interrupt",
+   "summary": "User speech interrupting assistant playback: capability-gated, echo-guarded by minBargeInAudioEndMs (250ms), clears queued audio and can cancel the provider response.",
+   "tags": [
+    "realtime",
+    "interrupt",
+    "audio"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:wake-name-gating",
+   "type": "concept",
+   "name": "Activation-name gating",
+   "summary": "Realtime transcript edge (leading/trailing) name match with conservative fuzzy matching to decide whether a turn routes to the agent.",
+   "tags": [
+    "wake",
+    "routing",
+    "fuzzy"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:agent-consult",
+   "type": "concept",
+   "name": "Agent consult delegation",
+   "summary": "openclaw_agent_consult tool routes realtime speech to a full agent run over the active session, returning a speakable result.",
+   "tags": [
+    "agent",
+    "tools",
+    "delegation"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:gateway-relay-transport",
+   "type": "concept",
+   "name": "Gateway-relay transport",
+   "summary": "Provider audio stays on the Gateway; 20ms 24kHz PCM16 frames are broadcast to the owning browser conn over the talk.event channel.",
+   "tags": [
+    "transport",
+    "gateway",
+    "relay"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:client-owned-webrtc",
+   "type": "concept",
+   "name": "Client-owned WebRTC",
+   "summary": "Browser/iOS owns the provider media (WebRTC or provider-websocket); Gateway mints credentials and owns control when gateway-control-v1 is negotiated.",
+   "tags": [
+    "transport",
+    "webrtc",
+    "browser"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:gateway-control-v1",
+   "type": "concept",
+   "name": "gateway-control-v1",
+   "summary": "Capability enabling Gateway-owned task/transcript control of a client-owned media session via a bound sideband control bridge.",
+   "tags": [
+    "transport",
+    "control",
+    "sdk"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:tts-provider-fallback",
+   "type": "concept",
+   "name": "TTS provider fallback chain",
+   "summary": "Buffered/streaming TTS runs an ordered provider candidate list, falling back on failure, with persona/prefs/config precedence.",
+   "tags": [
+    "tts",
+    "fallback",
+    "providers"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:voice-selection",
+   "type": "concept",
+   "name": "Talk voice selection",
+   "summary": "Live voice/model selection for an active session with a voice-change handshake and provider voice lists.",
+   "tags": [
+    "talk",
+    "voice",
+    "selection"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:realtime-transcription",
+   "type": "concept",
+   "name": "Realtime transcription relay",
+   "summary": "Streaming STT sessions (browser captions or telephony Media Streams) emitting partials then final transcripts.",
+   "tags": [
+    "stt",
+    "streaming",
+    "relay"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:voice-wake-sync",
+   "type": "concept",
+   "name": "Global voice wake sync",
+   "summary": "One Gateway-owned wake-word list persisted in the state DB and broadcast to every node; recognition runs on-device.",
+   "tags": [
+    "wake",
+    "state",
+    "sync"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:telephony-voice-call",
+   "type": "concept",
+   "name": "Telephony voice call",
+   "summary": "Carrier calls via Twilio/Telnyx/Plivo with webhook verification, TwiML/media-stream handling, inbound policy and session scope.",
+   "tags": [
+    "telephony",
+    "calls",
+    "webhook"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:telephony-tts",
+   "type": "concept",
+   "name": "Telephony TTS",
+   "summary": "Core TTS with a call-scoped override, converted to 8kHz mu-law for the carrier stream.",
+   "tags": [
+    "telephony",
+    "tts",
+    "audio"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:talk-transport-modes",
+   "type": "concept",
+   "name": "Talk transports",
+   "summary": "webrtc | provider-websocket | gateway-relay | managed-room, plus brain strategies agent-consult | direct-tools | none.",
+   "tags": [
+    "talk",
+    "transport",
+    "mode"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "module:realtime-voice-provider-sdk",
+   "type": "module",
+   "name": "Realtime voice provider SDK",
+   "summary": "plugin-sdk seam exposing RealtimeVoiceProviderPlugin, RealtimeVoiceBridgeCreateRequest, and audio-format helpers to provider extensions.",
+   "tags": [
+    "sdk",
+    "realtime",
+    "plugins"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:speech-provider-sdk",
+   "type": "module",
+   "name": "Speech provider SDK",
+   "summary": "plugin-sdk seam exposing SpeechProviderPlugin (synthesize/streamSynthesize/synthesizeTelephony/listVoices/directives).",
+   "tags": [
+    "sdk",
+    "tts",
+    "plugins"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "module:meeting-runtime",
+   "type": "module",
+   "name": "Meeting runtime SDK",
+   "summary": "plugin-sdk/meeting-runtime startMeetingRealtimeEngine seam used to drive realtime voice inside meeting sessions.",
+   "tags": [
+    "sdk",
+    "meetings",
+    "realtime"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "service:voice-call-plugin",
+   "type": "service",
+   "name": "Voice Call plugin service",
+   "summary": "Gateway-hosted plugin service that owns the webhook server, tunnel, CallManager and realtime handler for telephony.",
+   "tags": [
+    "telephony",
+    "service",
+    "plugin"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "config:extensions/google/capability-catalog.ts",
+   "type": "config",
+   "name": "Google capability catalog",
+   "summary": "Registers the Google speech provider and lazy Gemini Live realtime voice provider.",
+   "tags": [
+    "google",
+    "catalog",
+    "plugins"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "document:docs/nodes/talk.md",
+   "type": "document",
+   "name": "Talk mode docs",
+   "summary": "Reference for Talk runtime shapes, transports, voice directives and talk.* config keys.",
+   "tags": [
+    "talk",
+    "docs"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "document:docs/nodes/voicewake.md",
+   "type": "document",
+   "name": "Voice wake docs",
+   "summary": "Reference for wake-word storage keys, RPC (voicewake.get/set/routing), events and client sync.",
+   "tags": [
+    "wake",
+    "docs"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "document:docs/plugins/voice-call.md",
+   "type": "document",
+   "name": "Voice call plugin docs",
+   "summary": "Reference for voice-call setup, providers, realtime/streaming, TTS and inbound policy.",
+   "tags": [
+    "telephony",
+    "docs"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "file:src/talk/provider-types.ts",
+   "type": "file",
+   "name": "talk provider types",
+   "summary": "Realtime voice provider contract: capabilities, bridge, callbacks, barge-in options and audio formats.",
+   "tags": [
+    "realtime",
+    "types",
+    "contract"
+   ],
+   "complexity": "complex",
+   "filePath": "src/talk/provider-types.ts",
+   "lineRange": [
+    1,
+    369
+   ]
+  },
+  {
+   "id": "file:src/talk/provider-registry.ts",
+   "type": "file",
+   "name": "talk provider registry",
+   "summary": "Discovers realtime voice providers through plugin capability manifests.",
+   "tags": [
+    "realtime",
+    "registry",
+    "plugins"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/provider-registry.ts",
+   "lineRange": [
+    1,
+    53
+   ]
+  },
+  {
+   "id": "file:src/talk/provider-resolver.ts",
+   "type": "file",
+   "name": "talk provider resolver",
+   "summary": "Resolves a configured realtime voice provider with surface/capability/default-model selection.",
+   "tags": [
+    "realtime",
+    "resolution",
+    "config"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/provider-resolver.ts",
+   "lineRange": [
+    1,
+    186
+   ]
+  },
+  {
+   "id": "file:src/talk/realtime-session-lifecycle.ts",
+   "type": "file",
+   "name": "realtime session lifecycle",
+   "summary": "Shared session state machine (idle/connecting/ready/retry-wait/terminal) plus the bounded pending-audio queue.",
+   "tags": [
+    "realtime",
+    "lifecycle",
+    "queue"
+   ],
+   "complexity": "complex",
+   "filePath": "src/talk/realtime-session-lifecycle.ts",
+   "lineRange": [
+    1,
+    397
+   ]
+  },
+  {
+   "id": "file:src/talk/realtime-session-policy.ts",
+   "type": "file",
+   "name": "realtime session policy",
+   "summary": "Derives consult/tool/wake-name/auto-respond policy and barge-in defaults.",
+   "tags": [
+    "realtime",
+    "policy",
+    "consult"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/realtime-session-policy.ts",
+   "lineRange": [
+    1,
+    154
+   ]
+  },
+  {
+   "id": "file:src/talk/realtime-session-harness.ts",
+   "type": "file",
+   "name": "realtime session harness",
+   "summary": "Core adapter binding a provider bridge to talk events, forced consults and output ownership.",
+   "tags": [
+    "realtime",
+    "harness",
+    "events"
+   ],
+   "complexity": "complex",
+   "filePath": "src/talk/realtime-session-harness.ts",
+   "lineRange": [
+    1,
+    360
+   ]
+  },
+  {
+   "id": "file:src/talk/activation-name.ts",
+   "type": "file",
+   "name": "activation name matcher",
+   "summary": "Edge wake-name matching with conservative fuzzy rules and name stripping.",
+   "tags": [
+    "wake",
+    "matching",
+    "fuzzy"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/activation-name.ts",
+   "lineRange": [
+    1,
+    329
+   ]
+  },
+  {
+   "id": "file:src/talk/talk-events.ts",
+   "type": "file",
+   "name": "talk events",
+   "summary": "TALK_EVENT_TYPES vocabulary and the sequenced TalkEvent factory.",
+   "tags": [
+    "talk",
+    "events",
+    "schema"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/talk-events.ts",
+   "lineRange": [
+    1,
+    136
+   ]
+  },
+  {
+   "id": "file:src/talk/talk-session-controller.ts",
+   "type": "file",
+   "name": "talk session controller",
+   "summary": "Turn/output-audio state machine emitting sequenced Talk events.",
+   "tags": [
+    "talk",
+    "turns",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/talk-session-controller.ts",
+   "lineRange": [
+    1,
+    222
+   ]
+  },
+  {
+   "id": "file:src/talk/audio-codec.ts",
+   "type": "file",
+   "name": "audio codec",
+   "summary": "PCM resampling and G.711 mu-law conversion helpers for Talk bridges.",
+   "tags": [
+    "audio",
+    "codec",
+    "resample"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/audio-codec.ts",
+   "lineRange": [
+    1,
+    429
+   ]
+  },
+  {
+   "id": "file:src/talk/audio-output-port.ts",
+   "type": "file",
+   "name": "audio output port",
+   "summary": "Call-bound continuous PCM sink abstraction decoupling provider audio from host callbacks.",
+   "tags": [
+    "audio",
+    "output",
+    "port"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/audio-output-port.ts"
+  },
+  {
+   "id": "file:src/talk/agent-consult-tool.ts",
+   "type": "file",
+   "name": "agent consult tool",
+   "summary": "Builds the openclaw_agent_consult tool schema, policy and prompt.",
+   "tags": [
+    "agent",
+    "consult",
+    "tools"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/agent-consult-tool.ts",
+   "lineRange": [
+    1,
+    300
+   ]
+  },
+  {
+   "id": "file:src/talk/client-voice-confirmation-policy.ts",
+   "type": "file",
+   "name": "voice confirmation policy",
+   "summary": "Flags high-impact mutating tools that require spoken confirmation during voice sessions.",
+   "tags": [
+    "voice",
+    "safety",
+    "confirmation"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/client-voice-confirmation-policy.ts",
+   "lineRange": [
+    1,
+    33
+   ]
+  },
+  {
+   "id": "file:src/talk/client-voice-session.ts",
+   "type": "file",
+   "name": "client voice session",
+   "summary": "Persists client-owned voice session transcripts and agent session entries.",
+   "tags": [
+    "voice",
+    "session",
+    "storage"
+   ],
+   "complexity": "complex",
+   "filePath": "src/talk/client-voice-session.ts",
+   "lineRange": [
+    1,
+    763
+   ]
+  },
+  {
+   "id": "file:src/talk/observability.ts",
+   "type": "file",
+   "name": "talk observability",
+   "summary": "Records Talk observability events from session controllers.",
+   "tags": [
+    "talk",
+    "observability",
+    "metrics"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/observability.ts"
+  },
+  {
+   "id": "file:src/talk/event-metrics.ts",
+   "type": "file",
+   "name": "talk event metrics",
+   "summary": "Aggregates Talk event metrics for diagnostics.",
+   "tags": [
+    "talk",
+    "metrics",
+    "diagnostics"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/event-metrics.ts"
+  },
+  {
+   "id": "file:src/gateway/talk/relay/session-create.ts",
+   "type": "file",
+   "name": "realtime relay session",
+   "summary": "Creates a gateway-relay realtime session: harness bridge, 960-byte audio framing, output ownership, tool ledger.",
+   "tags": [
+    "gateway",
+    "relay",
+    "session"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/talk/relay/session-create.ts",
+   "lineRange": [
+    1,
+    695
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/transcription-relay.ts",
+   "type": "file",
+   "name": "transcription relay",
+   "summary": "Gateway transcription relay session with limits, TTL and Talk events; streams base64 audio to the STT provider.",
+   "tags": [
+    "gateway",
+    "stt",
+    "relay"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/talk/transcription-relay.ts",
+   "lineRange": [
+    1,
+    411
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/handlers/client-create.ts",
+   "type": "file",
+   "name": "talk.client.create handler",
+   "summary": "Creates client-owned realtime sessions: provider resolution, tools, instructions, voice-session registration.",
+   "tags": [
+    "gateway",
+    "client",
+    "webrtc"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/talk/handlers/client-create.ts",
+   "lineRange": [
+    1,
+    554
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/handlers/mode.ts",
+   "type": "file",
+   "name": "talk.mode handler",
+   "summary": "Broadcasts Talk mode enable/phase changes to connected clients and nodes.",
+   "tags": [
+    "gateway",
+    "mode",
+    "broadcast"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/talk/handlers/mode.ts",
+   "lineRange": [
+    1,
+    38
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/session-config.ts",
+   "type": "file",
+   "name": "talk session config",
+   "summary": "Builds realtime/transcription config from talk.realtime + voice-call streaming, defaults and instructions.",
+   "tags": [
+    "gateway",
+    "config",
+    "instructions"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/talk/session-config.ts",
+   "lineRange": [
+    1,
+    321
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/nodes.ts",
+   "type": "file",
+   "name": "talk nodes",
+   "summary": "Detects connected Talk-capable nodes via the talk capability or talk.* commands.",
+   "tags": [
+    "gateway",
+    "nodes",
+    "capability"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/talk/nodes.ts",
+   "lineRange": [
+    1,
+    19
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/voice-selection.ts",
+   "type": "file",
+   "name": "talk voice selection",
+   "summary": "Registers active voice sessions and runs the voice-change handshake.",
+   "tags": [
+    "gateway",
+    "voice",
+    "selection"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/talk/voice-selection.ts",
+   "lineRange": [
+    1,
+    173
+   ]
+  },
+  {
+   "id": "file:src/gateway/talk/client-gateway-control.ts",
+   "type": "file",
+   "name": "client gateway control",
+   "summary": "Gateway-owned control owner for client media sessions (bindControl sideband).",
+   "tags": [
+    "gateway",
+    "control",
+    "client"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/talk/client-gateway-control.ts"
+  },
+  {
+   "id": "file:src/gateway/talk/realtime-run-control.ts",
+   "type": "file",
+   "name": "realtime run control",
+   "summary": "Handles consult/agent-run steering and cancellation from realtime sessions.",
+   "tags": [
+    "gateway",
+    "control",
+    "agent"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/talk/realtime-run-control.ts"
+  },
+  {
+   "id": "file:src/gateway/server-methods/voicewake.ts",
+   "type": "file",
+   "name": "voicewake RPC",
+   "summary": "voicewake.get/set handlers: normalize, persist and broadcast the global trigger list.",
+   "tags": [
+    "wake",
+    "rpc",
+    "gateway"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/server-methods/voicewake.ts",
+   "lineRange": [
+    1,
+    31
+   ]
+  },
+  {
+   "id": "file:src/infra/voicewake.ts",
+   "type": "file",
+   "name": "voicewake state",
+   "summary": "Reads/writes wake-word triggers under the state DB config_machine_state voicewake.triggers key.",
+   "tags": [
+    "wake",
+    "state",
+    "persistence"
+   ],
+   "complexity": "simple",
+   "filePath": "src/infra/voicewake.ts",
+   "lineRange": [
+    1,
+    40
+   ]
+  },
+  {
+   "id": "file:src/realtime-transcription/provider-types.ts",
+   "type": "file",
+   "name": "transcription provider types",
+   "summary": "RealtimeTranscriptionSession contract (connect/sendAudio/close) and callback shapes.",
+   "tags": [
+    "stt",
+    "types",
+    "contract"
+   ],
+   "complexity": "simple",
+   "filePath": "src/realtime-transcription/provider-types.ts",
+   "lineRange": [
+    1,
+    39
+   ]
+  },
+  {
+   "id": "file:src/realtime-transcription/provider-registry.ts",
+   "type": "file",
+   "name": "transcription provider registry",
+   "summary": "Discovers realtime transcription providers from plugin manifests.",
+   "tags": [
+    "stt",
+    "registry",
+    "plugins"
+   ],
+   "complexity": "simple",
+   "filePath": "src/realtime-transcription/provider-registry.ts"
+  },
+  {
+   "id": "file:src/realtime-transcription/websocket-session.ts",
+   "type": "file",
+   "name": "transcription ws session",
+   "summary": "Generic WS transcription session owning reconnection, bounded queues and provider framing hooks.",
+   "tags": [
+    "stt",
+    "websocket",
+    "reconnect"
+   ],
+   "complexity": "complex",
+   "filePath": "src/realtime-transcription/websocket-session.ts",
+   "lineRange": [
+    1,
+    576
+   ]
+  },
+  {
+   "id": "file:extensions/openai/realtime-voice-provider-factory.ts",
+   "type": "file",
+   "name": "OpenAI realtime provider",
+   "summary": "Builds the OpenAI realtime provider: config resolution, backend bridge, browser WebRTC session, capabilities.",
+   "tags": [
+    "openai",
+    "realtime",
+    "provider"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-provider-factory.ts",
+   "lineRange": [
+    1,
+    545
+   ]
+  },
+  {
+   "id": "file:extensions/openai/realtime-voice-bridge.ts",
+   "type": "file",
+   "name": "OpenAI realtime bridge",
+   "summary": "Backend WebSocket bridge with connect timeout, reconnect backoff and transport capture.",
+   "tags": [
+    "openai",
+    "bridge",
+    "websocket"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-bridge.ts",
+   "lineRange": [
+    1,
+    703
+   ]
+  },
+  {
+   "id": "file:extensions/openai/realtime-voice-protocol.ts",
+   "type": "file",
+   "name": "OpenAI realtime protocol",
+   "summary": "Builds session.update, serializes response create/cancel and implements barge-in truncation with marks.",
+   "tags": [
+    "openai",
+    "protocol",
+    "barge-in"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-protocol.ts",
+   "lineRange": [
+    1,
+    442
+   ]
+  },
+  {
+   "id": "file:extensions/openai/realtime-voice-session-policy.ts",
+   "type": "file",
+   "name": "OpenAI realtime policy",
+   "summary": "Models, voices, capabilities and GA session/turn-detection builders.",
+   "tags": [
+    "openai",
+    "policy",
+    "models"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-session-policy.ts",
+   "lineRange": [
+    1,
+    552
+   ]
+  },
+  {
+   "id": "file:extensions/openai/realtime-voice-events.ts",
+   "type": "file",
+   "name": "OpenAI realtime events",
+   "summary": "Translates server realtime events into onAudio/onTranscript/onToolCall callbacks.",
+   "tags": [
+    "openai",
+    "events",
+    "transcript"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-events.ts",
+   "lineRange": [
+    1,
+    434
+   ]
+  },
+  {
+   "id": "file:extensions/openai/speech-provider.ts",
+   "type": "file",
+   "name": "OpenAI speech provider",
+   "summary": "SpeechProviderPlugin for OpenAI TTS: config, directives, voices, synthesize/telephony.",
+   "tags": [
+    "openai",
+    "tts",
+    "provider"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/openai/speech-provider.ts",
+   "lineRange": [
+    1,
+    277
+   ]
+  },
+  {
+   "id": "file:extensions/openai/tts.ts",
+   "type": "file",
+   "name": "OpenAI TTS client",
+   "summary": "openaiTTS() POSTs /audio/speech with SSRF guard, format selection and byte cap.",
+   "tags": [
+    "openai",
+    "tts",
+    "http"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/openai/tts.ts",
+   "lineRange": [
+    1,
+    196
+   ]
+  },
+  {
+   "id": "file:extensions/openai/audio-transcription.ts",
+   "type": "file",
+   "name": "OpenAI batch transcription",
+   "summary": "Batch audio transcription with API-key rotation and auth-class guards.",
+   "tags": [
+    "openai",
+    "stt",
+    "batch"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/openai/audio-transcription.ts",
+   "lineRange": [
+    1,
+    126
+   ]
+  },
+  {
+   "id": "file:extensions/google/realtime-voice-provider.ts",
+   "type": "file",
+   "name": "Google Live provider",
+   "summary": "Gemini Live bridge over @google/genai: connect, VAD config, resumption, transcripts, barge-in.",
+   "tags": [
+    "google",
+    "realtime",
+    "gemini"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/google/realtime-voice-provider.ts",
+   "lineRange": [
+    1,
+    1314
+   ]
+  },
+  {
+   "id": "file:extensions/google/realtime-voice-model-contract.ts",
+   "type": "file",
+   "name": "Google Live model contract",
+   "summary": "Version-gated Gemini Live behaviours (transcripts, interrupt, continuation, thinking).",
+   "tags": [
+    "google",
+    "contract",
+    "models"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google/realtime-voice-model-contract.ts",
+   "lineRange": [
+    1,
+    150
+   ]
+  },
+  {
+   "id": "file:extensions/google/realtime-voice-lazy.ts",
+   "type": "file",
+   "name": "Google lazy provider",
+   "summary": "Lazily loads the Google realtime provider, buffering audio/messages during startup.",
+   "tags": [
+    "google",
+    "lazy",
+    "provider"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google/realtime-voice-lazy.ts",
+   "lineRange": [
+    1,
+    207
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/index.ts",
+   "type": "file",
+   "name": "voice-call plugin entry",
+   "summary": "Registers voicecall.* gateway methods and the voice_call tool; owns runtime lifecycle generations.",
+   "tags": [
+    "telephony",
+    "plugin",
+    "gateway"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/index.ts",
+   "lineRange": [
+    1,
+    672
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/runtime.ts",
+   "type": "file",
+   "name": "voice-call runtime",
+   "summary": "Builds provider, CallManager, webhook server, tunnel and realtime handler; wires telephony TTS.",
+   "tags": [
+    "telephony",
+    "runtime",
+    "providers"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/runtime.ts",
+   "lineRange": [
+    1,
+    572
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/manager.ts",
+   "type": "file",
+   "name": "CallManager",
+   "summary": "Call state machine, persistence, timers and stale-call reaping.",
+   "tags": [
+    "telephony",
+    "state",
+    "timers"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/manager.ts",
+   "lineRange": [
+    1,
+    618
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/providers/base.ts",
+   "type": "file",
+   "name": "VoiceCallProvider interface",
+   "summary": "Provider contract: webhook verify/parse, initiate/answer/hangup, playTts, DTMF, listen, status.",
+   "tags": [
+    "telephony",
+    "provider",
+    "contract"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/voice-call/src/providers/base.ts",
+   "lineRange": [
+    1,
+    76
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/providers/twilio.ts",
+   "type": "file",
+   "name": "Twilio provider",
+   "summary": "Programmable Voice + Media Streams: TwiML, one-use pre-connect TwiML, stream TTS with <Say> fallback.",
+   "tags": [
+    "telephony",
+    "twilio",
+    "media-stream"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/providers/twilio.ts",
+   "lineRange": [
+    1,
+    747
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/media-stream.ts",
+   "type": "file",
+   "name": "MediaStreamHandler",
+   "summary": "Twilio media WebSocket handler: pending-connection caps, STT session, TTS queue, playback marks.",
+   "tags": [
+    "telephony",
+    "websocket",
+    "stt"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/media-stream.ts",
+   "lineRange": [
+    1,
+    844
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/webhook/realtime-handler.ts",
+   "type": "file",
+   "name": "RealtimeCallHandler",
+   "summary": "Full-duplex call control: stream tokens, bridge lifecycle, forced consults, hangup detection.",
+   "tags": [
+    "telephony",
+    "realtime",
+    "calls"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/webhook/realtime-handler.ts",
+   "lineRange": [
+    1,
+    2005
+   ]
+  },
+  {
+   "id": "file:extensions/voice-call/src/telephony-tts.ts",
+   "type": "file",
+   "name": "Telephony TTS adapter",
+   "summary": "Runs core TTS with a call override and converts PCM/mulaw output to 8kHz mu-law.",
+   "tags": [
+    "telephony",
+    "tts",
+    "adapter"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/voice-call/src/telephony-tts.ts",
+   "lineRange": [
+    1,
+    121
+   ]
+  },
+  {
+   "id": "file:src/tts/provider-types.ts",
+   "type": "file",
+   "name": "speech provider types",
+   "summary": "SpeechProviderPlugin request/result/stream/telephony/directive contracts.",
+   "tags": [
+    "tts",
+    "types",
+    "contract"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/provider-types.ts",
+   "lineRange": [
+    1,
+    150
+   ]
+  },
+  {
+   "id": "file:src/tts/provider-registry.ts",
+   "type": "file",
+   "name": "speech provider registry",
+   "summary": "Resolves speech providers from plugin capabilities.",
+   "tags": [
+    "tts",
+    "registry",
+    "plugins"
+   ],
+   "complexity": "simple",
+   "filePath": "src/tts/provider-registry.ts",
+   "lineRange": [
+    1,
+    36
+   ]
+  },
+  {
+   "id": "file:src/tts/tts-synthesis.ts",
+   "type": "file",
+   "name": "tts synthesis",
+   "summary": "Buffered synthesizeSpeech + textToSpeechCore with fallback and voice-delivery decisions.",
+   "tags": [
+    "tts",
+    "synthesis",
+    "fallback"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-synthesis.ts",
+   "lineRange": [
+    1,
+    257
+   ]
+  },
+  {
+   "id": "file:src/tts/tts-streaming.ts",
+   "type": "file",
+   "name": "tts streaming",
+   "summary": "streamSpeech/textToSpeechStream using provider streamSynthesize and owned transports.",
+   "tags": [
+    "tts",
+    "streaming",
+    "transport"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-streaming.ts",
+   "lineRange": [
+    1,
+    98
+   ]
+  },
+  {
+   "id": "file:src/tts/tts-provider-resolution.ts",
+   "type": "file",
+   "name": "tts provider resolution",
+   "summary": "Provider precedence (prefs->persona->config->voice-model->auto) and config resolution.",
+   "tags": [
+    "tts",
+    "resolution",
+    "precedence"
+   ],
+   "complexity": "complex",
+   "filePath": "src/tts/tts-provider-resolution.ts",
+   "lineRange": [
+    1,
+    512
+   ]
+  },
+  {
+   "id": "file:src/tts/voice-models.ts",
+   "type": "file",
+   "name": "voice models",
+   "summary": "Voice-model refs, provider candidate ordering and voice/provider matching.",
+   "tags": [
+    "tts",
+    "voice",
+    "models"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/voice-models.ts",
+   "lineRange": [
+    1,
+    185
+   ]
+  },
+  {
+   "id": "file:src/tts/directives.ts",
+   "type": "file",
+   "name": "tts directives",
+   "summary": "Parses [[tts:*]] DSL and persisted voice facts; streaming tag cleaner.",
+   "tags": [
+    "tts",
+    "directives",
+    "parsing"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/directives.ts",
+   "lineRange": [
+    1,
+    272
+   ]
+  },
+  {
+   "id": "file:src/tts/tts-core.ts",
+   "type": "file",
+   "name": "tts core",
+   "summary": "Text summarization for speech plus shared tts helpers.",
+   "tags": [
+    "tts",
+    "summary",
+    "text"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-core.ts",
+   "lineRange": [
+    1,
+    211
+   ]
+  },
+  {
+   "id": "file:src/tts/tts-request.ts",
+   "type": "file",
+   "name": "tts request",
+   "summary": "Prepares TTS requests/overrides and resolves explicit provider/voice overrides.",
+   "tags": [
+    "tts",
+    "request",
+    "overrides"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-request.ts",
+   "lineRange": [
+    1,
+    127
+   ]
+  },
+  {
+   "id": "file:src/tts/tts-auto-mode.ts",
+   "type": "file",
+   "name": "tts auto mode",
+   "summary": "Normalizes TTS auto-mode values from config/prefs/session.",
+   "tags": [
+    "tts",
+    "config",
+    "mode"
+   ],
+   "complexity": "simple",
+   "filePath": "src/tts/tts-auto-mode.ts"
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/AppVoiceRuntime.swift",
+   "type": "file",
+   "name": "macOS AppVoiceRuntime",
+   "summary": "Wires VoiceWake, push-to-talk, TalkModeRuntime, overlays and interrupt monitor for macOS.",
+   "tags": [
+    "macos",
+    "wake",
+    "talk"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/AppVoiceRuntime.swift",
+   "lineRange": [
+    1,
+    178
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/VoiceWakeRuntime.swift",
+   "type": "file",
+   "name": "macOS VoiceWakeRuntime",
+   "summary": "Actor owning AVAudioEngine + Speech recognizer, noise-floor RMS, cooldown and overlay capture.",
+   "tags": [
+    "macos",
+    "wake",
+    "speech"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/VoiceWakeRuntime.swift",
+   "lineRange": [
+    1,
+    881
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/TalkModeRuntime+Realtime.swift",
+   "type": "file",
+   "name": "macOS realtime Talk",
+   "summary": "macOS Talk realtime relay start/stop with generation guards and native fallback.",
+   "tags": [
+    "macos",
+    "talk",
+    "realtime"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/macos/Sources/OpenClaw/TalkModeRuntime+Realtime.swift",
+   "lineRange": [
+    1,
+    746
+   ]
+  },
+  {
+   "id": "file:apps/macos/Sources/OpenClaw/MacRealtimeTalkAudioCapture.swift",
+   "type": "file",
+   "name": "macOS Talk audio capture",
+   "summary": "Captures selected-input audio for realtime Talk on macOS.",
+   "tags": [
+    "macos",
+    "capture",
+    "audio"
+   ],
+   "complexity": "moderate",
+   "filePath": "apps/macos/Sources/OpenClaw/MacRealtimeTalkAudioCapture.swift",
+   "lineRange": [
+    1,
+    696
+   ]
+  },
+  {
+   "id": "file:apps/ios/Sources/Voice/VoiceWakeManager.swift",
+   "type": "file",
+   "name": "iOS VoiceWakeManager",
+   "summary": "iOS on-device wake recognition with suppression reasons, restart delay and UserDefaults sync.",
+   "tags": [
+    "ios",
+    "wake",
+    "speech"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/ios/Sources/Voice/VoiceWakeManager.swift",
+   "lineRange": [
+    1,
+    542
+   ]
+  },
+  {
+   "id": "file:apps/android/app/src/main/java/ai/openclaw/app/voice/VoiceWakeManager.kt",
+   "type": "file",
+   "name": "Android VoiceWakeManager",
+   "summary": "Android on-device SpeechRecognizer wake engine, foreground-only, audio-owner gated.",
+   "tags": [
+    "android",
+    "wake",
+    "speech"
+   ],
+   "complexity": "complex",
+   "filePath": "apps/android/app/src/main/java/ai/openclaw/app/voice/VoiceWakeManager.kt",
+   "lineRange": [
+    1,
+    512
+   ]
+  },
+  {
+   "id": "file:src/meeting-bot/realtime-engine.ts",
+   "type": "file",
+   "name": "meeting realtime engine",
+   "summary": "Realtime audio engine used by meeting bots via the meeting-runtime SDK seam.",
+   "tags": [
+    "meetings",
+    "realtime",
+    "engine"
+   ],
+   "complexity": "complex",
+   "filePath": "src/meeting-bot/realtime-engine.ts"
+  },
+  {
+   "id": "file:src/plugin-sdk/meeting-runtime.ts",
+   "type": "file",
+   "name": "meeting runtime sdk",
+   "summary": "Plugin SDK seam exposing startMeetingRealtimeEngine and meeting audio transport types.",
+   "tags": [
+    "sdk",
+    "meetings",
+    "runtime"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/plugin-sdk/meeting-runtime.ts"
+  },
+  {
+   "id": "class:src/talk/realtime-session-lifecycle.ts:RealtimeVoiceSessionLifecycle",
+   "type": "class",
+   "name": "RealtimeVoiceSessionLifecycle",
+   "summary": "Shared realtime session state machine with connect attempts, retry budget, terminal outcomes and pending-audio queue.",
+   "tags": [
+    "lifecycle",
+    "state",
+    "reconnect"
+   ],
+   "complexity": "complex",
+   "filePath": "src/talk/realtime-session-lifecycle.ts",
+   "lineRange": [
+    110,
+    397
+   ]
+  },
+  {
+   "id": "function:src/talk/realtime-session-lifecycle.ts:createRealtimeVoiceAudioQueue",
+   "type": "function",
+   "name": "createRealtimeVoiceAudioQueue",
+   "summary": "Bounded copy-on-enqueue audio queue with drop-oldest/reject-newest overflow policies.",
+   "tags": [
+    "audio",
+    "queue",
+    "backpressure"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/realtime-session-lifecycle.ts",
+   "lineRange": [
+    10,
+    68
+   ]
+  },
+  {
+   "id": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "type": "class",
+   "name": "OpenAIRealtimeBridge",
+   "summary": "OpenAI backend WebSocket bridge implementing RealtimeVoiceBridge with reconnect and transport capture.",
+   "tags": [
+    "openai",
+    "bridge",
+    "websocket"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-bridge.ts",
+   "lineRange": [
+    42,
+    703
+   ]
+  },
+  {
+   "id": "class:extensions/openai/realtime-voice-protocol.ts:OpenAIRealtimeProtocol",
+   "type": "class",
+   "name": "OpenAIRealtimeProtocol",
+   "summary": "Abstract base building session.update, response create/cancel and playback marks for OpenAI realtime.",
+   "tags": [
+    "openai",
+    "protocol",
+    "responses"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-protocol.ts",
+   "lineRange": [
+    25,
+    442
+   ]
+  },
+  {
+   "id": "class:extensions/openai/realtime-voice-events.ts:OpenAIRealtimeEvents",
+   "type": "class",
+   "name": "OpenAIRealtimeEvents",
+   "summary": "Parses OpenAI server events into audio/transcript/tool-call callbacks.",
+   "tags": [
+    "openai",
+    "events",
+    "transcript"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-events.ts",
+   "lineRange": [
+    1,
+    434
+   ]
+  },
+  {
+   "id": "class:extensions/google/realtime-voice-provider.ts:GoogleRealtimeVoiceBridge",
+   "type": "class",
+   "name": "GoogleRealtimeVoiceBridge",
+   "summary": "Gemini Live bridge implementing RealtimeVoiceBridge with session resumption and model-contract gating.",
+   "tags": [
+    "google",
+    "bridge",
+    "gemini"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/google/realtime-voice-provider.ts",
+   "lineRange": [
+    370,
+    1314
+   ]
+  },
+  {
+   "id": "class:src/realtime-transcription/websocket-session.ts:WebSocketRealtimeTranscriptionSession",
+   "type": "class",
+   "name": "WebSocketRealtimeTranscriptionSession",
+   "summary": "Reconnecting WS transcription session with bounded queues and provider framing hooks.",
+   "tags": [
+    "stt",
+    "websocket",
+    "session"
+   ],
+   "complexity": "complex",
+   "filePath": "src/realtime-transcription/websocket-session.ts",
+   "lineRange": [
+    80,
+    576
+   ]
+  },
+  {
+   "id": "class:extensions/voice-call/src/manager.ts:CallManager",
+   "type": "class",
+   "name": "CallManager",
+   "summary": "Call record state machine, persistence and timers, including stale-call reaping and realtime hooks.",
+   "tags": [
+    "telephony",
+    "state",
+    "manager"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/manager.ts",
+   "lineRange": [
+    48,
+    618
+   ]
+  },
+  {
+   "id": "class:extensions/voice-call/src/media-stream.ts:MediaStreamHandler",
+   "type": "class",
+   "name": "MediaStreamHandler",
+   "summary": "Twilio media WebSocket server with connection caps, STT sessions and a per-stream TTS queue.",
+   "tags": [
+    "telephony",
+    "websocket",
+    "stt"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/media-stream.ts",
+   "lineRange": [
+    104,
+    844
+   ]
+  },
+  {
+   "id": "class:extensions/voice-call/src/webhook/realtime-handler.ts:RealtimeCallHandler",
+   "type": "class",
+   "name": "RealtimeCallHandler",
+   "summary": "Full-duplex telephony realtime handler: stream tokens, bridge control, forced consults, playback.",
+   "tags": [
+    "telephony",
+    "realtime",
+    "handler"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/webhook/realtime-handler.ts",
+   "lineRange": [
+    120,
+    2005
+   ]
+  },
+  {
+   "id": "function:src/talk/provider-resolver.ts:resolveConfiguredRealtimeVoiceProvider",
+   "type": "function",
+   "name": "resolveConfiguredRealtimeVoiceProvider",
+   "summary": "Selects the configured realtime voice provider honoring surface, agent scope, model and required capabilities.",
+   "tags": [
+    "realtime",
+    "resolution",
+    "config"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/provider-resolver.ts",
+   "lineRange": [
+    104,
+    186
+   ]
+  },
+  {
+   "id": "function:src/talk/provider-registry.ts:listRealtimeVoiceProviders",
+   "type": "function",
+   "name": "listRealtimeVoiceProviders",
+   "summary": "Lists canonical realtime voice providers discovered from plugin capability manifests.",
+   "tags": [
+    "realtime",
+    "registry",
+    "plugins"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/provider-registry.ts",
+   "lineRange": [
+    16,
+    26
+   ]
+  },
+  {
+   "id": "function:src/talk/realtime-session-harness.ts:createRealtimeVoiceSessionHarness",
+   "type": "function",
+   "name": "createRealtimeVoiceSessionHarness",
+   "summary": "Binds provider bridge events to Talk events, output ownership and forced-consult coordination.",
+   "tags": [
+    "realtime",
+    "harness",
+    "events"
+   ],
+   "complexity": "complex",
+   "filePath": "src/talk/realtime-session-harness.ts",
+   "lineRange": [
+    127,
+    360
+   ]
+  },
+  {
+   "id": "function:src/talk/activation-name.ts:matchRealtimeVoiceActivationName",
+   "type": "function",
+   "name": "matchRealtimeVoiceActivationName",
+   "summary": "Matches and strips a configured activation name from either transcript edge with conservative fuzzy rules.",
+   "tags": [
+    "wake",
+    "matching",
+    "fuzzy"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/activation-name.ts",
+   "lineRange": [
+    78,
+    121
+   ]
+  },
+  {
+   "id": "function:src/talk/realtime-session-policy.ts:resolveRealtimeVoiceSessionPolicy",
+   "type": "function",
+   "name": "resolveRealtimeVoiceSessionPolicy",
+   "summary": "Resolves consult/tool/wake-name/auto-respond policy for a realtime session.",
+   "tags": [
+    "realtime",
+    "policy",
+    "consult"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/realtime-session-policy.ts",
+   "lineRange": [
+    30,
+    83
+   ]
+  },
+  {
+   "id": "function:src/talk/talk-events.ts:createTalkEventSequencer",
+   "type": "function",
+   "name": "createTalkEventSequencer",
+   "summary": "Assigns session id/seq/timestamp and enforces turn/capture correlation on Talk events.",
+   "tags": [
+    "talk",
+    "events",
+    "sequencer"
+   ],
+   "complexity": "simple",
+   "filePath": "src/talk/talk-events.ts",
+   "lineRange": [
+    104,
+    136
+   ]
+  },
+  {
+   "id": "function:src/talk/talk-session-controller.ts:createTalkSessionController",
+   "type": "function",
+   "name": "createTalkSessionController",
+   "summary": "Turn/output-audio state machine that emits sequenced Talk events and keeps a bounded recent-event buffer.",
+   "tags": [
+    "talk",
+    "turns",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/talk/talk-session-controller.ts",
+   "lineRange": [
+    63,
+    203
+   ]
+  },
+  {
+   "id": "function:src/gateway/talk/relay/session-create.ts:createTalkRealtimeRelaySession",
+   "type": "function",
+   "name": "createTalkRealtimeRelaySession",
+   "summary": "Creates a gateway-relay realtime session, frames provider audio and broadcasts relay events to the owner.",
+   "tags": [
+    "gateway",
+    "relay",
+    "audio"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/talk/relay/session-create.ts",
+   "lineRange": [
+    65,
+    695
+   ]
+  },
+  {
+   "id": "function:src/gateway/talk/transcription-relay.ts:createTalkTranscriptionRelaySession",
+   "type": "function",
+   "name": "createTalkTranscriptionRelaySession",
+   "summary": "Creates a gateway transcription relay session and streams base64 audio into the STT provider.",
+   "tags": [
+    "gateway",
+    "stt",
+    "relay"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/talk/transcription-relay.ts",
+   "lineRange": [
+    188,
+    325
+   ]
+  },
+  {
+   "id": "function:src/gateway/talk/transcription-relay.ts:sendTalkTranscriptionRelayAudio",
+   "type": "function",
+   "name": "sendTalkTranscriptionRelayAudio",
+   "summary": "Streams one base64 audio frame into the owning transcription relay and emits talk events.",
+   "tags": [
+    "gateway",
+    "stt",
+    "audio"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/talk/transcription-relay.ts",
+   "lineRange": [
+    345,
+    368
+   ]
+  },
+  {
+   "id": "function:src/gateway/talk/session-config.ts:buildTalkRealtimeConfig",
+   "type": "function",
+   "name": "buildTalkRealtimeConfig",
+   "summary": "Resolves talk.realtime provider/model/transport/brain with voice-model defaults.",
+   "tags": [
+    "gateway",
+    "config",
+    "realtime"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/talk/session-config.ts",
+   "lineRange": [
+    141,
+    187
+   ]
+  },
+  {
+   "id": "function:src/gateway/talk/session-config.ts:buildRealtimeInstructions",
+   "type": "function",
+   "name": "buildRealtimeInstructions",
+   "summary": "Composes default realtime instructions (consult contract) with operator customization.",
+   "tags": [
+    "gateway",
+    "instructions",
+    "agent"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/talk/session-config.ts",
+   "lineRange": [
+    262,
+    279
+   ]
+  },
+  {
+   "id": "function:src/gateway/talk/nodes.ts:hasConnectedTalkNode",
+   "type": "function",
+   "name": "hasConnectedTalkNode",
+   "summary": "Detects a connected node advertising the talk capability or talk.* commands.",
+   "tags": [
+    "gateway",
+    "nodes",
+    "capability"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/talk/nodes.ts",
+   "lineRange": [
+    9,
+    19
+   ]
+  },
+  {
+   "id": "function:src/gateway/server-methods/voicewake.ts:voicewakeHandlers",
+   "type": "function",
+   "name": "voicewakeHandlers",
+   "summary": "voicewake.get/set handlers that normalize, persist and broadcast the global trigger list.",
+   "tags": [
+    "wake",
+    "rpc",
+    "gateway"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/server-methods/voicewake.ts",
+   "lineRange": [
+    7,
+    31
+   ]
+  },
+  {
+   "id": "function:extensions/openai/realtime-voice-provider-factory.ts:buildOpenAIRealtimeVoiceProvider",
+   "type": "function",
+   "name": "buildOpenAIRealtimeVoiceProvider",
+   "summary": "Builds the OpenAI realtime voice provider object with bridge/browser-session factories and capabilities.",
+   "tags": [
+    "openai",
+    "provider",
+    "factory"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-provider-factory.ts",
+   "lineRange": [
+    340,
+    545
+   ]
+  },
+  {
+   "id": "function:extensions/openai/realtime-voice-provider-factory.ts:createOpenAIRealtimeBrowserSession",
+   "type": "function",
+   "name": "createOpenAIRealtimeBrowserSession",
+   "summary": "Creates an OpenAI browser realtime session (WebRTC offer + ephemeral client secret or gateway sideband).",
+   "tags": [
+    "openai",
+    "webrtc",
+    "session"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/openai/realtime-voice-provider-factory.ts",
+   "lineRange": [
+    145,
+    338
+   ]
+  },
+  {
+   "id": "function:extensions/openai/tts.ts:openaiTTS",
+   "type": "function",
+   "name": "openaiTTS",
+   "summary": "POSTs /audio/speech to OpenAI-compatible endpoints and returns bounded audio bytes.",
+   "tags": [
+    "openai",
+    "tts",
+    "http"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/openai/tts.ts",
+   "lineRange": [
+    85,
+    196
+   ]
+  },
+  {
+   "id": "function:extensions/openai/speech-provider.ts:buildOpenAISpeechProvider",
+   "type": "function",
+   "name": "buildOpenAISpeechProvider",
+   "summary": "Builds the OpenAI SpeechProviderPlugin with directives, voices and telephony synthesis.",
+   "tags": [
+    "openai",
+    "tts",
+    "provider"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/openai/speech-provider.ts",
+   "lineRange": [
+    212,
+    277
+   ]
+  },
+  {
+   "id": "function:extensions/openai/audio-transcription.ts:transcribeOpenAiAudioWithContext",
+   "type": "function",
+   "name": "transcribeOpenAiAudioWithContext",
+   "summary": "Batch audio transcription with auth-class guards, API-key rotation and endpoint classification.",
+   "tags": [
+    "openai",
+    "stt",
+    "batch"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/openai/audio-transcription.ts",
+   "lineRange": [
+    30,
+    126
+   ]
+  },
+  {
+   "id": "function:extensions/google/realtime-voice-lazy.ts:createLazyGoogleRealtimeVoiceProvider",
+   "type": "function",
+   "name": "createLazyGoogleRealtimeVoiceProvider",
+   "summary": "Lazily loads the Google realtime provider while buffering startup audio and user messages.",
+   "tags": [
+    "google",
+    "lazy",
+    "provider"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/google/realtime-voice-lazy.ts",
+   "lineRange": [
+    188,
+    207
+   ]
+  },
+  {
+   "id": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "type": "function",
+   "name": "createVoiceCallRuntime",
+   "summary": "Assembles the voice-call runtime: provider, CallManager, webhook server, tunnel, realtime handler.",
+   "tags": [
+    "telephony",
+    "runtime",
+    "providers"
+   ],
+   "complexity": "complex",
+   "filePath": "extensions/voice-call/src/runtime.ts",
+   "lineRange": [
+    200,
+    572
+   ]
+  },
+  {
+   "id": "function:extensions/voice-call/src/runtime.ts:resolveProvider",
+   "type": "function",
+   "name": "resolveProvider",
+   "summary": "Instantiates the configured telephony provider (telnyx/twilio/plivo/mock).",
+   "tags": [
+    "telephony",
+    "provider",
+    "resolution"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/voice-call/src/runtime.ts",
+   "lineRange": [
+    87,
+    146
+   ]
+  },
+  {
+   "id": "function:extensions/voice-call/src/telephony-tts.ts:createTelephonyTtsProvider",
+   "type": "function",
+   "name": "createTelephonyTtsProvider",
+   "summary": "Core TTS adapter for calls that converts provider audio to 8kHz mu-law.",
+   "tags": [
+    "telephony",
+    "tts",
+    "adapter"
+   ],
+   "complexity": "moderate",
+   "filePath": "extensions/voice-call/src/telephony-tts.ts",
+   "lineRange": [
+    58,
+    121
+   ]
+  },
+  {
+   "id": "function:src/tts/tts-synthesis.ts:synthesizeSpeech",
+   "type": "function",
+   "name": "synthesizeSpeech",
+   "summary": "Buffered TTS: runs provider attempts with fallback and resolves the synthesis target.",
+   "tags": [
+    "tts",
+    "synthesis",
+    "fallback"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-synthesis.ts",
+   "lineRange": [
+    201,
+    256
+   ]
+  },
+  {
+   "id": "function:src/tts/tts-streaming.ts:streamSpeech",
+   "type": "function",
+   "name": "streamSpeech",
+   "summary": "Streaming TTS: requires provider streamSynthesize and returns an owned audio stream.",
+   "tags": [
+    "tts",
+    "streaming",
+    "transport"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-streaming.ts",
+   "lineRange": [
+    12,
+    83
+   ]
+  },
+  {
+   "id": "function:src/tts/tts-provider-resolution.ts:resolveTtsProvider",
+   "type": "function",
+   "name": "resolveTtsProvider",
+   "summary": "Resolves the active TTS provider by prefs, persona, config, voice-model refs then auto-select order.",
+   "tags": [
+    "tts",
+    "resolution",
+    "precedence"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-provider-resolution.ts",
+   "lineRange": [
+    334,
+    375
+   ]
+  },
+  {
+   "id": "function:src/tts/voice-models.ts:resolveVoiceProviderCandidates",
+   "type": "function",
+   "name": "resolveVoiceProviderCandidates",
+   "summary": "Orders provider candidates for the fallback chain from voice-model refs and provider order.",
+   "tags": [
+    "tts",
+    "voice",
+    "candidates"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/voice-models.ts",
+   "lineRange": [
+    105,
+    141
+   ]
+  },
+  {
+   "id": "function:src/tts/directives.ts:parseTtsDirectives",
+   "type": "function",
+   "name": "parseTtsDirectives",
+   "summary": "Parses [[tts:*]] directives and persisted voice facts into provider overrides.",
+   "tags": [
+    "tts",
+    "directives",
+    "parsing"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/directives.ts",
+   "lineRange": [
+    257,
+    272
+   ]
+  },
+  {
+   "id": "function:src/tts/tts-core.ts:summarizeText",
+   "type": "function",
+   "name": "summarizeText",
+   "summary": "Summarizes text to a target length via the simple-completion path for spoken replies.",
+   "tags": [
+    "tts",
+    "summary",
+    "llm"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/tts/tts-core.ts",
+   "lineRange": [
+    91,
+    210
+   ]
+  },
+  {
+   "id": "file:extensions/google/capability-catalog.ts",
+   "type": "file",
+   "name": "Google capability catalog",
+   "summary": "Registers the Google speech provider and the lazy Gemini Live realtime voice provider.",
+   "tags": [
+    "google",
+    "catalog",
+    "plugins"
+   ],
+   "complexity": "simple",
+   "filePath": "extensions/google/capability-catalog.ts",
+   "lineRange": [
+    1,
+    8
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "source": "file:src/talk/realtime-session-lifecycle.ts",
+   "target": "class:src/talk/realtime-session-lifecycle.ts:RealtimeVoiceSessionLifecycle",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/realtime-session-lifecycle.ts",
+   "target": "function:src/talk/realtime-session-lifecycle.ts:createRealtimeVoiceAudioQueue",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-bridge.ts",
+   "target": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-protocol.ts",
+   "target": "class:extensions/openai/realtime-voice-protocol.ts:OpenAIRealtimeProtocol",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-events.ts",
+   "target": "class:extensions/openai/realtime-voice-events.ts:OpenAIRealtimeEvents",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google/realtime-voice-provider.ts",
+   "target": "class:extensions/google/realtime-voice-provider.ts:GoogleRealtimeVoiceBridge",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/realtime-transcription/websocket-session.ts",
+   "target": "class:src/realtime-transcription/websocket-session.ts:WebSocketRealtimeTranscriptionSession",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/voice-call/src/manager.ts",
+   "target": "class:extensions/voice-call/src/manager.ts:CallManager",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/voice-call/src/media-stream.ts",
+   "target": "class:extensions/voice-call/src/media-stream.ts:MediaStreamHandler",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/voice-call/src/webhook/realtime-handler.ts",
+   "target": "class:extensions/voice-call/src/webhook/realtime-handler.ts:RealtimeCallHandler",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/provider-resolver.ts",
+   "target": "function:src/talk/provider-resolver.ts:resolveConfiguredRealtimeVoiceProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/provider-registry.ts",
+   "target": "function:src/talk/provider-registry.ts:listRealtimeVoiceProviders",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/realtime-session-harness.ts",
+   "target": "function:src/talk/realtime-session-harness.ts:createRealtimeVoiceSessionHarness",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/activation-name.ts",
+   "target": "function:src/talk/activation-name.ts:matchRealtimeVoiceActivationName",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/realtime-session-policy.ts",
+   "target": "function:src/talk/realtime-session-policy.ts:resolveRealtimeVoiceSessionPolicy",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/talk-events.ts",
+   "target": "function:src/talk/talk-events.ts:createTalkEventSequencer",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/talk/talk-session-controller.ts",
+   "target": "function:src/talk/talk-session-controller.ts:createTalkSessionController",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "function:src/gateway/talk/relay/session-create.ts:createTalkRealtimeRelaySession",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/talk/transcription-relay.ts",
+   "target": "function:src/gateway/talk/transcription-relay.ts:createTalkTranscriptionRelaySession",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/talk/transcription-relay.ts",
+   "target": "function:src/gateway/talk/transcription-relay.ts:sendTalkTranscriptionRelayAudio",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/talk/session-config.ts",
+   "target": "function:src/gateway/talk/session-config.ts:buildTalkRealtimeConfig",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/talk/session-config.ts",
+   "target": "function:src/gateway/talk/session-config.ts:buildRealtimeInstructions",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/talk/nodes.ts",
+   "target": "function:src/gateway/talk/nodes.ts:hasConnectedTalkNode",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/gateway/server-methods/voicewake.ts",
+   "target": "function:src/gateway/server-methods/voicewake.ts:voicewakeHandlers",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-provider-factory.ts",
+   "target": "function:extensions/openai/realtime-voice-provider-factory.ts:buildOpenAIRealtimeVoiceProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-provider-factory.ts",
+   "target": "function:extensions/openai/realtime-voice-provider-factory.ts:createOpenAIRealtimeBrowserSession",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/tts.ts",
+   "target": "function:extensions/openai/tts.ts:openaiTTS",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/speech-provider.ts",
+   "target": "function:extensions/openai/speech-provider.ts:buildOpenAISpeechProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/openai/audio-transcription.ts",
+   "target": "function:extensions/openai/audio-transcription.ts:transcribeOpenAiAudioWithContext",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/google/realtime-voice-lazy.ts",
+   "target": "function:extensions/google/realtime-voice-lazy.ts:createLazyGoogleRealtimeVoiceProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "function:extensions/voice-call/src/runtime.ts:resolveProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:extensions/voice-call/src/telephony-tts.ts",
+   "target": "function:extensions/voice-call/src/telephony-tts.ts:createTelephonyTtsProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/tts/tts-synthesis.ts",
+   "target": "function:src/tts/tts-synthesis.ts:synthesizeSpeech",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/tts/tts-streaming.ts",
+   "target": "function:src/tts/tts-streaming.ts:streamSpeech",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/tts/tts-provider-resolution.ts",
+   "target": "function:src/tts/tts-provider-resolution.ts:resolveTtsProvider",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/tts/voice-models.ts",
+   "target": "function:src/tts/voice-models.ts:resolveVoiceProviderCandidates",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/tts/directives.ts",
+   "target": "function:src/tts/directives.ts:parseTtsDirectives",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:src/tts/tts-core.ts",
+   "target": "function:src/tts/tts-core.ts:summarizeText",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "target": "class:extensions/openai/realtime-voice-events.ts:OpenAIRealtimeEvents",
+   "type": "inherits",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "target": "class:extensions/openai/realtime-voice-protocol.ts:OpenAIRealtimeProtocol",
+   "type": "builds_on",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "events layer extends the protocol base"
+  },
+  {
+   "source": "class:extensions/openai/realtime-voice-events.ts:OpenAIRealtimeEvents",
+   "target": "class:extensions/openai/realtime-voice-protocol.ts:OpenAIRealtimeProtocol",
+   "type": "inherits",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "target": "concept:realtime-voice-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/google/realtime-voice-provider.ts:GoogleRealtimeVoiceBridge",
+   "target": "concept:realtime-voice-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "target": "class:src/talk/realtime-session-lifecycle.ts:RealtimeVoiceSessionLifecycle",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6,
+   "description": "bridge composes the shared lifecycle"
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "function:src/talk/realtime-session-harness.ts:createRealtimeVoiceSessionHarness",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "class:src/talk/realtime-session-lifecycle.ts:RealtimeVoiceSessionLifecycle",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/talk/provider-resolver.ts:resolveConfiguredRealtimeVoiceProvider",
+   "target": "concept:realtime-voice-bridge",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/talk/provider-registry.ts:listRealtimeVoiceProviders",
+   "target": "module:realtime-voice-provider-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/talk/provider-types.ts",
+   "target": "module:realtime-voice-provider-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/tts/provider-types.ts",
+   "target": "module:speech-provider-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/talk/realtime-session-harness.ts:createRealtimeVoiceSessionHarness",
+   "target": "concept:talk-event-stream",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/talk/talk-session-controller.ts",
+   "target": "concept:talk-event-stream",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/talk/talk-events.ts",
+   "target": "concept:talk-event-stream",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "concept:gateway-relay-transport",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/client-create.ts",
+   "target": "concept:client-owned-webrtc",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/gateway/talk/client-gateway-control.ts",
+   "target": "concept:gateway-control-v1",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "function:extensions/openai/realtime-voice-provider-factory.ts:createOpenAIRealtimeBrowserSession",
+   "target": "concept:client-owned-webrtc",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-protocol.ts",
+   "target": "concept:barge-in",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/google/realtime-voice-model-contract.ts",
+   "target": "concept:barge-in",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/talk/activation-name.ts",
+   "target": "concept:wake-name-gating",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/talk/realtime-session-policy.ts",
+   "target": "concept:wake-name-gating",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/talk/agent-consult-tool.ts",
+   "target": "concept:agent-consult",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/talk/realtime-session-policy.ts",
+   "target": "concept:agent-consult",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/talk/realtime-run-control.ts",
+   "target": "concept:agent-consult",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/talk/client-voice-confirmation-policy.ts",
+   "target": "concept:agent-consult",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/tts/tts-synthesis.ts",
+   "target": "concept:tts-provider-fallback",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/tts/tts-streaming.ts",
+   "target": "concept:tts-provider-fallback",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/tts/tts-provider-resolution.ts",
+   "target": "concept:voice-selection",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/talk/voice-selection.ts",
+   "target": "concept:voice-selection",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/realtime-transcription/provider-types.ts",
+   "target": "concept:realtime-transcription",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/realtime-transcription/websocket-session.ts",
+   "target": "concept:realtime-transcription",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/gateway/talk/transcription-relay.ts",
+   "target": "concept:realtime-transcription",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server-methods/voicewake.ts",
+   "target": "concept:voice-wake-sync",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/infra/voicewake.ts",
+   "target": "concept:voice-wake-sync",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "persists triggers under config_machine_state"
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/VoiceWakeRuntime.swift",
+   "target": "concept:voice-wake-sync",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/ios/Sources/Voice/VoiceWakeManager.swift",
+   "target": "concept:voice-wake-sync",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/android/app/src/main/java/ai/openclaw/app/voice/VoiceWakeManager.kt",
+   "target": "concept:voice-wake-sync",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/index.ts",
+   "target": "concept:telephony-voice-call",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "concept:telephony-voice-call",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/voice-call/src/webhook/realtime-handler.ts",
+   "target": "concept:telephony-voice-call",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/src/telephony-tts.ts",
+   "target": "concept:telephony-tts",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/tts/tts-synthesis.ts",
+   "target": "concept:telephony-tts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/google/capability-catalog.ts",
+   "target": "module:realtime-voice-provider-sdk",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/google/realtime-voice-lazy.ts",
+   "target": "concept:realtime-voice-bridge",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/google/realtime-voice-provider.ts",
+   "target": "module:meeting-runtime",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/meeting-bot/realtime-engine.ts",
+   "target": "module:meeting-runtime",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/plugin-sdk/meeting-runtime.ts",
+   "target": "module:meeting-runtime",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/talk/provider-registry.ts",
+   "target": "file:src/talk/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/talk/provider-resolver.ts",
+   "target": "file:src/talk/provider-registry.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/talk/provider-resolver.ts",
+   "target": "file:src/talk/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/talk/realtime-session-harness.ts",
+   "target": "file:src/talk/talk-session-controller.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/talk/realtime-session-harness.ts",
+   "target": "file:src/talk/talk-events.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "file:src/talk/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "file:src/talk/realtime-session-policy.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "file:src/talk/realtime-session-lifecycle.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/client-create.ts",
+   "target": "file:src/talk/provider-resolver.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/client-create.ts",
+   "target": "file:src/talk/client-voice-session.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/client-create.ts",
+   "target": "file:src/gateway/talk/session-config.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/client-create.ts",
+   "target": "file:src/gateway/talk/voice-selection.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/client-create.ts",
+   "target": "file:src/talk/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/session-config.ts",
+   "target": "file:src/realtime-transcription/provider-registry.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/session-config.ts",
+   "target": "file:src/talk/provider-registry.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/session-config.ts",
+   "target": "file:src/tts/voice-models.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/session-config.ts",
+   "target": "file:src/talk/agent-consult-tool.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/transcription-relay.ts",
+   "target": "file:src/talk/talk-session-controller.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/transcription-relay.ts",
+   "target": "file:src/realtime-transcription/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/transcription-relay.ts",
+   "target": "file:src/talk/observability.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/talk/voice-selection.ts",
+   "target": "file:src/gateway/talk/nodes.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/talk/handlers/mode.ts",
+   "target": "file:src/gateway/talk/nodes.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "talk.mode requires a connected talk node for webchat"
+  },
+  {
+   "source": "file:src/talk/audio-codec.ts",
+   "target": "file:src/talk/provider-types.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "file:src/talk/audio-codec.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/gateway/talk/transcription-relay.ts:createTalkTranscriptionRelaySession",
+   "target": "function:src/talk/talk-session-controller.ts:createTalkSessionController",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/talk/transcription-relay.ts:createTalkTranscriptionRelaySession",
+   "target": "class:src/realtime-transcription/websocket-session.ts:WebSocketRealtimeTranscriptionSession",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/gateway/talk/relay/session-create.ts:createTalkRealtimeRelaySession",
+   "target": "class:src/talk/realtime-session-lifecycle.ts:RealtimeVoiceSessionLifecycle",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/talk/realtime-session-harness.ts:createRealtimeVoiceSessionHarness",
+   "target": "function:src/talk/talk-events.ts:createTalkEventSequencer",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/talk/talk-session-controller.ts:createTalkSessionController",
+   "target": "function:src/talk/talk-events.ts:createTalkEventSequencer",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/talk/session-config.ts:buildTalkRealtimeConfig",
+   "target": "function:src/gateway/talk/session-config.ts:buildRealtimeInstructions",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/openai/realtime-voice-provider-factory.ts:buildOpenAIRealtimeVoiceProvider",
+   "target": "function:extensions/openai/realtime-voice-provider-factory.ts:createOpenAIRealtimeBrowserSession",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/openai/realtime-voice-provider-factory.ts:buildOpenAIRealtimeVoiceProvider",
+   "target": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/openai/realtime-voice-provider-factory.ts:createOpenAIRealtimeBrowserSession",
+   "target": "class:extensions/openai/realtime-voice-bridge.ts:OpenAIRealtimeBridge",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "sideband bridge for gateway-control"
+  },
+  {
+   "source": "function:extensions/openai/speech-provider.ts:buildOpenAISpeechProvider",
+   "target": "function:extensions/openai/tts.ts:openaiTTS",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/google/realtime-voice-lazy.ts:createLazyGoogleRealtimeVoiceProvider",
+   "target": "class:extensions/google/realtime-voice-provider.ts:GoogleRealtimeVoiceBridge",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8,
+   "description": "lazy loads and delegates createBridge"
+  },
+  {
+   "source": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "target": "function:extensions/voice-call/src/runtime.ts:resolveProvider",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "target": "class:extensions/voice-call/src/webhook/realtime-handler.ts:RealtimeCallHandler",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "target": "function:extensions/voice-call/src/telephony-tts.ts:createTelephonyTtsProvider",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "target": "class:extensions/voice-call/src/manager.ts:CallManager",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:extensions/voice-call/src/runtime.ts:createVoiceCallRuntime",
+   "target": "class:extensions/voice-call/src/media-stream.ts:MediaStreamHandler",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/tts/tts-streaming.ts:streamSpeech",
+   "target": "function:src/tts/tts-synthesis.ts:synthesizeSpeech",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/tts/tts-streaming.ts:streamSpeech",
+   "target": "function:src/tts/tts-provider-resolution.ts:resolveTtsProvider",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/tts/tts-synthesis.ts:synthesizeSpeech",
+   "target": "function:src/tts/tts-provider-resolution.ts:resolveTtsProvider",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/tts/tts-provider-resolution.ts:resolveTtsProvider",
+   "target": "function:src/tts/voice-models.ts:resolveVoiceProviderCandidates",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/tts/tts-synthesis.ts:synthesizeSpeech",
+   "target": "function:src/tts/directives.ts:parseTtsDirectives",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/tts/tts-request.ts",
+   "target": "function:src/tts/directives.ts:parseTtsDirectives",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/tts/tts-request.ts",
+   "target": "function:src/tts/tts-provider-resolution.ts:resolveTtsProvider",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/tts/tts-core.ts",
+   "target": "function:src/tts/tts-synthesis.ts:synthesizeSpeech",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/tts/tts-auto-mode.ts",
+   "target": "file:src/tts/provider-types.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/src/providers/twilio.ts",
+   "target": "file:extensions/voice-call/src/providers/base.ts",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/voice-call/src/media-stream.ts",
+   "target": "file:src/realtime-transcription/provider-types.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/voice-call/src/media-stream.ts",
+   "target": "concept:realtime-transcription",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/src/media-stream.ts",
+   "target": "concept:talk-event-stream",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/src/webhook/realtime-handler.ts",
+   "target": "concept:realtime-voice-bridge",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/src/webhook/realtime-handler.ts",
+   "target": "module:realtime-voice-provider-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "module:realtime-voice-provider-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/src/telephony-tts.ts",
+   "target": "module:speech-provider-sdk",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/index.ts",
+   "target": "service:voice-call-plugin",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:extensions/voice-call/index.ts",
+   "target": "file:extensions/voice-call/src/runtime.ts",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:extensions/voice-call/index.ts",
+   "target": "file:extensions/voice-call/src/manager.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "file:extensions/voice-call/src/providers/twilio.ts",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "file:extensions/voice-call/src/media-stream.ts",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "file:extensions/voice-call/src/webhook/realtime-handler.ts",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/src/runtime.ts",
+   "target": "file:src/realtime-transcription/provider-registry.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:extensions/voice-call/src/manager.ts",
+   "target": "file:extensions/voice-call/src/providers/base.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/AppVoiceRuntime.swift",
+   "target": "file:apps/macos/Sources/OpenClaw/VoiceWakeRuntime.swift",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/AppVoiceRuntime.swift",
+   "target": "file:apps/macos/Sources/OpenClaw/TalkModeRuntime+Realtime.swift",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/AppVoiceRuntime.swift",
+   "target": "file:apps/macos/Sources/OpenClaw/MacRealtimeTalkAudioCapture.swift",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/TalkModeRuntime+Realtime.swift",
+   "target": "concept:gateway-relay-transport",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/TalkModeRuntime+Realtime.swift",
+   "target": "concept:talk-transport-modes",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/macos/Sources/OpenClaw/VoiceWakeRuntime.swift",
+   "target": "function:src/talk/activation-name.ts:matchRealtimeVoiceActivationName",
+   "type": "similar_to",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "client-side trigger matching vs gateway wake gating"
+  },
+  {
+   "source": "file:apps/ios/Sources/Voice/VoiceWakeManager.swift",
+   "target": "concept:voice-wake-sync",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:apps/android/app/src/main/java/ai/openclaw/app/voice/VoiceWakeManager.kt",
+   "target": "concept:voice-wake-sync",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "function:src/gateway/talk/nodes.ts:hasConnectedTalkNode",
+   "target": "file:apps/macos/Sources/OpenClaw/AppVoiceRuntime.swift",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/talk/nodes.ts",
+   "target": "file:apps/ios/Sources/Voice/VoiceWakeManager.swift",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/talk/nodes.ts",
+   "target": "file:apps/android/app/src/main/java/ai/openclaw/app/voice/VoiceWakeManager.kt",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/nodes/talk.md",
+   "target": "concept:talk-transport-modes",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/nodes/talk.md",
+   "target": "concept:agent-consult",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/nodes/talk.md",
+   "target": "concept:client-owned-webrtc",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/nodes/voicewake.md",
+   "target": "concept:voice-wake-sync",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/nodes/voicewake.md",
+   "target": "function:src/gateway/server-methods/voicewake.ts:voicewakeHandlers",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/plugins/voice-call.md",
+   "target": "service:voice-call-plugin",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/plugins/voice-call.md",
+   "target": "concept:telephony-voice-call",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/plugins/voice-call.md",
+   "target": "concept:telephony-tts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-protocol.ts",
+   "target": "file:extensions/openai/realtime-voice-session-policy.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7,
+   "description": "protocol builds session.update from policy builders"
+  },
+  {
+   "source": "file:extensions/openai/realtime-voice-session-policy.ts",
+   "target": "file:extensions/openai/realtime-voice-provider-factory.ts",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/talk/audio-output-port.ts",
+   "target": "file:src/talk/provider-types.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5,
+   "description": "bindable continuous PCM sink referenced by RealtimeVoiceBridge"
+  },
+  {
+   "source": "file:src/gateway/talk/relay/session-create.ts",
+   "target": "file:src/talk/audio-output-port.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/talk/observability.ts",
+   "target": "file:src/talk/event-metrics.ts",
+   "type": "related",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/tts/tts-provider-resolution.ts",
+   "target": "file:src/tts/provider-registry.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:extensions/google/capability-catalog.ts",
+   "target": "module:realtime-voice-provider-sdk",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  }
+ ]
+}

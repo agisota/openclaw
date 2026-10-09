@@ -1,0 +1,3532 @@
+{
+ "nodes": [
+  {
+   "id": "file:ui/src/main.ts",
+   "type": "file",
+   "name": "Control UI entry",
+   "summary": "Imports app-host, registers the service worker (build-id query), rewrites favicon/manifest hrefs via inferControlUiPublicAssetPath, and installs stale-chunk / missing-stylesheet recovery.",
+   "tags": [
+    "entry",
+    "service-worker",
+    "boot"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/main.ts",
+   "lineRange": [
+    1,
+    74
+   ]
+  },
+  {
+   "id": "file:ui/index.html",
+   "type": "file",
+   "name": "Control UI document shell",
+   "summary": "Static document with inline theme pre-paint script, zod jitless global, mount fallback panel and openclaw-app element; module entry /src/main.ts.",
+   "tags": [
+    "html",
+    "boot",
+    "theme",
+    "fallback"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/index.html",
+   "lineRange": [
+    1,
+    647
+   ]
+  },
+  {
+   "id": "file:ui/vite.config.ts",
+   "type": "file",
+   "name": "Control UI Vite config",
+   "summary": "Builds the UI: base-path handling, aliases, codeSplitting via controlUiCodeSplitting, precompressed sidecars, offline shell + build id into sw.js, and the asset manifest.",
+   "tags": [
+    "build",
+    "vite",
+    "chunking",
+    "pwa"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/vite.config.ts",
+   "lineRange": [
+    666,
+    792
+   ]
+  },
+  {
+   "id": "file:ui/config/control-ui-chunking.ts",
+   "type": "file",
+   "name": "Chunking policy",
+   "summary": "Defines stable runtime chunk names, boot groups (control-ui-boot-shared/new/chat), and manifest-key canonicalisation for the Control UI bundle.",
+   "tags": [
+    "chunking",
+    "build",
+    "manifest"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-chunking.ts",
+   "lineRange": [
+    32,
+    188
+   ]
+  },
+  {
+   "id": "file:ui/config/control-ui-boot-preloads.ts",
+   "type": "file",
+   "name": "Boot preloads plugin",
+   "summary": "Walks the bundle graph to collect initial/chat/new/login boot assets and emits per-route data-openclaw-route-preloads templates.",
+   "tags": [
+    "preload",
+    "boot",
+    "vite"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-boot-preloads.ts",
+   "lineRange": [
+    6,
+    112
+   ]
+  },
+  {
+   "id": "file:ui/config/control-ui-locales.ts",
+   "type": "file",
+   "name": "Locale virtual modules",
+   "summary": "Serves translation catalogs as virtual modules from the source catalog + translation memory, split into base and config-hints chunks.",
+   "tags": [
+    "i18n",
+    "locales",
+    "vite"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-locales.ts",
+   "lineRange": [
+    13,
+    176
+   ]
+  },
+  {
+   "id": "file:ui/config/control-ui-dev-gateway.ts",
+   "type": "file",
+   "name": "Dev gateway proxy",
+   "summary": "Creates a Vite proxy that tunnels WS/HTTP to a configured dev Gateway URL without leaking credentials.",
+   "tags": [
+    "dev",
+    "proxy",
+    "vite"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/config/control-ui-dev-gateway.ts",
+   "lineRange": [
+    5,
+    60
+   ]
+  },
+  {
+   "id": "config:ui/config/control-ui-boot-modules.json",
+   "type": "config",
+   "name": "Boot manifest",
+   "summary": "Generated list of modules each boot route (shared/new/chat) requests plus dynamic entry points; drives chunk grouping and preloads.",
+   "tags": [
+    "manifest",
+    "boot",
+    "generated"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/config/control-ui-boot-modules.json"
+  },
+  {
+   "id": "file:ui/scripts/control-ui-boot-manifest.mts",
+   "type": "file",
+   "name": "Boot manifest generator",
+   "summary": "Regenerates control-ui-boot-modules.json by building without boot groups and capturing cold/warm Chromium requests for /new and /chat.",
+   "tags": [
+    "manifest",
+    "generator",
+    "e2e"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/scripts/control-ui-boot-manifest.mts",
+   "lineRange": [
+    213,
+    312
+   ]
+  },
+  {
+   "id": "file:ui/src/app/app-host.ts",
+   "type": "file",
+   "name": "Shell host",
+   "summary": "OpenClawShell composition root wiring gateway, navigation, chrome, docks, lazy custom elements, and route outlet.",
+   "tags": [
+    "shell",
+    "lit",
+    "composition"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/app/app-host.ts",
+   "lineRange": [
+    93,
+    692
+   ]
+  },
+  {
+   "id": "file:ui/src/app/app-root.ts",
+   "type": "file",
+   "name": "App root element",
+   "summary": "Top-level openclaw-app element; dispatches openclaw-control-ui-rendered when the first render completes.",
+   "tags": [
+    "root",
+    "lit",
+    "boot"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/app/app-root.ts",
+   "lineRange": [
+    192,
+    192
+   ]
+  },
+  {
+   "id": "file:ui/src/app-routes.ts",
+   "type": "file",
+   "name": "Route tree",
+   "summary": "Imports every page module, defines APP_ROUTE_TREE, and builds/start the @openclaw/uirouter application router with session recovery.",
+   "tags": [
+    "routing",
+    "pages"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/app-routes.ts",
+   "lineRange": [
+    86,
+    475
+   ]
+  },
+  {
+   "id": "file:ui/src/app-navigation.ts",
+   "type": "file",
+   "name": "Navigation model",
+   "summary": "Settings navigation groups, route titles, and device-label resolution for the sidebar and settings shell.",
+   "tags": [
+    "navigation",
+    "settings"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/app-navigation.ts",
+   "lineRange": [
+    139,
+    220
+   ]
+  },
+  {
+   "id": "file:ui/src/api/gateway.ts",
+   "type": "file",
+   "name": "Gateway browser client",
+   "summary": "Wraps GatewayProtocolClient: connect plan/auth selection, hello handling, device-token storage, tick watchdog, reconnect/close decisions, and pairing resolution.",
+   "tags": [
+    "transport",
+    "ws",
+    "auth",
+    "reconnect"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/api/gateway.ts",
+   "lineRange": [
+    136,
+    683
+   ]
+  },
+  {
+   "id": "file:ui/src/api/gateway-chat-events.ts",
+   "type": "file",
+   "name": "Chat event projector",
+   "summary": "Routes requests and dispatches events, reconstructing streamed chat text before local listeners share it; forces reconnect on missing baseline.",
+   "tags": [
+    "transport",
+    "chat",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway-chat-events.ts",
+   "lineRange": [
+    14,
+    75
+   ]
+  },
+  {
+   "id": "file:ui/src/api/gateway-browser-socket.ts",
+   "type": "file",
+   "name": "Browser WebSocket factory",
+   "summary": "Creates the browser WebSocket with a preauth opening timeout, payload-limit guard, and reachability probe via /healthz.",
+   "tags": [
+    "transport",
+    "ws",
+    "browser"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway-browser-socket.ts",
+   "lineRange": [
+    83,
+    157
+   ]
+  },
+  {
+   "id": "file:ui/src/lib/gateway-methods.ts",
+   "type": "file",
+   "name": "Method/scope gating",
+   "summary": "isGatewayMethodAdvertised and canCallGatewayMethod combine connection phase, advertised feature methods, and operator scopes.",
+   "tags": [
+    "auth",
+    "scopes",
+    "capability"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/lib/gateway-methods.ts",
+   "lineRange": [
+    11,
+    75
+   ]
+  },
+  {
+   "id": "file:ui/src/pages/chat/tool-stream.ts",
+   "type": "file",
+   "name": "Tool stream rendering",
+   "summary": "Turns agent tool events into throttled, kind-aware rows (shell/edit/write diffs, operation counts) with approval reviews.",
+   "tags": [
+    "chat",
+    "tools",
+    "rendering"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/pages/chat/tool-stream.ts",
+   "lineRange": [
+    1,
+    120
+   ]
+  },
+  {
+   "id": "file:ui/src/lib/widget-sandbox-host.ts",
+   "type": "file",
+   "name": "Widget sandbox host",
+   "summary": "Loads plugin/agent widget HTML into an isolated iframe with a slow-load notice (10s) and a hard timeout, retrying transients.",
+   "tags": [
+    "widgets",
+    "sandbox",
+    "iframe"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/lib/widget-sandbox-host.ts",
+   "lineRange": [
+    1,
+    301
+   ]
+  },
+  {
+   "id": "file:ui/src/dev-gateway.ts",
+   "type": "file",
+   "name": "Dev gateway identity",
+   "summary": "Maps a logical Gateway URL onto the dev proxy transport and rewrites resource URLs belonging to that Gateway.",
+   "tags": [
+    "dev",
+    "transport"
+   ],
+   "complexity": "simple",
+   "filePath": "ui/src/dev-gateway.ts",
+   "lineRange": [
+    2,
+    61
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-index.ts",
+   "type": "file",
+   "name": "Index HTML server",
+   "summary": "Serves the Control UI document: route preload selection, base-path/build-id attributes, document CSP, and cache headers.",
+   "tags": [
+    "serving",
+    "html",
+    "csp"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui-index.ts",
+   "lineRange": [
+    45,
+    111
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-csp.ts",
+   "type": "file",
+   "name": "CSP builder",
+   "summary": "Computes inline-script SHA-256 hashes and builds the Control UI Content-Security-Policy (plus always-on security headers).",
+   "tags": [
+    "security",
+    "csp"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-csp.ts",
+   "lineRange": [
+    10,
+    106
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-static.ts",
+   "type": "file",
+   "name": "Static asset serving",
+   "summary": "Serves Control UI assets with content types, immutable caching, precompressed br/gz negotiation, and cache-aware HTML compression.",
+   "tags": [
+    "serving",
+    "assets",
+    "cache"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui-static.ts",
+   "lineRange": [
+    48,
+    253
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-route-preloads.ts",
+   "type": "file",
+   "name": "Route preload activation",
+   "summary": "Keeps only the requested route's build-emitted preload hints in the served document.",
+   "tags": [
+    "serving",
+    "preload",
+    "html"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-route-preloads.ts",
+   "lineRange": [
+    1,
+    13
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-contract.ts",
+   "type": "file",
+   "name": "Control UI contract barrel",
+   "summary": "Stable barrel of Control UI contract modules plus session PR types/events used by browser and gateway callers.",
+   "tags": [
+    "contract",
+    "types",
+    "gateway"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-contract.ts",
+   "lineRange": [
+    1,
+    139
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui.ts",
+   "type": "file",
+   "name": "HTTP handlers",
+   "summary": "handleControlUiHttpRequest plus avatar and assistant-media handlers implementing the authenticated Control UI HTTP surface.",
+   "tags": [
+    "serving",
+    "http",
+    "media",
+    "auth"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui.ts",
+   "lineRange": [
+    295,
+    671
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-resource-routes.ts",
+   "type": "file",
+   "name": "Resource route shapes",
+   "summary": "Defines control-UI base paths for assistant media, agent avatar, and user avatar resources.",
+   "tags": [
+    "serving",
+    "routes"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-resource-routes.ts",
+   "lineRange": [
+    1,
+    26
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-user-avatar-route.ts",
+   "type": "file",
+   "name": "User avatar route",
+   "summary": "Builds and parses /api/users/<profileId>/avatar paths for the Control UI.",
+   "tags": [
+    "serving",
+    "avatar",
+    "routes"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-user-avatar-route.ts",
+   "lineRange": [
+    3,
+    35
+   ]
+  },
+  {
+   "id": "file:src/gateway/server-http.ts",
+   "type": "file",
+   "name": "Gateway HTTP router",
+   "summary": "Routes HTTP requests to the Control UI, media, avatar, artifact, plugin-asset handlers and admits WebSocket upgrades.",
+   "tags": [
+    "serving",
+    "http",
+    "ws"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/server-http.ts",
+   "lineRange": [
+    176,
+    720
+   ]
+  },
+  {
+   "id": "file:src/gateway/server/ws-connection/connect-hello.ts",
+   "type": "file",
+   "name": "Hello responder",
+   "summary": "Builds and sends the hello-ok frame: snapshot, advertised methods/events/capabilities, auth scopes, policy, and Control UI plugin tabs/widgets/link readers.",
+   "tags": [
+    "ws",
+    "handshake",
+    "hello"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/server/ws-connection/connect-hello.ts",
+   "lineRange": [
+    58,
+    491
+   ]
+  },
+  {
+   "id": "file:src/gateway/server/ws-connection/connect-admission.ts",
+   "type": "file",
+   "name": "Connect admission",
+   "summary": "Validates protocol range, role, and browser origin (CONTROL_UI_ORIGIN_NOT_ALLOWED) before the handshake is accepted.",
+   "tags": [
+    "ws",
+    "security",
+    "origin"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/server/ws-connection/connect-admission.ts",
+   "lineRange": [
+    161,
+    329
+   ]
+  },
+  {
+   "id": "file:src/gateway/server-methods-list.ts",
+   "type": "file",
+   "name": "Method/event catalog",
+   "summary": "Collects advertised core+plugin gateway methods and the GATEWAY_EVENTS list broadcast to Control UI clients.",
+   "tags": [
+    "protocol",
+    "catalog",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server-methods-list.ts",
+   "lineRange": [
+    26,
+    99
+   ]
+  },
+  {
+   "id": "file:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "file",
+   "name": "Wire frames",
+   "summary": "Defines ConnectParams, HelloOk, RequestFrame/ResponseFrame, EventFrame and the discriminated GatewayFrame union.",
+   "tags": [
+    "protocol",
+    "schema",
+    "ws"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/gateway-protocol/src/schema/frames.ts",
+   "lineRange": [
+    31,
+    235
+   ]
+  },
+  {
+   "id": "file:packages/gateway-protocol/src/schema/control-ui-link-reader.ts",
+   "type": "file",
+   "name": "Link reader schema",
+   "summary": "Schema for trusted-plugin Control UI link readers: host allow-list, path pattern, and detail/preview/image methods.",
+   "tags": [
+    "protocol",
+    "schema",
+    "plugins"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-protocol/src/schema/control-ui-link-reader.ts",
+   "lineRange": [
+    1,
+    24
+   ]
+  },
+  {
+   "id": "file:packages/gateway-protocol/src/schema/plugins.ts",
+   "type": "file",
+   "name": "Plugin control surface",
+   "summary": "Plugin Control UI descriptor/tab/widget-kind schemas contributed to the hello frame.",
+   "tags": [
+    "protocol",
+    "schema",
+    "plugins"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/gateway-protocol/src/schema/plugins.ts",
+   "lineRange": [
+    56,
+    117
+   ]
+  },
+  {
+   "id": "file:packages/gateway-client/src/chat-stream-projection.ts",
+   "type": "file",
+   "name": "Chat stream projection",
+   "summary": "Per-run delta/final/error state machine that reconstructs streamed assistant text and signals a missing baseline.",
+   "tags": [
+    "chat",
+    "streaming",
+    "client"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-client/src/chat-stream-projection.ts",
+   "lineRange": [
+    8,
+    56
+   ]
+  },
+  {
+   "id": "file:packages/gateway-client/src/chat-stream-message.ts",
+   "type": "file",
+   "name": "Chat stream message merge",
+   "summary": "Merges a streamed delta into a local ChatMessage snapshot (replace vs append, text-block handling).",
+   "tags": [
+    "chat",
+    "streaming",
+    "merge"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-client/src/chat-stream-message.ts",
+   "lineRange": [
+    1,
+    60
+   ]
+  },
+  {
+   "id": "file:src/commands/dashboard.ts",
+   "type": "file",
+   "name": "Dashboard command",
+   "summary": "Resolves the Control UI target, ensures the gateway is ready, waits for the document, mints a one-time browser pairing link, copies/opens it.",
+   "tags": [
+    "cli",
+    "dashboard",
+    "auth"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/dashboard.ts",
+   "lineRange": [
+    28,
+    244
+   ]
+  },
+  {
+   "id": "file:src/commands/control-ui-handoff.ts",
+   "type": "file",
+   "name": "Handoff + readiness",
+   "summary": "Resolves the dashboard target, verifies loopback alias, mints the single-use bootstrap pairing URL, and HEAD-polls the served document.",
+   "tags": [
+    "cli",
+    "pairing",
+    "readiness"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/control-ui-handoff.ts",
+   "lineRange": [
+    29,
+    291
+   ]
+  },
+  {
+   "id": "file:src/cli/program/register.maintenance.ts",
+   "type": "file",
+   "name": "Maintenance CLI registration",
+   "summary": "Registers doctor/triage/dashboard/reset/uninstall, including `dashboard` options --no-open/--json/--yes.",
+   "tags": [
+    "cli",
+    "command"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/program/register.maintenance.ts",
+   "lineRange": [
+    321,
+    333
+   ]
+  },
+  {
+   "id": "file:src/cli/session-ref.ts",
+   "type": "file",
+   "name": "Session target parser",
+   "summary": "Parses https://host[/base]/{chat|dashboard}/<agent>[/<ref>] and bare session references for CLI/TUI.",
+   "tags": [
+    "cli",
+    "session",
+    "url"
+   ],
+   "complexity": "complex",
+   "filePath": "src/cli/session-ref.ts",
+   "lineRange": [
+    13,
+    175
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-file.ts",
+   "type": "file",
+   "name": "Asset file reader",
+   "summary": "Reads a Gateway static asset into a snapshot used for identity/conditional response decisions.",
+   "tags": [
+    "serving",
+    "assets",
+    "file"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-file.ts",
+   "lineRange": [
+    30,
+    60
+   ]
+  },
+  {
+   "id": "file:src/gateway/control-ui-bootstrap-contract.ts",
+   "type": "file",
+   "name": "Bootstrap config contract",
+   "summary": "Defines CONTROL_UI_BOOTSTRAP_CONFIG_PATH (/control-ui-config.json) served to the authenticated Control UI.",
+   "tags": [
+    "serving",
+    "config",
+    "contract"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-bootstrap-contract.ts",
+   "lineRange": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "file:ui/public/sw.js",
+   "type": "file",
+   "name": "Service worker",
+   "summary": "Handles push events/notification clicks and serves the build-prepared offline shell; build id + OFFLINE_BOOT injected at build time.",
+   "tags": [
+    "pwa",
+    "service-worker",
+    "push"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/public/sw.js"
+  },
+  {
+   "id": "file:src/gateway/control-ui.http.test.ts",
+   "type": "file",
+   "name": "Control UI HTTP tests",
+   "summary": "Exercises served routes, bootstrap config path, and asset responses.",
+   "tags": [
+    "test",
+    "http"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui.http.test.ts"
+  },
+  {
+   "id": "file:ui/src/e2e/warm-boot.e2e.test.ts",
+   "type": "file",
+   "name": "Warm boot e2e",
+   "summary": "End-to-end test of the warm/offline boot flow against a gateway.",
+   "tags": [
+    "test",
+    "e2e",
+    "boot"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/e2e/warm-boot.e2e.test.ts"
+  },
+  {
+   "id": "file:ui/src/api/gateway.node.test.ts",
+   "type": "file",
+   "name": "Gateway client tests",
+   "summary": "Node tests for the browser gateway client handshake, heartbeat, and chat events.",
+   "tags": [
+    "test",
+    "transport"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway.node.test.ts"
+  },
+  {
+   "id": "file:src/cli/session-ref.test.ts",
+   "type": "file",
+   "name": "Session ref tests",
+   "summary": "Tests dashboard/chat URL parsing and bare session target resolution.",
+   "tags": [
+    "test",
+    "cli"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/cli/session-ref.test.ts"
+  },
+  {
+   "id": "module:ui",
+   "type": "module",
+   "name": "Control UI bundle",
+   "summary": "Vite-built Lit SPA (pages, components, app shell, api) shipped inside the gateway dist and served over HTTP.",
+   "tags": [
+    "ui",
+    "spa",
+    "lit"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:@openclaw/gateway-protocol",
+   "type": "module",
+   "name": "Gateway protocol package",
+   "summary": "Shared schema package for wire frames, plugin surfaces, and Control UI link readers.",
+   "tags": [
+    "protocol",
+    "schema"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "module:@openclaw/gateway-client",
+   "type": "module",
+   "name": "Gateway client package",
+   "summary": "Shared client library including chat stream reconstruction and transport abstractions.",
+   "tags": [
+    "client",
+    "transport"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "type": "class",
+   "name": "GatewayBrowserClient",
+   "summary": "Browser client that owns connect auth selection, hello reconciliation, device-token storage, tick watchdog, reconnect policy, and scope upgrade.",
+   "tags": [
+    "transport",
+    "auth",
+    "reconnect"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/api/gateway.ts",
+   "lineRange": [
+    136,
+    683
+   ]
+  },
+  {
+   "id": "function:ui/src/api/gateway.ts:buildConnectPlan",
+   "type": "function",
+   "name": "buildConnectPlan",
+   "summary": "Selects connect auth (token/password/bootstrap/stored device token) and produces ConnectParams.",
+   "tags": [
+    "auth",
+    "connect"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/api/gateway.ts",
+   "lineRange": [
+    344,
+    367
+   ]
+  },
+  {
+   "id": "function:ui/src/api/gateway.ts:handleConnectHello",
+   "type": "function",
+   "name": "handleConnectHello",
+   "summary": "Adopts the hello: stores device token, primes tick watchdog, publishes recovery scope, and clears bootstrap credentials.",
+   "tags": [
+    "handshake",
+    "hello"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/api/gateway.ts",
+   "lineRange": [
+    369,
+    402
+   ]
+  },
+  {
+   "id": "function:ui/src/api/gateway.ts:handlePairingResolution",
+   "type": "function",
+   "name": "handlePairingResolution",
+   "summary": "Consumes device.pair.resolved to confirm or fail a pending browser pairing.",
+   "tags": [
+    "pairing",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway.ts",
+   "lineRange": [
+    523,
+    557
+   ]
+  },
+  {
+   "id": "function:ui/src/api/gateway.ts:startTickWatch",
+   "type": "function",
+   "name": "startTickWatch",
+   "summary": "Uses policy.tickIntervalMs to detect a silent socket and force a reconnect.",
+   "tags": [
+    "heartbeat",
+    "reconnect"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway.ts",
+   "lineRange": [
+    426,
+    448
+   ]
+  },
+  {
+   "id": "class:ui/src/api/gateway-chat-events.ts:GatewayChatEvents",
+   "type": "class",
+   "name": "GatewayChatEvents",
+   "summary": "Projects chat events through the stream reconstructor and retires per-session streams on unsubscribe.",
+   "tags": [
+    "chat",
+    "events"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway-chat-events.ts",
+   "lineRange": [
+    14,
+    75
+   ]
+  },
+  {
+   "id": "function:ui/src/api/gateway-browser-socket.ts:createBrowserGatewaySocket",
+   "type": "function",
+   "name": "createBrowserGatewaySocket",
+   "summary": "Constructs the browser WebSocket with preauth timeout and payload-limit enforcement.",
+   "tags": [
+    "transport",
+    "ws"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/api/gateway-browser-socket.ts",
+   "lineRange": [
+    83,
+    148
+   ]
+  },
+  {
+   "id": "function:ui/src/lib/gateway-methods.ts:canCallGatewayMethod",
+   "type": "function",
+   "name": "canCallGatewayMethod",
+   "summary": "Combines live connection, advertised method catalog, and operator scope to gate a Gateway call.",
+   "tags": [
+    "auth",
+    "capability"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/lib/gateway-methods.ts",
+   "lineRange": [
+    42,
+    75
+   ]
+  },
+  {
+   "id": "function:ui/src/lib/gateway-methods.ts:isGatewayMethodAdvertised",
+   "type": "function",
+   "name": "isGatewayMethodAdvertised",
+   "summary": "Checks hello.features.methods for a method name.",
+   "tags": [
+    "capability"
+   ],
+   "complexity": "simple",
+   "filePath": "ui/src/lib/gateway-methods.ts",
+   "lineRange": [
+    11,
+    24
+   ]
+  },
+  {
+   "id": "function:ui/src/app-routes.ts:createApplicationRouter",
+   "type": "function",
+   "name": "createApplicationRouter",
+   "summary": "Wraps @openclaw/uirouter with canonicalisation, session recovery, and plugin-tab slug handling.",
+   "tags": [
+    "routing"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/app-routes.ts",
+   "lineRange": [
+    157,
+    178
+   ]
+  },
+  {
+   "id": "function:ui/src/app-routes.ts:startApplicationRouter",
+   "type": "function",
+   "name": "startApplicationRouter",
+   "summary": "Boots the router: normalises deep links, waits for hello for plugin slugs, and subscribes to gateway/presence changes.",
+   "tags": [
+    "routing",
+    "boot"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/app-routes.ts",
+   "lineRange": [
+    212,
+    475
+   ]
+  },
+  {
+   "id": "class:ui/src/app/app-host.ts:OpenClawShell",
+   "type": "class",
+   "name": "OpenClawShell",
+   "summary": "Lit shell element composing navigation, chrome, docks, and lazy panels.",
+   "tags": [
+    "shell",
+    "lit"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/app/app-host.ts",
+   "lineRange": [
+    93,
+    692
+   ]
+  },
+  {
+   "id": "function:ui/src/pages/chat/tool-stream.ts:formatToolOutput",
+   "type": "function",
+   "name": "formatToolOutput",
+   "summary": "Formats tool output (text/content/JSON) into a bounded, truncated display string.",
+   "tags": [
+    "chat",
+    "tools"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/src/pages/chat/tool-stream.ts",
+   "lineRange": [
+    64,
+    89
+   ]
+  },
+  {
+   "id": "class:ui/src/lib/widget-sandbox-host.ts:WidgetSandboxHost",
+   "type": "class",
+   "name": "WidgetSandboxHost",
+   "summary": "Isolated widget iframe lifecycle with readiness/timeout/retry handling.",
+   "tags": [
+    "widgets",
+    "sandbox"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/src/lib/widget-sandbox-host.ts",
+   "lineRange": [
+    28,
+    301
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-chunking.ts:createControlUiCodeSplitting",
+   "type": "function",
+   "name": "createControlUiCodeSplitting",
+   "summary": "Builds the Rolldown codeSplitting groups: stable runtime chunks, core/foundation, and boot groups.",
+   "tags": [
+    "build",
+    "chunking"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-chunking.ts",
+   "lineRange": [
+    135,
+    186
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-chunking.ts:controlUiStableChunkName",
+   "type": "function",
+   "name": "controlUiStableChunkName",
+   "summary": "Maps modules to stable named chunks (lit-runtime, markdown-runtime, login-runtime, etc.).",
+   "tags": [
+    "build",
+    "chunking"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-chunking.ts",
+   "lineRange": [
+    55,
+    133
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-chunking.ts:controlUiBootManifestKey",
+   "type": "function",
+   "name": "controlUiBootManifestKey",
+   "summary": "Canonicalises a module id into a manifest key (vendor vs repo-relative).",
+   "tags": [
+    "build",
+    "manifest"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/config/control-ui-chunking.ts",
+   "lineRange": [
+    32,
+    43
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-boot-preloads.ts:controlUiBootPreloadsPlugin",
+   "type": "function",
+   "name": "controlUiBootPreloadsPlugin",
+   "summary": "Emits per-route modulepreload/style preload templates into index.html at build time.",
+   "tags": [
+    "build",
+    "preload"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-boot-preloads.ts",
+   "lineRange": [
+    78,
+    112
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-boot-preloads.ts:collectControlUiBootAssets",
+   "type": "function",
+   "name": "collectControlUiBootAssets",
+   "summary": "Dependency-walks the bundle to gather initial/chat/new/login boot assets.",
+   "tags": [
+    "build",
+    "preload"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-boot-preloads.ts",
+   "lineRange": [
+    6,
+    76
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-locales.ts:controlUiLocaleModulesPlugin",
+   "type": "function",
+   "name": "controlUiLocaleModulesPlugin",
+   "summary": "Materialises per-locale virtual modules (base + config hints) from the source catalog and memory.",
+   "tags": [
+    "i18n",
+    "build"
+   ],
+   "complexity": "complex",
+   "filePath": "ui/config/control-ui-locales.ts",
+   "lineRange": [
+    84,
+    176
+   ]
+  },
+  {
+   "id": "function:ui/config/control-ui-dev-gateway.ts:createControlUiDevGateway",
+   "type": "function",
+   "name": "createControlUiDevGateway",
+   "summary": "Builds the dev Vite proxy target for a configured Gateway URL.",
+   "tags": [
+    "dev",
+    "proxy"
+   ],
+   "complexity": "moderate",
+   "filePath": "ui/config/control-ui-dev-gateway.ts",
+   "lineRange": [
+    5,
+    60
+   ]
+  },
+  {
+   "id": "function:ui/src/dev-gateway.ts:gatewayWebSocketTransportUrl",
+   "type": "function",
+   "name": "gatewayWebSocketTransportUrl",
+   "summary": "Rewrites a configured Gateway WS URL to the dev proxy transport.",
+   "tags": [
+    "dev",
+    "transport"
+   ],
+   "complexity": "simple",
+   "filePath": "ui/src/dev-gateway.ts",
+   "lineRange": [
+    30,
+    38
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "type": "function",
+   "name": "serveControlUiIndexHtml",
+   "summary": "Serves the transformed index document with base/build attributes, route preloads, and CSP.",
+   "tags": [
+    "serving",
+    "html"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui-index.ts",
+   "lineRange": [
+    45,
+    111
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-csp.ts:buildControlUiCspHeader",
+   "type": "function",
+   "name": "buildControlUiCspHeader",
+   "summary": "Builds the Control UI CSP string with hashed inline scripts and optional WASM relaxation.",
+   "tags": [
+    "security",
+    "csp"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui-csp.ts",
+   "lineRange": [
+    34,
+    93
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-csp.ts:computeInlineScriptHashes",
+   "type": "function",
+   "name": "computeInlineScriptHashes",
+   "summary": "Computes SHA-256 hashes of inline script blocks for the CSP.",
+   "tags": [
+    "security",
+    "csp"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-csp.ts",
+   "lineRange": [
+    10,
+    31
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-csp.ts:applyControlUiSecurityHeaders",
+   "type": "function",
+   "name": "applyControlUiSecurityHeaders",
+   "summary": "Applies X-Frame-Options, CSP, nosniff, Referrer-Policy, and Permissions-Policy to non-index responses.",
+   "tags": [
+    "security",
+    "headers"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-csp.ts",
+   "lineRange": [
+    95,
+    106
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-static.ts:serveControlUiAsset",
+   "type": "function",
+   "name": "serveControlUiAsset",
+   "summary": "Writes content-type/cache/encoding headers and ends the response with asset bytes.",
+   "tags": [
+    "serving",
+    "assets"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-static.ts",
+   "lineRange": [
+    189,
+    197
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-static.ts:sendControlUiHtmlBody",
+   "type": "function",
+   "name": "sendControlUiHtmlBody",
+   "summary": "Negotiates identity/br/gzip for index HTML and applies the session-entry current check.",
+   "tags": [
+    "serving",
+    "html",
+    "compression"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-static.ts",
+   "lineRange": [
+    233,
+    253
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-route-preloads.ts:selectControlUiRoutePreloads",
+   "type": "function",
+   "name": "selectControlUiRoutePreloads",
+   "summary": "Keeps only the requested route's preload template content.",
+   "tags": [
+    "serving",
+    "preload"
+   ],
+   "complexity": "simple",
+   "filePath": "src/gateway/control-ui-route-preloads.ts",
+   "lineRange": [
+    9,
+    13
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "type": "function",
+   "name": "handleControlUiHttpRequest",
+   "summary": "Dispatches Control UI HTTP routes: index, assets, share, session entries, images.",
+   "tags": [
+    "serving",
+    "http"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui.ts",
+   "lineRange": [
+    671,
+    720
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui.ts:handleControlUiAvatarRequest",
+   "type": "function",
+   "name": "handleControlUiAvatarRequest",
+   "summary": "Serves authenticated agent avatar images/metadata.",
+   "tags": [
+    "serving",
+    "avatar",
+    "auth"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui.ts",
+   "lineRange": [
+    529,
+    600
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui.ts:handleControlUiAssistantMediaRequest",
+   "type": "function",
+   "name": "handleControlUiAssistantMediaRequest",
+   "summary": "Two-step assistant media route returning metadata plus a short-lived mediaTicket.",
+   "tags": [
+    "serving",
+    "media",
+    "auth"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/control-ui.ts",
+   "lineRange": [
+    295,
+    380
+   ]
+  },
+  {
+   "id": "function:src/gateway/control-ui-file.ts:readControlUiFile",
+   "type": "function",
+   "name": "readControlUiFile",
+   "summary": "Reads a Control UI file into a snapshot for response resolution.",
+   "tags": [
+    "serving",
+    "assets"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-file.ts",
+   "lineRange": [
+    30,
+    60
+   ]
+  },
+  {
+   "id": "function:src/gateway/server/ws-connection/connect-hello.ts:sendGatewayHello",
+   "type": "function",
+   "name": "sendGatewayHello",
+   "summary": "Assembles hello-ok (snapshot, features, policy, auth, plugin Control UI descriptors) and sends it.",
+   "tags": [
+    "ws",
+    "handshake"
+   ],
+   "complexity": "complex",
+   "filePath": "src/gateway/server/ws-connection/connect-hello.ts",
+   "lineRange": [
+    58,
+    320
+   ]
+  },
+  {
+   "id": "function:src/commands/dashboard.ts:dashboardCommand",
+   "type": "function",
+   "name": "dashboardCommand",
+   "summary": "CLI entry that resolves/ensures/waits for the dashboard and delivers a one-time pairing link.",
+   "tags": [
+    "cli",
+    "dashboard"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/dashboard.ts",
+   "lineRange": [
+    115,
+    244
+   ]
+  },
+  {
+   "id": "function:src/commands/control-ui-handoff.ts:resolveControlUiHandoffTarget",
+   "type": "function",
+   "name": "resolveControlUiHandoffTarget",
+   "summary": "Derives port/bind/basePath/TLS, loopback alias, and legacy token URL for the dashboard.",
+   "tags": [
+    "cli",
+    "target"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/control-ui-handoff.ts",
+   "lineRange": [
+    29,
+    117
+   ]
+  },
+  {
+   "id": "function:src/commands/control-ui-handoff.ts:issueControlUiBrowserHandoff",
+   "type": "function",
+   "name": "issueControlUiBrowserHandoff",
+   "summary": "Mints a single-use device bootstrap token and builds the browser pairing URL fragment.",
+   "tags": [
+    "cli",
+    "pairing"
+   ],
+   "complexity": "complex",
+   "filePath": "src/commands/control-ui-handoff.ts",
+   "lineRange": [
+    141,
+    157
+   ]
+  },
+  {
+   "id": "function:src/commands/control-ui-handoff.ts:waitForControlUiDocument",
+   "type": "function",
+   "name": "waitForControlUiDocument",
+   "summary": "HEAD-polls the Control UI document until ready or terminal.",
+   "tags": [
+    "cli",
+    "readiness"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/commands/control-ui-handoff.ts",
+   "lineRange": [
+    164,
+    291
+   ]
+  },
+  {
+   "id": "class:packages/gateway-client/src/chat-stream-projection.ts:GatewayChatStreamProjection",
+   "type": "class",
+   "name": "GatewayChatStreamProjection",
+   "summary": "Connection-owned per-run chat baselines reconstructing streamed text.",
+   "tags": [
+    "chat",
+    "streaming"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-client/src/chat-stream-projection.ts",
+   "lineRange": [
+    8,
+    56
+   ]
+  },
+  {
+   "id": "function:packages/gateway-client/src/chat-stream-message.ts:mergeChatStreamMessage",
+   "type": "function",
+   "name": "mergeChatStreamMessage",
+   "summary": "Applies a delta/replace to a ChatMessage snapshot.",
+   "tags": [
+    "chat",
+    "streaming"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-client/src/chat-stream-message.ts",
+   "lineRange": [
+    4,
+    60
+   ]
+  },
+  {
+   "id": "concept:boot-manifest",
+   "type": "concept",
+   "name": "Boot manifest",
+   "summary": "Generated module inventory per boot route that drives chunk grouping and preloads.",
+   "tags": [
+    "build",
+    "boot"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:code-splitting-boot-groups",
+   "type": "concept",
+   "name": "Code-splitting boot groups",
+   "summary": "Stable named runtime chunks plus measured per-route boot chunks to keep startup bounded.",
+   "tags": [
+    "build",
+    "chunking"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:locale-virtual-modules",
+   "type": "concept",
+   "name": "Locale virtual modules",
+   "summary": "Translations exposed as Vite virtual modules split into base and config-hint chunks.",
+   "tags": [
+    "i18n"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:service-worker-offline-shell",
+   "type": "concept",
+   "name": "Service-worker offline shell",
+   "summary": "Build-prepared, integrity-checked offline shell and critical route assets for offline reload.",
+   "tags": [
+    "pwa",
+    "offline"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:pwa-web-push",
+   "type": "concept",
+   "name": "PWA web push",
+   "summary": "VAPID-keyed browser push registration and test notifications.",
+   "tags": [
+    "pwa",
+    "push"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:csp-inline-hash",
+   "type": "concept",
+   "name": "CSP inline-script hashing",
+   "summary": "Per-document SHA-256 hashes authorise the exact inline scripts; policy is non-configurable.",
+   "tags": [
+    "security",
+    "csp"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:device-pairing-handshake",
+   "type": "concept",
+   "name": "Device pairing",
+   "summary": "First connection requires one-time approval; loopback/Tailscale exceptions; device.pair.resolved signals outcome.",
+   "tags": [
+    "security",
+    "pairing"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:one-time-bootstrap-handoff",
+   "type": "concept",
+   "name": "One-time bootstrap handoff",
+   "summary": "`openclaw dashboard` mints a single-use bootstrap token URL that leaves the signed browser with a durable credential.",
+   "tags": [
+    "security",
+    "pairing"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:device-identity-ed25519",
+   "type": "concept",
+   "name": "Device identity (Ed25519)",
+   "summary": "Per-browser-profile Ed25519 key signs the connect challenge; pure-JS signing works on plain HTTP.",
+   "tags": [
+    "security",
+    "identity"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:scope-upgrade",
+   "type": "concept",
+   "name": "Scope upgrade",
+   "summary": "Read\u2192admin access is an explicit approval flow; approves a new scope set for the same device.",
+   "tags": [
+    "security",
+    "scopes"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:origin-allowlist",
+   "type": "concept",
+   "name": "Origin allow-list",
+   "summary": "WS browser origin is validated against gateway.controlUi.allowedOrigins / publicOrigin.",
+   "tags": [
+    "security",
+    "origin"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:reconnect-backoff",
+   "type": "concept",
+   "name": "Reconnect backoff",
+   "summary": "Randomised exponential backoff (800ms\u219215s) with tick watchdog and server retry hints.",
+   "tags": [
+    "reconnect"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:tailscale-serve-auth",
+   "type": "concept",
+   "name": "Tailscale Serve auth",
+   "summary": "Verified Tailscale identity can admit operator sessions and skip pairing.",
+   "tags": [
+    "security",
+    "auth"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:trusted-proxy-auth",
+   "type": "concept",
+   "name": "Trusted proxy auth",
+   "summary": "Trusted-proxy identity can admit device-less operator Control UI sessions.",
+   "tags": [
+    "security",
+    "auth"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:avatar-route-auth",
+   "type": "concept",
+   "name": "Avatar route auth",
+   "summary": "/avatar requires gateway auth when configured; browser caches via authenticated blob URLs.",
+   "tags": [
+    "security",
+    "media"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:assistant-media-ticket",
+   "type": "concept",
+   "name": "Assistant media ticket",
+   "summary": "Short-lived mediaTicket scopes browser-rendered media without exposing the gateway credential.",
+   "tags": [
+    "security",
+    "media"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:link-reader-plugin",
+   "type": "concept",
+   "name": "Plugin link reader",
+   "summary": "Trusted plugins contribute a docked link reader with host allow-list and gateway read methods.",
+   "tags": [
+    "plugins",
+    "panel"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:widget-sandbox",
+   "type": "concept",
+   "name": "Widget sandbox",
+   "summary": "Untrusted widget HTML runs in an isolated iframe with a bounded readiness contract.",
+   "tags": [
+    "widgets",
+    "security"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "concept:chat-stream-reconstruction",
+   "type": "concept",
+   "name": "Chat stream reconstruction",
+   "summary": "Per-run delta/final/error reconstruction of streamed assistant text, reconnecting on missing baseline.",
+   "tags": [
+    "chat",
+    "streaming"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:panel-inventory",
+   "type": "concept",
+   "name": "Panel inventory",
+   "summary": "Sidebar/dock inventory of Control UI surfaces: chat, sessions, agents, cron, logs, usage, settings, devices, terminal, dashboards, systems, debug, plugins, skills.",
+   "tags": [
+    "ui",
+    "navigation"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:offline-outbox",
+   "type": "concept",
+   "name": "Browser outbox",
+   "summary": "Tab-scoped queue of unsent messages/attachments (IndexedDB blobs) resumed after reconnect.",
+   "tags": [
+    "offline",
+    "chat"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "concept:runtime-config-endpoint",
+   "type": "concept",
+   "name": "Runtime config endpoint",
+   "summary": "/control-ui-config.json serves base path and assistant identity under gateway HTTP auth.",
+   "tags": [
+    "config",
+    "serving"
+   ],
+   "complexity": "moderate"
+  },
+  {
+   "id": "schema:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "schema",
+   "name": "ConnectParams / HelloOk / EventFrame",
+   "summary": "Client ConnectParams (identity, device Ed25519 proof, auth), server HelloOk (snapshot, features, Control UI descriptors, policy), and EventFrame event envelope.",
+   "tags": [
+    "protocol",
+    "schema"
+   ],
+   "complexity": "complex",
+   "filePath": "packages/gateway-protocol/src/schema/frames.ts",
+   "lineRange": [
+    31,
+    212
+   ]
+  },
+  {
+   "id": "schema:packages/gateway-protocol/src/schema/control-ui-link-reader.ts",
+   "type": "schema",
+   "name": "ControlUiLinkReaderDescriptor",
+   "summary": "Trusted-plugin link reader descriptor + metadata (hosts, pathPattern, detail/preview/image methods).",
+   "tags": [
+    "protocol",
+    "schema",
+    "plugins"
+   ],
+   "complexity": "moderate",
+   "filePath": "packages/gateway-protocol/src/schema/control-ui-link-reader.ts",
+   "lineRange": [
+    5,
+    24
+   ]
+  },
+  {
+   "id": "endpoint:src/gateway/control-ui-bootstrap-contract.ts:/control-ui-config.json",
+   "type": "endpoint",
+   "name": "GET /control-ui-config.json",
+   "summary": "Runtime settings endpoint for the Control UI, gated by gateway HTTP auth.",
+   "tags": [
+    "endpoint",
+    "config"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-bootstrap-contract.ts"
+  },
+  {
+   "id": "endpoint:src/gateway/server-http.ts:gateway-ws-upgrade",
+   "type": "endpoint",
+   "name": "WebSocket upgrade",
+   "summary": "Gateway WS endpoint admitted after origin + auth checks; carries connect/hello/events.",
+   "tags": [
+    "endpoint",
+    "ws"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/server-http.ts"
+  },
+  {
+   "id": "endpoint:src/gateway/control-ui-resource-routes.ts:/assistant-media",
+   "type": "endpoint",
+   "name": "GET /__openclaw__/assistant-media",
+   "summary": "Assistant media availability/ticket route plus token-scoped media URL.",
+   "tags": [
+    "endpoint",
+    "media"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-resource-routes.ts"
+  },
+  {
+   "id": "endpoint:src/gateway/control-ui-resource-routes.ts:/avatar",
+   "type": "endpoint",
+   "name": "GET /avatar/:agentId",
+   "summary": "Agent avatar image/metadata route requiring gateway auth.",
+   "tags": [
+    "endpoint",
+    "avatar"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-resource-routes.ts"
+  },
+  {
+   "id": "endpoint:src/gateway/control-ui-user-avatar-route.ts:/api/users/:id/avatar",
+   "type": "endpoint",
+   "name": "GET /api/users/:id/avatar",
+   "summary": "Authenticated user-profile avatar route.",
+   "tags": [
+    "endpoint",
+    "avatar"
+   ],
+   "complexity": "moderate",
+   "filePath": "src/gateway/control-ui-user-avatar-route.ts"
+  },
+  {
+   "id": "service:gateway-websocket",
+   "type": "service",
+   "name": "Gateway WebSocket service",
+   "summary": "Single WS surface carrying connect handshake, RPC methods, and the event stream (chat, sessions, presence, tick).",
+   "tags": [
+    "service",
+    "ws",
+    "events"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "pipeline:control-ui-build",
+   "type": "pipeline",
+   "name": "Control UI build pipeline",
+   "summary": "Vite/Rolldown build producing chunked assets, precompressed sidecars, offline shell, and the asset manifest.",
+   "tags": [
+    "pipeline",
+    "build"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "pipeline:boot-manifest-generation",
+   "type": "pipeline",
+   "name": "Boot manifest generation",
+   "summary": "Chromium-captured cold/warm boot dependency graph regenerating control-ui-boot-modules.json.",
+   "tags": [
+    "pipeline",
+    "build",
+    "manifest"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "flow:control-ui-connect",
+   "type": "flow",
+   "name": "Control UI connect flow",
+   "summary": "Browser load -> WS handshake -> hello -> pairing -> live session updates.",
+   "tags": [
+    "flow",
+    "connect"
+   ],
+   "complexity": "complex"
+  },
+  {
+   "id": "step:browser-load-index",
+   "type": "step",
+   "name": "Browser loads index",
+   "summary": "Browser requests the Control UI document and boot chunks.",
+   "tags": [
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:ws-connect-handshake",
+   "type": "step",
+   "name": "WS connect handshake",
+   "summary": "Client answers connect.challenge with ConnectParams incl. device proof and auth.",
+   "tags": [
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:hello-snapshot",
+   "type": "step",
+   "name": "Hello snapshot",
+   "summary": "Server returns hello-ok with snapshot, advertised methods/events, and Control UI descriptors.",
+   "tags": [
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "step:live-session-updates",
+   "type": "step",
+   "name": "Live session updates",
+   "summary": "UI subscribes to sessions/chat and renders pushed events (delta/final, tool, metadata).",
+   "tags": [
+    "step"
+   ],
+   "complexity": "simple"
+  },
+  {
+   "id": "document:docs/web/control-ui/feature-reference.md",
+   "type": "document",
+   "name": "Feature and RPC reference",
+   "summary": "Capabilities grouped by area with the Gateway RPC methods behind each Control UI feature.",
+   "tags": [
+    "docs",
+    "reference",
+    "rpc"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/control-ui/feature-reference.md"
+  },
+  {
+   "id": "document:docs/web/control-ui/connect-and-pair.md",
+   "type": "document",
+   "name": "Connect and pair",
+   "summary": "Device pairing, one-time dashboard handoff, mobile pairing, runtime config endpoint, PWA/web push, Tailscale access.",
+   "tags": [
+    "docs",
+    "pairing",
+    "auth"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/control-ui/connect-and-pair.md"
+  },
+  {
+   "id": "document:docs/web/control-ui/security-model.md",
+   "type": "document",
+   "name": "Security model",
+   "summary": "CSP, public transcript boundary, avatar/assistant-media route auth, and approval links.",
+   "tags": [
+    "docs",
+    "security",
+    "csp"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/control-ui/security-model.md"
+  },
+  {
+   "id": "document:docs/web/control-ui/offline-and-reconnect.md",
+   "type": "document",
+   "name": "Offline and reconnect",
+   "summary": "What survives a dropped connection, warm reload, offline shell, and reconnect behavior.",
+   "tags": [
+    "docs",
+    "offline",
+    "reconnect"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/control-ui/offline-and-reconnect.md"
+  },
+  {
+   "id": "document:docs/web/control-ui/panels.md",
+   "type": "document",
+   "name": "Panels and docks",
+   "summary": "Dockable panels: Ask OpenClaw, Home dock, operator terminal, browser panel, GitHub reader.",
+   "tags": [
+    "docs",
+    "panels",
+    "docks"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/control-ui/panels.md"
+  },
+  {
+   "id": "document:docs/web/control-ui/chat.md",
+   "type": "document",
+   "name": "Chat",
+   "summary": "Chat surface: drafts, reactions, session rail, links, markdown/mermaid, hosted embeds, transcript layout.",
+   "tags": [
+    "docs",
+    "chat"
+   ],
+   "complexity": "moderate",
+   "filePath": "docs/web/control-ui/chat.md"
+  },
+  {
+   "id": "document:.agents/skills/claw-score/references/completeness/browser-control-ui-and-webchat.md",
+   "type": "document",
+   "name": "Control UI completeness rubric",
+   "summary": "Category scope for scoring the browser Control UI and WebChat surface.",
+   "tags": [
+    "docs",
+    "completeness",
+    "rubric"
+   ],
+   "complexity": "moderate",
+   "filePath": ".agents/skills/claw-score/references/completeness/browser-control-ui-and-webchat.md"
+  }
+ ],
+ "edges": [
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/main.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/index.html",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/vite.config.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/config/control-ui-chunking.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/config/control-ui-boot-preloads.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/config/control-ui-locales.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/config/control-ui-dev-gateway.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/scripts/control-ui-boot-manifest.mts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/app/app-host.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/app/app-root.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/app-routes.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/app-navigation.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/api/gateway.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/api/gateway-chat-events.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/api/gateway-browser-socket.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/lib/gateway-methods.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/pages/chat/tool-stream.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/lib/widget-sandbox-host.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/dev-gateway.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/public/sw.js",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/e2e/warm-boot.e2e.test.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "file:ui/src/api/gateway.node.test.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:ui",
+   "target": "config:ui/config/control-ui-boot-modules.json",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:@openclaw/gateway-protocol",
+   "target": "file:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:@openclaw/gateway-protocol",
+   "target": "file:packages/gateway-protocol/src/schema/control-ui-link-reader.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:@openclaw/gateway-protocol",
+   "target": "file:packages/gateway-protocol/src/schema/plugins.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:@openclaw/gateway-client",
+   "target": "file:packages/gateway-client/src/chat-stream-projection.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "module:@openclaw/gateway-client",
+   "target": "file:packages/gateway-client/src/chat-stream-message.ts",
+   "type": "contains",
+   "direction": "forward",
+   "weight": 1.0
+  },
+  {
+   "source": "file:ui/vite.config.ts",
+   "target": "file:ui/config/control-ui-chunking.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/vite.config.ts",
+   "target": "file:ui/config/control-ui-boot-preloads.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/vite.config.ts",
+   "target": "file:ui/config/control-ui-locales.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/vite.config.ts",
+   "target": "file:ui/config/control-ui-dev-gateway.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/main.ts",
+   "target": "file:ui/src/app/app-host.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/app/app-host.ts",
+   "target": "file:ui/src/app-routes.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/app/app-host.ts",
+   "target": "file:ui/src/app-navigation.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/app/app-host.ts",
+   "target": "file:ui/src/api/gateway.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/app-routes.ts",
+   "target": "file:ui/src/api/gateway.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "file:ui/src/api/gateway-chat-events.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "file:ui/src/api/gateway-browser-socket.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/api/gateway-chat-events.ts",
+   "target": "module:@openclaw/gateway-client",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/api/gateway-browser-socket.ts",
+   "target": "file:ui/src/dev-gateway.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/server-http.ts",
+   "target": "file:src/gateway/control-ui.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui-index.ts",
+   "target": "file:src/gateway/control-ui-csp.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui-index.ts",
+   "target": "file:src/gateway/control-ui-route-preloads.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui-index.ts",
+   "target": "file:src/gateway/control-ui-static.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui-index.ts",
+   "target": "file:src/gateway/control-ui-contract.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "file:src/gateway/control-ui-file.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "file:src/gateway/control-ui-resource-routes.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "file:src/gateway/control-ui-user-avatar-route.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/server/ws-connection/connect-hello.ts",
+   "target": "file:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/server/ws-connection/connect-hello.ts",
+   "target": "file:packages/gateway-protocol/src/schema/plugins.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/server/ws-connection/connect-hello.ts",
+   "target": "file:src/gateway/server-methods-list.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:packages/gateway-protocol/src/schema/plugins.ts",
+   "target": "file:packages/gateway-protocol/src/schema/control-ui-link-reader.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:packages/gateway-protocol/src/schema/frames.ts",
+   "target": "file:packages/gateway-protocol/src/schema/plugins.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:packages/gateway-client/src/chat-stream-projection.ts",
+   "target": "file:packages/gateway-client/src/chat-stream-message.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/commands/dashboard.ts",
+   "target": "file:src/commands/control-ui-handoff.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/cli/program/register.maintenance.ts",
+   "target": "file:src/commands/dashboard.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/config/control-ui-boot-preloads.ts",
+   "target": "file:ui/config/control-ui-chunking.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/scripts/control-ui-boot-manifest.mts",
+   "target": "file:ui/vite.config.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/scripts/control-ui-boot-manifest.mts",
+   "target": "file:ui/config/control-ui-chunking.ts",
+   "type": "imports",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "function:ui/src/api/gateway.ts:buildConnectPlan",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "function:ui/src/api/gateway.ts:handleConnectHello",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "function:ui/src/api/gateway.ts:handlePairingResolution",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "function:ui/src/api/gateway.ts:startTickWatch",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/api/gateway-chat-events.ts",
+   "target": "class:ui/src/api/gateway-chat-events.ts:GatewayChatEvents",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/api/gateway-browser-socket.ts",
+   "target": "function:ui/src/api/gateway-browser-socket.ts:createBrowserGatewaySocket",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/lib/gateway-methods.ts",
+   "target": "function:ui/src/lib/gateway-methods.ts:canCallGatewayMethod",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/lib/gateway-methods.ts",
+   "target": "function:ui/src/lib/gateway-methods.ts:isGatewayMethodAdvertised",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/app-routes.ts",
+   "target": "function:ui/src/app-routes.ts:createApplicationRouter",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/app-routes.ts",
+   "target": "function:ui/src/app-routes.ts:startApplicationRouter",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/app/app-host.ts",
+   "target": "class:ui/src/app/app-host.ts:OpenClawShell",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/pages/chat/tool-stream.ts",
+   "target": "function:ui/src/pages/chat/tool-stream.ts:formatToolOutput",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/lib/widget-sandbox-host.ts",
+   "target": "class:ui/src/lib/widget-sandbox-host.ts:WidgetSandboxHost",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-chunking.ts",
+   "target": "function:ui/config/control-ui-chunking.ts:createControlUiCodeSplitting",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-chunking.ts",
+   "target": "function:ui/config/control-ui-chunking.ts:controlUiStableChunkName",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-chunking.ts",
+   "target": "function:ui/config/control-ui-chunking.ts:controlUiBootManifestKey",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-boot-preloads.ts",
+   "target": "function:ui/config/control-ui-boot-preloads.ts:controlUiBootPreloadsPlugin",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-boot-preloads.ts",
+   "target": "function:ui/config/control-ui-boot-preloads.ts:collectControlUiBootAssets",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-locales.ts",
+   "target": "function:ui/config/control-ui-locales.ts:controlUiLocaleModulesPlugin",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/config/control-ui-dev-gateway.ts",
+   "target": "function:ui/config/control-ui-dev-gateway.ts:createControlUiDevGateway",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/src/dev-gateway.ts",
+   "target": "function:ui/src/dev-gateway.ts:gatewayWebSocketTransportUrl",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-index.ts",
+   "target": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-csp.ts",
+   "target": "function:src/gateway/control-ui-csp.ts:buildControlUiCspHeader",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-csp.ts",
+   "target": "function:src/gateway/control-ui-csp.ts:computeInlineScriptHashes",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-csp.ts",
+   "target": "function:src/gateway/control-ui-csp.ts:applyControlUiSecurityHeaders",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-static.ts",
+   "target": "function:src/gateway/control-ui-static.ts:serveControlUiAsset",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-static.ts",
+   "target": "function:src/gateway/control-ui-static.ts:sendControlUiHtmlBody",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-route-preloads.ts",
+   "target": "function:src/gateway/control-ui-route-preloads.ts:selectControlUiRoutePreloads",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "function:src/gateway/control-ui.ts:handleControlUiAvatarRequest",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "function:src/gateway/control-ui.ts:handleControlUiAssistantMediaRequest",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/control-ui-file.ts",
+   "target": "function:src/gateway/control-ui-file.ts:readControlUiFile",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/gateway/server/ws-connection/connect-hello.ts",
+   "target": "function:src/gateway/server/ws-connection/connect-hello.ts:sendGatewayHello",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/commands/dashboard.ts",
+   "target": "function:src/commands/dashboard.ts:dashboardCommand",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/commands/control-ui-handoff.ts",
+   "target": "function:src/commands/control-ui-handoff.ts:resolveControlUiHandoffTarget",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/commands/control-ui-handoff.ts",
+   "target": "function:src/commands/control-ui-handoff.ts:issueControlUiBrowserHandoff",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:src/commands/control-ui-handoff.ts",
+   "target": "function:src/commands/control-ui-handoff.ts:waitForControlUiDocument",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/gateway-client/src/chat-stream-projection.ts",
+   "target": "class:packages/gateway-client/src/chat-stream-projection.ts:GatewayChatStreamProjection",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:packages/gateway-client/src/chat-stream-message.ts",
+   "target": "function:packages/gateway-client/src/chat-stream-message.ts:mergeChatStreamMessage",
+   "type": "exports",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "target": "function:ui/src/api/gateway.ts:buildConnectPlan",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "target": "function:ui/src/api/gateway.ts:handleConnectHello",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "target": "function:ui/src/api/gateway.ts:startTickWatch",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "target": "function:ui/src/api/gateway.ts:handlePairingResolution",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:ui/src/api/gateway.ts:buildConnectPlan",
+   "target": "function:ui/src/api/gateway-browser-socket.ts:createBrowserGatewaySocket",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:ui/src/api/gateway-chat-events.ts:GatewayChatEvents",
+   "target": "class:packages/gateway-client/src/chat-stream-projection.ts:GatewayChatStreamProjection",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "class:packages/gateway-client/src/chat-stream-projection.ts:GatewayChatStreamProjection",
+   "target": "function:packages/gateway-client/src/chat-stream-message.ts:mergeChatStreamMessage",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/commands/dashboard.ts:dashboardCommand",
+   "target": "function:src/commands/control-ui-handoff.ts:resolveControlUiHandoffTarget",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/commands/dashboard.ts:dashboardCommand",
+   "target": "function:src/commands/control-ui-handoff.ts:issueControlUiBrowserHandoff",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/commands/dashboard.ts:dashboardCommand",
+   "target": "function:src/commands/control-ui-handoff.ts:waitForControlUiDocument",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "target": "function:src/gateway/control-ui-csp.ts:buildControlUiCspHeader",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "target": "function:src/gateway/control-ui-csp.ts:computeInlineScriptHashes",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "target": "function:src/gateway/control-ui-route-preloads.ts:selectControlUiRoutePreloads",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "target": "function:src/gateway/control-ui-static.ts:sendControlUiHtmlBody",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "target": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "target": "function:src/gateway/control-ui-static.ts:serveControlUiAsset",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "target": "function:src/gateway/control-ui-file.ts:readControlUiFile",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "target": "function:src/gateway/control-ui.ts:handleControlUiAvatarRequest",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui.ts:handleControlUiHttpRequest",
+   "target": "function:src/gateway/control-ui.ts:handleControlUiAssistantMediaRequest",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:src/gateway/control-ui-csp.ts:applyControlUiSecurityHeaders",
+   "target": "function:src/gateway/control-ui-csp.ts:buildControlUiCspHeader",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:ui/config/control-ui-boot-preloads.ts:controlUiBootPreloadsPlugin",
+   "target": "function:ui/config/control-ui-boot-preloads.ts:collectControlUiBootAssets",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:ui/config/control-ui-chunking.ts:createControlUiCodeSplitting",
+   "target": "function:ui/config/control-ui-chunking.ts:controlUiStableChunkName",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "function:ui/config/control-ui-boot-preloads.ts:collectControlUiBootAssets",
+   "target": "function:ui/config/control-ui-chunking.ts:controlUiBootManifestKey",
+   "type": "calls",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "file:ui/vite.config.ts",
+   "target": "pipeline:control-ui-build",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/config/control-ui-chunking.ts",
+   "target": "pipeline:control-ui-build",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/config/control-ui-boot-preloads.ts",
+   "target": "pipeline:control-ui-build",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/config/control-ui-locales.ts",
+   "target": "pipeline:control-ui-build",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "config:ui/config/control-ui-boot-modules.json",
+   "target": "pipeline:control-ui-build",
+   "type": "configures",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/scripts/control-ui-boot-manifest.mts",
+   "target": "pipeline:boot-manifest-generation",
+   "type": "provisions",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "pipeline:boot-manifest-generation",
+   "target": "config:ui/config/control-ui-boot-modules.json",
+   "type": "writes_to",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "pipeline:control-ui-build",
+   "target": "module:ui",
+   "type": "deploys",
+   "direction": "forward",
+   "weight": 0.7
+  },
+  {
+   "source": "file:src/gateway/server-http.ts",
+   "target": "endpoint:src/gateway/server-http.ts:gateway-ws-upgrade",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server-http.ts",
+   "target": "endpoint:src/gateway/control-ui-bootstrap-contract.ts:/control-ui-config.json",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "endpoint:src/gateway/control-ui-resource-routes.ts:/avatar",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "endpoint:src/gateway/control-ui-resource-routes.ts:/assistant-media",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-resource-routes.ts",
+   "target": "endpoint:src/gateway/control-ui-resource-routes.ts:/assistant-media",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-resource-routes.ts",
+   "target": "endpoint:src/gateway/control-ui-resource-routes.ts:/avatar",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-user-avatar-route.ts",
+   "target": "endpoint:src/gateway/control-ui-user-avatar-route.ts:/api/users/:id/avatar",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-index.ts",
+   "target": "file:ui/index.html",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:gateway-websocket",
+   "target": "endpoint:src/gateway/server-http.ts:gateway-ws-upgrade",
+   "type": "serves",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "target": "service:gateway-websocket",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:ui/src/api/gateway-chat-events.ts:GatewayChatEvents",
+   "target": "service:gateway-websocket",
+   "type": "subscribes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:gateway-websocket",
+   "target": "concept:chat-stream-reconstruction",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "service:gateway-websocket",
+   "target": "concept:panel-inventory",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server/ws-connection/connect-hello.ts",
+   "target": "schema:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "publishes",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "class:ui/src/api/gateway.ts:GatewayBrowserClient",
+   "target": "schema:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server-methods-list.ts",
+   "target": "module:@openclaw/gateway-protocol",
+   "type": "defines_schema",
+   "direction": "forward",
+   "weight": 0.8
+  },
+  {
+   "source": "service:gateway-websocket",
+   "target": "file:src/gateway/server/ws-connection/connect-admission.ts",
+   "type": "reads_from",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-csp.ts",
+   "target": "concept:csp-inline-hash",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:src/gateway/server/ws-connection/connect-admission.ts",
+   "target": "concept:origin-allowlist",
+   "type": "implements",
+   "direction": "forward",
+   "weight": 0.9
+  },
+  {
+   "source": "file:ui/src/app/app-host.ts",
+   "target": "file:ui/src/lib/gateway-methods.ts",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "concept:reconnect-backoff",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "concept:device-identity-ed25519",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "concept:avatar-route-auth",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "concept:assistant-media-ticket",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/gateway/control-ui-contract.ts",
+   "target": "concept:link-reader-plugin",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:src/commands/control-ui-handoff.ts",
+   "target": "concept:one-time-bootstrap-handoff",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/src/lib/widget-sandbox-host.ts",
+   "target": "concept:widget-sandbox",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/public/sw.js",
+   "target": "concept:service-worker-offline-shell",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/public/sw.js",
+   "target": "concept:pwa-web-push",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/config/control-ui-locales.ts",
+   "target": "concept:locale-virtual-modules",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/config/control-ui-chunking.ts",
+   "target": "concept:code-splitting-boot-groups",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "config:ui/config/control-ui-boot-modules.json",
+   "target": "concept:boot-manifest",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/vite.config.ts",
+   "target": "concept:code-splitting-boot-groups",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/src/pages/chat/tool-stream.ts",
+   "target": "concept:chat-stream-reconstruction",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "file:ui/src/api/gateway-chat-events.ts",
+   "target": "concept:chat-stream-reconstruction",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "class:ui/src/api/gateway-chat-events.ts:GatewayChatEvents",
+   "target": "concept:chat-stream-reconstruction",
+   "type": "depends_on",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "document:docs/web/control-ui/feature-reference.md",
+   "target": "concept:panel-inventory",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/feature-reference.md",
+   "target": "module:ui",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/feature-reference.md",
+   "target": "file:ui/src/app-routes.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "concept:one-time-bootstrap-handoff",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "concept:device-pairing-handshake",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "concept:pwa-web-push",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "concept:runtime-config-endpoint",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "concept:tailscale-serve-auth",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "endpoint:src/gateway/control-ui-bootstrap-contract.ts:/control-ui-config.json",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/connect-and-pair.md",
+   "target": "file:src/commands/dashboard.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/security-model.md",
+   "target": "concept:csp-inline-hash",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/security-model.md",
+   "target": "concept:avatar-route-auth",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/security-model.md",
+   "target": "concept:assistant-media-ticket",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/security-model.md",
+   "target": "concept:link-reader-plugin",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/security-model.md",
+   "target": "file:src/gateway/control-ui-csp.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/offline-and-reconnect.md",
+   "target": "concept:reconnect-backoff",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/offline-and-reconnect.md",
+   "target": "concept:service-worker-offline-shell",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/offline-and-reconnect.md",
+   "target": "concept:offline-outbox",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/offline-and-reconnect.md",
+   "target": "file:ui/src/api/gateway.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/panels.md",
+   "target": "concept:widget-sandbox",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/panels.md",
+   "target": "concept:link-reader-plugin",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/panels.md",
+   "target": "concept:panel-inventory",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/chat.md",
+   "target": "file:ui/src/pages/chat/tool-stream.ts",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:docs/web/control-ui/chat.md",
+   "target": "concept:chat-stream-reconstruction",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:.agents/skills/claw-score/references/completeness/browser-control-ui-and-webchat.md",
+   "target": "concept:panel-inventory",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "document:.agents/skills/claw-score/references/completeness/browser-control-ui-and-webchat.md",
+   "target": "module:ui",
+   "type": "documents",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui.ts",
+   "target": "file:src/gateway/control-ui.http.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/server-http.ts",
+   "target": "file:src/gateway/control-ui.http.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:ui/src/main.ts",
+   "target": "file:ui/src/e2e/warm-boot.e2e.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:ui/src/api/gateway.ts",
+   "target": "file:ui/src/api/gateway.node.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/cli/session-ref.ts",
+   "target": "file:src/cli/session-ref.test.ts",
+   "type": "tested_by",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:control-ui-connect",
+   "target": "step:browser-load-index",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:control-ui-connect",
+   "target": "step:ws-connect-handshake",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:control-ui-connect",
+   "target": "step:hello-snapshot",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "flow:control-ui-connect",
+   "target": "step:live-session-updates",
+   "type": "contains_flow",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:browser-load-index",
+   "target": "step:ws-connect-handshake",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:ws-connect-handshake",
+   "target": "step:hello-snapshot",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "step:hello-snapshot",
+   "target": "step:live-session-updates",
+   "type": "flow_step",
+   "direction": "forward",
+   "weight": 0.5
+  },
+  {
+   "source": "file:ui/index.html",
+   "target": "step:browser-load-index",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "step:ws-connect-handshake",
+   "target": "endpoint:src/gateway/server-http.ts:gateway-ws-upgrade",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "step:hello-snapshot",
+   "target": "schema:packages/gateway-protocol/src/schema/frames.ts",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "step:live-session-updates",
+   "target": "concept:chat-stream-reconstruction",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "function:src/gateway/control-ui-index.ts:serveControlUiIndexHtml",
+   "target": "step:browser-load-index",
+   "type": "triggers",
+   "direction": "forward",
+   "weight": 0.6
+  },
+  {
+   "source": "concept:device-pairing-handshake",
+   "target": "concept:device-identity-ed25519",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:device-pairing-handshake",
+   "target": "concept:origin-allowlist",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:one-time-bootstrap-handoff",
+   "target": "concept:scope-upgrade",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:tailscale-serve-auth",
+   "target": "concept:trusted-proxy-auth",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:service-worker-offline-shell",
+   "target": "concept:pwa-web-push",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:assistant-media-ticket",
+   "target": "concept:avatar-route-auth",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:widget-sandbox",
+   "target": "concept:panel-inventory",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:chat-stream-reconstruction",
+   "target": "concept:offline-outbox",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:panel-inventory",
+   "target": "concept:link-reader-plugin",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:code-splitting-boot-groups",
+   "target": "concept:boot-manifest",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "concept:locale-virtual-modules",
+   "target": "concept:code-splitting-boot-groups",
+   "type": "related",
+   "direction": "bidirectional",
+   "weight": 0.5
+  },
+  {
+   "source": "file:src/gateway/control-ui-bootstrap-contract.ts",
+   "target": "endpoint:src/gateway/control-ui-bootstrap-contract.ts:/control-ui-config.json",
+   "type": "routes",
+   "direction": "forward",
+   "weight": 0.5
+  }
+ ]
+}
